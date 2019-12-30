@@ -1,0 +1,69 @@
+--- MAIN ---
+123456789ABC123456789ABC123456789ABC123456789ABC
+Temperatur  Feuchte     Taupunkt    Batterie
+Temperature Humidity    Dewpoint    Bat.   Power
+xxx,x °C    xxx,x %rel  xxx,x °C    xx,xV  xx,xW
+xxx | xxx °C
+Check SensorCheck SensorCheck Sensor
+
+cw/ccw = next/prev. page
+short = channel view
+long = display off
+
+
+
+
+--- CHANNEL VIEW ---
+123456789ABC123456789ABC123456789ABC123456789ABC
+Channel 1   Channel 2   Channel 3   Channel 4
+xx,xW A:xxx%
+xx,xW M:xxx%
+
+cw/ccw = next/prev. channel
+long = channel config
+short = back to main
+
+
+------ CHANNEL x SETUP ---
+123456789ABC123456789ABC123456789ABC123456789ABC
+Duty cycle  DP offset   dT Factor
+   auto     xx °C       xx W/K
+xxx % manual
+
+cw/ccw = next/prev. page
+short = select item
+long = back to channel view
+
+
+
+------------ DUTY CYCLE ---
+123456789ABC123456789ABC123456789ABC123456789ABC
+Duty cycle 
+   auto
+xxx % manual 
+
+cw/ccw = duty cycle <0 || > 100 = auto
+short = save / channel setup
+long = back / channel setup
+
+
+
+------------ DP OFFSET ---
+123456789ABC123456789ABC123456789ABC123456789ABC
+Dewpoint
+offset xx °C
+
+cw/ccw = dp offset +/- 10 °C
+short = save / channel setup
+long = back / channel setup
+
+
+------------ dT FACTOR ---
+123456789ABC123456789ABC123456789ABC123456789ABC
+dT Factor
+xx W/K
+
+cw/ccw = dT factor 1 - 10 W/K
+short = save / channel setup
+long = back / channel setup
+
