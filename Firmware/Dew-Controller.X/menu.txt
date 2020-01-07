@@ -1,16 +1,56 @@
+--- TURN ON ---
+123456789ABC123456789ABC123456789ABC123456789ABC
+Dew         Controller  Sensor
+  ControllerHW:xx SW:xx HW:xx SW:xx
+  
+(cw/ccw = next/prev. page)
+(short = main)
+(timeout = main)
+
+--- WARNINGS ---
+123456789ABC123456789ABC123456789ABC123456789ABC
+Warning!
+Battery voltage low! Please turn off device to protect battery!
+
+Warning!
+Battery voltage high! Please turn off to protect device!
+
+Warning!
+No sensor connected. Automatic mode disabled.
+
+Warning!
+Short circuit detected on channel X. Please remove heater.
+
+ERROR!
+Overcurrent detected! Turn off immediatelly to prevent further damage!
+
+ERROR!
+Load switch not responding. Please repair :-)
+
+Warning!
+Heater channel X removed.
+
+Warning
+Heater on channel X draws excessive current. Channel disabled.
+
+(short) = back to main
+
+
+  
 --- MAIN ---
 123456789ABC123456789ABC123456789ABC123456789ABC
 Temperatur  Feuchte     Taupunkt    Batterie
 Temperature Humidity    Dewpoint    Bat.   Power
 xxx,x °C    xxx,x %rel  xxx,x °C    xx,xV  xx,xW
-xxx | xxx °C
-Check SensorCheck SensorCheck Sensor
-
-cw/ccw = next/prev. page
-short = channel view
-long = display off
+xxx | xxx °C						xx,xV LOW!
+---,- °C    ---,- %rel  ---,- °C	xx,xV HIGH!
+--- | xxx °C---,- %rel  ---,- °C
 
 
+(cw/ccw = next/prev. page)
+(short = channel view)
+(long = config)
+(timeout = warnings)
 
 
 --- CHANNEL VIEW ---
@@ -19,51 +59,70 @@ Channel 1   Channel 2   Channel 3   Channel 4
 xx,xW A:xxx%
 xx,xW M:xxx%
 
-cw/ccw = next/prev. channel
-long = channel config
-short = back to main
+(cw/ccw = next/prev. channel)
+(short = channel setup)
+(long = config)
 
 
------- CHANNEL x SETUP ---
+	--- CHANNEL SETUP ---
+	123456789ABC123456789ABC123456789ABC123456789ABC
+	Duty cycle  Lens diam.
+	   auto     xx inch
+	xxx % manual 
+
+	(cw/ccw = next/prev. item)
+	(short = select item)
+	(long = back to channel view)
+	(timeout = back to channel view)
+
+
+		--- DUTY CYCLE ---
+		123456789ABC123456789ABC123456789ABC123456789ABC
+		Duty cycle
+		   auto
+		xxx % manual 
+
+		(cw/ccw) = duty cycle <0 || > 100 = auto
+		(short) = save / back to channel setup
+		(long) = back to channel setup
+
+		--- LENS DIAMETER ---
+		123456789ABC123456789ABC123456789ABC123456789ABC
+		Lens diam.
+		xx inch
+
+		(cw/ccw = lens diameter 1..14 inch)
+		(short = save / back to channel setup)
+		(long = back to channel setup)
+
+
+--- CONFIG ---
 123456789ABC123456789ABC123456789ABC123456789ABC
-Duty cycle  DP offset   dT Factor
-   auto     xx °C       xx W/K
-xxx % manual
+DP offset   Sky temp.
+temp. +xx °C-xx °C
 
-cw/ccw = next/prev. page
-short = select item
-long = back to channel view
-
-
-
------------- DUTY CYCLE ---
-123456789ABC123456789ABC123456789ABC123456789ABC
-Duty cycle 
-   auto
-xxx % manual 
-
-cw/ccw = duty cycle <0 || > 100 = auto
-short = save / channel setup
-long = back / channel setup
+(cw/ccw = next/prev. item)
+(short = select item)
+(long = back to main)
+(timeout = back to main)
 
 
+	--- DP OFFSET ---
+	123456789ABC123456789ABC123456789ABC123456789ABC
+	DP offset
+	temp. +xx °C
 
------------- DP OFFSET ---
-123456789ABC123456789ABC123456789ABC123456789ABC
-Dewpoint
-offset xx °C
-
-cw/ccw = dp offset +/- 10 °C
-short = save / channel setup
-long = back / channel setup
+	(cw/ccw = dp offset +/- 1 °C steps)
+	(short = save / back to config)
+	(long = back to config)
 
 
------------- dT FACTOR ---
-123456789ABC123456789ABC123456789ABC123456789ABC
-dT Factor
-xx W/K
+	--- SKY TEMP ---
+	123456789ABC123456789ABC123456789ABC123456789ABC
+	Sky temp.
+	xxx °C
 
-cw/ccw = dT factor 1 - 10 W/K
-short = save / channel setup
-long = back / channel setup
+	(cw/ccw = sky temp. -80...0 °C)
+	(short = save / back to config)
+	(long = back to config)
 

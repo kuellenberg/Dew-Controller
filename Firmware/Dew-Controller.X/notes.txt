@@ -1,0 +1,73 @@
+--- DATA STRUCTURE ---
+--- GLOBAL ---
+voltage
+voltage min
+power
+temp
+humidity
+dewpoint
+temp_aux
+
+--- CHANNEL ---
+current
+watt
+duty
+mode:auto|manual
+status:on|off|open|short
+dp offset
+lens diameter
+
+
+--- MAIN LOOP ---
+read temp, humi, dp over rs232
+	no data?
+		check sensor message
+		
+read aux temp
+read voltage
+read current
+calc total power
+
+current > [max load switch current] -> overcurrent (shouldn't happen)
+	turn all channels off
+	turn off load switch
+		measure current again
+		still overcurrent?
+			show error
+	show error
+voltage < [turn off]
+	turn off load switch
+	turn off oled
+	power save 
+voltage min > [turn off] < [warn low]
+	show warning low bat
+voltage > [warn high] < [crit]
+	show warning high bat
+voltage > [crit]
+	turn off oled power and load switch
+	power save
+	
+	
+
+
+
+
+	
+	
+	
+	
+
+	test each heater
+		read voltage
+		read current
+		store min. voltage
+		current < xxx -> open
+		current > xxx -> short
+			fault detected? 
+				turn channel off
+				clear fault
+				warning heater short
+		calculate total power
+		
+	
+
