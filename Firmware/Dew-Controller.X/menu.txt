@@ -7,31 +7,17 @@ Dew         Controller  Sensor
 (short = main)
 (timeout = main)
 
---- WARNINGS ---
-123456789ABC123456789ABC123456789ABC123456789ABC
-Warning!
-Battery voltage low! Please turn off device to protect battery!
+--- ERRORS & WARNINGS ---
+Switch to 1 line mode, 128 chars max., scroll text
 
-Warning!
-Battery voltage high! Please turn off to protect device!
-
-Warning!
-No sensor connected. Automatic mode disabled.
-
-Warning!
-Short circuit detected on channel X. Please remove heater.
-
-ERROR!
-Overcurrent detected! Turn off immediatelly to prevent further damage!
-
-ERROR!
-Load switch not responding. Please repair :-)
-
-Warning!
-Heater channel X removed.
-
-Warning
-Heater on channel X draws excessive current. Channel disabled.
+Warning! Battery voltage low! Please turn off device to protect battery!
+Warning! Battery voltage high! Please turn off to protect device! 
+Warning! No sensor connected. Automatic mode disabled.
+Warning! Short circuit detected on channel X. Please remove heater.
+ERROR! Overcurrent detected! Turn off device immediatelly to prevent further damage!
+ERROR! Overcurrent detected and electronic fuse didn't disconnect load. Please repair me!
+Warning! Heater channel X removed.
+Warning Heater on channel X draws excessive current. Channel disabled.
 
 (short) = back to main
 
@@ -39,7 +25,6 @@ Heater on channel X draws excessive current. Channel disabled.
   
 --- MAIN ---
 123456789ABC123456789ABC123456789ABC123456789ABC
-Temperatur  Feuchte     Taupunkt    Batterie
 Temperature Humidity    Dewpoint    Bat.   Power
 xxx,x °C    xxx,x %rel  xxx,x °C    xx,xV  xx,xW
 xxx | xxx °C						xx,xV LOW!
@@ -55,20 +40,24 @@ xxx | xxx °C						xx,xV LOW!
 
 --- CHANNEL VIEW ---
 123456789ABC123456789ABC123456789ABC123456789ABC
-Channel 1   Channel 2   Channel 3   Channel 4
-xx,xW A:xxx%
-xx,xW M:xxx%
+Ch1: xx inchCh2: xx inchCh3: xx inchCh4: xx inch
+xx,xW auto
+xx,xW manual
+Disconnected
+Shorted!
+Overcurrent
 
 (cw/ccw = next/prev. channel)
 (short = channel setup)
 (long = config)
+timeout = change displaymode watt/amp
 
 
 	--- CHANNEL SETUP ---
 	123456789ABC123456789ABC123456789ABC123456789ABC
-	Duty cycle  Lens diam.
+	Output power  Lens diam.
 	   auto     xx inch
-	xxx % manual 
+	xx,xW manual 
 
 	(cw/ccw = next/prev. item)
 	(short = select item)
@@ -78,11 +67,11 @@ xx,xW M:xxx%
 
 		--- DUTY CYCLE ---
 		123456789ABC123456789ABC123456789ABC123456789ABC
-		Duty cycle
+		Output power
 		   auto
-		xxx % manual 
+		xx,xW manual 
 
-		(cw/ccw) = duty cycle <0 || > 100 = auto
+		(cw/ccw) = duty cycle <0 || > [max] = auto
 		(short) = save / back to channel setup
 		(long) = back to channel setup
 
@@ -98,8 +87,8 @@ xx,xW M:xxx%
 
 --- CONFIG ---
 123456789ABC123456789ABC123456789ABC123456789ABC
-DP offset   Sky temp.
-temp. +xx °C-xx °C
+DP offset   Sky temp.   Fudge factor
+temp. +xx °C-xx °C      xx.x 
 
 (cw/ccw = next/prev. item)
 (short = select item)
@@ -123,6 +112,15 @@ temp. +xx °C-xx °C
 	xxx °C
 
 	(cw/ccw = sky temp. -80...0 °C)
+	(short = save / back to config)
+	(long = back to config)
+	
+	--- FUDGE FACTOR ---
+	123456789ABC123456789ABC123456789ABC123456789ABC
+	Fudge factor
+	xx,x
+
+	(cw/ccw = fudge factor 0..5)
 	(short = save / back to config)
 	(long = back to config)
 
