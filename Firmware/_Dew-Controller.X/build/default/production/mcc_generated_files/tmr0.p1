@@ -1,6 +1,6 @@
 Version 3.2 HI-TECH Software Intermediate Code
-[v F7194 `(v ~T0 @X0 0 tf ]
-"8196 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h
+[v F7191 `(v ~T0 @X0 0 tf ]
+"8196 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [v _T0CON1 `Vuc ~T0 @X0 0 e@1439 ]
 "7872
 [v _TMR0H `Vuc ~T0 @X0 0 e@1437 ]
@@ -22,12 +22,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S436 . . ]
 "9363
 [v _PIE0bits `VS436 ~T0 @X0 0 e@1814 ]
-[v F7191 `(v ~T0 @X0 0 tf ]
+[v F7188 `(v ~T0 @X0 0 tf ]
 "333 mcc_generated_files/tmr0.h
-[v _TMR0_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7191 ]
+[v _TMR0_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7188 ]
 "369
 [v _TMR0_DefaultInterruptHandler `(v ~T0 @X0 0 ef ]
-"8126 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h
+"8126 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [v _T0CON0 `Vuc ~T0 @X0 0 e@1438 ]
 "8132
 [s S378 :4 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -46,7 +46,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;xc.h: 20: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
 [; ;pic16f15356.h: 108: extern volatile unsigned char INDF0 __at(0x000);
-"110 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h
+"110 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [; ;pic16f15356.h: 110: asm("INDF0 equ 00h");
 [; <" INDF0 equ 00h ;# ">
 [; ;pic16f15356.h: 113: typedef union {
@@ -8206,7 +8206,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic.h: 82: __attribute__((__unsupported__("The " "FLASH_ERASE" " macro function is no longer supported. Please use the MPLAB X MCC."))) void __flash_erase(unsigned short addr);
 [; ;pic.h: 92: extern __nonreentrant void _delay(unsigned long);
 [; ;pic.h: 94: extern __nonreentrant void _delaywdt(unsigned long);
-[; ;pic.h: 97: extern __nonreentrant void _delay3(unsigned char);
 [; ;pic.h: 137: extern __bank0 unsigned char __resetbits;
 [; ;pic.h: 138: extern __bank0 __bit __powerdown;
 [; ;pic.h: 139: extern __bank0 __bit __timeout;
@@ -8238,7 +8237,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdint.h: 282: typedef uint32_t uintmax_t;
 [; ;stdint.h: 289: typedef int16_t intptr_t;
 [; ;stdint.h: 294: typedef uint16_t uintptr_t;
-[; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;stdbool.h: 13: typedef unsigned char bool;
 [; ;tmr0.h: 106: void TMR0_Initialize(void);
 [; ;tmr0.h: 135: void TMR0_StartTimer(void);
 [; ;tmr0.h: 167: void TMR0_StopTimer(void);
@@ -8251,7 +8250,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;tmr0.h: 351: extern void (*TMR0_InterruptHandler)(void);
 [; ;tmr0.h: 369: void TMR0_DefaultInterruptHandler(void);
 "59 mcc_generated_files/tmr0.c
-[v _TMR0_InterruptHandler `*F7194 ~T0 @X0 1 e ]
+[v _TMR0_InterruptHandler `*F7191 ~T0 @X0 1 e ]
 [; ;tmr0.c: 59: void (*TMR0_InterruptHandler)(void);
 "61
 [v _TMR0_Initialize `(v ~T0 @X0 1 ef ]
@@ -8402,7 +8401,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 [; ;tmr0.c: 136: if(TMR0_InterruptHandler)
 "136
-[e $ ! != _TMR0_InterruptHandler -> -> 0 `i `*F7194 983  ]
+[e $ ! != _TMR0_InterruptHandler -> -> 0 `i `*F7191 983  ]
 [; ;tmr0.c: 137: {
 "137
 {
@@ -8418,12 +8417,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 982 ]
 }
 "142
-[v _TMR0_SetInterruptHandler `(v ~T0 @X0 1 ef1`*F7191 ]
+[v _TMR0_SetInterruptHandler `(v ~T0 @X0 1 ef1`*F7188 ]
 {
 [; ;tmr0.c: 142: void TMR0_SetInterruptHandler(void (* InterruptHandler)(void)){
 [e :U _TMR0_SetInterruptHandler ]
-[v F7211 `(v ~T0 @X0 0 tf ]
-[v _InterruptHandler `*F7211 ~T0 @X0 1 r1 ]
+[v F7208 `(v ~T0 @X0 0 tf ]
+[v _InterruptHandler `*F7208 ~T0 @X0 1 r1 ]
 [f ]
 [; ;tmr0.c: 143: TMR0_InterruptHandler = InterruptHandler;
 "143

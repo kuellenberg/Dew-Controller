@@ -1,19 +1,19 @@
 Version 3.2 HI-TECH Software Intermediate Code
+[v F7427 `(v ~T0 @X0 0 tf ]
 [v F7430 `(v ~T0 @X0 0 tf ]
-[v F7433 `(v ~T0 @X0 0 tf ]
 "73 main.c
-[c E7507 0 1 2 3 4 5 6 .. ]
-[n E7507 states start cw1 cw2 cw3 ccw1 ccw2 ccw3  ]
+[c E7504 0 1 2 3 4 5 6 .. ]
+[n E7504 states start cw1 cw2 cw3 ccw1 ccw2 ccw3  ]
 "74
-[c E7515 128 64 .. ]
-[n E7515 flags cw_flag ccw_flag  ]
+[c E7512 128 64 .. ]
+[n E7512 flags cw_flag ccw_flag  ]
 "83
-[c E7518 0 1 2 .. ]
-[n E7518 direction stop cw ccw  ]
+[c E7515 0 1 2 .. ]
+[n E7515 direction stop cw ccw  ]
 "84
-[c E7522 0 1 2 3 .. ]
-[n E7522 button_press none short_press long_press abort  ]
-"452 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h
+[c E7519 0 1 2 3 .. ]
+[n E7519 button_press none short_press long_press abort  ]
+"452 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [s S29 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S29 . RA0 RA1 RA2 RA3 RA4 RA5 RA6 RA7 ]
 "451
@@ -31,7 +31,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _LATCbits `VS48 ~T0 @X0 0 e@26 ]
 "162 mcc_generated_files/tmr1.h
 [v _TMR1_StopTimer `(v ~T0 @X0 0 ef ]
-"866 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h
+"866 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [s S45 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S45 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
 "865
@@ -40,17 +40,17 @@ Version 3.2 HI-TECH Software Intermediate Code
 "877
 [v _LATAbits `VS44 ~T0 @X0 0 e@24 ]
 "145 main.c
-[c E7405 6 16 17 59 60 61 62 63 .. ]
-[n E7405 . TEMP VSENS ISENS channel_AVSS channel_Temp channel_DAC1 channel_FVR_BUF1 channel_FVR_BUF2  ]
+[c E7402 6 16 17 59 60 61 62 63 .. ]
+[n E7402 . TEMP VSENS ISENS channel_AVSS channel_Temp channel_DAC1 channel_FVR_BUF1 channel_FVR_BUF2  ]
 "292 mcc_generated_files/adc.h
-[v _ADC_GetConversion `(ui ~T0 @X0 0 ef1`E7405 ]
+[v _ADC_GetConversion `(ui ~T0 @X0 0 ef1`E7402 ]
 "89 oled.h
 [v _OLED_returnHome `(v ~T0 @X0 0 ef ]
 "81
 [v _OLED_command `(v ~T0 @X0 0 ef1`uc ]
 "87
 [v _OLED_print_xy `(v ~T0 @X0 0 ef3`uc`uc`*uc ]
-"928 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h
+"928 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [s S47 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S47 . LATB0 LATB1 LATB2 LATB3 LATB4 LATB5 LATB6 LATB7 ]
 "927
@@ -59,12 +59,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 "939
 [v _LATBbits `VS46 ~T0 @X0 0 e@25 ]
 [v F7256 `(v ~T0 @X0 1 tf1`ul ]
-"92 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic.h
+"92 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic.h
 [v __delay `JF7256 ~T0 @X0 0 e ]
 [p i __delay ]
 "130 mcc_generated_files/tmr1.h
 [v _TMR1_StartTimer `(v ~T0 @X0 0 ef ]
-"194 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdio.h
+"194 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdio.h
 [v _sprintf `(i ~T0 @X0 0 e1v`*uc`*Cuc ]
 "84 oled.h
 [v _OLED_scrollDisplayLeft `(v ~T0 @X0 0 ef ]
@@ -79,7 +79,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S978 . s raw ]
 "73 mcc_generated_files/mcc.h
 [v _SYSTEM_Initialize `(v ~T0 @X0 0 ef ]
-"419 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h
+"419 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [s S27 :1 `uc 1 :5 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S27 . INTEDG . PEIE GIE ]
 "418
@@ -91,33 +91,33 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _ADC_Initialize `(v ~T0 @X0 0 ef ]
 "83 oled.h
 [v _OLED_init `(v ~T0 @X0 0 ef ]
-[v F7296 `(v ~T0 @X0 0 tf ]
+[v F7293 `(v ~T0 @X0 0 tf ]
 "712 mcc_generated_files/pin_manager.h
-[v _IOCAF7_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7296 ]
-[v F7274 `(v ~T0 @X0 0 tf ]
+[v _IOCAF7_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7293 ]
+[v F7271 `(v ~T0 @X0 0 tf ]
 "544
-[v _IOCAF4_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7274 ]
-[v F7285 `(v ~T0 @X0 0 tf ]
+[v _IOCAF4_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7271 ]
+[v F7282 `(v ~T0 @X0 0 tf ]
 "628
-[v _IOCAF5_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7285 ]
-[v F7393 `(v ~T0 @X0 0 tf ]
+[v _IOCAF5_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7282 ]
+[v F7390 `(v ~T0 @X0 0 tf ]
 "333 mcc_generated_files/tmr0.h
-[v _TMR0_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7393 ]
-[v F7368 `(v ~T0 @X0 0 tf ]
+[v _TMR0_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7390 ]
+[v F7365 `(v ~T0 @X0 0 tf ]
 "403 mcc_generated_files/tmr1.h
-[v _TMR1_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7368 ]
-[v F7307 `(v ~T0 @X0 0 tf ]
+[v _TMR1_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7365 ]
+[v F7304 `(v ~T0 @X0 0 tf ]
 "796 mcc_generated_files/pin_manager.h
-[v _IOCCF2_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7307 ]
+[v _IOCCF2_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F7304 ]
 "79 mcc_generated_files/eusart1.h
 [v _eusart1RxCount `Vuc ~T0 @X0 0 e ]
 "280
 [v _EUSART1_Read `(uc ~T0 @X0 0 ef ]
-"44 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\math.h
+"44 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\math.h
 [v _log10 `(d ~T0 @X0 0 ef1`d ]
 "55
 [v _round `(d ~T0 @X0 0 ef1`d ]
-"31 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic.h
+"31 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic.h
 [v ___nop `(v ~T0 @X0 0 ef ]
 [p i ___nop ]
 [; ;__size_t.h: 4: typedef unsigned size_t;
@@ -180,7 +180,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;xc.h: 20: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
 [; ;pic16f15356.h: 108: extern volatile unsigned char INDF0 __at(0x000);
-"110 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h
+"110 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [; ;pic16f15356.h: 110: asm("INDF0 equ 00h");
 [; <" INDF0 equ 00h ;# ">
 [; ;pic16f15356.h: 113: typedef union {
@@ -8340,7 +8340,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic.h: 82: __attribute__((__unsupported__("The " "FLASH_ERASE" " macro function is no longer supported. Please use the MPLAB X MCC."))) void __flash_erase(unsigned short addr);
 [; ;pic.h: 92: extern __nonreentrant void _delay(unsigned long);
 [; ;pic.h: 94: extern __nonreentrant void _delaywdt(unsigned long);
-[; ;pic.h: 97: extern __nonreentrant void _delay3(unsigned char);
 [; ;pic.h: 137: extern __bank0 unsigned char __resetbits;
 [; ;pic.h: 138: extern __bank0 __bit __powerdown;
 [; ;pic.h: 139: extern __bank0 __bit __timeout;
@@ -8390,9 +8389,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdint.h: 282: typedef uint32_t uintmax_t;
 [; ;stdint.h: 289: typedef int16_t intptr_t;
 [; ;stdint.h: 294: typedef uint16_t uintptr_t;
-[; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;stdbool.h: 13: typedef unsigned char bool;
 [; ;interrupt_manager.h: 109: void interrupt INTERRUPT_InterruptManager(void);
-[; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;stdbool.h: 13: typedef unsigned char bool;
 [; ;tmr1.h: 101: void TMR1_Initialize(void);
 [; ;tmr1.h: 130: void TMR1_StartTimer(void);
 [; ;tmr1.h: 162: void TMR1_StopTimer(void);
@@ -8406,7 +8405,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;tmr1.h: 403: void TMR1_SetInterruptHandler(void (* InterruptHandler)(void));
 [; ;tmr1.h: 421: extern void (*TMR1_InterruptHandler)(void);
 [; ;tmr1.h: 439: void TMR1_DefaultInterruptHandler(void);
-[; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;stdbool.h: 13: typedef unsigned char bool;
 [; ;tmr0.h: 106: void TMR0_Initialize(void);
 [; ;tmr0.h: 135: void TMR0_StartTimer(void);
 [; ;tmr0.h: 167: void TMR0_StopTimer(void);
@@ -8418,7 +8417,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;tmr0.h: 333: void TMR0_SetInterruptHandler(void (* InterruptHandler)(void));
 [; ;tmr0.h: 351: extern void (*TMR0_InterruptHandler)(void);
 [; ;tmr0.h: 369: void TMR0_DefaultInterruptHandler(void);
-[; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;stdbool.h: 13: typedef unsigned char bool;
 [; ;adc.h: 72: typedef uint16_t adc_result_t;
 [; ;adc.h: 77: typedef struct
 [; ;adc.h: 78: {
@@ -8443,14 +8442,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;adc.h: 262: adc_result_t ADC_GetConversionResult(void);
 [; ;adc.h: 292: adc_result_t ADC_GetConversion(adc_channel_t channel);
 [; ;adc.h: 320: void ADC_TemperatureAcquisitionDelay(void);
-[; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;stdbool.h: 13: typedef unsigned char bool;
 [; ;eusart1.h: 78: extern volatile uint8_t eusart1TxBufferRemaining;
 [; ;eusart1.h: 79: extern volatile uint8_t eusart1RxCount;
 "85 mcc_generated_files/eusart1.h
-[v _EUSART1_TxDefaultInterruptHandler `*F7430 ~T0 @X0 1 e ]
+[v _EUSART1_TxDefaultInterruptHandler `*F7427 ~T0 @X0 1 e ]
 [; ;eusart1.h: 85: void (*EUSART1_TxDefaultInterruptHandler)(void);
 "86
-[v _EUSART1_RxDefaultInterruptHandler `*F7433 ~T0 @X0 1 e ]
+[v _EUSART1_RxDefaultInterruptHandler `*F7430 ~T0 @X0 1 e ]
 [; ;eusart1.h: 86: void (*EUSART1_RxDefaultInterruptHandler)(void);
 [; ;eusart1.h: 108: void EUSART1_Initialize(void);
 [; ;eusart1.h: 161: uint8_t EUSART1_is_tx_ready(void);
@@ -8569,59 +8568,59 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 65: enum flags {cw_flag = 0b10000000, ccw_flag = 0b01000000};
 [; ;main.c: 66: enum direction {stop, cw, ccw};
 [; ;main.c: 67: enum button_press {none, short_press, long_press, abort};
-[v F7528 `Cuc ~T0 @X0 -> 4 `i t ]
+[v F7525 `Cuc ~T0 @X0 -> 4 `i t ]
 "70
-[v _transition_table `F7528 ~T0 @X0 -> 7 `i e ]
+[v _transition_table `F7525 ~T0 @X0 -> 7 `i e ]
 [i _transition_table
 :U ..
 :U ..
 "73
--> . `E7507 0 `uc
--> . `E7507 4 `uc
--> . `E7507 1 `uc
--> . `E7507 0 `uc
+-> . `E7504 0 `uc
+-> . `E7504 4 `uc
+-> . `E7504 1 `uc
+-> . `E7504 0 `uc
 ..
 :U ..
 "74
--> | -> . `E7507 2 `i -> . `E7515 0 `i `uc
--> . `E7507 0 `uc
--> . `E7507 1 `uc
--> . `E7507 0 `uc
+-> | -> . `E7504 2 `i -> . `E7512 0 `i `uc
+-> . `E7504 0 `uc
+-> . `E7504 1 `uc
+-> . `E7504 0 `uc
 ..
 :U ..
 "75
--> . `E7507 2 `uc
--> . `E7507 3 `uc
--> . `E7507 1 `uc
--> . `E7507 0 `uc
+-> . `E7504 2 `uc
+-> . `E7504 3 `uc
+-> . `E7504 1 `uc
+-> . `E7504 0 `uc
 ..
 :U ..
 "76
--> . `E7507 2 `uc
--> . `E7507 3 `uc
--> . `E7507 0 `uc
--> | -> . `E7507 0 `i -> . `E7515 0 `i `uc
+-> . `E7504 2 `uc
+-> . `E7504 3 `uc
+-> . `E7504 0 `uc
+-> | -> . `E7504 0 `i -> . `E7512 0 `i `uc
 ..
 :U ..
 "77
--> | -> . `E7507 5 `i -> . `E7515 1 `i `uc
--> . `E7507 4 `uc
--> . `E7507 0 `uc
--> . `E7507 0 `uc
+-> | -> . `E7504 5 `i -> . `E7512 1 `i `uc
+-> . `E7504 4 `uc
+-> . `E7504 0 `uc
+-> . `E7504 0 `uc
 ..
 :U ..
 "78
--> . `E7507 5 `uc
--> . `E7507 4 `uc
--> . `E7507 6 `uc
--> . `E7507 0 `uc
+-> . `E7504 5 `uc
+-> . `E7504 4 `uc
+-> . `E7504 6 `uc
+-> . `E7504 0 `uc
 ..
 :U ..
 "79
--> . `E7507 5 `uc
--> . `E7507 0 `uc
--> . `E7507 6 `uc
--> | -> . `E7507 0 `i -> . `E7515 1 `i `uc
+-> . `E7504 5 `uc
+-> . `E7504 0 `uc
+-> . `E7504 6 `uc
+-> | -> . `E7504 0 `i -> . `E7512 1 `i `uc
 ..
 ..
 ]
@@ -8635,21 +8634,21 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 79: {ccw2, start, ccw3, start|ccw_flag}
 [; ;main.c: 80: };
 "82
-[v _current_state `VE7507 ~T0 @X0 1 e ]
+[v _current_state `VE7504 ~T0 @X0 1 e ]
 [i _current_state
-. `E7507 0
+. `E7504 0
 ]
 [; ;main.c: 82: volatile enum states current_state = start;
 "83
-[v _dir `VE7518 ~T0 @X0 1 e ]
+[v _dir `VE7515 ~T0 @X0 1 e ]
 [i _dir
-. `E7518 0
+. `E7515 0
 ]
 [; ;main.c: 83: volatile enum direction dir = stop;
 "84
-[v _pb `VE7522 ~T0 @X0 1 e ]
+[v _pb `VE7519 ~T0 @X0 1 e ]
 [i _pb
-. `E7522 0
+. `E7519 0
 ]
 [; ;main.c: 84: volatile enum button_press pb = none;
 [; ;main.c: 86: typedef struct {
@@ -8688,16 +8687,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _input -> | << -> . . _PORTAbits 0 5 `i -> 1 `i -> . . _PORTAbits 0 4 `i `uc ]
 [; ;main.c: 107: current_state = transition_table[current_state & 0b00000111][input];
 "107
-[e = _current_state -> *U + &U *U + &U _transition_table * -> -> & -> _current_state `i -> 7 `i `ui `ux -> * -> # *U &U *U &U _transition_table `ui -> -> 4 `i `ui `ux * -> _input `ux -> -> # *U &U *U + &U _transition_table * -> -> & -> _current_state `i -> 7 `i `ui `ux -> * -> # *U &U *U &U _transition_table `ui -> -> 4 `i `ui `ux `ui `ux `VE7507 ]
+[e = _current_state -> *U + &U *U + &U _transition_table * -> -> & -> _current_state `i -> 7 `i `ui `ux -> * -> # *U &U *U &U _transition_table `ui -> -> 4 `i `ui `ux * -> _input `ux -> -> # *U &U *U + &U _transition_table * -> -> & -> _current_state `i -> 7 `i `ui `ux -> * -> # *U &U *U &U _transition_table `ui -> -> 4 `i `ui `ux `ui `ux `VE7504 ]
 [; ;main.c: 110: if (current_state & cw_flag) dir = cw;
 "110
-[e $ ! != & -> _current_state `i -> . `E7515 0 `i -> 0 `i 981  ]
-[e = _dir . `E7518 1 ]
+[e $ ! != & -> _current_state `i -> . `E7512 0 `i -> 0 `i 981  ]
+[e = _dir . `E7515 1 ]
 [e :U 981 ]
 [; ;main.c: 111: if (current_state & ccw_flag) dir = ccw;
 "111
-[e $ ! != & -> _current_state `i -> . `E7515 1 `i -> 0 `i 982  ]
-[e = _dir . `E7518 2 ]
+[e $ ! != & -> _current_state `i -> . `E7512 1 `i -> 0 `i 982  ]
+[e = _dir . `E7515 2 ]
 [e :U 982 ]
 [; ;main.c: 112: }
 "112
@@ -8728,7 +8727,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 121: if ((millis > 5) & (millis <= 50)) pb = short_press;
 "121
 [e $ ! & > _millis -> -> -> 5 `i `l `ul <= _millis -> -> -> 50 `i `l `ul 986  ]
-[e = _pb . `E7522 1 ]
+[e = _pb . `E7519 1 ]
 [e $U 987  ]
 "123
 [e :U 986 ]
@@ -8737,7 +8736,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 {
 [; ;main.c: 124: pb = long_press;
 "124
-[e = _pb . `E7522 2 ]
+[e = _pb . `E7519 2 ]
 "125
 }
 [; ;main.c: 125: }
@@ -8745,7 +8744,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "127
 [e :U 988 ]
 [; ;main.c: 127: else pb = abort;
-[e = _pb . `E7522 3 ]
+[e = _pb . `E7519 3 ]
 [e :U 989 ]
 [e :U 987 ]
 "128
@@ -8798,7 +8797,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 142: uint32_t val;
 [; ;main.c: 145: val = ADC_GetConversion(TEMP);
 "145
-[e = _val -> ( _ADC_GetConversion (1 . `E7405 0 `ul ]
+[e = _val -> ( _ADC_GetConversion (1 . `E7402 0 `ul ]
 [; ;main.c: 146: ntc_temp = (uint16_t)(((val * 119) - 34511) / 100);
 "146
 [e = _ntc_temp -> -> / - * _val -> -> -> 119 `i `l `ul -> -> 34511 `l `ul -> -> -> 100 `i `l `ul `ui `i ]
@@ -8817,7 +8816,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 155: uint32_t val;
 [; ;main.c: 156: val = ADC_GetConversion(VSENS);
 "156
-[e = _val -> ( _ADC_GetConversion (1 . `E7405 1 `ul ]
+[e = _val -> ( _ADC_GetConversion (1 . `E7402 1 `ul ]
 [; ;main.c: 157: return (uint16_t)((val << 11) / 10000);
 "157
 [e ) -> / << _val -> 11 `i -> -> -> 10000 `i `l `ul `ui ]
@@ -8837,7 +8836,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 161: uint32_t val;
 [; ;main.c: 162: val = ADC_GetConversion(ISENS);
 "162
-[e = _val -> ( _ADC_GetConversion (1 . `E7405 2 `ul ]
+[e = _val -> ( _ADC_GetConversion (1 . `E7402 2 `ul ]
 [; ;main.c: 163: return (uint16_t)((val * 1955) / 1000);
 "163
 [e ) -> / * _val -> -> -> 1955 `i `l `ul -> -> -> 1000 `i `l `ul `ui ]
@@ -9136,7 +9135,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _OLED_returnHome ..  ]
 [; ;main.c: 262: pb = none;
 "262
-[e = _pb . `E7522 0 ]
+[e = _pb . `E7519 0 ]
 [; ;main.c: 263: while(pb != abort) {
 "263
 [e $U 1022  ]
@@ -9182,7 +9181,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 [e :U 1022 ]
 "263
-[e $ != -> _pb `i -> . `E7522 3 `i 1023  ]
+[e $ != -> _pb `i -> . `E7519 3 `i 1023  ]
 [e :U 1024 ]
 [; ;main.c: 276: }
 [; ;main.c: 277: fault = 0;
@@ -9213,13 +9212,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U _main_menu ]
 [f ]
 "287
-[v F7573 `uc ~T0 @X0 1 s menu ]
-[i F7573
+[v F7570 `uc ~T0 @X0 1 s menu ]
+[i F7570
 -> -> 0 `i `uc
 ]
 "288
-[v F7574 `uc ~T0 @X0 1 s page ]
-[i F7574
+[v F7571 `uc ~T0 @X0 1 s page ]
+[i F7571
 -> -> 0 `i `uc
 ]
 "289
@@ -9236,7 +9235,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 292: char s[61];
 [; ;main.c: 294: if (menu == 0)
 "294
-[e $ ! == -> F7573 `i -> 0 `i 1026  ]
+[e $ ! == -> F7570 `i -> 0 `i 1026  ]
 [; ;main.c: 295: {
 "295
 {
@@ -9263,7 +9262,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "306
 [e :U 1026 ]
 [; ;main.c: 306: else if (menu == 1)
-[e $ ! == -> F7573 `i -> 1 `i 1028  ]
+[e $ ! == -> F7570 `i -> 1 `i 1028  ]
 [; ;main.c: 307: {
 "307
 {
@@ -9282,14 +9281,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc &U _s ]
 [; ;main.c: 315: if (pb == long_press) {
 "315
-[e $ ! == -> _pb `i -> . `E7522 2 `i 1029  ]
+[e $ ! == -> _pb `i -> . `E7519 2 `i 1029  ]
 {
 [; ;main.c: 316: menu = 10;
 "316
-[e = F7573 -> -> 10 `i `uc ]
+[e = F7570 -> -> 10 `i `uc ]
 [; ;main.c: 317: pb = none;
 "317
-[e = _pb . `E7522 0 ]
+[e = _pb . `E7519 0 ]
 "318
 }
 [e :U 1029 ]
@@ -9301,19 +9300,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 "320
 [e :U 1028 ]
 [; ;main.c: 320: else if (menu == 10)
-[e $ ! == -> F7573 `i -> 10 `i 1031  ]
+[e $ ! == -> F7570 `i -> 10 `i 1031  ]
 [; ;main.c: 321: {
 "321
 {
 [; ;main.c: 324: OLED_print_xy(12 * page, 0, "Tastgrad");
 "324
-[e ( _OLED_print_xy (3 , , -> * -> 12 `i -> F7574 `i `uc -> -> 0 `i `uc -> :s 15C `*uc ]
+[e ( _OLED_print_xy (3 , , -> * -> 12 `i -> F7571 `i `uc -> -> 0 `i `uc -> :s 15C `*uc ]
 [; ;main.c: 325: sprintf(s, "Kanal %d: ", page + 1);
 "325
-[e ( _sprintf (1 , (. , &U _s :s 16C + -> F7574 `i -> 1 `i ]
+[e ( _sprintf (1 , (. , &U _s :s 16C + -> F7571 `i -> 1 `i ]
 [; ;main.c: 326: OLED_print_xy(12 * page, 1, s);
 "326
-[e ( _OLED_print_xy (3 , , -> * -> 12 `i -> F7574 `i `uc -> -> 1 `i `uc &U _s ]
+[e ( _OLED_print_xy (3 , , -> * -> 12 `i -> F7571 `i `uc -> -> 1 `i `uc &U _s ]
 [; ;main.c: 328: while(pb == none) {
 "328
 [e $U 1032  ]
@@ -9321,27 +9320,27 @@ Version 3.2 HI-TECH Software Intermediate Code
 {
 [; ;main.c: 329: if ((dir == cw) && (dc[page] < 99)) {
 "329
-[e $ ! && == -> _dir `i -> . `E7518 1 `i < -> *U + &U _dc * -> F7574 `ux -> -> # *U &U _dc `ui `ux `i -> 99 `i 1035  ]
+[e $ ! && == -> _dir `i -> . `E7515 1 `i < -> *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux `i -> 99 `i 1035  ]
 {
 [; ;main.c: 330: dc[page]++;
 "330
-[e ++ *U + &U _dc * -> F7574 `ux -> -> # *U &U _dc `ui `ux -> -> 1 `i `uc ]
+[e ++ *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux -> -> 1 `i `uc ]
 [; ;main.c: 331: dir = stop;
 "331
-[e = _dir . `E7518 0 ]
+[e = _dir . `E7515 0 ]
 "332
 }
 [; ;main.c: 332: } else if ((dir == ccw) && (dc[page] > 0)) {
 [e $U 1036  ]
 [e :U 1035 ]
-[e $ ! && == -> _dir `i -> . `E7518 2 `i > -> *U + &U _dc * -> F7574 `ux -> -> # *U &U _dc `ui `ux `i -> 0 `i 1037  ]
+[e $ ! && == -> _dir `i -> . `E7515 2 `i > -> *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux `i -> 0 `i 1037  ]
 {
 [; ;main.c: 333: dc[page]--;
 "333
-[e -- *U + &U _dc * -> F7574 `ux -> -> # *U &U _dc `ui `ux -> -> 1 `i `uc ]
+[e -- *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux -> -> 1 `i `uc ]
 [; ;main.c: 334: dir = stop;
 "334
-[e = _dir . `E7518 0 ]
+[e = _dir . `E7515 0 ]
 "335
 }
 [e :U 1037 ]
@@ -9349,23 +9348,23 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 1036 ]
 [; ;main.c: 335: }
 [; ;main.c: 336: sprintf(s,"%2d%%", dc[page]);
-[e ( _sprintf (1 , (. , &U _s :s 17C -> *U + &U _dc * -> F7574 `ux -> -> # *U &U _dc `ui `ux `i ]
+[e ( _sprintf (1 , (. , &U _s :s 17C -> *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux `i ]
 [; ;main.c: 337: OLED_print_xy(12 * page + 9, 1, s);
 "337
-[e ( _OLED_print_xy (3 , , -> + * -> 12 `i -> F7574 `i -> 9 `i `uc -> -> 1 `i `uc &U _s ]
+[e ( _OLED_print_xy (3 , , -> + * -> 12 `i -> F7571 `i -> 9 `i `uc -> -> 1 `i `uc &U _s ]
 "338
 }
 [e :U 1032 ]
 "328
-[e $ == -> _pb `i -> . `E7522 0 `i 1033  ]
+[e $ == -> _pb `i -> . `E7519 0 `i 1033  ]
 [e :U 1034 ]
 [; ;main.c: 338: }
 [; ;main.c: 339: pb = none;
 "339
-[e = _pb . `E7522 0 ]
+[e = _pb . `E7519 0 ]
 [; ;main.c: 341: menu = 1;
 "341
-[e = F7573 -> -> 1 `i `uc ]
+[e = F7570 -> -> 1 `i `uc ]
 "342
 }
 [e :U 1031 ]
@@ -9374,26 +9373,26 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 1027 ]
 [; ;main.c: 342: }
 [; ;main.c: 345: if (pb == short_press) {
-[e $ ! == -> _pb `i -> . `E7522 1 `i 1038  ]
+[e $ ! == -> _pb `i -> . `E7519 1 `i 1038  ]
 {
 [; ;main.c: 346: pb = none;
 "346
-[e = _pb . `E7522 0 ]
+[e = _pb . `E7519 0 ]
 [; ;main.c: 347: if (menu == 0) menu = 1;
 "347
-[e $ ! == -> F7573 `i -> 0 `i 1039  ]
-[e = F7573 -> -> 1 `i `uc ]
+[e $ ! == -> F7570 `i -> 0 `i 1039  ]
+[e = F7570 -> -> 1 `i `uc ]
 [e $U 1040  ]
 "348
 [e :U 1039 ]
 [; ;main.c: 348: else if (menu == 1) menu = 0;
-[e $ ! == -> F7573 `i -> 1 `i 1041  ]
-[e = F7573 -> -> 0 `i `uc ]
+[e $ ! == -> F7570 `i -> 1 `i 1041  ]
+[e = F7570 -> -> 0 `i `uc ]
 [e :U 1041 ]
 "349
 [e :U 1040 ]
 [; ;main.c: 349: page = 0;
-[e = F7574 -> -> 0 `i `uc ]
+[e = F7571 -> -> 0 `i `uc ]
 [; ;main.c: 350: OLED_returnHome();
 "350
 [e ( _OLED_returnHome ..  ]
@@ -9403,18 +9402,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 351: }
 [; ;main.c: 354: if (menu < 10) {
 "354
-[e $ ! < -> F7573 `i -> 10 `i 1042  ]
+[e $ ! < -> F7570 `i -> 10 `i 1042  ]
 {
 [; ;main.c: 355: if ((dir == cw) && (page < pages)) {
 "355
-[e $ ! && == -> _dir `i -> . `E7518 1 `i < -> F7574 `i -> _pages `i 1043  ]
+[e $ ! && == -> _dir `i -> . `E7515 1 `i < -> F7571 `i -> _pages `i 1043  ]
 {
 [; ;main.c: 356: page++;
 "356
-[e ++ F7574 -> -> 1 `i `uc ]
+[e ++ F7571 -> -> 1 `i `uc ]
 [; ;main.c: 357: dir = stop;
 "357
-[e = _dir . `E7518 0 ]
+[e = _dir . `E7515 0 ]
 [; ;main.c: 358: for(i=0;i<12;i++) {
 "358
 {
@@ -9445,14 +9444,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 "363
 [e :U 1043 ]
 [; ;main.c: 363: else if ((dir == ccw) && (page > 0)) {
-[e $ ! && == -> _dir `i -> . `E7518 2 `i > -> F7574 `i -> 0 `i 1048  ]
+[e $ ! && == -> _dir `i -> . `E7515 2 `i > -> F7571 `i -> 0 `i 1048  ]
 {
 [; ;main.c: 364: page--;
 "364
-[e -- F7574 -> -> 1 `i `uc ]
+[e -- F7571 -> -> 1 `i `uc ]
 [; ;main.c: 365: dir = stop;
 "365
-[e = _dir . `E7518 0 ]
+[e = _dir . `E7515 0 ]
 [; ;main.c: 366: for(i=0;i<12;i++) {
 "366
 {

@@ -1,10 +1,10 @@
 
 # 1 "main.c"
 
-# 4 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\__size_t.h"
+# 4 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\__size_t.h"
 typedef unsigned size_t;
 
-# 7 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdarg.h"
+# 7 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdarg.h"
 typedef void * va_list[1];
 
 #pragma intrinsic(__va_start)
@@ -13,17 +13,17 @@ extern void * __va_start(void);
 #pragma intrinsic(__va_arg)
 extern void * __va_arg(void *, ...);
 
-# 43 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdio.h"
+# 43 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdio.h"
 struct __prbuf
 {
 char * ptr;
 void (* func)(char);
 };
 
-# 29 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\errno.h"
+# 29 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\errno.h"
 extern int errno;
 
-# 12 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\conio.h"
+# 12 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\conio.h"
 extern void init_uart(void);
 
 extern char getch(void);
@@ -37,7 +37,7 @@ extern __bit kbhit(void);
 extern char * cgets(char *);
 extern void cputs(const char *);
 
-# 88 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdio.h"
+# 88 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdio.h"
 extern int cprintf(char *, ...);
 #pragma printf_check(cprintf)
 
@@ -64,7 +64,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
-# 30 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\math.h"
+# 30 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\math.h"
 extern double fabs(double);
 extern double floor(double);
 extern double ceil(double);
@@ -92,17 +92,17 @@ extern double fmod(double, double);
 extern double trunc(double);
 extern double round(double);
 
-# 18 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\xc.h"
+# 18 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\xc.h"
 extern const char __xc8_OPTIM_SPEED;
 
 extern double __fpnormalize(double);
 
 
-# 13 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\xc8debug.h"
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\xc8debug.h"
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
 
-# 108 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h"
+# 108 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h"
 extern volatile unsigned char INDF0 __at(0x000);
 
 asm("INDF0 equ 00h");
@@ -12581,7 +12581,7 @@ extern volatile __bit nWRITE1 __at(0xC7A);
 extern volatile __bit nWRITE2 __at(0xCCA);
 
 
-# 30 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic.h"
+# 30 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic.h"
 #pragma intrinsic(__nop)
 extern void __nop(void);
 
@@ -12598,9 +12598,6 @@ __attribute__((__unsupported__("The " "FLASH_ERASE" " macro function is no longe
 extern __nonreentrant void _delay(unsigned long);
 #pragma intrinsic(_delaywdt)
 extern __nonreentrant void _delaywdt(unsigned long);
-
-#pragma intrinsic(_delay3)
-extern __nonreentrant void _delay3(unsigned char);
 
 # 137
 extern __bank0 unsigned char __resetbits;
@@ -12661,7 +12658,7 @@ extern void (*IOCCF2_InterruptHandler)(void);
 # 844
 void IOCCF2_DefaultInterruptHandler(void);
 
-# 13 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdint.h"
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdint.h"
 typedef signed char int8_t;
 
 # 20
@@ -12747,13 +12744,13 @@ typedef int16_t intptr_t;
 
 typedef uint16_t uintptr_t;
 
-# 15 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdbool.h"
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdbool.h"
 typedef unsigned char bool;
 
 # 109 "mcc_generated_files/interrupt_manager.h"
 void interrupt INTERRUPT_InterruptManager(void);
 
-# 15 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdbool.h"
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdbool.h"
 typedef unsigned char bool;
 
 # 101 "mcc_generated_files/tmr1.h"
@@ -12795,7 +12792,7 @@ extern void (*TMR1_InterruptHandler)(void);
 # 439
 void TMR1_DefaultInterruptHandler(void);
 
-# 15 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdbool.h"
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdbool.h"
 typedef unsigned char bool;
 
 # 106 "mcc_generated_files/tmr0.h"
@@ -12831,7 +12828,7 @@ extern void (*TMR0_InterruptHandler)(void);
 # 369
 void TMR0_DefaultInterruptHandler(void);
 
-# 15 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdbool.h"
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdbool.h"
 typedef unsigned char bool;
 
 # 72 "mcc_generated_files/adc.h"
@@ -12878,7 +12875,7 @@ adc_result_t ADC_GetConversion(adc_channel_t channel);
 # 320
 void ADC_TemperatureAcquisitionDelay(void);
 
-# 15 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdbool.h"
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdbool.h"
 typedef unsigned char bool;
 
 # 78 "mcc_generated_files/eusart1.h"

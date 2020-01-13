@@ -6,10 +6,8 @@
  */
 
 
-#include <xc.h>
-#include <stdint.h>
+#include "common.h"
 #include "oled.h"
-#include "pins.h"
 
 void OLED_pulseEnable(void) 
 {
@@ -69,13 +67,13 @@ void OLED_waitForReady(void)
 
 void OLED_command(uint8_t value) 
 {
-    OLED_send(value, LOW);
+    OLED_send(value, 0);
     OLED_waitForReady();
 }
 
 void OLED_write(uint8_t value) 
 {
-    OLED_send(value, HIGH);
+    OLED_send(value, 1);
     OLED_waitForReady();
 }
 
@@ -114,7 +112,7 @@ void OLED_init(void)
     __delay_ms(5);
     OLED_write4bits(0x08);
     __delay_ms(5);
-
+    
     OLED_command(0x08);	// Turn Off
     __delay_ms(5);
     OLED_command(0x01);	// Clear Display
@@ -146,7 +144,7 @@ void OLED_setCursor(uint8_t col, uint8_t row)
 
 void OLED_print(char *s)
 {
-    while (*s != NULL)
+    while (*s != (char)NULL)
     {
         OLED_write(*s++);
     }
@@ -156,7 +154,7 @@ void OLED_print_xy(uint8_t col, uint8_t row, char *s) {
     uint8_t row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
 
     OLED_command(OLED_SETDDRAMADDR | (col + row_offsets[row]));
-    while (*s != NULL)
+    while (*s != (char)NULL)
     {
         OLED_write(*s++);
     }

@@ -1,17 +1,17 @@
 
 # 1 "mcc_generated_files/pin_manager.c"
 
-# 18 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\xc.h"
+# 18 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\xc.h"
 extern const char __xc8_OPTIM_SPEED;
 
 extern double __fpnormalize(double);
 
 
-# 13 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\xc8debug.h"
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\xc8debug.h"
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
 
-# 108 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic16f15356.h"
+# 108 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h"
 extern volatile unsigned char INDF0 __at(0x000);
 
 asm("INDF0 equ 00h");
@@ -12490,7 +12490,7 @@ extern volatile __bit nWRITE1 __at(0xC7A);
 extern volatile __bit nWRITE2 __at(0xCCA);
 
 
-# 30 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic.h"
+# 30 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic.h"
 #pragma intrinsic(__nop)
 extern void __nop(void);
 
@@ -12507,9 +12507,6 @@ __attribute__((__unsupported__("The " "FLASH_ERASE" " macro function is no longe
 extern __nonreentrant void _delay(unsigned long);
 #pragma intrinsic(_delaywdt)
 extern __nonreentrant void _delaywdt(unsigned long);
-
-#pragma intrinsic(_delay3)
-extern __nonreentrant void _delay3(unsigned char);
 
 # 137
 extern __bank0 unsigned char __resetbits;
@@ -12570,7 +12567,7 @@ extern void (*IOCCF2_InterruptHandler)(void);
 # 844
 void IOCCF2_DefaultInterruptHandler(void);
 
-# 15 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdbool.h"
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c90\stdbool.h"
 typedef unsigned char bool;
 
 # 56 "mcc_generated_files/pin_manager.c"

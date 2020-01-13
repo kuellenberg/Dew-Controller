@@ -10,8 +10,8 @@ CND_CONF=default
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/Dew-Controller.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-OUTPUT_BASENAME=Dew-Controller.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/_Dew-Controller.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_BASENAME=_Dew-Controller.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 PACKAGE_TOP_DIR=dew-controller.x/
 
 # Functions

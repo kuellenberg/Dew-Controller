@@ -5,11 +5,11 @@
  * Created on 12. Januar 2020, 13:20
  */
 
+#include "common.h"
+#include "config.h"
+#include "oled.h"
 
 #include <xc.h>
-#include "config.h"
-#include "pins.h"
-#include "oled.h"
 
 void initialize()
 {
@@ -35,12 +35,61 @@ void initialize()
     T1CLK = 0b00000001;     // Clock Fosc/4
     TMR1 = 50000;
     
-    //Interrupts
+    // Interrupts
+    PIE0 = 0b00110000;      // TMR0IE, IOCIE
+    PIE3 = 0b00100000;      // RC1IE
+    PIE4 = 0b00000001;      // TMR1IE
+    //INTCON = 0b11000000;    // GIE, PEIE
     
+    // Interrupt-on-change
+    IOCAP = 0b10110000;     // Pos. edge on RA7, RA5, RA4 (PB, ROT_B, ROT_A)
+    IOCAN = 0b10110000;     // Neg. edge on RA7, RA5, RA4
+    IOCCN = 0b00000100;     // Neg. edge on RC2 (nFAULT)
+
 }
 
+void __interrupt() isr(void)
+{
+    if(PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1)
+    {
+        // Timer 0 ISR
+        TMR0 = 255-156;
+        PIR0bits.TMR0IF = 0;        
+        SW_CH1 = ~SW_CH1;
+        NOP();
+    }
+    else if(PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
+    {
+        // IOC ISR
+    }
+    else if(INTCONbits.PEIE == 1)
+    {
+        if(PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
+        {
+            // Timer 1 ISR
+        } 
+        else if(PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1)
+        {
+            // EUSART RX ISR
+        } 
+    } 
+}
 
 void main(void)
 {
-    return;
+    initialize();
+    OLED_PWR = 1;
+    PEN = 1;
+    OLED_init();
+    
+    OLED_returnHome();
+    OLED_command(OLED_CLEARDISPLAY);
+    OLED_print_xy(0,0,"Hello World!");
+    
+    INTCON = 0b11000000;    // GIE, PEIE
+    
+    while(1)
+    {
+        NOP();
+    }
 }

@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Dew-Controller.X
+PROJECTNAME=_Dew-Controller.X
 
 # Active Configuration
 DEFAULTCONF=default

@@ -3,7 +3,7 @@
 #ifndef OLED_H
 #define	OLED_H
 
-#include <xc.h> // include processor files - each processor file is guarded.  
+#include "common.h"
 
 // commands
 #define OLED_CLEARDISPLAY    0x01
@@ -11,7 +11,7 @@
 #define OLED_ENTRYMODESET    0x04
 #define OLED_DISPLAYCONTROL  0x08
 #define OLED_CURSORSHIFT     0x10
-#define OLED_FUNCTIONSET     0x28
+#define OLED_FUNCTIONSET     0x20
 #define OLED_SETCGRAMADDR    0x40
 #define OLED_SETDDRAMADDR    0x80
 
