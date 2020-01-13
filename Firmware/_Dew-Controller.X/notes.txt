@@ -1,0 +1,108 @@
+--- DATA STRUCTURE ---
+--- GLOBAL ---
+voltage
+voltage min 
+actual power 
+temperature theta
+humidity
+dewpoint
+temp_aux
+dp offset
+sky temp
+fudge factor
+
+--- PER CHANNEL ---
+current
+max power Pmax
+power required Preq
+power attained Patt
+duty cycle required DCreq
+duty cycle attained DCatt
+mode:auto|manual
+status:on|off|open|short
+lens diameter
+
+--- STATUS WORD ---
+
+
+
+
+--- MAIN LOOP ---
+read temp, humi, dp over rs232
+	no data?
+		check sensor message
+		
+read aux temp
+read voltage
+read current
+calc total power
+
+current > [max load switch current] -> overcurrent (shouldn't happen)
+	turn all channels off
+	turn off load switch
+		measure current again
+		still overcurrent?
+			show error!
+	show error!
+
+test voltage level
+	voltage < [turn off]
+		turn off load switch
+		turn off oled
+		power save 
+	voltage min > [turn off] < [warn low]
+		show warning low bat
+	voltage > [warn high] < [crit]
+		show warning high bat
+	voltage > [crit]
+		turn off oled power and load switch
+		power save
+
+calculate required power for each heater
+	thermal radiation / stefan bolzman law
+		epsilon = 0,95
+		rho = 5,67e-8
+		d = 0,0254 * lens dia
+		A = PI * d^2 / 4
+		T1 = tau + offset + 273,15
+		T2 = tsky + 273,15
+		phi = epsilon * rho * A * (T1^4 - T2^4)		
+		
+	offset Temp required 
+		p = 2 * PI * 0,0254 * lens dia
+		b = 0,03 (width heat strip)
+		A = p * b
+		k = 0,85 (glas)
+		Rth = lens dia/2 * (k * A)
+		dt = phi * Rth - tau
+		
+
+control loop idle?
+	test each heater
+		if not disabled
+			switch on 
+			read voltage
+			read current
+			switch off
+			store min. voltage
+			current < xxx -> open
+				status changed?
+					show warning heater removed
+			current > xxx -> short
+				fault detected? 
+					disable channel
+					clear fault (cycle load switch)
+					show warning heater short
+			calculate Pmax
+				Pmax = voltage * current
+		
+	calculate duty cycle for each channel
+		DC = Pmax / Prequired
+	
+	optimize channel utilization
+	start control loop
+	
+show warnings / errors
+
+show menu
+	
