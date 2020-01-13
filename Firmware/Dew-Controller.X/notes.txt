@@ -3,13 +3,14 @@
 voltage
 voltage min 
 actual power 
-temperature theta
+temperature
 humidity
 dewpoint
 temp_aux
 dp offset
 sky temp
 fudge factor
+groupA[4], groupB[4]
 
 --- PER CHANNEL ---
 current
@@ -19,20 +20,51 @@ power attained Patt
 duty cycle required DCreq
 duty cycle attained DCatt
 mode:auto|manual
-status:on|off|open|short
+status:on|off|open|short|disabled|removed
 lens diameter
 
+--- PERSISTENT DATA ---
+chX
+	lens dia
+	mode (auto|manual)
+	power
+
 --- STATUS WORD ---
+0 = ok, 1 = warning
+Battery low
+No sensor unit
+No aux temp
+typedef struct {
+	unsigned BATLO:1;
+	unsigned NOSENSOR:1;
+	unsigned NOAUXTEMP:1;
+} STATUS
 
+--- ERROR MESSAGE ---
+signed int8_t g_mp = -1;
+function addMessage(message number)
+	add message to message stack
+	uint8_t messages[MESSAGE_STACK];
+	if mp <= MESSAGE_STACK mp++;
+	else f*ck it
+	messages[mp] = message number;
 
-
+function showMessages()
+	static scrollPos;
+	scroll through message[mp]
+	if key mp-- & scrollPos = 0;
 
 --- MAIN LOOP ---
 read temp, humi, dp over rs232
 	no data?
-		check sensor message
+		if STATUS.NOSENSOR == 0 
+			warning: check sensor 
+		STATUS.NOSENSOR = 1;
 		
 read aux temp
+	value out of range?
+		STATUS.NOAUXTEMP = 1;
+		
 read voltage
 read current
 calc total power
@@ -68,14 +100,15 @@ calculate required power for each heater
 		T2 = tsky + 273,15
 		phi = epsilon * rho * A * (T1^4 - T2^4)		
 		
-	offset Temp required 
+	Approx. heater temp. required
 		p = 2 * PI * 0,0254 * lens dia
 		b = 0,03 (width heat strip)
 		A = p * b
 		k = 0,85 (glas)
 		Rth = lens dia/2 * (k * A)
 		dt = phi * Rth - tau
-		
+	
+	Preq = phi * fudge factor
 
 control loop idle?
 	test each heater
@@ -86,11 +119,12 @@ control loop idle?
 			switch off
 			store min. voltage
 			current < xxx -> open
-				status changed?
+				if status changed?
+					status = removed
 					show warning heater removed
 			current > xxx -> short
 				fault detected? 
-					disable channel
+					status = disabled
 					clear fault (cycle load switch)
 					show warning heater short
 			calculate Pmax
@@ -102,7 +136,25 @@ control loop idle?
 	optimize channel utilization
 	start control loop
 	
-show warnings / errors
+show warnings
 
 show menu
+	
+--- INTERRUPT SERVICE ROUTINES ---
+control loop (every 100ms)
+	if not idle?
+		counter < 1000?
+			counter++;
+		foreach channel in groupA
+			counter <= DC?
+				switch on
+			else
+				switch off
+				channel in groupB?
+					counter <= DC?
+						switch on
+					else 
+						switch off
+		idle = true
+
 	

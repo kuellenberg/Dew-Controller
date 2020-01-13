@@ -14,13 +14,13 @@ Warning! Battery voltage low! Please turn off device to protect battery!
 Warning! Battery voltage high! Please turn off to protect device! 
 Warning! No sensor connected. Automatic mode disabled.
 Warning! Short circuit detected on channel X. Please remove heater.
-ERROR! Overcurrent detected! Turn off device immediatelly to prevent further damage!
-ERROR! Overcurrent detected and electronic fuse didn't disconnect load. Please repair me!
-Warning! Heater channel X removed.
-Warning Heater on channel X draws excessive current. Channel disabled.
+Warning! Heater on channel X removed.
+Warning! Heater on channel X draws excessive current. Channel disabled.
 
 (short) = back to main
 
+ERROR! Overcurrent detected! Turn off device immediatelly to prevent further damage!
+ERROR! Hardware fault detected. Please check device!
 
   
 --- MAIN ---
@@ -28,6 +28,7 @@ Warning Heater on channel X draws excessive current. Channel disabled.
 Temperature Humidity    Dewpoint    Bat.   Power
 xxx,x °C    xxx,x %rel  xxx,x °C    xx,xV  xx,xW
 xxx | xxx °C						xx,xV LOW!
+(sensor | aux temp)
 ---,- °C    ---,- %rel  ---,- °C	xx,xV HIGH!
 --- | xxx °C---,- %rel  ---,- °C
 
@@ -45,12 +46,11 @@ xx,xW auto
 xx,xW manual
 Disconnected
 Shorted!
-Overcurrent
+Overcurrent!
 
 (cw/ccw = next/prev. channel)
 (short = channel setup)
 (long = config)
-timeout = change displaymode watt/amp
 
 
 	--- CHANNEL SETUP ---
@@ -65,13 +65,13 @@ timeout = change displaymode watt/amp
 	(timeout = back to channel view)
 
 
-		--- DUTY CYCLE ---
+		--- OUTPUT POWER ---
 		123456789ABC123456789ABC123456789ABC123456789ABC
 		Output power
 		   auto
 		xx,xW manual 
 
-		(cw/ccw) = duty cycle <0 || > [max] = auto
+		(cw/ccw) = duty cycle < 0 = off | > [Pmax] = auto
 		(short) = save / back to channel setup
 		(long) = back to channel setup
 
@@ -87,8 +87,8 @@ timeout = change displaymode watt/amp
 
 --- CONFIG ---
 123456789ABC123456789ABC123456789ABC123456789ABC
-DP offset   Sky temp.   Fudge factor
-temp. +xx °C-xx °C      xx.x 
+DP offset   Sky temp.   Fudge factorDebug output
+temp. +xx °C-xx °C      xx.x        xxx
 
 (cw/ccw = next/prev. item)
 (short = select item)
@@ -118,9 +118,39 @@ temp. +xx °C-xx °C      xx.x
 	--- FUDGE FACTOR ---
 	123456789ABC123456789ABC123456789ABC123456789ABC
 	Fudge factor
-	xx,x
+	x,x
 
 	(cw/ccw = fudge factor 0..5)
 	(short = save / back to config)
 	(long = back to config)
 
+	--- DEBUG OUTPUT ---
+	123456789ABC123456789ABC123456789ABC123456789ABC
+	Debug output
+	xxx
+
+	(cw/ccw = on/off)
+	(short = save / back to config)
+	(long = back to config)
+	
+	
+--- DEBUG ---
+123456789ABC123456789ABC123456789ABC123456789ABC
+Status:
+xxxxxxxxxxxx
+Current:
+x,xxx A
+Pmax:
+xx,x W
+Preq:
+xx,x W
+DCreq:
+xxx %
+DCatt:
+xxx %
+Group:
+A|B
+
+(cw/ccw = next/prev. channel)
+(short = cycle trough items)
+(long = back to main)
