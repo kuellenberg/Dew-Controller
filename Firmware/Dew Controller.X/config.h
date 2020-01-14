@@ -4,8 +4,8 @@
 // 'C' source line config statements
 
 // CONFIG1
-#pragma config FEXTOSC = OFF    // External Oscillator mode selection bits (Oscillator not enabled)
-#pragma config RSTOSC = HFINTOSC
+#pragma config FEXTOSC = ECH    // External Oscillator mode selection bits (EC above 8MHz; PFM set to high power)
+#pragma config RSTOSC = HFINT1  // Power-up default value for COSC bits (HFINTOSC (1MHz))
 #pragma config CLKOUTEN = OFF   // Clock Out Enable bit (CLKOUT function is disabled; i/o or oscillator function on OSC2)
 #pragma config CSWEN = ON       // Clock Switch Enable bit (Writing to NOSC and NDIV is allowed)
 #pragma config FCMEN = ON       // Fail-Safe Clock Monitor Enable bit (FSCM timer enabled)
@@ -22,14 +22,14 @@
 
 // CONFIG3
 #pragma config WDTCPS = WDTCPS_31// WDT Period Select bits (Divider ratio 1:65536; software control of WDTPS)
-#pragma config WDTE = OFF       // WDT operating mode (WDT Disabled, SWDTEN is ignored)
+#pragma config WDTE = OFF        // WDT operating mode (WDT enabled regardless of sleep; SWDTEN ignored)
 #pragma config WDTCWS = WDTCWS_7// WDT Window Select bits (window always open (100%); software control; keyed access not required)
 #pragma config WDTCCS = SC      // WDT input clock selector (Software Control)
 
 // CONFIG4
 #pragma config BBSIZE = BB512   // Boot Block Size Selection bits (512 words boot block size)
 #pragma config BBEN = OFF       // Boot Block Enable bit (Boot Block disabled)
-#pragma config SAFEN = ON       // SAF Enable bit (SAF enabled)
+#pragma config SAFEN = OFF      // SAF Enable bit (SAF disabled)
 #pragma config WRTAPP = OFF     // Application Block Write Protection bit (Application Block not write protected)
 #pragma config WRTB = OFF       // Boot Block Write Protection bit (Boot Block not write protected)
 #pragma config WRTC = OFF       // Configuration Register Write Protection bit (Configuration Register not write protected)

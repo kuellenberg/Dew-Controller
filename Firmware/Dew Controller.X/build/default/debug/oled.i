@@ -12498,7 +12498,7 @@ void OLED_returnHome(void);
 void OLED_pulseEnable(void)
 {
     LATBbits.LATB2 = 1;
-    _delay((unsigned long)((50)*(16000000/4000000.0)));
+    _delay((unsigned long)((50)*(4000000UL/4000000.0)));
     LATBbits.LATB2 = 0;
 }
 
@@ -12509,7 +12509,7 @@ void OLED_write4bits(uint8_t value)
     LATCbits.LATC5 = (value >> 2) & 0x01;
     LATCbits.LATC4 = (value >> 3) & 0x01;
 
-    _delay((unsigned long)((50)*(16000000/4000000.0)));
+    _delay((unsigned long)((50)*(4000000UL/4000000.0)));
     OLED_pulseEnable();
 }
 
@@ -12535,10 +12535,10 @@ void OLED_waitForReady(void)
     do
     {
         LATBbits.LATB2 = 0;
-        _delay((unsigned long)((10)*(16000000/4000000.0)));
+        _delay((unsigned long)((10)*(4000000UL/4000000.0)));
         LATBbits.LATB2 = 1;
 
-        _delay((unsigned long)((10)*(16000000/4000000.0)));
+        _delay((unsigned long)((10)*(4000000UL/4000000.0)));
         busy = PORTCbits.RC4;
 
         LATBbits.LATB2 = 0;
@@ -12569,7 +12569,7 @@ void OLED_init(void)
     LATBbits.LATB2 = 0;
     LATBbits.LATB3 = 0;
 
-    _delay((unsigned long)((50)*(16000000/4000.0)));
+    _delay((unsigned long)((50)*(4000000UL/4000.0)));
 
 
 
@@ -12579,27 +12579,27 @@ void OLED_init(void)
     LATCbits.LATC4 = 0;
 # 104 "oled.c"
     OLED_write4bits(0x03);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
     OLED_write4bits(0x08);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
 
     OLED_write4bits(0x02);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
     OLED_write4bits(0x02);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
     OLED_write4bits(0x08);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
 
     OLED_command(0x08);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
     OLED_command(0x01);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
     OLED_command(0x06);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
     OLED_command(0x02);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
     OLED_command(0x0C);
-    _delay((unsigned long)((5)*(16000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000UL/4000.0)));
 }
 
 void OLED_scrollDisplayLeft(void)

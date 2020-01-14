@@ -12482,8 +12482,8 @@ typedef uint32_t uint_fast32_t;
 
 
 
-#pragma config FEXTOSC = OFF
-#pragma config RSTOSC = HFINTPLL
+#pragma config FEXTOSC = ECH
+#pragma config RSTOSC = HFINT1
 #pragma config CLKOUTEN = OFF
 #pragma config CSWEN = ON
 #pragma config FCMEN = ON
@@ -12507,7 +12507,7 @@ typedef uint32_t uint_fast32_t;
 
 #pragma config BBSIZE = BB512
 #pragma config BBEN = OFF
-#pragma config SAFEN = ON
+#pragma config SAFEN = OFF
 #pragma config WRTAPP = OFF
 #pragma config WRTB = OFF
 #pragma config WRTC = OFF
@@ -12538,9 +12538,134 @@ void OLED_returnHome(void);
 
 
 
+# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\string.h" 1 3
+# 25 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\string.h" 3
+# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\bits/alltypes.h" 1 3
+# 409 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\bits/alltypes.h" 3
+typedef struct __locale_struct * locale_t;
+# 25 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\string.h" 2 3
 
-void initialize()
+
+void *memcpy (void *restrict, const void *restrict, size_t);
+void *memmove (void *, const void *, size_t);
+void *memset (void *, int, size_t);
+int memcmp (const void *, const void *, size_t);
+void *memchr (const void *, int, size_t);
+
+char *strcpy (char *restrict, const char *restrict);
+char *strncpy (char *restrict, const char *restrict, size_t);
+
+char *strcat (char *restrict, const char *restrict);
+char *strncat (char *restrict, const char *restrict, size_t);
+
+int strcmp (const char *, const char *);
+int strncmp (const char *, const char *, size_t);
+
+int strcoll (const char *, const char *);
+size_t strxfrm (char *restrict, const char *restrict, size_t);
+
+char *strchr (const char *, int);
+char *strrchr (const char *, int);
+
+size_t strcspn (const char *, const char *);
+size_t strspn (const char *, const char *);
+char *strpbrk (const char *, const char *);
+char *strstr (const char *, const char *);
+char *strtok (char *restrict, const char *restrict);
+
+size_t strlen (const char *);
+
+char *strerror (int);
+# 65 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\string.h" 3
+char *strtok_r (char *restrict, const char *restrict, char **restrict);
+int strerror_r (int, char *, size_t);
+char *stpcpy(char *restrict, const char *restrict);
+char *stpncpy(char *restrict, const char *restrict, size_t);
+size_t strnlen (const char *, size_t);
+char *strdup (const char *);
+char *strndup (const char *, size_t);
+char *strsignal(int);
+char *strerror_l (int, locale_t);
+int strcoll_l (const char *, const char *, locale_t);
+size_t strxfrm_l (char *restrict, const char *restrict, size_t, locale_t);
+
+
+
+
+void *memccpy (void *restrict, const void *restrict, int, size_t);
+# 13 "main.c" 2
+# 23 "main.c"
+typedef struct
 {
+    float tempC;
+    float relHum;
+    float dewPointC;
+} t_sensorData;
+
+typedef struct
+{
+    uint8_t hwMajor;
+    uint8_t hwMinor;
+    uint8_t swMajor;
+    uint8_t swMinor;
+} t_sensorVersion;
+
+
+
+
+
+uint8_t g_rxFErrCount = 0;
+uint8_t g_rxOErrCount = 0;
+uint8_t g_dataReady = 0;
+char g_sensorData[20];
+
+t_sensorVersion g_sensorVersion;
+
+
+
+
+
+void initialize(void);
+void EusartRxIsr(void);
+
+
+
+
+
+void main(void)
+{
+    initialize();
+    LATBbits.LATB5 = 1;
+    LATCbits.LATC3 = 1;
+    OLED_init();
+
+    OLED_returnHome();
+    OLED_command(0x01);
+    OLED_print_xy(0, 0, "Hello World!");
+
+    INTCON = 0b11000000;
+
+    while (1)
+    {
+        __asm("clrwdt");
+        if (g_dataReady == 1)
+        {
+            g_dataReady = 0;
+            OLED_print_xy(0, 1, g_sensorData);
+        }
+    }
+}
+
+
+
+
+
+void initialize(void)
+{
+    OSCFRQ = 0b00000010;
+    OSCCON1 = 0b01100000;
+    while(!OSCCON3bits.ORDY);
+
 
     ANSELA = 0b0100000;
     ANSELB = 0b0000000;
@@ -12556,12 +12681,13 @@ void initialize()
 
 
     T0CON0 = 0b10000000;
-    T0CON1 = 0b01001000;
-    TMR0 = 156;
+    T0CON1 = 0b01000111;
+    TMR0 = 178;
+
 
     T1CON = 0b00110011;
     T1CLK = 0b00000001;
-    TMR1 = 50000;
+    TMR1 = 53035;
 
 
     PIE0 = 0b00110000;
@@ -12574,50 +12700,82 @@ void initialize()
     IOCAN = 0b10110000;
     IOCCN = 0b00000100;
 
+
+
+    BAUD1CON = 0b00001000;
+    SPBRGL = 25;
+    RC1STA = 0b10010000;
 }
 
-void __attribute__((picinterrupt(""))) isr(void)
+
+
+
+
+void __attribute__((picinterrupt(""))) ISR(void)
 {
-    if(PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1)
+    if (PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1)
     {
 
-        TMR0 = 255-156;
+        TMR0 = 178;
         PIR0bits.TMR0IF = 0;
-        LATAbits.LATA0 = ~LATAbits.LATA0;
-        __nop();
     }
-    else if(PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
+    else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
     {
 
     }
-    else if(INTCONbits.PEIE == 1)
+    else if (INTCONbits.PEIE == 1)
     {
-        if(PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
+        if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
         {
 
+            TMR1 = 53035;
+            PIR4bits.TMR1IF = 0;
         }
-        else if(PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1)
+        else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1)
         {
 
+            EusartRxIsr();
+            PIR3bits.RC1IF = 0;
         }
     }
 }
 
-void main(void)
+
+
+
+
+void EusartRxIsr(void)
 {
-    initialize();
-    LATBbits.LATB5 = 1;
-    LATCbits.LATC3 = 1;
-    OLED_init();
+    static char buffer[20];
+    static uint8_t rxCount = 0;
 
-    OLED_returnHome();
-    OLED_command(0x01);
-    OLED_print_xy(0,0,"Hello World!");
-
-    INTCON = 0b11000000;
-
-    while(1)
+    if (RC1STAbits.OERR)
     {
-        __nop();
+
+        RC1STAbits.CREN = 0;
+        RC1STAbits.CREN = 1;
+        g_rxOErrCount++;
+    }
+    if (RC1STAbits.FERR)
+    {
+        RC1STAbits.SPEN = 0;
+        RC1STAbits.SPEN = 1;
+        g_rxFErrCount++;
+    }
+
+    if (rxCount < 20)
+    {
+        buffer[rxCount] = RC1REG;
+        if (buffer[rxCount++] == '\n')
+        {
+            buffer[rxCount] = '\0';
+            g_dataReady = 1;
+            strcpy(g_sensorData, buffer);
+            rxCount = 0;
+        }
+    }
+    else
+    {
+        rxCount = 0;
     }
 }
