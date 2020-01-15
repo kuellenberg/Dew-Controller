@@ -22,11 +22,11 @@
 
 typedef struct
 {
-	uint8_t header;
-	uint8_t version;
-	float tempC;
-	float relHum;
-	float dewPointC;
+    uint8_t header;
+    uint8_t version;
+    float tempC;
+    float relHum;
+    float dewPointC;
 } t_dataPacket;
 
 
@@ -45,7 +45,7 @@ t_dataPacket g_dataPacket;
 // Function Prototypes
 //-----------------------------------------------------------------------------
 void initialize(void);
-void EusartRxIsr(void);
+void eusartRxIsr(void);
 
 //-----------------------------------------------------------------------------
 // Main program loop
@@ -64,11 +64,20 @@ void main(void)
 
     INTCON = 0b11000000; // GIE, PEIE
 
+
+
     while (1)
     {
         CLRWDT();
-		eusartTransmit('?');
-		__delay_ms(1000);
+
+        if (g_dataReady == 1)
+        {
+            g_dataReady = 0;
+        }
+        __delay_ms(1000);
+        TX1REG = '?';
+        NOP();
+        while (!PIR3bits.TX1IF);
     }
 }
 
@@ -78,10 +87,13 @@ void main(void)
 
 void initialize(void)
 {
-    OSCFRQ = 0b00000010;    // 4 MHz
-    OSCCON1 = 0b01100000;   // HINTOSC (1-32MHz), CDIV = 1
-    while(!OSCCON3bits.ORDY);   // Wait until clock switch is done
+    OSCFRQ = 0b00000010; // 4 MHz
+    OSCCON1 = 0b01100000; // HINTOSC (1-32MHz), CDIV = 1
+    while (!OSCCON3bits.ORDY); // Wait until clock switch is done
     
+    // Peripheral Pin Select (PPS)
+    RC6PPS = 0x0F;  //RC4->EUSART1:TX1;    
+
     // Analog/digital IO
     ANSELA = 0b0100000; // RA6: aux. temp. sensor analog input
     ANSELB = 0b0000000; // PORTB is digital only
@@ -121,7 +133,7 @@ void initialize(void)
     BAUD1CON = 0b00001000; // BRG16 = 1
     SPBRGL = 25;
     RC1STA = 0b10010000; // SPEN = 1, CREN = 1
-	TX1STA = 0b00100000; // TXEN = 1
+    TX1STA = 0b00100000; // TXEN = 1
 }
 
 //-----------------------------------------------------------------------------
@@ -139,7 +151,7 @@ void __interrupt() ISR(void)
     else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
     {
         // IOC ISR
-		PIR0bits.IOCIF = 0;
+        PIR0bits.IOCIF = 0;
     }
     else if (INTCONbits.PEIE == 1)
     {
@@ -167,27 +179,37 @@ void eusartRxIsr(void)
 {
     static char buffer[RX_BUF_LEN];
     static uint8_t rxCount = 0;
+    static uint8_t checksum = 0;
 
-    if (RC1STAbits.OERR)	// Receiver buffer overrun error
+    if (RC1STAbits.OERR) // Receiver buffer overrun error
     {
-        
+
         RC1STAbits.CREN = 0;
         RC1STAbits.CREN = 1;
         g_rxOErrCount++;
     }
-    if (RC1STAbits.FERR)	// Framing error
+    if (RC1STAbits.FERR) // Framing error
     {
         RC1STAbits.SPEN = 0;
         RC1STAbits.SPEN = 1;
         g_rxFErrCount++;
     }
 
-    if (rxCount < sizeof(g_dataPacket))
+    if (rxCount < sizeof (g_dataPacket))
     {
-        buffer[rxCount++] = RC1REG;
-    } else {
-		g_dataReady = 1;
-	}
+        buffer[rxCount] = RC1REG;
+        checksum ^= buffer[rxCount];
+        rxCount++;
+    }
+    else
+    {
+        if (RC1REG == checksum)
+        {
+            g_dataReady = 1;
+        }
+        checksum = 0;
+        rxCount = 0;
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -196,9 +218,11 @@ void eusartRxIsr(void)
 
 void eusartTransmit(char *s)
 {
-	do {
-		TX1REG = *s++;
-		NOP();
-		while(!PIR3bits.TX1IF);
-	} while(*s != (char)NULL);
+    do
+    {
+        TX1REG = *s++;
+        NOP();
+        while (!PIR3bits.TX1IF);
+    }
+    while (*s != (char) NULL);
 }

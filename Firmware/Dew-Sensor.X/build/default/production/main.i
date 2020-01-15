@@ -11084,37 +11084,80 @@ typedef uint32_t uint_fast16_t;
 typedef uint32_t uint_fast32_t;
 # 131 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\stdint.h" 2 3
 # 13 "main.c" 2
-# 23 "main.c"
+
+# 1 "./config.h" 1
+
+
+
+
+
+
+#pragma config FEXTOSC = ECH
+#pragma config RSTOSC = HFINT1
+#pragma config CLKOUTEN = OFF
+#pragma config CSWEN = ON
+#pragma config FCMEN = ON
+
+
+#pragma config MCLRE = ON
+#pragma config PWRTE = OFF
+#pragma config LPBOREN = OFF
+#pragma config BOREN = ON
+#pragma config BORV = LO
+#pragma config ZCD = OFF
+#pragma config PPS1WAY = ON
+#pragma config STVREN = ON
+
+
+#pragma config WDTCPS = WDTCPS_31
+#pragma config WDTE = OFF
+#pragma config WDTCWS = WDTCWS_7
+#pragma config WDTCCS = SC
+
+
+#pragma config BBSIZE = BB512
+#pragma config BBEN = OFF
+#pragma config SAFEN = OFF
+#pragma config WRTAPP = OFF
+#pragma config WRTB = OFF
+#pragma config WRTC = OFF
+#pragma config WRTSAF = OFF
+#pragma config LVP = ON
+
+
+#pragma config CP = OFF
+# 14 "main.c" 2
+# 24 "main.c"
 typedef struct
 {
+    uint8_t header;
+    uint8_t version;
     float tempC;
     float relHum;
     float dewPointC;
-} t_sensorData;
+} t_dataPacket;
 
-typedef struct
+typedef enum
 {
-    uint8_t hwMajor;
-    uint8_t hwMinor;
-    uint8_t swMajor;
-    uint8_t swMinor;
-} t_sensorVersion;
-
+    NO_COMMAND,
+    GET_DATA,
+    UNKNOWN_COMMAND
+} t_commands;
 
 
 
 
 uint8_t g_rxFErrCount = 0;
 uint8_t g_rxOErrCount = 0;
-t_sensorData g_sensorData;
-t_sensorVersion g_sensorVersion;
-
+t_dataPacket g_dataPacket;
+t_commands g_command;
 
 
 
 
 void initialize(void);
 void eusartTransmit(char *s);
+void eusartRxIsr(void);
 
 
 
@@ -11122,19 +11165,53 @@ void eusartTransmit(char *s);
 
 void main(void)
 {
-    char s[20];
+    char *s;
+    char checksum;
+    uint8_t n, len;
 
     initialize();
 
-    sprintf(s, "%.2f,%.2f,%.2f\n", 23.5, 44.3, -3.2);
+    g_dataPacket.header = 0xAA;
+    g_dataPacket.version = 0x01;
+    g_dataPacket.tempC = 8.6;
+    g_dataPacket.relHum = 86.6;
+    g_dataPacket.dewPointC = 7.2;
 
     while (1)
     {
         __asm("clrwdt");
-        eusartTransmit(s);
-        _delay((unsigned long)((500)*(4000000UL/4000.0)));
+        switch (g_command)
+        {
+        case GET_DATA:
+            g_command = NO_COMMAND;
+            s = (char *) &g_dataPacket;
+            checksum = 0;
+            for (n = 0; n < sizeof (t_dataPacket); n++)
+            {
+                checksum ^= *s;
+                TX1REG = *(s++);
+                __nop();
+                while (!PIR3bits.TX1IF);
+            }
+            TX1REG = checksum;
+            __nop();
+            while (!PIR3bits.TX1IF);
+            break;
+        case UNKNOWN_COMMAND:
+            g_command = NO_COMMAND;
+            TX1REG = 0xFF;
+            __nop();
+            while (!PIR3bits.TX1IF);
+            break;
+        default:
+            break;
+        }
     }
 }
+
+
+
+
 
 void eusartTransmit(char *s)
 {
@@ -11142,8 +11219,9 @@ void eusartTransmit(char *s)
     {
         TX1REG = *s++;
         __nop();
-        while(!PIR3bits.TX1IF);
-    } while(*s != (char)((void*)0));
+        while (!PIR3bits.TX1IF);
+    }
+    while (*s != (char) ((void*)0));
 }
 
 
@@ -11154,7 +11232,7 @@ void initialize(void)
 {
     OSCFRQ = 0b00000010;
     OSCCON1 = 0b01100000;
-    while(!OSCCON3bits.ORDY);
+    while (!OSCCON3bits.ORDY);
 
 
     RC4PPS = 0x0F;
@@ -11181,7 +11259,7 @@ void initialize(void)
     PIE0 = 0b00110000;
     PIE3 = 0b00100000;
     PIE4 = 0b00000001;
-
+    INTCON = 0b11000000;
 
 
 
@@ -11189,6 +11267,9 @@ void initialize(void)
     SPBRGL = 25;
     RC1STA = 0b10010000;
     TX1STA = 0b00100000;
+
+
+
 }
 
 
@@ -11197,5 +11278,57 @@ void initialize(void)
 
 void __attribute__((picinterrupt(""))) ISR(void)
 {
-# 161 "main.c"
+    if (PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1)
+    {
+
+        TMR0 = 178;
+        PIR0bits.TMR0IF = 0;
+    }
+    else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
+    {
+
+    }
+    else if (INTCONbits.PEIE == 1)
+    {
+        if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
+        {
+
+            TMR1 = 53035;
+            PIR4bits.TMR1IF = 0;
+        }
+        else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1)
+        {
+
+            eusartRxIsr();
+            PIR3bits.RC1IF = 0;
+        }
+    }
+}
+
+
+
+
+
+void eusartRxIsr(void)
+{
+    char rx;
+
+    if (RC1STAbits.OERR)
+    {
+        RC1STAbits.CREN = 0;
+        RC1STAbits.CREN = 1;
+        g_rxOErrCount++;
+    }
+    if (RC1STAbits.FERR)
+    {
+        RC1STAbits.SPEN = 0;
+        RC1STAbits.SPEN = 1;
+        g_rxFErrCount++;
+    }
+
+    rx = RC1REG;
+    if (rx == '?')
+        g_command = GET_DATA;
+    else
+        g_command = UNKNOWN_COMMAND;
 }

@@ -11,33 +11,33 @@
 # All addresses and the length are given in unqualified hexadecimal
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
-$C:\Users\Ondre\AppData\Local\Temp\sn4.o
+$C:\Users\Ondre\AppData\Local\Temp\sces.o
 reset_vec CODE 0 0 0 2 2
 end_init CODE 0 47 47 2 2
 config CONFIG 0 8007 8007 5 2
 $dist/default/debug\Dew_Controller.X.debug.o
 cinit CODE 0 49 49 1A 2
-text1 CODE 0 12E 12E 40 2
-text2 CODE 0 286 286 5 2
-text3 CODE 0 1DF 1DF 2D 2
-text4 CODE 0 254 254 B 2
+text1 CODE 0 133 133 44 2
+text2 CODE 0 29D 29D 5 2
+text3 CODE 0 1F6 1F6 2D 2
+text4 CODE 0 26B 26B B 2
 text5 CODE 0 63 63 8A 2
-text6 CODE 0 25F 25F A 2
-text7 CODE 0 20C 20C 24 2
-text8 CODE 0 230 230 17 2
-text9 CODE 0 16E 16E 40 2
-text10 CODE 0 269 269 9 2
-text12 CODE 0 ED ED 41 2
-maintext CODE 0 1AE 1AE 31 2
+text6 CODE 0 276 276 A 2
+text7 CODE 0 223 223 24 2
+text8 CODE 0 247 247 17 2
+text9 CODE 0 177 177 40 2
+text10 CODE 0 280 280 9 2
+text12 CODE 0 ED ED 46 2
+maintext CODE 0 1B7 1B7 3F 2
 cstackCOMMON COMMON 1 70 70 B 1
-cstackBANK0 BANK0 1 4E 4E 6 1
-inittext CODE 0 27A 27A 6 2
-stringtext1 STRCODE 0 247 247 D 2
+cstackBANK0 BANK0 1 4F 4F 8 1
+inittext CODE 0 291 291 6 2
+stringtext1 STRCODE 0 25E 25E D 2
 intentry CODE 0 4 4 43 2
-bssBANK0 BANK0 1 20 20 26 1
-idataBANK0 CODE 0 272 272 8 2
-dataBANK0 BANK0 1 46 46 8 1
-clrtext CODE 0 280 280 6 2
+bssBANK0 BANK0 1 20 20 27 1
+idataBANK0 CODE 0 289 289 8 2
+dataBANK0 BANK0 1 47 47 8 1
+clrtext CODE 0 297 297 6 2
 bssCOMMON COMMON 1 7B 7B 2 1
 # %UNUSED Section
 # This section enumerates the unused ranges of each CLASS. Each entry
@@ -45,7 +45,7 @@ bssCOMMON COMMON 1 7B 7B 2 1
 #    <class name> <range> <delta>
 # Addresses given in the range are in hexadecimal and units of delta.
 %UNUSED
-RAM 54-6F 1
+RAM 57-6F 1
 RAM A0-EF 1
 RAM 120-16F 1
 RAM 1A0-1EF 1
@@ -71,7 +71,7 @@ RAM B20-B6F 1
 RAM BA0-BEF 1
 RAM C20-C6F 1
 RAM CA0-CBF 1
-BANK0 54-6F 1
+BANK0 57-6F 1
 BANK1 A0-EF 1
 BANK2 120-16F 1
 BANK3 1A0-1EF 1
@@ -82,9 +82,9 @@ BANK7 3A0-3EF 1
 BANK8 420-46F 1
 BANK9 4A0-4EF 1
 CONST 2-3 2
-CONST 28B-3FFF 2
+CONST 2A2-3FFF 2
 ENTRY 2-3 2
-ENTRY 28B-3FFF 2
+ENTRY 2A2-3FFF 2
 IDLOC 8000-8003 2
 SFR10 500-51F 1
 SFR11 580-59F 1
@@ -140,9 +140,9 @@ SFR60 1E00-1E6F 1
 SFR61 1E80-1EEF 1
 SFR62 1F00-1F6F 1
 SFR63 1F80-1FEF 1
-STACK 2034-27EF 1
+STACK 2037-27EF 1
 CODE 2-3 2
-CODE 28B-3FFF 2
+CODE 2A2-3FFF 2
 SFR0 0-1F 1
 SFR1 80-9F 1
 SFR2 100-11F 1
@@ -172,9 +172,9 @@ BANK25 CA0-CBF 1
 BIGRAM 2000-27EF 1
 COMMON 7D-7D 1
 STRCODE 2-3 2
-STRCODE 28B-3FFF 2
+STRCODE 2A2-3FFF 2
 STRING 2-3 2
-STRING 28B-3FFF 2
+STRING 2A2-3FFF 2
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
 # The beginning of the section is indicated by %LINETAB.
@@ -189,111 +189,113 @@ STRING 28B-3FFF 2
 # All other numeric values are in decimal.
 %LINETAB
 $dist/default/debug\Dew_Controller.X.debug.o
-49 cinit CODE >1681:C:\Users\Ondre\AppData\Local\Temp\sn4.
-49 cinit CODE >1684:C:\Users\Ondre\AppData\Local\Temp\sn4.
-49 cinit CODE >1741:C:\Users\Ondre\AppData\Local\Temp\sn4.
-4A cinit CODE >1742:C:\Users\Ondre\AppData\Local\Temp\sn4.
-4B cinit CODE >1743:C:\Users\Ondre\AppData\Local\Temp\sn4.
-4C cinit CODE >1744:C:\Users\Ondre\AppData\Local\Temp\sn4.
-4D cinit CODE >1745:C:\Users\Ondre\AppData\Local\Temp\sn4.
-4E cinit CODE >1746:C:\Users\Ondre\AppData\Local\Temp\sn4.
-4F cinit CODE >1747:C:\Users\Ondre\AppData\Local\Temp\sn4.
-50 cinit CODE >1748:C:\Users\Ondre\AppData\Local\Temp\sn4.
-51 cinit CODE >1749:C:\Users\Ondre\AppData\Local\Temp\sn4.
-52 cinit CODE >1750:C:\Users\Ondre\AppData\Local\Temp\sn4.
-55 cinit CODE >1767:C:\Users\Ondre\AppData\Local\Temp\sn4.
-56 cinit CODE >1768:C:\Users\Ondre\AppData\Local\Temp\sn4.
-57 cinit CODE >1772:C:\Users\Ondre\AppData\Local\Temp\sn4.
-58 cinit CODE >1773:C:\Users\Ondre\AppData\Local\Temp\sn4.
-59 cinit CODE >1774:C:\Users\Ondre\AppData\Local\Temp\sn4.
-5A cinit CODE >1775:C:\Users\Ondre\AppData\Local\Temp\sn4.
-5B cinit CODE >1776:C:\Users\Ondre\AppData\Local\Temp\sn4.
-5C cinit CODE >1777:C:\Users\Ondre\AppData\Local\Temp\sn4.
-5F cinit CODE >1783:C:\Users\Ondre\AppData\Local\Temp\sn4.
-5F cinit CODE >1785:C:\Users\Ondre\AppData\Local\Temp\sn4.
-60 cinit CODE >1786:C:\Users\Ondre\AppData\Local\Temp\sn4.
-61 cinit CODE >1787:C:\Users\Ondre\AppData\Local\Temp\sn4.
-4 intentry CODE >138:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-6 intentry CODE >140:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-F intentry CODE >143:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-12 intentry CODE >144:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-14 intentry CODE >145:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-15 intentry CODE >146:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1E intentry CODE >149:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1F intentry CODE >150:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-23 intentry CODE >152:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-2B intentry CODE >155:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-30 intentry CODE >156:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-32 intentry CODE >157:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-33 intentry CODE >158:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-3B intentry CODE >161:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-3E intentry CODE >162:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-41 intentry CODE >163:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-43 intentry CODE >164:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-45 intentry CODE >165:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-ED text12 CODE >171:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-ED text12 CODE >175:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-F2 text12 CODE >178:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-F3 text12 CODE >179:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-F4 text12 CODE >180:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-FA text12 CODE >181:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-FA text12 CODE >182:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-FF text12 CODE >184:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-100 text12 CODE >185:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-101 text12 CODE >186:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-107 text12 CODE >187:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-107 text12 CODE >189:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-10D text12 CODE >191:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-116 text12 CODE >192:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-121 text12 CODE >194:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-126 text12 CODE >195:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-128 text12 CODE >196:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-12A text12 CODE >197:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-12A text12 CODE >198:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-12B text12 CODE >199:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-12B text12 CODE >201:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-12D text12 CODE >202:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-12D text12 CODE >203:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-269 text10 CODE >12:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-269 text10 CODE >14:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-26B text10 CODE >15:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-26F text10 CODE >16:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-271 text10 CODE >17:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-16E text9 CODE >19:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-16F text9 CODE >21:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-179 text9 CODE >22:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-187 text9 CODE >23:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-197 text9 CODE >24:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-1A6 text9 CODE >26:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-1AA text9 CODE >27:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-1AD text9 CODE >28:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-230 text8 CODE >30:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-231 text8 CODE >32:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-237 text8 CODE >33:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-238 text8 CODE >35:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-242 text8 CODE >36:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-246 text8 CODE >37:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-20C text7 CODE >40:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-20C text7 CODE >43:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-20E text7 CODE >45:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-210 text7 CODE >46:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-211 text7 CODE >47:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-212 text7 CODE >49:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-212 text7 CODE >51:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-214 text7 CODE >52:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-218 text7 CODE >53:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-21A text7 CODE >55:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-21E text7 CODE >56:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-223 text7 CODE >58:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-224 text7 CODE >60:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-227 text7 CODE >61:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-22C text7 CODE >64:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-22E text7 CODE >65:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-22F text7 CODE >66:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-25F text6 CODE >68:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-260 text6 CODE >70:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-265 text6 CODE >71:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-268 text6 CODE >72:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+49 cinit CODE >1688:C:\Users\Ondre\AppData\Local\Temp\sces.
+49 cinit CODE >1691:C:\Users\Ondre\AppData\Local\Temp\sces.
+49 cinit CODE >1754:C:\Users\Ondre\AppData\Local\Temp\sces.
+4A cinit CODE >1755:C:\Users\Ondre\AppData\Local\Temp\sces.
+4B cinit CODE >1756:C:\Users\Ondre\AppData\Local\Temp\sces.
+4C cinit CODE >1757:C:\Users\Ondre\AppData\Local\Temp\sces.
+4D cinit CODE >1758:C:\Users\Ondre\AppData\Local\Temp\sces.
+4E cinit CODE >1759:C:\Users\Ondre\AppData\Local\Temp\sces.
+4F cinit CODE >1760:C:\Users\Ondre\AppData\Local\Temp\sces.
+50 cinit CODE >1761:C:\Users\Ondre\AppData\Local\Temp\sces.
+51 cinit CODE >1762:C:\Users\Ondre\AppData\Local\Temp\sces.
+52 cinit CODE >1763:C:\Users\Ondre\AppData\Local\Temp\sces.
+55 cinit CODE >1780:C:\Users\Ondre\AppData\Local\Temp\sces.
+56 cinit CODE >1781:C:\Users\Ondre\AppData\Local\Temp\sces.
+57 cinit CODE >1785:C:\Users\Ondre\AppData\Local\Temp\sces.
+58 cinit CODE >1786:C:\Users\Ondre\AppData\Local\Temp\sces.
+59 cinit CODE >1787:C:\Users\Ondre\AppData\Local\Temp\sces.
+5A cinit CODE >1788:C:\Users\Ondre\AppData\Local\Temp\sces.
+5B cinit CODE >1789:C:\Users\Ondre\AppData\Local\Temp\sces.
+5C cinit CODE >1790:C:\Users\Ondre\AppData\Local\Temp\sces.
+5F cinit CODE >1796:C:\Users\Ondre\AppData\Local\Temp\sces.
+5F cinit CODE >1798:C:\Users\Ondre\AppData\Local\Temp\sces.
+60 cinit CODE >1799:C:\Users\Ondre\AppData\Local\Temp\sces.
+61 cinit CODE >1800:C:\Users\Ondre\AppData\Local\Temp\sces.
+4 intentry CODE >143:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+6 intentry CODE >145:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+F intentry CODE >148:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+12 intentry CODE >149:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+14 intentry CODE >150:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+15 intentry CODE >151:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1D intentry CODE >154:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1E intentry CODE >155:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1F intentry CODE >156:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+23 intentry CODE >158:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+2B intentry CODE >161:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+30 intentry CODE >162:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+32 intentry CODE >164:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+33 intentry CODE >165:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+3B intentry CODE >168:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+3E intentry CODE >169:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+41 intentry CODE >170:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+43 intentry CODE >171:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+45 intentry CODE >172:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+ED text12 CODE >178:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+ED text12 CODE >184:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+F2 text12 CODE >187:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+F3 text12 CODE >188:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+F4 text12 CODE >189:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+FA text12 CODE >190:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+FA text12 CODE >191:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+FF text12 CODE >193:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+100 text12 CODE >194:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+101 text12 CODE >195:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+107 text12 CODE >196:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+107 text12 CODE >198:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+10D text12 CODE >200:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+116 text12 CODE >201:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+11F text12 CODE >202:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+123 text12 CODE >203:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+124 text12 CODE >204:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+124 text12 CODE >206:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+12C text12 CODE >208:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+12F text12 CODE >209:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+12F text12 CODE >210:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+130 text12 CODE >211:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+132 text12 CODE >212:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+132 text12 CODE >213:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+280 text10 CODE >12:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+280 text10 CODE >14:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+282 text10 CODE >15:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+286 text10 CODE >16:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+288 text10 CODE >17:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+177 text9 CODE >19:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+178 text9 CODE >21:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+182 text9 CODE >22:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+190 text9 CODE >23:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+1A0 text9 CODE >24:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+1AF text9 CODE >26:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+1B3 text9 CODE >27:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+1B6 text9 CODE >28:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+247 text8 CODE >30:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+248 text8 CODE >32:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+24E text8 CODE >33:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+24F text8 CODE >35:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+259 text8 CODE >36:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+25D text8 CODE >37:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+223 text7 CODE >40:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+223 text7 CODE >43:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+225 text7 CODE >45:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+227 text7 CODE >46:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+228 text7 CODE >47:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+229 text7 CODE >49:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+229 text7 CODE >51:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+22B text7 CODE >52:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+22F text7 CODE >53:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+231 text7 CODE >55:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+235 text7 CODE >56:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+23A text7 CODE >58:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+23B text7 CODE >60:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+23E text7 CODE >61:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+243 text7 CODE >64:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+245 text7 CODE >65:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+246 text7 CODE >66:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+276 text6 CODE >68:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+277 text6 CODE >70:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+27C text6 CODE >71:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+27F text6 CODE >72:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
 63 text5 CODE >80:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
 63 text5 CODE >82:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
 65 text5 CODE >83:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
@@ -324,81 +326,86 @@ D8 text5 CODE >123:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware
 E0 text5 CODE >124:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
 E4 text5 CODE >125:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
 EC text5 CODE >126:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-254 text4 CODE >74:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-255 text4 CODE >76:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-25B text4 CODE >77:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-25E text4 CODE >78:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-1DF text3 CODE >153:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-1E1 text3 CODE >154:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-1E9 text3 CODE >156:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-1F3 text3 CODE >157:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-1F4 text3 CODE >159:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-201 text3 CODE >157:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-201 text3 CODE >160:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-20B text3 CODE >161:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-286 text2 CODE >163:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-286 text2 CODE >164:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-28A text2 CODE >165:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-12E text1 CODE >87:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-12E text1 CODE >89:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-131 text1 CODE >90:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-133 text1 CODE >91:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-139 text1 CODE >94:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-13C text1 CODE >95:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-13D text1 CODE >96:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-13F text1 CODE >99:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-142 text1 CODE >100:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-143 text1 CODE >101:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-145 text1 CODE >104:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-148 text1 CODE >107:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-14B text1 CODE >108:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-14D text1 CODE >109:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-14F text1 CODE >112:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-152 text1 CODE >113:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-154 text1 CODE >114:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-158 text1 CODE >117:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+26B text4 CODE >74:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+26C text4 CODE >76:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+272 text4 CODE >77:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+275 text4 CODE >78:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+1F6 text3 CODE >153:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+1F8 text3 CODE >154:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+200 text3 CODE >156:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+20A text3 CODE >157:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+20B text3 CODE >159:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+218 text3 CODE >157:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+218 text3 CODE >160:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+222 text3 CODE >161:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+29D text2 CODE >163:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+29D text2 CODE >164:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+2A1 text2 CODE >165:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+133 text1 CODE >88:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+133 text1 CODE >90:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+136 text1 CODE >91:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+138 text1 CODE >92:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+13E text1 CODE >95:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+141 text1 CODE >98:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+143 text1 CODE >99:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+144 text1 CODE >100:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+146 text1 CODE >103:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+149 text1 CODE >104:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+14A text1 CODE >105:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+14C text1 CODE >108:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+14F text1 CODE >111:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+152 text1 CODE >112:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+154 text1 CODE >113:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+156 text1 CODE >116:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+159 text1 CODE >117:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
 15B text1 CODE >118:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-15D text1 CODE >119:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-15F text1 CODE >123:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-162 text1 CODE >124:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-164 text1 CODE >125:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-166 text1 CODE >129:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-169 text1 CODE >130:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-16B text1 CODE >131:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-16D text1 CODE >132:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1AE maintext CODE >59:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1AE maintext CODE >61:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1B1 maintext CODE >62:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1B3 maintext CODE >63:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1B4 maintext CODE >64:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1B7 maintext CODE >66:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1BA maintext CODE >67:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1BE maintext CODE >68:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1C7 maintext CODE >70:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1C9 maintext CODE >72:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1C9 maintext CODE >74:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1CA maintext CODE >75:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1CF maintext CODE >77:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1D0 maintext CODE >78:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1DB maintext CODE >79:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1DC maintext CODE >80:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-1DD maintext CODE >81:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-280 clrtext CODE >1756:C:\Users\Ondre\AppData\Local\Temp\sn4.
-280 clrtext CODE >1757:C:\Users\Ondre\AppData\Local\Temp\sn4.
-281 clrtext CODE >1758:C:\Users\Ondre\AppData\Local\Temp\sn4.
-281 clrtext CODE >1759:C:\Users\Ondre\AppData\Local\Temp\sn4.
-282 clrtext CODE >1760:C:\Users\Ondre\AppData\Local\Temp\sn4.
-283 clrtext CODE >1761:C:\Users\Ondre\AppData\Local\Temp\sn4.
-284 clrtext CODE >1762:C:\Users\Ondre\AppData\Local\Temp\sn4.
-285 clrtext CODE >1763:C:\Users\Ondre\AppData\Local\Temp\sn4.
-27A inittext CODE >1730:C:\Users\Ondre\AppData\Local\Temp\sn4.
-27A inittext CODE >1731:C:\Users\Ondre\AppData\Local\Temp\sn4.
-27B inittext CODE >1732:C:\Users\Ondre\AppData\Local\Temp\sn4.
-27B inittext CODE >1733:C:\Users\Ondre\AppData\Local\Temp\sn4.
-27C inittext CODE >1734:C:\Users\Ondre\AppData\Local\Temp\sn4.
-27D inittext CODE >1735:C:\Users\Ondre\AppData\Local\Temp\sn4.
-27E inittext CODE >1736:C:\Users\Ondre\AppData\Local\Temp\sn4.
-27F inittext CODE >1737:C:\Users\Ondre\AppData\Local\Temp\sn4.
+15F text1 CODE >121:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+162 text1 CODE >122:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+164 text1 CODE >123:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+166 text1 CODE >127:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+169 text1 CODE >128:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+16B text1 CODE >129:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+16D text1 CODE >133:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+170 text1 CODE >134:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+172 text1 CODE >135:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+174 text1 CODE >136:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+176 text1 CODE >137:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1B7 maintext CODE >54:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1B7 maintext CODE >56:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1BA maintext CODE >57:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1BC maintext CODE >58:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1BD maintext CODE >59:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1C0 maintext CODE >61:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1C3 maintext CODE >62:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1C7 maintext CODE >63:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1D0 maintext CODE >65:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1D2 maintext CODE >69:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1D2 maintext CODE >71:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1D3 maintext CODE >73:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1D8 maintext CODE >75:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1DA maintext CODE >76:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1DA maintext CODE >77:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1E7 maintext CODE >78:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1EA maintext CODE >79:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1EB maintext CODE >80:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1F3 maintext CODE >81:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+1F4 maintext CODE >82:C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+297 clrtext CODE >1769:C:\Users\Ondre\AppData\Local\Temp\sces.
+297 clrtext CODE >1770:C:\Users\Ondre\AppData\Local\Temp\sces.
+298 clrtext CODE >1771:C:\Users\Ondre\AppData\Local\Temp\sces.
+298 clrtext CODE >1772:C:\Users\Ondre\AppData\Local\Temp\sces.
+299 clrtext CODE >1773:C:\Users\Ondre\AppData\Local\Temp\sces.
+29A clrtext CODE >1774:C:\Users\Ondre\AppData\Local\Temp\sces.
+29B clrtext CODE >1775:C:\Users\Ondre\AppData\Local\Temp\sces.
+29C clrtext CODE >1776:C:\Users\Ondre\AppData\Local\Temp\sces.
+291 inittext CODE >1743:C:\Users\Ondre\AppData\Local\Temp\sces.
+291 inittext CODE >1744:C:\Users\Ondre\AppData\Local\Temp\sces.
+292 inittext CODE >1745:C:\Users\Ondre\AppData\Local\Temp\sces.
+292 inittext CODE >1746:C:\Users\Ondre\AppData\Local\Temp\sces.
+293 inittext CODE >1747:C:\Users\Ondre\AppData\Local\Temp\sces.
+294 inittext CODE >1748:C:\Users\Ondre\AppData\Local\Temp\sces.
+295 inittext CODE >1749:C:\Users\Ondre\AppData\Local\Temp\sces.
+296 inittext CODE >1750:C:\Users\Ondre\AppData\Local\Temp\sces.
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -418,7 +425,7 @@ __Hspace_1 7D 0 ABS 0 - -
 __Hspace_2 0 0 ABS 0 - -
 __Hspace_3 0 0 ABS 0 - -
 __HidataBANK0 0 0 ABS 0 idataBANK0 -
-__end_of_initialize 2DC 0 CODE 0 text1 dist/default/debug\Dew_Controller.X.debug.o
+__end_of_initialize 2EE 0 CODE 0 text1 dist/default/debug\Dew_Controller.X.debug.o
 OLED_write4bits@value 73 0 COMMON 1 cstackCOMMON dist/default/debug\Dew_Controller.X.debug.o
 __Heeprom_data 0 0 EEDATA 3 eeprom_data -
 __CFG_MCLRE$ON 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
@@ -429,27 +436,27 @@ _PIE3 719 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _PIE4 71A 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _TMR0 59C 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _TMR1 20C 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-___sp 0 0 STACK 2 stack C:\Users\Ondre\AppData\Local\Temp\sn4.o
-_main 35C 0 CODE 0 maintext dist/default/debug\Dew_Controller.X.debug.o
+___sp 0 0 STACK 2 stack C:\Users\Ondre\AppData\Local\Temp\sces.o
+_main 36E 0 CODE 0 maintext dist/default/debug\Dew_Controller.X.debug.o
 btemp 7E 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-start 8E 0 CODE 0 init C:\Users\Ondre\AppData\Local\Temp\sn4.o
+start 8E 0 CODE 0 init C:\Users\Ondre\AppData\Local\Temp\sces.o
 __size_of_main 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __HbssCOMMON 0 0 ABS 0 bssCOMMON -
-__end_of_OLED_returnHome 516 0 CODE 0 text2 dist/default/debug\Dew_Controller.X.debug.o
-__end_of_OLED_pulseEnable 4E4 0 CODE 0 text10 dist/default/debug\Dew_Controller.X.debug.o
-_OLED_command 4BE 0 CODE 0 text6 dist/default/debug\Dew_Controller.X.debug.o
+__end_of_OLED_returnHome 544 0 CODE 0 text2 dist/default/debug\Dew_Controller.X.debug.o
+__end_of_OLED_pulseEnable 512 0 CODE 0 text10 dist/default/debug\Dew_Controller.X.debug.o
+_OLED_command 4EC 0 CODE 0 text6 dist/default/debug\Dew_Controller.X.debug.o
 OLED_waitForReady@busy 71 0 COMMON 1 cstackCOMMON dist/default/debug\Dew_Controller.X.debug.o
 __LidataBANK0 0 0 ABS 0 idataBANK0 -
 __Hpowerup 0 0 CODE 0 powerup -
 __size_of_OLED_pulseEnable 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __end_of_OLED_init 1DA 0 CODE 0 text5 dist/default/debug\Dew_Controller.X.debug.o
-__end_of_OLED_send 48E 0 CODE 0 text8 dist/default/debug\Dew_Controller.X.debug.o
-intlevel0 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sn4.o
-intlevel1 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sn4.o
-intlevel2 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sn4.o
-intlevel3 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sn4.o
-intlevel4 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sn4.o
-intlevel5 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sn4.o
+__end_of_OLED_send 4BC 0 CODE 0 text8 dist/default/debug\Dew_Controller.X.debug.o
+intlevel0 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sces.o
+intlevel1 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sces.o
+intlevel2 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sces.o
+intlevel3 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sces.o
+intlevel4 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sces.o
+intlevel5 0 0 ENTRY 0 functab C:\Users\Ondre\AppData\Local\Temp\sces.o
 __size_of_OLED_print_xy 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __LbssCOMMON 0 0 ABS 0 bssCOMMON -
 __size_of_OLED_init 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
@@ -459,26 +466,26 @@ __Hfunctab 0 0 ENTRY 0 functab -
 _RC1STAbits 11D 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 OLED_print_xy@s 79 0 COMMON 1 cstackCOMMON dist/default/debug\Dew_Controller.X.debug.o
 __Hclrtext 0 0 ABS 0 clrtext -
-__size_of_EusartRxIsr 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-_g_rxBuffer 32 0 BANK0 1 bssBANK0 dist/default/debug\Dew_Controller.X.debug.o
+eusartRxIsr@buffer 20 0 BANK0 1 bssBANK0 dist/default/debug\Dew_Controller.X.debug.o
+_eusartRxIsr 1DA 0 CODE 0 text12 dist/default/debug\Dew_Controller.X.debug.o
 _OLED_init C6 0 CODE 0 text5 dist/default/debug\Dew_Controller.X.debug.o
-_OLED_send 460 0 CODE 0 text8 dist/default/debug\Dew_Controller.X.debug.o
+_OLED_send 48E 0 CODE 0 text8 dist/default/debug\Dew_Controller.X.debug.o
 __size_of_OLED_command 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _ADCON1 9E 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _ANSELA 1F38 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _ANSELB 1F43 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _ANSELC 1F4E 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-_OLED_returnHome 50C 0 CODE 0 text2 dist/default/debug\Dew_Controller.X.debug.o
-__end_of_OLED_print_xy 418 0 CODE 0 text3 dist/default/debug\Dew_Controller.X.debug.o
+_OLED_returnHome 53A 0 CODE 0 text2 dist/default/debug\Dew_Controller.X.debug.o
+__end_of_OLED_print_xy 446 0 CODE 0 text3 dist/default/debug\Dew_Controller.X.debug.o
 __size_of_OLED_waitForReady 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __Lmaintext 0 0 ABS 0 maintext -
-__end_of_OLED_command 4D2 0 CODE 0 text6 dist/default/debug\Dew_Controller.X.debug.o
+__end_of_OLED_command 500 0 CODE 0 text6 dist/default/debug\Dew_Controller.X.debug.o
 __CFG_FEXTOSC$ECH 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-_OLED_write 4A8 0 CODE 0 text4 dist/default/debug\Dew_Controller.X.debug.o
+_OLED_write 4D6 0 CODE 0 text4 dist/default/debug\Dew_Controller.X.debug.o
 _INTCON B 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __CFG_SAFEN$OFF 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-_g_rxFErrCount 31 0 BANK0 1 bssBANK0 dist/default/debug\Dew_Controller.X.debug.o
-OLED_print_xy@F7353 46 0 BANK0 1 dataBANK0 dist/default/debug\Dew_Controller.X.debug.o
+_g_rxFErrCount 44 0 BANK0 1 bssBANK0 dist/default/debug\Dew_Controller.X.debug.o
+OLED_print_xy@F7353 47 0 BANK0 1 dataBANK0 dist/default/debug\Dew_Controller.X.debug.o
 start_initialization 92 0 CODE 0 cinit dist/default/debug\Dew_Controller.X.debug.o
 _OSCFRQ 893 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __CFG_WDTCPS$WDTCPS_31 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
@@ -486,16 +493,18 @@ __size_of_initialize 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _TRISCbits 14 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _RC1REG 119 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _RC1STA 11D 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-clear_ram0 500 0 CODE 0 clrtext dist/default/debug\Dew_Controller.X.debug.o
+_RC6PPS 1F26 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
+clear_ram0 52E 0 CODE 0 clrtext dist/default/debug\Dew_Controller.X.debug.o
 _SPBRGL 11B 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-__pcstackBANK0 4E 0 BANK0 1 cstackBANK0 dist/default/debug\Dew_Controller.X.debug.o
+__pcstackBANK0 4F 0 BANK0 1 cstackBANK0 dist/default/debug\Dew_Controller.X.debug.o
 _T0CON0 59E 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _T0CON1 59F 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-EusartRxIsr@rxCount 7B 0 COMMON 1 bssCOMMON dist/default/debug\Dew_Controller.X.debug.o
-_g_rxOErrCount 30 0 BANK0 1 bssBANK0 dist/default/debug\Dew_Controller.X.debug.o
+_TX1REG 11A 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
+_TX1STA 11E 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
+_g_rxOErrCount 43 0 BANK0 1 bssBANK0 dist/default/debug\Dew_Controller.X.debug.o
 __size_of_OLED_returnHome 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-__end_of_OLED_write 4BE 0 CODE 0 text4 dist/default/debug\Dew_Controller.X.debug.o
-___int_sp 0 0 STACK 2 stack C:\Users\Ondre\AppData\Local\Temp\sn4.o
+__end_of_OLED_write 4EC 0 CODE 0 text4 dist/default/debug\Dew_Controller.X.debug.o
+___int_sp 0 0 STACK 2 stack C:\Users\Ondre\AppData\Local\Temp\sces.o
 __Hbank0 0 0 ABS 0 bank0 -
 __Hbank1 0 0 ABS 0 bank1 -
 __Hbank2 0 0 ABS 0 bank2 -
@@ -690,8 +699,8 @@ __Lsfr61 0 0 ABS 0 sfr61 -
 __Lsfr62 0 0 ABS 0 sfr62 -
 __Lsfr63 0 0 ABS 0 sfr63 -
 __Lstack 0 0 STACK 2 stack -
-__end_of_OLED_waitForReady 460 0 CODE 0 text7 dist/default/debug\Dew_Controller.X.debug.o
-init_ram 4F4 0 CODE 0 inittext dist/default/debug\Dew_Controller.X.debug.o
+__end_of_OLED_waitForReady 48E 0 CODE 0 text7 dist/default/debug\Dew_Controller.X.debug.o
+init_ram 522 0 CODE 0 inittext dist/default/debug\Dew_Controller.X.debug.o
 __Linittext 0 0 ABS 0 inittext -
 _PORTCbits E 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _INTCONbits B 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
@@ -723,36 +732,38 @@ __Lsfr7 0 0 ABS 0 sfr7 -
 __Lsfr8 0 0 ABS 0 sfr8 -
 __Lsfr9 0 0 ABS 0 sfr9 -
 __Ltext 0 0 ABS 0 text -
-__pstringtext1 48E 0 STRCODE 0 stringtext1 dist/default/debug\Dew_Controller.X.debug.o
+__pstringtext1 4BC 0 STRCODE 0 stringtext1 dist/default/debug\Dew_Controller.X.debug.o
 __pstringtext2 0 0 STRCODE 0 stringtext2 dist/default/debug\Dew_Controller.X.debug.o
 __CFG_WDTCWS$WDTCWS_7 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __LcstackBANK0 0 0 ABS 0 cstackBANK0 -
 int$flags 7E 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _g_dataReady 7C 0 COMMON 1 bssCOMMON dist/default/debug\Dew_Controller.X.debug.o
 __HcstackCOMMON 0 0 ABS 0 cstackCOMMON -
+eusartRxIsr@rxCount 7B 0 COMMON 1 bssCOMMON dist/default/debug\Dew_Controller.X.debug.o
 _ISR 8 0 CODE 0 intentry dist/default/debug\Dew_Controller.X.debug.o
 __S0 800C 0 ABS 0 - -
 __S1 7D 0 ABS 0 - -
 __S2 0 0 ABS 0 - -
-__end_of_OLED_write4bits 35C 0 CODE 0 text9 dist/default/debug\Dew_Controller.X.debug.o
-_EusartRxIsr 1DA 0 CODE 0 text12 dist/default/debug\Dew_Controller.X.debug.o
+__end_of_OLED_write4bits 36E 0 CODE 0 text9 dist/default/debug\Dew_Controller.X.debug.o
 __CFG_BBEN$OFF 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __end_of_ISR 8E 0 CODE 0 intentry dist/default/debug\Dew_Controller.X.debug.o
 __CFG_BOREN$ON 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __Lintentry 8 0 CODE 0 intentry -
 OLED_send@mode 74 0 COMMON 1 cstackCOMMON dist/default/debug\Dew_Controller.X.debug.o
-reset_vec 0 0 CODE 0 reset_vec C:\Users\Ondre\AppData\Local\Temp\sn4.o
-OLED_print_xy@row_offsets 4F 0 BANK0 1 cstackBANK0 dist/default/debug\Dew_Controller.X.debug.o
-__pdataBANK0 46 0 BANK0 1 dataBANK0 dist/default/debug\Dew_Controller.X.debug.o
+reset_vec 0 0 CODE 0 reset_vec C:\Users\Ondre\AppData\Local\Temp\sces.o
+OLED_print_xy@row_offsets 50 0 BANK0 1 cstackBANK0 dist/default/debug\Dew_Controller.X.debug.o
+__pdataBANK0 47 0 BANK0 1 dataBANK0 dist/default/debug\Dew_Controller.X.debug.o
 __LbssBANK0 0 0 ABS 0 bssBANK0 -
+__end_of_eusartRxIsr 266 0 CODE 0 text12 dist/default/debug\Dew_Controller.X.debug.o
 __CFG_FCMEN$ON 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __Lstringtext1 0 0 ABS 0 stringtext1 -
 __Lstringtext2 0 0 ABS 0 stringtext2 -
+eusartRxIsr@checksum 42 0 BANK0 1 bssBANK0 dist/default/debug\Dew_Controller.X.debug.o
 _PIE0bits 716 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _PIE3bits 719 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _PIE4bits 71A 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-_OLED_write4bits 2DC 0 CODE 0 text9 dist/default/debug\Dew_Controller.X.debug.o
-__ptext10 4D2 0 CODE 0 text10 dist/default/debug\Dew_Controller.X.debug.o
+_OLED_write4bits 2EE 0 CODE 0 text9 dist/default/debug\Dew_Controller.X.debug.o
+__ptext10 500 0 CODE 0 text10 dist/default/debug\Dew_Controller.X.debug.o
 __ptext12 1DA 0 CODE 0 text12 dist/default/debug\Dew_Controller.X.debug.o
 __Lbank10 0 0 ABS 0 bank10 -
 __Lbank11 0 0 ABS 0 bank11 -
@@ -808,12 +819,12 @@ __Lbank60 0 0 BANK60 1 bank60 -
 __Lbank61 0 0 BANK61 1 bank61 -
 __Lbank62 0 0 BANK62 1 bank62 -
 __Lbank63 0 0 BANK63 1 bank63 -
-__pmaintext 35C 0 CODE 0 maintext dist/default/debug\Dew_Controller.X.debug.o
+__pmaintext 36E 0 CODE 0 maintext dist/default/debug\Dew_Controller.X.debug.o
 __Lbigram 0 0 ABS 0 bigram -
 __CFG_BORV$LO 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __CFG_RSTOSC$HFINT1 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __CFG_BBSIZE$BB512 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-_OLED_waitForReady 418 0 CODE 0 text7 dist/default/debug\Dew_Controller.X.debug.o
+_OLED_waitForReady 446 0 CODE 0 text7 dist/default/debug\Dew_Controller.X.debug.o
 __Lcommon 0 0 ABS 0 common -
 __Lconfig 1000E 0 CONFIG 0 config -
 __CFG_CP$OFF 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
@@ -822,8 +833,8 @@ __Hinittext 0 0 ABS 0 inittext -
 _LATBbits 19 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _LATCbits 1A 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __CFG_WRTAPP$OFF 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-stackhi 27EF 0 ABS 0 - C:\Users\Ondre\AppData\Local\Temp\sn4.o
-stacklo 2034 0 ABS 0 - C:\Users\Ondre\AppData\Local\Temp\sn4.o
+stackhi 27EF 0 ABS 0 - C:\Users\Ondre\AppData\Local\Temp\sces.o
+stacklo 2037 0 ABS 0 - C:\Users\Ondre\AppData\Local\Temp\sces.o
 _OSCCON1 88D 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __Lspace_0 0 0 ABS 0 - -
 __Lspace_1 0 0 ABS 0 - -
@@ -847,16 +858,16 @@ __CFG_STVREN$ON 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __Lstrings 0 0 ABS 0 strings -
 __Hreset_vec 4 0 CODE 0 reset_vec -
 __HbssBANK0 0 0 ABS 0 bssBANK0 -
-OLED_setCursor@F7345 4A 0 BANK0 1 dataBANK0 dist/default/debug\Dew_Controller.X.debug.o
-__ptext1 25C 0 CODE 0 text1 dist/default/debug\Dew_Controller.X.debug.o
-__ptext2 50C 0 CODE 0 text2 dist/default/debug\Dew_Controller.X.debug.o
-__ptext3 3BE 0 CODE 0 text3 dist/default/debug\Dew_Controller.X.debug.o
-__ptext4 4A8 0 CODE 0 text4 dist/default/debug\Dew_Controller.X.debug.o
+OLED_setCursor@F7345 4B 0 BANK0 1 dataBANK0 dist/default/debug\Dew_Controller.X.debug.o
+__ptext1 266 0 CODE 0 text1 dist/default/debug\Dew_Controller.X.debug.o
+__ptext2 53A 0 CODE 0 text2 dist/default/debug\Dew_Controller.X.debug.o
+__ptext3 3EC 0 CODE 0 text3 dist/default/debug\Dew_Controller.X.debug.o
+__ptext4 4D6 0 CODE 0 text4 dist/default/debug\Dew_Controller.X.debug.o
 __ptext5 C6 0 CODE 0 text5 dist/default/debug\Dew_Controller.X.debug.o
-__ptext6 4BE 0 CODE 0 text6 dist/default/debug\Dew_Controller.X.debug.o
-__ptext7 418 0 CODE 0 text7 dist/default/debug\Dew_Controller.X.debug.o
-__ptext8 460 0 CODE 0 text8 dist/default/debug\Dew_Controller.X.debug.o
-__ptext9 2DC 0 CODE 0 text9 dist/default/debug\Dew_Controller.X.debug.o
+__ptext6 4EC 0 CODE 0 text6 dist/default/debug\Dew_Controller.X.debug.o
+__ptext7 446 0 CODE 0 text7 dist/default/debug\Dew_Controller.X.debug.o
+__ptext8 48E 0 CODE 0 text8 dist/default/debug\Dew_Controller.X.debug.o
+__ptext9 2EE 0 CODE 0 text9 dist/default/debug\Dew_Controller.X.debug.o
 _OSCCON3bits 88F 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __size_of_OLED_write4bits 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __Lpowerup 0 0 CODE 0 powerup -
@@ -871,17 +882,17 @@ __Lfunctab 0 0 ENTRY 0 functab -
 __CFG_WRTB$OFF 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __CFG_WRTC$OFF 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 OLED_command@value 77 0 COMMON 1 cstackCOMMON dist/default/debug\Dew_Controller.X.debug.o
-__pidataBANK0 4E4 0 CODE 0 idataBANK0 dist/default/debug\Dew_Controller.X.debug.o
+__size_of_eusartRxIsr 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
+__pidataBANK0 512 0 CODE 0 idataBANK0 dist/default/debug\Dew_Controller.X.debug.o
 __Lclrtext 0 0 ABS 0 clrtext -
-OLED_print_xy@col 53 0 BANK0 1 cstackBANK0 dist/default/debug\Dew_Controller.X.debug.o
+OLED_print_xy@col 54 0 BANK0 1 cstackBANK0 dist/default/debug\Dew_Controller.X.debug.o
 OLED_print_xy@row 78 0 COMMON 1 cstackCOMMON dist/default/debug\Dew_Controller.X.debug.o
 __pcstackCOMMON 70 0 COMMON 1 cstackCOMMON dist/default/debug\Dew_Controller.X.debug.o
-_initialize 25C 0 CODE 0 text1 dist/default/debug\Dew_Controller.X.debug.o
+_initialize 266 0 CODE 0 text1 dist/default/debug\Dew_Controller.X.debug.o
 __Hend_init 92 0 CODE 0 end_init -
-__end_of_main 3BE 0 CODE 0 maintext dist/default/debug\Dew_Controller.X.debug.o
-__end_of_EusartRxIsr 25C 0 CODE 0 text12 dist/default/debug\Dew_Controller.X.debug.o
+__end_of_main 3EC 0 CODE 0 maintext dist/default/debug\Dew_Controller.X.debug.o
 __CFG_WRTSAF$OFF 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
-_OLED_pulseEnable 4D2 0 CODE 0 text10 dist/default/debug\Dew_Controller.X.debug.o
+_OLED_pulseEnable 500 0 CODE 0 text10 dist/default/debug\Dew_Controller.X.debug.o
 _IOCAN 1F3E 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _IOCAP 1F3D 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 _IOCCN 1F54 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
@@ -893,7 +904,7 @@ _TRISC 14 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __Hram 0 0 ABS 0 ram -
 __Lram 0 0 ABS 0 ram -
 __pintentry 8 0 CODE 0 intentry dist/default/debug\Dew_Controller.X.debug.o
-_OLED_print_xy 3BE 0 CODE 0 text3 dist/default/debug\Dew_Controller.X.debug.o
+_OLED_print_xy 3EC 0 CODE 0 text3 dist/default/debug\Dew_Controller.X.debug.o
 __size_of_ISR 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
 __HdataBANK0 0 0 ABS 0 dataBANK0 -
 __CFG_PPS1WAY$ON 0 0 ABS 0 - dist/default/debug\Dew_Controller.X.debug.o
@@ -925,10 +936,10 @@ __pbssBANK0 20 0 BANK0 1 bssBANK0 dist/default/debug\Dew_Controller.X.debug.o
 # and size are in units of delta. The file address is in units of bytes.
 # All other numeric quantities are in decimal.
 %SEGMENTS
-text4 0 254 4A8 37 2
+text4 0 26B 4D6 37 2
 cstackCOMMON 1 70 70 D 1
-stringtext1 0 247 48E D 2
-intentry 0 4 8 243 2
+stringtext1 0 25E 4BC D 2
+intentry 0 4 8 25A 2
 reset_vec 0 0 0 2 2
-bssBANK0 1 20 20 34 1
+bssBANK0 1 20 20 37 1
 config 0 8007 1000E 5 2

@@ -1,2 +1,3 @@
 build/default/debug/main.p1:  \
-main.c 
+main.c  \
+config.h 

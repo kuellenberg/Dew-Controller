@@ -12597,36 +12597,30 @@ void *memccpy (void *restrict, const void *restrict, int, size_t);
 # 23 "main.c"
 typedef struct
 {
+    uint8_t header;
+    uint8_t version;
     float tempC;
     float relHum;
     float dewPointC;
-} t_sensorData;
-
-typedef struct
-{
-    uint8_t hwMajor;
-    uint8_t hwMinor;
-    uint8_t swMajor;
-    uint8_t swMinor;
-} t_sensorVersion;
+} t_dataPacket;
 
 
 
 
 
+uint8_t g_10msTick = 0;
+uint8_t g_100msTick = 0;
 uint8_t g_rxFErrCount = 0;
 uint8_t g_rxOErrCount = 0;
 uint8_t g_dataReady = 0;
-char g_sensorData[20];
-
-t_sensorVersion g_sensorVersion;
+t_dataPacket g_dataPacket;
 
 
 
 
 
 void initialize(void);
-void EusartRxIsr(void);
+void eusartRxIsr(void);
 
 
 
@@ -12645,14 +12639,20 @@ void main(void)
 
     INTCON = 0b11000000;
 
+
+
     while (1)
     {
         __asm("clrwdt");
+
         if (g_dataReady == 1)
         {
             g_dataReady = 0;
-            OLED_print_xy(0, 1, g_sensorData);
         }
+        _delay((unsigned long)((1000)*(4000000UL/4000.0)));
+        TX1REG = '?';
+        __nop();
+        while (!PIR3bits.TX1IF);
     }
 }
 
@@ -12664,7 +12664,10 @@ void initialize(void)
 {
     OSCFRQ = 0b00000010;
     OSCCON1 = 0b01100000;
-    while(!OSCCON3bits.ORDY);
+    while (!OSCCON3bits.ORDY);
+
+
+    RC6PPS = 0x0F;
 
 
     ANSELA = 0b0100000;
@@ -12705,6 +12708,7 @@ void initialize(void)
     BAUD1CON = 0b00001000;
     SPBRGL = 25;
     RC1STA = 0b10010000;
+    TX1STA = 0b00100000;
 }
 
 
@@ -12722,6 +12726,7 @@ void __attribute__((picinterrupt(""))) ISR(void)
     else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
     {
 
+        PIR0bits.IOCIF = 0;
     }
     else if (INTCONbits.PEIE == 1)
     {
@@ -12730,11 +12735,12 @@ void __attribute__((picinterrupt(""))) ISR(void)
 
             TMR1 = 53035;
             PIR4bits.TMR1IF = 0;
+
         }
         else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1)
         {
 
-            EusartRxIsr();
+            eusartRxIsr();
             PIR3bits.RC1IF = 0;
         }
     }
@@ -12744,10 +12750,11 @@ void __attribute__((picinterrupt(""))) ISR(void)
 
 
 
-void EusartRxIsr(void)
+void eusartRxIsr(void)
 {
     static char buffer[20];
     static uint8_t rxCount = 0;
+    static uint8_t checksum = 0;
 
     if (RC1STAbits.OERR)
     {
@@ -12763,19 +12770,34 @@ void EusartRxIsr(void)
         g_rxFErrCount++;
     }
 
-    if (rxCount < 20)
+    if (rxCount < sizeof (g_dataPacket))
     {
         buffer[rxCount] = RC1REG;
-        if (buffer[rxCount++] == '\n')
-        {
-            buffer[rxCount] = '\0';
-            g_dataReady = 1;
-            strcpy(g_sensorData, buffer);
-            rxCount = 0;
-        }
+        checksum ^= buffer[rxCount];
+        rxCount++;
     }
     else
     {
+        if (RC1REG == checksum)
+        {
+            g_dataReady = 1;
+        }
+        checksum = 0;
         rxCount = 0;
     }
+}
+
+
+
+
+
+void eusartTransmit(char *s)
+{
+    do
+    {
+        TX1REG = *s++;
+        __nop();
+        while (!PIR3bits.TX1IF);
+    }
+    while (*s != (char) ((void*)0));
 }
