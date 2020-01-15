@@ -22,29 +22,23 @@
 
 typedef struct
 {
-    float tempC;
-    float relHum;
-    float dewPointC;
-} t_sensorData;
-
-typedef struct
-{
-    uint8_t hwMajor;
-    uint8_t hwMinor;
-    uint8_t swMajor;
-    uint8_t swMinor;
-} t_sensorVersion;
+	uint8_t header;
+	uint8_t version;
+	float tempC;
+	float relHum;
+	float dewPointC;
+} t_dataPacket;
 
 
 //-----------------------------------------------------------------------------
 // Global Data
 //-----------------------------------------------------------------------------
+uint8_t g_10msTick = 0;
+uint8_t g_100msTick = 0;
 uint8_t g_rxFErrCount = 0;
 uint8_t g_rxOErrCount = 0;
 uint8_t g_dataReady = 0;
-char g_sensorData[RX_BUF_LEN];
-//t_sensorData g_sensorData;
-t_sensorVersion g_sensorVersion;
+t_dataPacket g_dataPacket;
 
 
 //-----------------------------------------------------------------------------
@@ -73,11 +67,8 @@ void main(void)
     while (1)
     {
         CLRWDT();
-        if (g_dataReady == 1)
-        {
-            g_dataReady = 0;
-            OLED_print_xy(0, 1, g_sensorData);
-        }
+		eusartTransmit('?');
+		__delay_ms(1000);
     }
 }
 
@@ -130,6 +121,7 @@ void initialize(void)
     BAUD1CON = 0b00001000; // BRG16 = 1
     SPBRGL = 25;
     RC1STA = 0b10010000; // SPEN = 1, CREN = 1
+	TX1STA = 0b00100000; // TXEN = 1
 }
 
 //-----------------------------------------------------------------------------
@@ -147,6 +139,7 @@ void __interrupt() ISR(void)
     else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
     {
         // IOC ISR
+		PIR0bits.IOCIF = 0;
     }
     else if (INTCONbits.PEIE == 1)
     {
@@ -155,11 +148,12 @@ void __interrupt() ISR(void)
             // Timer 1 ISR
             TMR1 = TMR1_PRELOAD;
             PIR4bits.TMR1IF = 0;
+
         }
         else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1)
         {
             // EUSART RX ISR
-            EusartRxIsr();
+            eusartRxIsr();
             PIR3bits.RC1IF = 0;
         }
     }
@@ -169,38 +163,42 @@ void __interrupt() ISR(void)
 // EUSART Receive Interrupt
 //-----------------------------------------------------------------------------
 
-void EusartRxIsr(void)
+void eusartRxIsr(void)
 {
     static char buffer[RX_BUF_LEN];
     static uint8_t rxCount = 0;
 
-    if (RC1STAbits.OERR)
+    if (RC1STAbits.OERR)	// Receiver buffer overrun error
     {
-        // Receiver buffer overrun error
+        
         RC1STAbits.CREN = 0;
         RC1STAbits.CREN = 1;
         g_rxOErrCount++;
     }
-    if (RC1STAbits.FERR)
+    if (RC1STAbits.FERR)	// Framing error
     {
         RC1STAbits.SPEN = 0;
         RC1STAbits.SPEN = 1;
         g_rxFErrCount++;
     }
 
-    if (rxCount < RX_BUF_LEN)
+    if (rxCount < sizeof(g_dataPacket))
     {
-        buffer[rxCount] = RC1REG;
-        if (buffer[rxCount++] == '\n')
-        {
-            buffer[rxCount] = '\0';
-            g_dataReady = 1;
-            strcpy(g_sensorData, buffer);
-            rxCount = 0;
-        }
-    }
-    else
-    {
-        rxCount = 0;
-    }
+        buffer[rxCount++] = RC1REG;
+    } else {
+		g_dataReady = 1;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Transmit character string over UART
+//-----------------------------------------------------------------------------
+
+void eusartTransmit(char *s)
+{
+	do {
+		TX1REG = *s++;
+		NOP();
+		while(!PIR3bits.TX1IF);
+	} while(*s != (char)NULL);
 }
