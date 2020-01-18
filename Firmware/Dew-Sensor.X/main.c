@@ -40,6 +40,7 @@ typedef enum
 //-----------------------------------------------------------------------------
 // Global Data
 //-----------------------------------------------------------------------------
+
 uint8_t g_rxFErrCount = 0;
 uint8_t g_rxOErrCount = 0;
 t_dataPacket g_dataPacket;
@@ -48,9 +49,15 @@ t_commands g_command;
 //-----------------------------------------------------------------------------
 // Function Prototypes
 //-----------------------------------------------------------------------------
+
 void initialize(void);
 void eusartTransmit(char *s);
 void eusartRxIsr(void);
+void i2cStart(void);
+void i2cStop(void);
+void i2cRepeat(void);
+uint8_t i2cRead(uint8_t *readBuffer, uint8_t numBytes, uint8_t address);
+uint8_t i2cWrite(uint8_t *writeBuffer, uint8_t numBytes, uint8_t address);
 
 //-----------------------------------------------------------------------------
 // Main program loop
@@ -61,6 +68,8 @@ void main(void)
     char *s;
     char checksum;
     uint8_t n, len;
+	uint8_t writeBuffer;
+	uint8_t readBuffer[2];
 
     initialize();
 
@@ -69,6 +78,17 @@ void main(void)
     g_dataPacket.tempC = 8.6;
     g_dataPacket.relHum = 86.6;
     g_dataPacket.dewPointC = 7.2;
+	
+	
+	i2cStart();
+	writeBuffer = 0xE5;	// measure relative humidity, hold master mode
+	i2cWrite(writeBuffer, 1, 0x40);
+	i2cRepeat();
+	i2cRead(readBuffer, 2, 0x40);
+	i2cStop();
+	
+	NOP();
+	
 
     while (1)
     {
@@ -103,6 +123,89 @@ void main(void)
 }
 
 //-----------------------------------------------------------------------------
+// Generate I2C start condition
+//-----------------------------------------------------------------------------
+
+void i2cStart(void)
+{
+	PIR3bits.SSP1IF = 0;
+	SSP1CON2bits.SEN = 1;
+	while(!PIR3bits.SSP1IF);
+	PIR3bits.SSP1IF = 0;
+}
+
+//-----------------------------------------------------------------------------
+// Generate I2C stop condition
+//-----------------------------------------------------------------------------
+
+void i2cStop(void)
+{
+	SSP1CON2bits.PEN = 1;
+	while(!PIR3bits.SSP1IF);
+	PIR3bits.SSP1IF = 0;
+}
+
+//-----------------------------------------------------------------------------
+// Generate I2C repeat condition
+//-----------------------------------------------------------------------------
+
+void i2cRepeat(void)
+{
+	SSP1CON2bits.RSEN = 1;
+	while(!PIR3bits.SSP1IF);
+	PIR3bits.SSP1IF = 0;
+}
+
+//-----------------------------------------------------------------------------
+// Writes numBytes from writeBuffer to I2C device
+//-----------------------------------------------------------------------------
+
+uint8_t i2cWrite(uint8_t *writeBuffer, uint8_t numBytes, uint8_t address)
+{
+	uint8_t n;
+	
+	SSP1BUF = address;
+	while(!PIR3bits.SSP1IF);
+	PIR3bits.SSP1IF = 0;
+	if (SSP1CON2bits.ACKSTAT) 
+		return 0;
+	for(n = 0; n < numBytes; n++) {
+		SSP1BUF = writeBuffer[n];
+		while(!PIR3bits.SSP1IF);
+		PIR3bits.SSP1IF = 0;
+		if (SSP1CON2bits.ACKSTAT) 
+			return n;
+	}
+	return n;
+}
+
+//-----------------------------------------------------------------------------
+// Read numBytes from I2C device into readBuffer
+//-----------------------------------------------------------------------------
+	
+uint8_t i2cRead(uint8_t *readBuffer, uint8_t numBytes, uint8_t address)
+{
+	SSP1BUF = address | 0x80;
+	while(!PIR3bits.SSP1IF);
+	PIR3bits.SSP1IF = 0;
+	if (SSP1CON2bits.ACKSTAT) 
+		return 0;
+	while(numBytes--)
+	{
+		SSP1CON2bits.RCEN = 1;
+		while(!PIR3bits.SSP1IF);
+		PIR3bits.SSP1IF = 0;
+		*readBuffer++ = SSP1BUF;
+	
+		SSP1CON2bits.ACKDT = (numBytes ? 0 : 1);
+		SSP1CON2bits.ACKEN = 1;
+		while(!PIR3bits.SSP1IF);
+		PIR3bits.SSP1IF = 0;
+	}
+	return 1;
+}
+
+//-----------------------------------------------------------------------------
 // Transmit character string over UART
 //-----------------------------------------------------------------------------
 
@@ -123,12 +226,15 @@ void eusartTransmit(char *s)
 
 void initialize(void)
 {
-    OSCFRQ = 0b00000010; // 4 MHz
-    OSCCON1 = 0b01100000; // HINTOSC (1-32MHz), CDIV = 1
-    while (!OSCCON3bits.ORDY); // Wait until clock switch is done
+    OSCFRQ = 0b00000010; 		// 4 MHz
+    OSCCON1 = 0b01100000;		// HINTOSC (1-32MHz), CDIV = 1
+    while (!OSCCON3bits.ORDY);	// Wait until clock switch is done
 
     // Peripheral Pin Select (PPS)
-    RC4PPS = 0x0F; //RC4->EUSART1:TX1;    
+    RC4PPS = 0x0F; 		//RC4->EUSART1:TX1;
+	RC1PPS = 0x16;		// RC1->SDA (output)
+	SSPDATPPS = 0x11;	// RC1->SDA (input)
+	RC0PPS = 0x15;		// RC0->SCL (output)
 
     // Digital I/O only
     ANSELA = 0;
@@ -136,7 +242,7 @@ void initialize(void)
 
     // Data direction registers
     TRISA = 0;
-    TRISC = 0b00100000;
+    TRISC = 0b00100011;	// I2C pins must be configured as inputs in master mode
 
     // Timer0: 10ms 
     T0CON0 = 0b10000000; // Enabled, 8-bit mode, postscaler 1:1
@@ -162,7 +268,8 @@ void initialize(void)
     TX1STA = 0b00100000; // TXEN = 1
 
     // I2C
-
+	SSP1ADD = 0x09; // 100kHz Fclock = Fosc / ((SSP1ADD + 1) * 4) 
+	SSP1CON1 = 0b00101000;	// SSPEN = 1, I2C Master mode	
 }
 
 //-----------------------------------------------------------------------------
