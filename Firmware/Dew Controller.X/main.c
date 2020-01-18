@@ -11,6 +11,8 @@
 
 #include <xc.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -24,6 +26,7 @@ typedef struct
 {
     uint8_t header;
     uint8_t version;
+    uint8_t status;
     float tempC;
     float relHum;
     float dewPointC;
@@ -46,6 +49,7 @@ t_dataPacket g_dataPacket;
 //-----------------------------------------------------------------------------
 void initialize(void);
 void eusartRxIsr(void);
+void uartSendByte(char s);
 
 //-----------------------------------------------------------------------------
 // Main program loop
@@ -53,6 +57,8 @@ void eusartRxIsr(void);
 
 void main(void)
 {
+    char s1[16], s2[16];
+    
     initialize();
     OLED_PWR = 1;
     PEN = 1;
@@ -60,8 +66,7 @@ void main(void)
 
     OLED_returnHome();
     OLED_command(OLED_CLEARDISPLAY);
-    OLED_print_xy(0, 0, "Hello World!");
-
+    
     INTCON = 0b11000000; // GIE, PEIE
 
 
@@ -72,6 +77,11 @@ void main(void)
 
         if (g_dataReady == 1)
         {
+            sprintf(s1, "%6.2f|%6.2f", g_dataPacket.relHum, 
+                    g_dataPacket.tempC);
+            sprintf(s2, "DP:%6.2f", g_dataPacket.dewPointC);
+            OLED_print_xy(0,0, s1);
+            OLED_print_xy(0,1, s2);
             g_dataReady = 0;
         }
         __delay_ms(1000);
@@ -206,6 +216,7 @@ void eusartRxIsr(void)
         if (RC1REG == checksum)
         {
             g_dataReady = 1;
+            strncpy((char *)&g_dataPacket, buffer, sizeof(g_dataPacket));
         }
         checksum = 0;
         rxCount = 0;
@@ -216,13 +227,9 @@ void eusartRxIsr(void)
 // Transmit character string over UART
 //-----------------------------------------------------------------------------
 
-void eusartTransmit(char *s)
+void uartSendByte(char s)
 {
-    do
-    {
-        TX1REG = *s++;
-        NOP();
-        while (!PIR3bits.TX1IF);
-    }
-    while (*s != (char) NULL);
+    TX1REG = s;
+    NOP();
+    while (!PIR3bits.TX1IF);
 }

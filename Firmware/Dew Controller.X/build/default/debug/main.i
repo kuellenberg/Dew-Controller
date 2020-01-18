@@ -12599,6 +12599,7 @@ typedef struct
 {
     uint8_t header;
     uint8_t version;
+    uint8_t status;
     float tempC;
     float relHum;
     float dewPointC;

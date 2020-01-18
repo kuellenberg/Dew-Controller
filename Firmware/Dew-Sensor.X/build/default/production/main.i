@@ -11085,6 +11085,481 @@ typedef uint32_t uint_fast32_t;
 # 131 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\stdint.h" 2 3
 # 13 "main.c" 2
 
+# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\math.h" 1 3
+# 15 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\math.h" 3
+# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\bits/alltypes.h" 1 3
+# 37 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\bits/alltypes.h" 3
+typedef float float_t;
+
+
+
+
+typedef double double_t;
+# 15 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\math.h" 2 3
+# 46 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\math.h" 3
+int __fpclassifyf(float);
+# 97 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\math.h" 3
+int __signbitf(float);
+# 149 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\math.h" 3
+double acos(double);
+float acosf(float);
+long double acosl(long double);
+
+
+
+
+
+double acosh(double);
+float acoshf(float);
+long double acoshl(long double);
+
+
+
+
+
+double asin(double);
+float asinf(float);
+long double asinl(long double);
+
+
+
+
+
+double asinh(double);
+float asinhf(float);
+long double asinhl(long double);
+
+
+
+
+
+double atan(double);
+float atanf(float);
+long double atanl(long double);
+
+
+
+
+
+double atan2(double, double);
+float atan2f(float, float);
+long double atan2l(long double, long double);
+
+
+
+
+
+double atanh(double);
+float atanhf(float);
+long double atanhl(long double);
+
+
+
+
+
+double cbrt(double);
+float cbrtf(float);
+long double cbrtl(long double);
+
+
+
+
+
+double ceil(double);
+float ceilf(float);
+long double ceill(long double);
+
+
+
+
+
+double copysign(double, double);
+float copysignf(float, float);
+long double copysignl(long double, long double);
+
+
+
+
+
+double cos(double);
+float cosf(float);
+long double cosl(long double);
+
+
+
+
+
+double cosh(double);
+float coshf(float);
+long double coshl(long double);
+
+
+
+
+
+double erf(double);
+float erff(float);
+long double erfl(long double);
+
+
+
+
+
+double erfc(double);
+float erfcf(float);
+long double erfcl(long double);
+
+
+
+
+
+double exp(double);
+float expf(float);
+long double expl(long double);
+
+
+
+
+
+double exp2(double);
+float exp2f(float);
+long double exp2l(long double);
+
+
+
+
+
+double expm1(double);
+float expm1f(float);
+long double expm1l(long double);
+
+
+
+
+
+double fabs(double);
+float fabsf(float);
+long double fabsl(long double);
+
+
+
+
+
+double fdim(double, double);
+float fdimf(float, float);
+long double fdiml(long double, long double);
+
+
+
+
+
+double floor(double);
+float floorf(float);
+long double floorl(long double);
+
+
+
+
+
+double fma(double, double, double);
+float fmaf(float, float, float);
+long double fmal(long double, long double, long double);
+
+
+
+
+
+double fmax(double, double);
+float fmaxf(float, float);
+long double fmaxl(long double, long double);
+
+
+
+
+
+double fmin(double, double);
+float fminf(float, float);
+long double fminl(long double, long double);
+
+
+
+
+
+double fmod(double, double);
+float fmodf(float, float);
+long double fmodl(long double, long double);
+
+
+
+
+
+double frexp(double, int *);
+float frexpf(float, int *);
+long double frexpl(long double, int *);
+
+
+
+
+
+double hypot(double, double);
+float hypotf(float, float);
+long double hypotl(long double, long double);
+
+
+
+
+
+int ilogb(double);
+int ilogbf(float);
+int ilogbl(long double);
+
+
+
+
+
+double ldexp(double, int);
+float ldexpf(float, int);
+long double ldexpl(long double, int);
+
+
+
+
+
+double lgamma(double);
+float lgammaf(float);
+long double lgammal(long double);
+
+
+
+
+
+long long llrint(double);
+long long llrintf(float);
+long long llrintl(long double);
+
+
+
+
+
+long long llround(double);
+long long llroundf(float);
+long long llroundl(long double);
+
+
+
+
+
+double log(double);
+float logf(float);
+long double logl(long double);
+
+
+
+
+
+double log10(double);
+float log10f(float);
+long double log10l(long double);
+
+
+
+
+
+double log1p(double);
+float log1pf(float);
+long double log1pl(long double);
+
+
+
+
+
+double log2(double);
+float log2f(float);
+long double log2l(long double);
+
+
+
+
+
+double logb(double);
+float logbf(float);
+long double logbl(long double);
+
+
+
+
+
+long lrint(double);
+long lrintf(float);
+long lrintl(long double);
+
+
+
+
+
+long lround(double);
+long lroundf(float);
+long lroundl(long double);
+
+
+
+
+
+double modf(double, double *);
+float modff(float, float *);
+long double modfl(long double, long double *);
+
+
+
+
+
+double nan(const char *);
+float nanf(const char *);
+long double nanl(const char *);
+
+
+
+
+
+double nearbyint(double);
+float nearbyintf(float);
+long double nearbyintl(long double);
+
+
+
+
+
+double nextafter(double, double);
+float nextafterf(float, float);
+long double nextafterl(long double, long double);
+
+
+
+
+
+double nexttoward(double, long double);
+float nexttowardf(float, long double);
+long double nexttowardl(long double, long double);
+# 498 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\math.h" 3
+double pow(double, double);
+__attribute__((nonreentrant)) float powf(float, float);
+long double powl(long double, long double);
+
+
+
+
+
+double remainder(double, double);
+float remainderf(float, float);
+long double remainderl(long double, long double);
+
+
+
+
+
+double remquo(double, double, int *);
+float remquof(float, float, int *);
+long double remquol(long double, long double, int *);
+
+
+
+
+
+double rint(double);
+float rintf(float);
+long double rintl(long double);
+
+
+
+
+
+double round(double);
+float roundf(float);
+long double roundl(long double);
+
+
+
+
+
+double scalbln(double, long);
+float scalblnf(float, long);
+long double scalblnl(long double, long);
+
+
+
+
+
+double scalbn(double, int);
+float scalbnf(float, int);
+long double scalbnl(long double, int);
+
+
+
+
+
+double sin(double);
+float sinf(float);
+long double sinl(long double);
+
+
+
+
+
+double sinh(double);
+float sinhf(float);
+long double sinhl(long double);
+
+
+
+
+
+double sqrt(double);
+float sqrtf(float);
+long double sqrtl(long double);
+
+
+
+
+
+double tan(double);
+float tanf(float);
+long double tanl(long double);
+
+
+
+
+
+double tanh(double);
+float tanhf(float);
+long double tanhl(long double);
+
+
+
+
+
+double tgamma(double);
+float tgammaf(float);
+long double tgammal(long double);
+
+
+
+
+
+double trunc(double);
+float truncf(float);
+long double truncl(long double);
+# 631 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\math.h" 3
+extern int signgam;
+
+double j0(double);
+double j1(double);
+double jn(int, double);
+
+double y0(double);
+double y1(double);
+double yn(int, double);
+# 14 "main.c" 2
+
 # 1 "./config.h" 1
 
 
@@ -11099,7 +11574,7 @@ typedef uint32_t uint_fast32_t;
 #pragma config FCMEN = ON
 
 
-#pragma config MCLRE = ON
+#pragma config MCLRE = OFF
 #pragma config PWRTE = OFF
 #pragma config LPBOREN = OFF
 #pragma config BOREN = ON
@@ -11126,12 +11601,20 @@ typedef uint32_t uint_fast32_t;
 
 
 #pragma config CP = OFF
-# 14 "main.c" 2
-# 24 "main.c"
+# 15 "main.c" 2
+
+
+
+
+
+
+
+
 typedef struct
 {
     uint8_t header;
     uint8_t version;
+    uint8_t status;
     float tempC;
     float relHum;
     float dewPointC;
@@ -11147,17 +11630,24 @@ typedef enum
 
 
 
-uint8_t g_rxFErrCount = 0;
-uint8_t g_rxOErrCount = 0;
-t_dataPacket g_dataPacket;
-t_commands g_command;
+
+volatile uint8_t g_rxFErrCount = 0;
+volatile uint8_t g_rxOErrCount = 0;
+volatile t_commands g_command;
+
 
 
 
 
 void initialize(void);
-void eusartTransmit(char *s);
-void eusartRxIsr(void);
+void uartSendByte(char s);
+void uartReceiveISR(void);
+void i2cStart(void);
+void i2cStop(void);
+void i2cRepeat(void);
+uint8_t i2cRead(uint8_t *readBuffer, uint8_t numBytes, uint8_t address);
+uint8_t i2cWrite(uint8_t *writeBuffer, uint8_t numBytes, uint8_t address);
+uint8_t readSI7006(float *RH, float *tempC, float *DP);
 
 
 
@@ -11167,15 +11657,10 @@ void main(void)
 {
     char *s;
     char checksum;
-    uint8_t n, len;
+    t_dataPacket dataPacket;
+    uint8_t n;
 
     initialize();
-
-    g_dataPacket.header = 0xAA;
-    g_dataPacket.version = 0x01;
-    g_dataPacket.tempC = 8.6;
-    g_dataPacket.relHum = 86.6;
-    g_dataPacket.dewPointC = 7.2;
 
     while (1)
     {
@@ -11183,25 +11668,30 @@ void main(void)
         switch (g_command)
         {
         case GET_DATA:
-            g_command = NO_COMMAND;
-            s = (char *) &g_dataPacket;
+            dataPacket.header = 0xAA;
+            dataPacket.version = 0x01;
+
+            if (readSI7006(&dataPacket.relHum,
+                           &dataPacket.tempC,
+                           &dataPacket.dewPointC))
+                dataPacket.status = 1;
+            else
+                dataPacket.status = 0;
+
+            s = (char *) &dataPacket;
             checksum = 0;
             for (n = 0; n < sizeof (t_dataPacket); n++)
             {
                 checksum ^= *s;
-                TX1REG = *(s++);
-                __nop();
-                while (!PIR3bits.TX1IF);
+                uartSendByte(*(s++));
             }
-            TX1REG = checksum;
-            __nop();
-            while (!PIR3bits.TX1IF);
+            uartSendByte(checksum);
+
+            g_command = NO_COMMAND;
             break;
         case UNKNOWN_COMMAND:
+            uartSendByte(0xFF);
             g_command = NO_COMMAND;
-            TX1REG = 0xFF;
-            __nop();
-            while (!PIR3bits.TX1IF);
             break;
         default:
             break;
@@ -11213,15 +11703,132 @@ void main(void)
 
 
 
-void eusartTransmit(char *s)
+uint8_t readSI7006(float *RH, float *tempC, float *DP)
 {
-    do
+    uint8_t buffer[2];
+    float gamma;
+
+    i2cStart();
+    buffer[0] = 0xE5;
+    if (!i2cWrite(buffer, 1, 0x40))
+        return 0;
+    i2cRepeat();
+    if (!i2cRead(buffer, 2, 0x40))
+        return 0;
+    i2cStop();
+
+    *RH = (125.0 * ((uint16_t) buffer[0] << 8 | (uint16_t) buffer[1]) / 65536) - 6;
+
+    i2cStart();
+    buffer[0] = 0xE0;
+    if (!i2cWrite(buffer, 1, 0x40))
+        return 0;
+    i2cRepeat();
+    if (!i2cRead(buffer, 2, 0x40))
+        return 0;
+    i2cStop();
+
+    *tempC = (175.72 * ((uint16_t) buffer[0] << 8 | (uint16_t) buffer[1]) / 65536) - 46.85;
+
+    gamma = logf(*RH / 100.0) + ((17.67 * *tempC) / (243.5 + *tempC));
+    *DP = (243.5 * gamma) / (17.67 - gamma);
+
+    return 1;
+}
+
+
+
+
+
+void i2cStart(void)
+{
+    PIR3bits.SSP1IF = 0;
+    SSP1CON2bits.SEN = 1;
+    while (!PIR3bits.SSP1IF);
+    PIR3bits.SSP1IF = 0;
+}
+
+
+
+
+
+void i2cStop(void)
+{
+    SSP1CON2bits.PEN = 1;
+    while (!PIR3bits.SSP1IF);
+    PIR3bits.SSP1IF = 0;
+}
+
+
+
+
+
+void i2cRepeat(void)
+{
+    SSP1CON2bits.RSEN = 1;
+    while (!PIR3bits.SSP1IF);
+    PIR3bits.SSP1IF = 0;
+}
+
+
+
+
+
+uint8_t i2cWrite(uint8_t *writeBuffer, uint8_t numBytes, uint8_t address)
+{
+    uint8_t n;
+
+    SSP1BUF = address << 1;
+    while (!PIR3bits.SSP1IF);
+    PIR3bits.SSP1IF = 0;
+    if (SSP1CON2bits.ACKSTAT)
+        return 0;
+    for (n = 0; n < numBytes; n++)
     {
-        TX1REG = *s++;
-        __nop();
-        while (!PIR3bits.TX1IF);
+        SSP1BUF = writeBuffer[n];
+        while (!PIR3bits.SSP1IF);
+        PIR3bits.SSP1IF = 0;
+        if (SSP1CON2bits.ACKSTAT)
+            return n;
     }
-    while (*s != (char) ((void*)0));
+    return n;
+}
+
+
+
+
+
+uint8_t i2cRead(uint8_t *readBuffer, uint8_t numBytes, uint8_t address)
+{
+    SSP1BUF = (address << 1) | 0x01;
+    while (!PIR3bits.SSP1IF);
+    PIR3bits.SSP1IF = 0;
+    if (SSP1CON2bits.ACKSTAT)
+        return 0;
+    while (numBytes--)
+    {
+        SSP1CON2bits.RCEN = 1;
+        while (!PIR3bits.SSP1IF);
+        PIR3bits.SSP1IF = 0;
+        *readBuffer++ = SSP1BUF;
+
+        SSP1CON2bits.ACKDT = (numBytes ? 0 : 1);
+        SSP1CON2bits.ACKEN = 1;
+        while (!PIR3bits.SSP1IF);
+        PIR3bits.SSP1IF = 0;
+    }
+    return 1;
+}
+
+
+
+
+
+void uartSendByte(char s)
+{
+    TX1REG = s;
+    __nop();
+    while (!PIR3bits.TX1IF);
 }
 
 
@@ -11230,12 +11837,16 @@ void eusartTransmit(char *s)
 
 void initialize(void)
 {
+
     OSCFRQ = 0b00000010;
     OSCCON1 = 0b01100000;
     while (!OSCCON3bits.ORDY);
 
 
     RC4PPS = 0x0F;
+    RC1PPS = 0x16;
+    SSP1DATPPS = 0x11;
+    RC0PPS = 0x15;
 
 
     ANSELA = 0;
@@ -11243,22 +11854,10 @@ void initialize(void)
 
 
     TRISA = 0;
-    TRISC = 0b00100000;
+    TRISC = 0b00100011;
 
 
-    T0CON0 = 0b10000000;
-    T0CON1 = 0b01000111;
-    TMR0 = 178;
-
-
-    T1CON = 0b00110011;
-    T1CLK = 0b00000001;
-    TMR1 = 53035;
-
-
-    PIE0 = 0b00110000;
     PIE3 = 0b00100000;
-    PIE4 = 0b00000001;
     INTCON = 0b11000000;
 
 
@@ -11269,7 +11868,8 @@ void initialize(void)
     TX1STA = 0b00100000;
 
 
-
+    SSP1ADD = 0x09;
+    SSP1CON1 = 0b00101000;
 }
 
 
@@ -11278,30 +11878,10 @@ void initialize(void)
 
 void __attribute__((picinterrupt(""))) ISR(void)
 {
-    if (PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1)
+    if (INTCONbits.PEIE == 1 && PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1)
     {
-
-        TMR0 = 178;
-        PIR0bits.TMR0IF = 0;
-    }
-    else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
-    {
-
-    }
-    else if (INTCONbits.PEIE == 1)
-    {
-        if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
-        {
-
-            TMR1 = 53035;
-            PIR4bits.TMR1IF = 0;
-        }
-        else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1)
-        {
-
-            eusartRxIsr();
-            PIR3bits.RC1IF = 0;
-        }
+        uartReceiveISR();
+        PIR3bits.RC1IF = 0;
     }
 }
 
@@ -11309,9 +11889,9 @@ void __attribute__((picinterrupt(""))) ISR(void)
 
 
 
-void eusartRxIsr(void)
+void uartReceiveISR(void)
 {
-    char rx;
+    char rxByte;
 
     if (RC1STAbits.OERR)
     {
@@ -11326,8 +11906,8 @@ void eusartRxIsr(void)
         g_rxFErrCount++;
     }
 
-    rx = RC1REG;
-    if (rx == '?')
+    rxByte = RC1REG;
+    if (rxByte == '?')
         g_command = GET_DATA;
     else
         g_command = UNKNOWN_COMMAND;

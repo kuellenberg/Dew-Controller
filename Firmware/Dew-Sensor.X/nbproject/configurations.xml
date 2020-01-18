@@ -144,6 +144,7 @@
         <property key="remove-unused-sections" value="true"/>
       </HI-TECH-LINK>
       <ICD3PlatformTool>
+        <property key="debugoptions.useswbreakpoints" value="true"/>
         <property key="firmware.download.all" value="false"/>
       </ICD3PlatformTool>
       <XC8-config-global>

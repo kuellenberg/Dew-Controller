@@ -5,9 +5,9 @@ Linker command line:
 -W-3 --edf=C:\Program Files (x86)\Microchip\xc8\v2.00\pic\dat\en_msgs.txt \
   -cs -h+dist/default/debug\Dew_Controller.X.debug.sym \
   --cmf=dist/default/debug\Dew_Controller.X.debug.cmf -z -Q16F15356 \
-  -oC:\Users\Ondre\AppData\Local\Temp\sces.2 --defsym=__MPLAB_BUILD=1 \
+  -oC:\Users\Ondre\AppData\Local\Temp\s818.2 --defsym=__MPLAB_BUILD=1 \
   -Mdist/default/debug/Dew_Controller.X.debug.map -E1 -ver=XC8 --acfsm=1493 \
-  -ASTACK=02037h-027efh -pstack=STACK -ACODE=00h-07FFhx8 \
+  -ASTACK=02038h-027efh -pstack=STACK -ACODE=00h-07FFhx8 \
   -ASTRCODE=00h-03FFFh -ASTRING=00h-0FFhx64 -ACONST=00h-0FFhx64 \
   -AENTRY=00h-0FFhx64 -ACOMMON=070h-07Fh -ABANK0=020h-06Fh \
   -ABANK1=0A0h-0EFh -ABANK2=0120h-016Fh -ABANK3=01A0h-01EFh \
@@ -46,7 +46,7 @@ Linker command line:
   -pfunctab=ENTRY -ACONFIG=08007h-0800Bh -pconfig=CONFIG -DCONFIG=2 \
   -AIDLOC=08000h-08003h -pidloc=IDLOC -DIDLOC=2 -DCODE=2 -DSTRCODE=2 \
   -DSTRING=2 -DCONST=2 -DENTRY=2 -k \
-  C:\Users\Ondre\AppData\Local\Temp\sces.o \
+  C:\Users\Ondre\AppData\Local\Temp\s818.o \
   dist/default/debug\Dew_Controller.X.debug.o 
 
 Object code version is 3.11
@@ -56,7 +56,7 @@ Machine type is 16F15356
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-C:\Users\Ondre\AppData\Local\Temp\sces.o
+C:\Users\Ondre\AppData\Local\Temp\s818.o
                 end_init                             47       47        2        8       0
                 reset_vec                             0        0        2        0       0
                 config                             8007     8007        5    1000E       0
@@ -75,12 +75,12 @@ dist/default/debug\Dew_Controller.X.debug.o
                 text2                               29D      29D        5      4D6       0
                 text1                               133      133       44        8       0
                 maintext                            1B7      1B7       3F        8       0
-                cstackBANK0                          4F       4F        8       20       1
+                cstackBANK0                          50       50        8       20       1
                 cstackCOMMON                         70       70        B       70       1
                 clrtext                             297      297        6      4D6       0
                 inittext                            291      291        6      4D6       0
-                dataBANK0                            47       47        8       20       1
-                bssBANK0                             20       20       27       20       1
+                dataBANK0                            48       48        8       20       1
+                bssBANK0                             20       20       28       20       1
                 bssCOMMON                            7B       7B        2       70       1
                 stringtext1                         25E      25E        D      4BC       0
                 idataBANK0                          289      289        8      4D6       0
@@ -123,9 +123,9 @@ TOTAL           Name                               Link     Load   Length     Sp
                 bssCOMMON                            7B       7B        2         1
 
         CLASS   BANK0          
-                cstackBANK0                          4F       4F        8         1
-                dataBANK0                            47       47        8         1
-                bssBANK0                             20       20       27         1
+                cstackBANK0                          50       50        8         1
+                dataBANK0                            48       48        8         1
+                bssBANK0                             20       20       28         1
 
         CLASS   BANK1          
 
@@ -401,7 +401,7 @@ SEGMENTS        Name                           Load    Length   Top    Selector 
 
                 reset_vec                      000000  000002  000002         0       0  CODE        2
                 intentry                       000004  00025A  00025E         8       0  CODE        2
-                bssBANK0                       000020  000037  000057        20       1  BANK0       1
+                bssBANK0                       000020  000038  000058        20       1  BANK0       1
                 cstackCOMMON                   000070  00000D  00007D        70       1  COMMON      1
                 stringtext1                    00025E  00000D  00026B       4BC       0  STRCODE     2
                 text4                          00026B  000037  0002A2       4D6       0  CODE        2
@@ -411,7 +411,7 @@ SEGMENTS        Name                           Load    Length   Top    Selector 
 UNUSED ADDRESS RANGES
 
         Name                Unused          Largest block    Delta
-        BANK0            00057-0006F              19           1
+        BANK0            00058-0006F              18           1
         BANK1            000A0-000EF              50           1
         BANK10           00520-0056F              50           1
         BANK11           005A0-005EF              50           1
@@ -446,7 +446,7 @@ UNUSED ADDRESS RANGES
         ENTRY            00002-00003               2           2
                          002A2-03FFF             100
         IDLOC            08000-08003               4           2
-        RAM              00057-0006F              19           1
+        RAM              00058-0006F              18           1
                          000A0-000EF              50
                          00120-0016F              50
                          001A0-001EF              50
@@ -536,7 +536,7 @@ UNUSED ADDRESS RANGES
         SFR7             00380-0039F              20           1
         SFR8             00400-0041F              20           1
         SFR9             00480-0049F              20           1
-        STACK            02037-027EF             7B9           1
+        STACK            02038-027EF             7B8           1
         STRCODE          00002-00003               2           2
                          002A2-03FFF            3D5E
         STRING           00002-00003               2           2
@@ -545,14 +545,14 @@ UNUSED ADDRESS RANGES
                                   Symbol Table
 
 OLED_command@value          cstackCOMMON 00077
-OLED_print_xy@F7353         dataBANK0    00047
-OLED_print_xy@col           cstackBANK0  00054
+OLED_print_xy@F7353         dataBANK0    00048
+OLED_print_xy@col           cstackBANK0  00055
 OLED_print_xy@row           cstackCOMMON 00078
-OLED_print_xy@row_offsets   cstackBANK0  00050
+OLED_print_xy@row_offsets   cstackBANK0  00051
 OLED_print_xy@s             cstackCOMMON 00079
 OLED_send@mode              cstackCOMMON 00074
 OLED_send@value             cstackCOMMON 00076
-OLED_setCursor@F7345        dataBANK0    0004B
+OLED_setCursor@F7345        dataBANK0    0004C
 OLED_waitForReady@busy      cstackCOMMON 00071
 OLED_write4bits@value       cstackCOMMON 00073
 OLED_write@value            cstackCOMMON 00077
@@ -979,9 +979,9 @@ __end_of_main               maintext     001F6
 __initialization            cinit        00049
 __pbssBANK0                 bssBANK0     00020
 __pbssCOMMON                bssCOMMON    0007B
-__pcstackBANK0              cstackBANK0  0004F
+__pcstackBANK0              cstackBANK0  00050
 __pcstackCOMMON             cstackCOMMON 00070
-__pdataBANK0                dataBANK0    00047
+__pdataBANK0                dataBANK0    00048
 __pidataBANK0               idataBANK0   00289
 __pintentry                 intentry     00004
 __pmaintext                 maintext     001B7
@@ -1013,15 +1013,15 @@ __size_of_initialize        (abs)        00000
 __size_of_main              (abs)        00000
 _eusartRxIsr                text12       000ED
 _g_dataReady                bssCOMMON    0007C
-_g_rxFErrCount              bssBANK0     00044
-_g_rxOErrCount              bssBANK0     00043
+_g_rxFErrCount              bssBANK0     00045
+_g_rxOErrCount              bssBANK0     00044
 _initialize                 text1        00133
 _main                       maintext     001B7
 btemp                       (abs)        0007E
 clear_ram0                  clrtext      00297
 end_of_initialization       cinit        0005F
 eusartRxIsr@buffer          bssBANK0     00020
-eusartRxIsr@checksum        bssBANK0     00042
+eusartRxIsr@checksum        bssBANK0     00043
 eusartRxIsr@rxCount         bssCOMMON    0007B
 init_ram                    inittext     00291
 int$flags                   (abs)        0007E
@@ -1033,7 +1033,7 @@ intlevel4                   functab      00000
 intlevel5                   functab      00000
 reset_vec                   reset_vec    00000
 stackhi                     (abs)        027EF
-stacklo                     (abs)        02037
+stacklo                     (abs)        02038
 start                       init         00047
 start_initialization        cinit        00049
 wtemp0                      (abs)        0007E
@@ -1043,7 +1043,7 @@ FUNCTION INFORMATION:
 
  *************** function _main *****************
  Defined at:
-		line 54 in file "main.c"
+		line 55 in file "main.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -1076,7 +1076,7 @@ Total ram usage:        2 bytes
 
  *************** function _initialize *****************
  Defined at:
-		line 88 in file "main.c"
+		line 89 in file "main.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -1396,7 +1396,7 @@ Total ram usage:        0 bytes
 
  *************** function _ISR *****************
  Defined at:
-		line 143 in file "main.c"
+		line 144 in file "main.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -1426,7 +1426,7 @@ Total ram usage:        0 bytes
 
  *************** function _eusartRxIsr *****************
  Defined at:
-		line 178 in file "main.c"
+		line 179 in file "main.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
