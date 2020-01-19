@@ -109,6 +109,7 @@ void rot() {
 	// dir must be set to 'stop' inside application code after evaluation
     if (current_state & cw_flag) dir = cw;
     if (current_state & ccw_flag) dir = ccw;
+    NOP();
 }
 
 void pushbutton() {

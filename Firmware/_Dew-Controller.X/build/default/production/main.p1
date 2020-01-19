@@ -21,7 +21,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S28 . . ]
 "463
 [v _PORTAbits `VS28 ~T0 @X0 0 e@12 ]
-"990
+"31 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic.h
+[v ___nop `(v ~T0 @X0 0 ef ]
+[p i ___nop ]
+"990 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [s S49 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S49 . LATC0 LATC1 LATC2 LATC3 LATC4 LATC5 LATC6 LATC7 ]
 "989
@@ -39,7 +42,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S44 . . ]
 "877
 [v _LATAbits `VS44 ~T0 @X0 0 e@24 ]
-"145 main.c
+"146 main.c
 [c E7402 6 16 17 59 60 61 62 63 .. ]
 [n E7402 . TEMP VSENS ISENS channel_AVSS channel_Temp channel_DAC1 channel_FVR_BUF1 channel_FVR_BUF2  ]
 "292 mcc_generated_files/adc.h
@@ -117,9 +120,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _log10 `(d ~T0 @X0 0 ef1`d ]
 "55
 [v _round `(d ~T0 @X0 0 ef1`d ]
-"31 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic.h
-[v ___nop `(v ~T0 @X0 0 ef ]
-[p i ___nop ]
 [; ;__size_t.h: 4: typedef unsigned size_t;
 [; ;stdarg.h: 7: typedef void * va_list[1];
 [; ;stdarg.h: 10: extern void * __va_start(void);
@@ -8698,978 +8698,981 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $ ! != & -> _current_state `i -> . `E7512 1 `i -> 0 `i 982  ]
 [e = _dir . `E7515 2 ]
 [e :U 982 ]
-[; ;main.c: 112: }
+[; ;main.c: 112: __nop();
 "112
+[e ( ___nop ..  ]
+[; ;main.c: 113: }
+"113
 [e :UE 980 ]
 }
-"114
+"115
 [v _pushbutton `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 114: void pushbutton() {
+[; ;main.c: 115: void pushbutton() {
 [e :U _pushbutton ]
 [f ]
-[; ;main.c: 116: if (!PORTAbits.RA7) {
-"116
+[; ;main.c: 117: if (!PORTAbits.RA7) {
+"117
 [e $ ! ! != -> . . _PORTAbits 0 7 `i -> -> -> 0 `i `Vuc `i 984  ]
 {
-[; ;main.c: 117: millis = 0;
-"117
-[e = _millis -> -> -> 0 `i `l `ul ]
+[; ;main.c: 118: millis = 0;
 "118
+[e = _millis -> -> -> 0 `i `l `ul ]
+"119
 }
-[; ;main.c: 118: } else {
+[; ;main.c: 119: } else {
 [e $U 985  ]
 [e :U 984 ]
 {
-[; ;main.c: 119: pb_millis = millis;
-"119
+[; ;main.c: 120: pb_millis = millis;
+"120
 [e = _pb_millis -> _millis `uc ]
-[; ;main.c: 121: if ((millis > 5) & (millis <= 50)) pb = short_press;
-"121
+[; ;main.c: 122: if ((millis > 5) & (millis <= 50)) pb = short_press;
+"122
 [e $ ! & > _millis -> -> -> 5 `i `l `ul <= _millis -> -> -> 50 `i `l `ul 986  ]
 [e = _pb . `E7519 1 ]
 [e $U 987  ]
-"123
+"124
 [e :U 986 ]
-[; ;main.c: 123: else if ((millis > 50) & (millis <= 150)) {
+[; ;main.c: 124: else if ((millis > 50) & (millis <= 150)) {
 [e $ ! & > _millis -> -> -> 50 `i `l `ul <= _millis -> -> -> 150 `i `l `ul 988  ]
 {
-[; ;main.c: 124: pb = long_press;
-"124
-[e = _pb . `E7519 2 ]
+[; ;main.c: 125: pb = long_press;
 "125
+[e = _pb . `E7519 2 ]
+"126
 }
-[; ;main.c: 125: }
+[; ;main.c: 126: }
 [e $U 989  ]
-"127
+"128
 [e :U 988 ]
-[; ;main.c: 127: else pb = abort;
+[; ;main.c: 128: else pb = abort;
 [e = _pb . `E7519 3 ]
 [e :U 989 ]
 [e :U 987 ]
-"128
+"129
 }
 [e :U 985 ]
-[; ;main.c: 128: }
 [; ;main.c: 129: }
-"129
+[; ;main.c: 130: }
+"130
 [e :UE 983 ]
 }
-"131
+"132
 [v _overcurrent `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 131: void overcurrent() {
+[; ;main.c: 132: void overcurrent() {
 [e :U _overcurrent ]
 [f ]
-[; ;main.c: 132: LATCbits.LATC3 = 0;
-"132
-[e = . . _LATCbits 0 3 -> -> 0 `i `uc ]
-[; ;main.c: 133: TMR1_StopTimer();
+[; ;main.c: 133: LATCbits.LATC3 = 0;
 "133
-[e ( _TMR1_StopTimer ..  ]
-[; ;main.c: 134: LATAbits.LATA0 = 0;
+[e = . . _LATCbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 134: TMR1_StopTimer();
 "134
-[e = . . _LATAbits 0 0 -> -> 0 `i `uc ]
-[; ;main.c: 135: LATAbits.LATA1 = 0;
+[e ( _TMR1_StopTimer ..  ]
+[; ;main.c: 135: LATAbits.LATA0 = 0;
 "135
-[e = . . _LATAbits 0 1 -> -> 0 `i `uc ]
-[; ;main.c: 136: LATAbits.LATA2 = 0;
+[e = . . _LATAbits 0 0 -> -> 0 `i `uc ]
+[; ;main.c: 136: LATAbits.LATA1 = 0;
 "136
-[e = . . _LATAbits 0 2 -> -> 0 `i `uc ]
-[; ;main.c: 137: LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 1 -> -> 0 `i `uc ]
+[; ;main.c: 137: LATAbits.LATA2 = 0;
 "137
-[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-[; ;main.c: 138: fault = 1;
+[e = . . _LATAbits 0 2 -> -> 0 `i `uc ]
+[; ;main.c: 138: LATAbits.LATA3 = 0;
 "138
-[e = _fault -> -> 1 `i `uc ]
-[; ;main.c: 139: }
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 139: fault = 1;
 "139
+[e = _fault -> -> 1 `i `uc ]
+[; ;main.c: 140: }
+"140
 [e :UE 990 ]
 }
-"141
+"142
 [v _read_ntc_temp `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 141: void read_ntc_temp(void) {
+[; ;main.c: 142: void read_ntc_temp(void) {
 [e :U _read_ntc_temp ]
 [f ]
-"142
+"143
 [v _val `ul ~T0 @X0 1 a ]
-[; ;main.c: 142: uint32_t val;
-[; ;main.c: 145: val = ADC_GetConversion(TEMP);
-"145
-[e = _val -> ( _ADC_GetConversion (1 . `E7402 0 `ul ]
-[; ;main.c: 146: ntc_temp = (uint16_t)(((val * 119) - 34511) / 100);
+[; ;main.c: 143: uint32_t val;
+[; ;main.c: 146: val = ADC_GetConversion(TEMP);
 "146
+[e = _val -> ( _ADC_GetConversion (1 . `E7402 0 `ul ]
+[; ;main.c: 147: ntc_temp = (uint16_t)(((val * 119) - 34511) / 100);
+"147
 [e = _ntc_temp -> -> / - * _val -> -> -> 119 `i `l `ul -> -> 34511 `l `ul -> -> -> 100 `i `l `ul `ui `i ]
-[; ;main.c: 152: }
-"152
+[; ;main.c: 153: }
+"153
 [e :UE 991 ]
 }
-"154
+"155
 [v _get_battery_volt `(ui ~T0 @X0 1 ef ]
 {
-[; ;main.c: 154: uint16_t get_battery_volt(void) {
+[; ;main.c: 155: uint16_t get_battery_volt(void) {
 [e :U _get_battery_volt ]
 [f ]
-"155
-[v _val `ul ~T0 @X0 1 a ]
-[; ;main.c: 155: uint32_t val;
-[; ;main.c: 156: val = ADC_GetConversion(VSENS);
 "156
-[e = _val -> ( _ADC_GetConversion (1 . `E7402 1 `ul ]
-[; ;main.c: 157: return (uint16_t)((val << 11) / 10000);
+[v _val `ul ~T0 @X0 1 a ]
+[; ;main.c: 156: uint32_t val;
+[; ;main.c: 157: val = ADC_GetConversion(VSENS);
 "157
+[e = _val -> ( _ADC_GetConversion (1 . `E7402 1 `ul ]
+[; ;main.c: 158: return (uint16_t)((val << 11) / 10000);
+"158
 [e ) -> / << _val -> 11 `i -> -> -> 10000 `i `l `ul `ui ]
 [e $UE 992  ]
-[; ;main.c: 158: }
-"158
+[; ;main.c: 159: }
+"159
 [e :UE 992 ]
 }
-"160
+"161
 [v _get_current `(ui ~T0 @X0 1 ef ]
 {
-[; ;main.c: 160: uint16_t get_current(void) {
+[; ;main.c: 161: uint16_t get_current(void) {
 [e :U _get_current ]
 [f ]
-"161
-[v _val `ul ~T0 @X0 1 a ]
-[; ;main.c: 161: uint32_t val;
-[; ;main.c: 162: val = ADC_GetConversion(ISENS);
 "162
-[e = _val -> ( _ADC_GetConversion (1 . `E7402 2 `ul ]
-[; ;main.c: 163: return (uint16_t)((val * 1955) / 1000);
+[v _val `ul ~T0 @X0 1 a ]
+[; ;main.c: 162: uint32_t val;
+[; ;main.c: 163: val = ADC_GetConversion(ISENS);
 "163
+[e = _val -> ( _ADC_GetConversion (1 . `E7402 2 `ul ]
+[; ;main.c: 164: return (uint16_t)((val * 1955) / 1000);
+"164
 [e ) -> / * _val -> -> -> 1955 `i `l `ul -> -> -> 1000 `i `l `ul `ui ]
 [e $UE 993  ]
-[; ;main.c: 164: }
-"164
+[; ;main.c: 165: }
+"165
 [e :UE 993 ]
 }
-"167
+"168
 [v _read_cur_volt `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 167: void read_cur_volt(void) {
+[; ;main.c: 168: void read_cur_volt(void) {
 [e :U _read_cur_volt ]
 [f ]
-"168
-[v _i `uc ~T0 @X0 1 a ]
 "169
+[v _i `uc ~T0 @X0 1 a ]
+"170
 [v _volt `ui ~T0 @X0 1 a ]
 [v _volt_min `ui ~T0 @X0 1 a ]
-[; ;main.c: 168: uint8_t i;
-[; ;main.c: 169: uint16_t volt, volt_min;
-[; ;main.c: 172: LATAbits.LATA0 = 1;
-"172
-[e = . . _LATAbits 0 0 -> -> 1 `i `uc ]
-[; ;main.c: 173: current[0] = get_current();
+[; ;main.c: 169: uint8_t i;
+[; ;main.c: 170: uint16_t volt, volt_min;
+[; ;main.c: 173: LATAbits.LATA0 = 1;
 "173
+[e = . . _LATAbits 0 0 -> -> 1 `i `uc ]
+[; ;main.c: 174: current[0] = get_current();
+"174
 [e = *U + &U _current * -> -> -> 0 `i `ui `ux -> -> # *U &U _current `ui `ux ( _get_current ..  ]
-[; ;main.c: 175: volt_min = get_battery_volt();
-"175
-[e = _volt_min ( _get_battery_volt ..  ]
-[; ;main.c: 176: LATAbits.LATA0 = 0;
+[; ;main.c: 176: volt_min = get_battery_volt();
 "176
+[e = _volt_min ( _get_battery_volt ..  ]
+[; ;main.c: 177: LATAbits.LATA0 = 0;
+"177
 [e = . . _LATAbits 0 0 -> -> 0 `i `uc ]
-[; ;main.c: 179: LATAbits.LATA1 = 1;
-"179
-[e = . . _LATAbits 0 1 -> -> 1 `i `uc ]
-[; ;main.c: 180: current[1] = get_current();
+[; ;main.c: 180: LATAbits.LATA1 = 1;
 "180
+[e = . . _LATAbits 0 1 -> -> 1 `i `uc ]
+[; ;main.c: 181: current[1] = get_current();
+"181
 [e = *U + &U _current * -> -> -> 1 `i `ui `ux -> -> # *U &U _current `ui `ux ( _get_current ..  ]
-[; ;main.c: 182: volt = get_battery_volt();
-"182
-[e = _volt ( _get_battery_volt ..  ]
-[; ;main.c: 183: if (volt < volt_min) volt_min = volt;
+[; ;main.c: 183: volt = get_battery_volt();
 "183
+[e = _volt ( _get_battery_volt ..  ]
+[; ;main.c: 184: if (volt < volt_min) volt_min = volt;
+"184
 [e $ ! < _volt _volt_min 995  ]
 [e = _volt_min _volt ]
 [e :U 995 ]
-[; ;main.c: 184: LATAbits.LATA1 = 0;
-"184
+[; ;main.c: 185: LATAbits.LATA1 = 0;
+"185
 [e = . . _LATAbits 0 1 -> -> 0 `i `uc ]
-[; ;main.c: 187: LATAbits.LATA2 = 1;
-"187
-[e = . . _LATAbits 0 2 -> -> 1 `i `uc ]
-[; ;main.c: 188: current[2] = get_current();
+[; ;main.c: 188: LATAbits.LATA2 = 1;
 "188
+[e = . . _LATAbits 0 2 -> -> 1 `i `uc ]
+[; ;main.c: 189: current[2] = get_current();
+"189
 [e = *U + &U _current * -> -> -> 2 `i `ui `ux -> -> # *U &U _current `ui `ux ( _get_current ..  ]
-[; ;main.c: 190: volt = get_battery_volt();
-"190
-[e = _volt ( _get_battery_volt ..  ]
-[; ;main.c: 191: if (volt < volt_min) volt_min = volt;
+[; ;main.c: 191: volt = get_battery_volt();
 "191
+[e = _volt ( _get_battery_volt ..  ]
+[; ;main.c: 192: if (volt < volt_min) volt_min = volt;
+"192
 [e $ ! < _volt _volt_min 996  ]
 [e = _volt_min _volt ]
 [e :U 996 ]
-[; ;main.c: 192: LATAbits.LATA2 = 0;
-"192
+[; ;main.c: 193: LATAbits.LATA2 = 0;
+"193
 [e = . . _LATAbits 0 2 -> -> 0 `i `uc ]
-[; ;main.c: 195: LATAbits.LATA3 = 1;
-"195
-[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-[; ;main.c: 196: current[3] = get_current();
+[; ;main.c: 196: LATAbits.LATA3 = 1;
 "196
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+[; ;main.c: 197: current[3] = get_current();
+"197
 [e = *U + &U _current * -> -> -> 3 `i `ui `ux -> -> # *U &U _current `ui `ux ( _get_current ..  ]
-[; ;main.c: 198: volt = get_battery_volt();
-"198
-[e = _volt ( _get_battery_volt ..  ]
-[; ;main.c: 199: if (volt < volt_min) volt_min = volt;
+[; ;main.c: 199: volt = get_battery_volt();
 "199
+[e = _volt ( _get_battery_volt ..  ]
+[; ;main.c: 200: if (volt < volt_min) volt_min = volt;
+"200
 [e $ ! < _volt _volt_min 997  ]
 [e = _volt_min _volt ]
 [e :U 997 ]
-[; ;main.c: 200: LATAbits.LATA3 = 0;
-"200
+[; ;main.c: 201: LATAbits.LATA3 = 0;
+"201
 [e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-[; ;main.c: 203: voltage = volt_min;
-"203
+[; ;main.c: 204: voltage = volt_min;
+"204
 [e = _voltage _volt_min ]
-[; ;main.c: 206: total_power = 0;
-"206
-[e = _total_power -> -> 0 `i `ui ]
-[; ;main.c: 207: for(i=0;i<4;i++) {
+[; ;main.c: 207: total_power = 0;
 "207
+[e = _total_power -> -> 0 `i `ui ]
+[; ;main.c: 208: for(i=0;i<4;i++) {
+"208
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 4 `i 998  ]
 [e $U 999  ]
 [e :U 998 ]
 {
-[; ;main.c: 208: power[i] = volt * (uint32_t)current[i] / (uint32_t)1000;
-"208
-[e = *U + &U _power * -> _i `ux -> -> # *U &U _power `ui `ux -> / * -> _volt `ul -> *U + &U _current * -> _i `ux -> -> # *U &U _current `ui `ux `ul -> -> 1000 `i `ul `ui ]
-[; ;main.c: 209: total_power += power[i];
+[; ;main.c: 209: power[i] = volt * (uint32_t)current[i] / (uint32_t)1000;
 "209
-[e =+ _total_power *U + &U _power * -> _i `ux -> -> # *U &U _power `ui `ux ]
+[e = *U + &U _power * -> _i `ux -> -> # *U &U _power `ui `ux -> / * -> _volt `ul -> *U + &U _current * -> _i `ux -> -> # *U &U _current `ui `ux `ul -> -> 1000 `i `ul `ui ]
+[; ;main.c: 210: total_power += power[i];
 "210
+[e =+ _total_power *U + &U _power * -> _i `ux -> -> # *U &U _power `ui `ux ]
+"211
 }
-"207
+"208
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 4 `i 998  ]
 [e :U 999 ]
-"210
-}
-[; ;main.c: 210: }
-[; ;main.c: 211: }
 "211
+}
+[; ;main.c: 211: }
+[; ;main.c: 212: }
+"212
 [e :UE 994 ]
 }
-"213
+"214
 [v _timer1 `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 213: void timer1() {
+[; ;main.c: 214: void timer1() {
 [e :U _timer1 ]
 [f ]
-[; ;main.c: 214: if (duty++ > 99) {
-"214
+[; ;main.c: 215: if (duty++ > 99) {
+"215
 [e $ ! > -> ++ _duty -> -> 1 `i `uc `i -> 99 `i 1002  ]
 {
-[; ;main.c: 215: duty = 0;
-"215
+[; ;main.c: 216: duty = 0;
+"216
 [e = _duty -> -> 0 `i `uc ]
-[; ;main.c: 217: TMR1_StopTimer();
-"217
-[e ( _TMR1_StopTimer ..  ]
-[; ;main.c: 218: LATAbits.LATA0 = 0;
+[; ;main.c: 218: TMR1_StopTimer();
 "218
-[e = . . _LATAbits 0 0 -> -> 0 `i `uc ]
-[; ;main.c: 219: LATAbits.LATA1 = 0;
+[e ( _TMR1_StopTimer ..  ]
+[; ;main.c: 219: LATAbits.LATA0 = 0;
 "219
-[e = . . _LATAbits 0 1 -> -> 0 `i `uc ]
-[; ;main.c: 220: LATAbits.LATA2 = 0;
+[e = . . _LATAbits 0 0 -> -> 0 `i `uc ]
+[; ;main.c: 220: LATAbits.LATA1 = 0;
 "220
-[e = . . _LATAbits 0 2 -> -> 0 `i `uc ]
-[; ;main.c: 221: LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 1 -> -> 0 `i `uc ]
+[; ;main.c: 221: LATAbits.LATA2 = 0;
 "221
-[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+[e = . . _LATAbits 0 2 -> -> 0 `i `uc ]
+[; ;main.c: 222: LATAbits.LATA3 = 0;
 "222
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+"223
 }
-[; ;main.c: 222: } else {
+[; ;main.c: 223: } else {
 [e $U 1003  ]
 [e :U 1002 ]
 {
-[; ;main.c: 224: if (duty < dc[0]) LATAbits.LATA0 = 1; else LATAbits.LATA0 = 0;
-"224
+[; ;main.c: 225: if (duty < dc[0]) LATAbits.LATA0 = 1; else LATAbits.LATA0 = 0;
+"225
 [e $ ! < -> _duty `i -> *U + &U _dc * -> -> -> 0 `i `ui `ux -> -> # *U &U _dc `ui `ux `i 1004  ]
 [e = . . _LATAbits 0 0 -> -> 1 `i `uc ]
 [e $U 1005  ]
 [e :U 1004 ]
 [e = . . _LATAbits 0 0 -> -> 0 `i `uc ]
 [e :U 1005 ]
-[; ;main.c: 225: if (duty < dc[1]) LATAbits.LATA1 = 1; else LATAbits.LATA1 = 0;
-"225
+[; ;main.c: 226: if (duty < dc[1]) LATAbits.LATA1 = 1; else LATAbits.LATA1 = 0;
+"226
 [e $ ! < -> _duty `i -> *U + &U _dc * -> -> -> 1 `i `ui `ux -> -> # *U &U _dc `ui `ux `i 1006  ]
 [e = . . _LATAbits 0 1 -> -> 1 `i `uc ]
 [e $U 1007  ]
 [e :U 1006 ]
 [e = . . _LATAbits 0 1 -> -> 0 `i `uc ]
 [e :U 1007 ]
-[; ;main.c: 226: if (duty < dc[2]) LATAbits.LATA2 = 1; else LATAbits.LATA2 = 0;
-"226
+[; ;main.c: 227: if (duty < dc[2]) LATAbits.LATA2 = 1; else LATAbits.LATA2 = 0;
+"227
 [e $ ! < -> _duty `i -> *U + &U _dc * -> -> -> 2 `i `ui `ux -> -> # *U &U _dc `ui `ux `i 1008  ]
 [e = . . _LATAbits 0 2 -> -> 1 `i `uc ]
 [e $U 1009  ]
 [e :U 1008 ]
 [e = . . _LATAbits 0 2 -> -> 0 `i `uc ]
 [e :U 1009 ]
-[; ;main.c: 227: if (duty < dc[3]) LATAbits.LATA3 = 1; else LATAbits.LATA3 = 0;
-"227
+[; ;main.c: 228: if (duty < dc[3]) LATAbits.LATA3 = 1; else LATAbits.LATA3 = 0;
+"228
 [e $ ! < -> _duty `i -> *U + &U _dc * -> -> -> 3 `i `ui `ux -> -> # *U &U _dc `ui `ux `i 1010  ]
 [e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
 [e $U 1011  ]
 [e :U 1010 ]
 [e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
 [e :U 1011 ]
-"228
+"229
 }
 [e :U 1003 ]
-[; ;main.c: 228: }
 [; ;main.c: 229: }
-"229
+[; ;main.c: 230: }
+"230
 [e :UE 1001 ]
 }
-"231
+"232
 [v _check_status `(uc ~T0 @X0 1 ef ]
 {
-[; ;main.c: 231: uint8_t check_status() {
+[; ;main.c: 232: uint8_t check_status() {
 [e :U _check_status ]
 [f ]
-[; ;main.c: 232: if (voltage <= 104) {
-"232
+[; ;main.c: 233: if (voltage <= 104) {
+"233
 [e $ ! <= _voltage -> -> 104 `i `ui 1013  ]
 {
-[; ;main.c: 233: OLED_returnHome();
-"233
-[e ( _OLED_returnHome ..  ]
-[; ;main.c: 234: OLED_command(0x01);
+[; ;main.c: 234: OLED_returnHome();
 "234
-[e ( _OLED_command (1 -> -> 1 `i `uc ]
-[; ;main.c: 235: OLED_print_xy(0,0, "Main B bus");
+[e ( _OLED_returnHome ..  ]
+[; ;main.c: 235: OLED_command(0x01);
 "235
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 1C `*uc ]
-[; ;main.c: 236: OLED_print_xy(0,1, "undervolt.");
+[e ( _OLED_command (1 -> -> 1 `i `uc ]
+[; ;main.c: 236: OLED_print_xy(0,0, "Main B bus");
 "236
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 2C `*uc ]
-[; ;main.c: 237: return 1;
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 1C `*uc ]
+[; ;main.c: 237: OLED_print_xy(0,1, "undervolt.");
 "237
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 2C `*uc ]
+[; ;main.c: 238: return 1;
+"238
 [e ) -> -> 1 `i `uc ]
 [e $UE 1012  ]
-"238
+"239
 }
-[; ;main.c: 238: } else if ((voltage > 132) && (voltage <= 144)) {
+[; ;main.c: 239: } else if ((voltage > 132) && (voltage <= 144)) {
 [e $U 1014  ]
 [e :U 1013 ]
 [e $ ! && > _voltage -> -> 132 `i `ui <= _voltage -> -> 144 `i `ui 1015  ]
 {
-[; ;main.c: 239: OLED_returnHome();
-"239
-[e ( _OLED_returnHome ..  ]
-[; ;main.c: 240: OLED_command(0x01);
+[; ;main.c: 240: OLED_returnHome();
 "240
-[e ( _OLED_command (1 -> -> 1 `i `uc ]
-[; ;main.c: 241: OLED_print_xy(0,0, "Main B bus");
+[e ( _OLED_returnHome ..  ]
+[; ;main.c: 241: OLED_command(0x01);
 "241
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 3C `*uc ]
-[; ;main.c: 242: OLED_print_xy(0,1, "overvolt.");
+[e ( _OLED_command (1 -> -> 1 `i `uc ]
+[; ;main.c: 242: OLED_print_xy(0,0, "Main B bus");
 "242
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 4C `*uc ]
-[; ;main.c: 243: return 1;
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 3C `*uc ]
+[; ;main.c: 243: OLED_print_xy(0,1, "overvolt.");
 "243
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 4C `*uc ]
+[; ;main.c: 244: return 1;
+"244
 [e ) -> -> 1 `i `uc ]
 [e $UE 1012  ]
-"244
+"245
 }
-[; ;main.c: 244: } else if (voltage > 144) {
+[; ;main.c: 245: } else if (voltage > 144) {
 [e $U 1016  ]
 [e :U 1015 ]
 [e $ ! > _voltage -> -> 144 `i `ui 1017  ]
 {
-[; ;main.c: 246: OLED_command(0x08);
-"246
-[e ( _OLED_command (1 -> -> 8 `i `uc ]
-[; ;main.c: 247: LATBbits.LATB5 = 0;
+[; ;main.c: 247: OLED_command(0x08);
 "247
-[e = . . _LATBbits 0 5 -> -> 0 `i `uc ]
-[; ;main.c: 248: LATCbits.LATC3 = 0;
+[e ( _OLED_command (1 -> -> 8 `i `uc ]
+[; ;main.c: 248: LATBbits.LATB5 = 0;
 "248
-[e = . . _LATCbits 0 3 -> -> 0 `i `uc ]
-[; ;main.c: 249: LATBbits.LATB1 = 0;
+[e = . . _LATBbits 0 5 -> -> 0 `i `uc ]
+[; ;main.c: 249: LATCbits.LATC3 = 0;
 "249
-[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
+[e = . . _LATCbits 0 3 -> -> 0 `i `uc ]
 [; ;main.c: 250: LATBbits.LATB1 = 0;
 "250
 [e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
-[; ;main.c: 251: LATBbits.LATB0 = 0;
+[; ;main.c: 251: LATBbits.LATB1 = 0;
 "251
-[e = . . _LATBbits 0 0 -> -> 0 `i `uc ]
-[; ;main.c: 252: LATCbits.LATC5 = 0;
+[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
+[; ;main.c: 252: LATBbits.LATB0 = 0;
 "252
-[e = . . _LATCbits 0 5 -> -> 0 `i `uc ]
-[; ;main.c: 253: LATCbits.LATC4 = 0;
+[e = . . _LATBbits 0 0 -> -> 0 `i `uc ]
+[; ;main.c: 253: LATCbits.LATC5 = 0;
 "253
-[e = . . _LATCbits 0 4 -> -> 0 `i `uc ]
-[; ;main.c: 254: LATBbits.LATB4 = 0;
+[e = . . _LATCbits 0 5 -> -> 0 `i `uc ]
+[; ;main.c: 254: LATCbits.LATC4 = 0;
 "254
-[e = . . _LATBbits 0 4 -> -> 0 `i `uc ]
-[; ;main.c: 255: LATBbits.LATB2 = 0;
+[e = . . _LATCbits 0 4 -> -> 0 `i `uc ]
+[; ;main.c: 255: LATBbits.LATB4 = 0;
 "255
-[e = . . _LATBbits 0 2 -> -> 0 `i `uc ]
-[; ;main.c: 256: while(1);
+[e = . . _LATBbits 0 4 -> -> 0 `i `uc ]
+[; ;main.c: 256: LATBbits.LATB2 = 0;
 "256
+[e = . . _LATBbits 0 2 -> -> 0 `i `uc ]
+[; ;main.c: 257: while(1);
+"257
 [e :U 1019 ]
 [e :U 1018 ]
 [e $U 1019  ]
 [e :U 1020 ]
-"258
+"259
 }
 [e :U 1017 ]
-"260
+"261
 [e :U 1016 ]
 [e :U 1014 ]
-[; ;main.c: 258: }
-[; ;main.c: 260: if (fault) {
+[; ;main.c: 259: }
+[; ;main.c: 261: if (fault) {
 [e $ ! != -> _fault `i -> -> -> 0 `i `Vuc `i 1021  ]
 {
-[; ;main.c: 261: OLED_returnHome();
-"261
-[e ( _OLED_returnHome ..  ]
-[; ;main.c: 262: pb = none;
+[; ;main.c: 262: OLED_returnHome();
 "262
-[e = _pb . `E7519 0 ]
-[; ;main.c: 263: while(pb != abort) {
+[e ( _OLED_returnHome ..  ]
+[; ;main.c: 263: pb = none;
 "263
+[e = _pb . `E7519 0 ]
+[; ;main.c: 264: while(pb != abort) {
+"264
 [e $U 1022  ]
 [e :U 1023 ]
 {
-[; ;main.c: 264: OLED_command(0x01);
-"264
-[e ( _OLED_command (1 -> -> 1 `i `uc ]
-[; ;main.c: 265: OLED_print_xy(0,0, "Output");
+[; ;main.c: 265: OLED_command(0x01);
 "265
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 5C `*uc ]
-[; ;main.c: 266: OLED_print_xy(0,1, "overloaded");
+[e ( _OLED_command (1 -> -> 1 `i `uc ]
+[; ;main.c: 266: OLED_print_xy(0,0, "Output");
 "266
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 6C `*uc ]
-[; ;main.c: 267: _delay((unsigned long)((1500)*(1000000/4000.0)));
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 5C `*uc ]
+[; ;main.c: 267: OLED_print_xy(0,1, "overloaded");
 "267
-[e ( __delay (1 -> * -> -> 1500 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
-[; ;main.c: 268: OLED_command(0x01);
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 6C `*uc ]
+[; ;main.c: 268: _delay((unsigned long)((1500)*(1000000/4000.0)));
 "268
-[e ( _OLED_command (1 -> -> 1 `i `uc ]
-[; ;main.c: 269: OLED_print_xy(0,0, "Remove short");
+[e ( __delay (1 -> * -> -> 1500 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
+[; ;main.c: 269: OLED_command(0x01);
 "269
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 7C `*uc ]
-[; ;main.c: 270: OLED_print_xy(0,1, "circuit");
-"270
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 8C `*uc ]
-[; ;main.c: 271: _delay((unsigned long)((1500)*(1000000/4000.0)));
-"271
-[e ( __delay (1 -> * -> -> 1500 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
-[; ;main.c: 272: OLED_command(0x01);
-"272
 [e ( _OLED_command (1 -> -> 1 `i `uc ]
-[; ;main.c: 273: OLED_print_xy(0,0, "Hold button");
-"273
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 9C `*uc ]
-[; ;main.c: 274: OLED_print_xy(0,1, "to reset");
-"274
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 10C `*uc ]
-[; ;main.c: 275: _delay((unsigned long)((1500)*(1000000/4000.0)));
-"275
+[; ;main.c: 270: OLED_print_xy(0,0, "Remove short");
+"270
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 7C `*uc ]
+[; ;main.c: 271: OLED_print_xy(0,1, "circuit");
+"271
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 8C `*uc ]
+[; ;main.c: 272: _delay((unsigned long)((1500)*(1000000/4000.0)));
+"272
 [e ( __delay (1 -> * -> -> 1500 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
+[; ;main.c: 273: OLED_command(0x01);
+"273
+[e ( _OLED_command (1 -> -> 1 `i `uc ]
+[; ;main.c: 274: OLED_print_xy(0,0, "Hold button");
+"274
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 9C `*uc ]
+[; ;main.c: 275: OLED_print_xy(0,1, "to reset");
+"275
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc -> :s 10C `*uc ]
+[; ;main.c: 276: _delay((unsigned long)((1500)*(1000000/4000.0)));
 "276
+[e ( __delay (1 -> * -> -> 1500 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
+"277
 }
 [e :U 1022 ]
-"263
+"264
 [e $ != -> _pb `i -> . `E7519 3 `i 1023  ]
 [e :U 1024 ]
-[; ;main.c: 276: }
-[; ;main.c: 277: fault = 0;
-"277
-[e = _fault -> -> 0 `i `uc ]
-[; ;main.c: 278: LATCbits.LATC3 = 1;
+[; ;main.c: 277: }
+[; ;main.c: 278: fault = 0;
 "278
-[e = . . _LATCbits 0 3 -> -> 1 `i `uc ]
-[; ;main.c: 279: TMR1_StartTimer();
+[e = _fault -> -> 0 `i `uc ]
+[; ;main.c: 279: LATCbits.LATC3 = 1;
 "279
-[e ( _TMR1_StartTimer ..  ]
+[e = . . _LATCbits 0 3 -> -> 1 `i `uc ]
+[; ;main.c: 280: TMR1_StartTimer();
 "280
+[e ( _TMR1_StartTimer ..  ]
+"281
 }
 [e :U 1021 ]
-[; ;main.c: 280: }
-[; ;main.c: 281: return 0;
-"281
+[; ;main.c: 281: }
+[; ;main.c: 282: return 0;
+"282
 [e ) -> -> 0 `i `uc ]
 [e $UE 1012  ]
-[; ;main.c: 284: }
-"284
+[; ;main.c: 285: }
+"285
 [e :UE 1012 ]
 }
-"286
+"287
 [v _main_menu `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 286: void main_menu(void) {
+[; ;main.c: 287: void main_menu(void) {
 [e :U _main_menu ]
 [f ]
-"287
+"288
 [v F7570 `uc ~T0 @X0 1 s menu ]
 [i F7570
 -> -> 0 `i `uc
 ]
-"288
+"289
 [v F7571 `uc ~T0 @X0 1 s page ]
 [i F7571
 -> -> 0 `i `uc
 ]
-"289
-[v _pages `uc ~T0 @X0 1 a ]
-[; ;main.c: 287: static uint8_t menu = 0;
-[; ;main.c: 288: static uint8_t page = 0;
-[; ;main.c: 289: uint8_t pages = 0;
-[e = _pages -> -> 0 `i `uc ]
 "290
+[v _pages `uc ~T0 @X0 1 a ]
+[; ;main.c: 288: static uint8_t menu = 0;
+[; ;main.c: 289: static uint8_t page = 0;
+[; ;main.c: 290: uint8_t pages = 0;
+[e = _pages -> -> 0 `i `uc ]
+"291
 [v _i `uc ~T0 @X0 1 a ]
-"292
+"293
 [v _s `uc ~T0 @X0 -> 61 `i a ]
-[; ;main.c: 290: uint8_t i;
-[; ;main.c: 292: char s[61];
-[; ;main.c: 294: if (menu == 0)
-"294
-[e $ ! == -> F7570 `i -> 0 `i 1026  ]
-[; ;main.c: 295: {
+[; ;main.c: 291: uint8_t i;
+[; ;main.c: 293: char s[61];
+[; ;main.c: 295: if (menu == 0)
 "295
+[e $ ! == -> F7570 `i -> 0 `i 1026  ]
+[; ;main.c: 296: {
+"296
 {
-[; ;main.c: 297: pages = 3;
-"297
-[e = _pages -> -> 3 `i `uc ]
-[; ;main.c: 298: OLED_print_xy(0,0, "Temperatur  Feuchte     Taupunkt    Batterie");
+[; ;main.c: 298: pages = 3;
 "298
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 11C `*uc ]
-[; ;main.c: 299: sprintf(s,"%3d,%d \xdf\C    %3d,%d %%rel    -xx,x \xdf\C    %2u,%1uV  %2u,%uW",
-[; ;main.c: 300: (int8_t)(temp/10),(int8_t)((temp < 0 ? -1*temp : temp)%10),
-[; ;main.c: 301: (uint8_t)(rh/10),(uint8_t)(rh%10),
-[; ;main.c: 302: (uint8_t)(voltage / 10),(uint8_t)(voltage % 10),
-[; ;main.c: 303: total_power / 10, total_power % 10);
-"303
-[e ( _sprintf (1 , , , , , , , , (. , &U _s :s 12C -> -> / -> _temp `i -> 10 `i `c `i -> -> % ? < -> _temp `i -> 0 `i : * -U -> 1 `i -> _temp `i -> _temp `i -> 10 `i `c `i -> -> / -> _rh `i -> 10 `i `uc `i -> -> % -> _rh `i -> 10 `i `uc `i -> -> / _voltage -> -> 10 `i `ui `uc `i -> -> % _voltage -> -> 10 `i `ui `uc `i / _total_power -> -> 10 `i `ui % _total_power -> -> 10 `i `ui ]
-[; ;main.c: 304: OLED_print_xy(0,1, s);
-"304
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc &U _s ]
-"305
-}
-[; ;main.c: 305: }
-[e $U 1027  ]
-"306
-[e :U 1026 ]
-[; ;main.c: 306: else if (menu == 1)
-[e $ ! == -> F7570 `i -> 1 `i 1028  ]
-[; ;main.c: 307: {
-"307
-{
-[; ;main.c: 309: pages = 3;
-"309
 [e = _pages -> -> 3 `i `uc ]
-[; ;main.c: 310: OLED_print_xy(0,0, "Kanal 1     Kanal 2     Kanal 3     Kanal 4");
-"310
-[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 13C `*uc ]
-[; ;main.c: 311: sprintf(s,"%2d %%  %2u,%u W%2d %%  %2u,%u W",
-[; ;main.c: 312: dc[0], power[0]/10, power[0]%10, dc[1], power[1]/10, power[1]%10);
-"312
-[e ( _sprintf (1 , , , , , , (. , &U _s :s 14C -> *U + &U _dc * -> -> -> 0 `i `ui `ux -> -> # *U &U _dc `ui `ux `i / *U + &U _power * -> -> -> 0 `i `ui `ux -> -> # *U &U _power `ui `ux -> -> 10 `i `ui % *U + &U _power * -> -> -> 0 `i `ui `ux -> -> # *U &U _power `ui `ux -> -> 10 `i `ui -> *U + &U _dc * -> -> -> 1 `i `ui `ux -> -> # *U &U _dc `ui `ux `i / *U + &U _power * -> -> -> 1 `i `ui `ux -> -> # *U &U _power `ui `ux -> -> 10 `i `ui % *U + &U _power * -> -> -> 1 `i `ui `ux -> -> # *U &U _power `ui `ux -> -> 10 `i `ui ]
-[; ;main.c: 313: OLED_print_xy(0,1, s);
-"313
+[; ;main.c: 299: OLED_print_xy(0,0, "Temperatur  Feuchte     Taupunkt    Batterie");
+"299
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 11C `*uc ]
+[; ;main.c: 300: sprintf(s,"%3d,%d \xdf\C    %3d,%d %%rel    -xx,x \xdf\C    %2u,%1uV  %2u,%uW",
+[; ;main.c: 301: (int8_t)(temp/10),(int8_t)((temp < 0 ? -1*temp : temp)%10),
+[; ;main.c: 302: (uint8_t)(rh/10),(uint8_t)(rh%10),
+[; ;main.c: 303: (uint8_t)(voltage / 10),(uint8_t)(voltage % 10),
+[; ;main.c: 304: total_power / 10, total_power % 10);
+"304
+[e ( _sprintf (1 , , , , , , , , (. , &U _s :s 12C -> -> / -> _temp `i -> 10 `i `c `i -> -> % ? < -> _temp `i -> 0 `i : * -U -> 1 `i -> _temp `i -> _temp `i -> 10 `i `c `i -> -> / -> _rh `i -> 10 `i `uc `i -> -> % -> _rh `i -> 10 `i `uc `i -> -> / _voltage -> -> 10 `i `ui `uc `i -> -> % _voltage -> -> 10 `i `ui `uc `i / _total_power -> -> 10 `i `ui % _total_power -> -> 10 `i `ui ]
+[; ;main.c: 305: OLED_print_xy(0,1, s);
+"305
 [e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc &U _s ]
-[; ;main.c: 315: if (pb == long_press) {
-"315
+"306
+}
+[; ;main.c: 306: }
+[e $U 1027  ]
+"307
+[e :U 1026 ]
+[; ;main.c: 307: else if (menu == 1)
+[e $ ! == -> F7570 `i -> 1 `i 1028  ]
+[; ;main.c: 308: {
+"308
+{
+[; ;main.c: 310: pages = 3;
+"310
+[e = _pages -> -> 3 `i `uc ]
+[; ;main.c: 311: OLED_print_xy(0,0, "Kanal 1     Kanal 2     Kanal 3     Kanal 4");
+"311
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc -> :s 13C `*uc ]
+[; ;main.c: 312: sprintf(s,"%2d %%  %2u,%u W%2d %%  %2u,%u W",
+[; ;main.c: 313: dc[0], power[0]/10, power[0]%10, dc[1], power[1]/10, power[1]%10);
+"313
+[e ( _sprintf (1 , , , , , , (. , &U _s :s 14C -> *U + &U _dc * -> -> -> 0 `i `ui `ux -> -> # *U &U _dc `ui `ux `i / *U + &U _power * -> -> -> 0 `i `ui `ux -> -> # *U &U _power `ui `ux -> -> 10 `i `ui % *U + &U _power * -> -> -> 0 `i `ui `ux -> -> # *U &U _power `ui `ux -> -> 10 `i `ui -> *U + &U _dc * -> -> -> 1 `i `ui `ux -> -> # *U &U _dc `ui `ux `i / *U + &U _power * -> -> -> 1 `i `ui `ux -> -> # *U &U _power `ui `ux -> -> 10 `i `ui % *U + &U _power * -> -> -> 1 `i `ui `ux -> -> # *U &U _power `ui `ux -> -> 10 `i `ui ]
+[; ;main.c: 314: OLED_print_xy(0,1, s);
+"314
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc &U _s ]
+[; ;main.c: 316: if (pb == long_press) {
+"316
 [e $ ! == -> _pb `i -> . `E7519 2 `i 1029  ]
 {
-[; ;main.c: 316: menu = 10;
-"316
-[e = F7570 -> -> 10 `i `uc ]
-[; ;main.c: 317: pb = none;
+[; ;main.c: 317: menu = 10;
 "317
-[e = _pb . `E7519 0 ]
+[e = F7570 -> -> 10 `i `uc ]
+[; ;main.c: 318: pb = none;
 "318
-}
-[e :U 1029 ]
+[e = _pb . `E7519 0 ]
 "319
 }
-[; ;main.c: 318: }
-[; ;main.c: 319: }
-[e $U 1030  ]
+[e :U 1029 ]
 "320
-[e :U 1028 ]
-[; ;main.c: 320: else if (menu == 10)
-[e $ ! == -> F7570 `i -> 10 `i 1031  ]
-[; ;main.c: 321: {
+}
+[; ;main.c: 319: }
+[; ;main.c: 320: }
+[e $U 1030  ]
 "321
+[e :U 1028 ]
+[; ;main.c: 321: else if (menu == 10)
+[e $ ! == -> F7570 `i -> 10 `i 1031  ]
+[; ;main.c: 322: {
+"322
 {
-[; ;main.c: 324: OLED_print_xy(12 * page, 0, "Tastgrad");
-"324
-[e ( _OLED_print_xy (3 , , -> * -> 12 `i -> F7571 `i `uc -> -> 0 `i `uc -> :s 15C `*uc ]
-[; ;main.c: 325: sprintf(s, "Kanal %d: ", page + 1);
+[; ;main.c: 325: OLED_print_xy(12 * page, 0, "Tastgrad");
 "325
-[e ( _sprintf (1 , (. , &U _s :s 16C + -> F7571 `i -> 1 `i ]
-[; ;main.c: 326: OLED_print_xy(12 * page, 1, s);
+[e ( _OLED_print_xy (3 , , -> * -> 12 `i -> F7571 `i `uc -> -> 0 `i `uc -> :s 15C `*uc ]
+[; ;main.c: 326: sprintf(s, "Kanal %d: ", page + 1);
 "326
+[e ( _sprintf (1 , (. , &U _s :s 16C + -> F7571 `i -> 1 `i ]
+[; ;main.c: 327: OLED_print_xy(12 * page, 1, s);
+"327
 [e ( _OLED_print_xy (3 , , -> * -> 12 `i -> F7571 `i `uc -> -> 1 `i `uc &U _s ]
-[; ;main.c: 328: while(pb == none) {
-"328
+[; ;main.c: 329: while(pb == none) {
+"329
 [e $U 1032  ]
 [e :U 1033 ]
 {
-[; ;main.c: 329: if ((dir == cw) && (dc[page] < 99)) {
-"329
+[; ;main.c: 330: if ((dir == cw) && (dc[page] < 99)) {
+"330
 [e $ ! && == -> _dir `i -> . `E7515 1 `i < -> *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux `i -> 99 `i 1035  ]
 {
-[; ;main.c: 330: dc[page]++;
-"330
-[e ++ *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux -> -> 1 `i `uc ]
-[; ;main.c: 331: dir = stop;
+[; ;main.c: 331: dc[page]++;
 "331
-[e = _dir . `E7515 0 ]
+[e ++ *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux -> -> 1 `i `uc ]
+[; ;main.c: 332: dir = stop;
 "332
+[e = _dir . `E7515 0 ]
+"333
 }
-[; ;main.c: 332: } else if ((dir == ccw) && (dc[page] > 0)) {
+[; ;main.c: 333: } else if ((dir == ccw) && (dc[page] > 0)) {
 [e $U 1036  ]
 [e :U 1035 ]
 [e $ ! && == -> _dir `i -> . `E7515 2 `i > -> *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux `i -> 0 `i 1037  ]
 {
-[; ;main.c: 333: dc[page]--;
-"333
-[e -- *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux -> -> 1 `i `uc ]
-[; ;main.c: 334: dir = stop;
+[; ;main.c: 334: dc[page]--;
 "334
-[e = _dir . `E7515 0 ]
+[e -- *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux -> -> 1 `i `uc ]
+[; ;main.c: 335: dir = stop;
 "335
+[e = _dir . `E7515 0 ]
+"336
 }
 [e :U 1037 ]
-"336
-[e :U 1036 ]
-[; ;main.c: 335: }
-[; ;main.c: 336: sprintf(s,"%2d%%", dc[page]);
-[e ( _sprintf (1 , (. , &U _s :s 17C -> *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux `i ]
-[; ;main.c: 337: OLED_print_xy(12 * page + 9, 1, s);
 "337
-[e ( _OLED_print_xy (3 , , -> + * -> 12 `i -> F7571 `i -> 9 `i `uc -> -> 1 `i `uc &U _s ]
+[e :U 1036 ]
+[; ;main.c: 336: }
+[; ;main.c: 337: sprintf(s,"%2d%%", dc[page]);
+[e ( _sprintf (1 , (. , &U _s :s 17C -> *U + &U _dc * -> F7571 `ux -> -> # *U &U _dc `ui `ux `i ]
+[; ;main.c: 338: OLED_print_xy(12 * page + 9, 1, s);
 "338
+[e ( _OLED_print_xy (3 , , -> + * -> 12 `i -> F7571 `i -> 9 `i `uc -> -> 1 `i `uc &U _s ]
+"339
 }
 [e :U 1032 ]
-"328
+"329
 [e $ == -> _pb `i -> . `E7519 0 `i 1033  ]
 [e :U 1034 ]
-[; ;main.c: 338: }
-[; ;main.c: 339: pb = none;
-"339
+[; ;main.c: 339: }
+[; ;main.c: 340: pb = none;
+"340
 [e = _pb . `E7519 0 ]
-[; ;main.c: 341: menu = 1;
-"341
-[e = F7570 -> -> 1 `i `uc ]
+[; ;main.c: 342: menu = 1;
 "342
+[e = F7570 -> -> 1 `i `uc ]
+"343
 }
 [e :U 1031 ]
-"345
+"346
 [e :U 1030 ]
 [e :U 1027 ]
-[; ;main.c: 342: }
-[; ;main.c: 345: if (pb == short_press) {
+[; ;main.c: 343: }
+[; ;main.c: 346: if (pb == short_press) {
 [e $ ! == -> _pb `i -> . `E7519 1 `i 1038  ]
 {
-[; ;main.c: 346: pb = none;
-"346
-[e = _pb . `E7519 0 ]
-[; ;main.c: 347: if (menu == 0) menu = 1;
+[; ;main.c: 347: pb = none;
 "347
+[e = _pb . `E7519 0 ]
+[; ;main.c: 348: if (menu == 0) menu = 1;
+"348
 [e $ ! == -> F7570 `i -> 0 `i 1039  ]
 [e = F7570 -> -> 1 `i `uc ]
 [e $U 1040  ]
-"348
+"349
 [e :U 1039 ]
-[; ;main.c: 348: else if (menu == 1) menu = 0;
+[; ;main.c: 349: else if (menu == 1) menu = 0;
 [e $ ! == -> F7570 `i -> 1 `i 1041  ]
 [e = F7570 -> -> 0 `i `uc ]
 [e :U 1041 ]
-"349
-[e :U 1040 ]
-[; ;main.c: 349: page = 0;
-[e = F7571 -> -> 0 `i `uc ]
-[; ;main.c: 350: OLED_returnHome();
 "350
-[e ( _OLED_returnHome ..  ]
+[e :U 1040 ]
+[; ;main.c: 350: page = 0;
+[e = F7571 -> -> 0 `i `uc ]
+[; ;main.c: 351: OLED_returnHome();
 "351
+[e ( _OLED_returnHome ..  ]
+"352
 }
 [e :U 1038 ]
-[; ;main.c: 351: }
-[; ;main.c: 354: if (menu < 10) {
-"354
+[; ;main.c: 352: }
+[; ;main.c: 355: if (menu < 10) {
+"355
 [e $ ! < -> F7570 `i -> 10 `i 1042  ]
 {
-[; ;main.c: 355: if ((dir == cw) && (page < pages)) {
-"355
+[; ;main.c: 356: if ((dir == cw) && (page < pages)) {
+"356
 [e $ ! && == -> _dir `i -> . `E7515 1 `i < -> F7571 `i -> _pages `i 1043  ]
 {
-[; ;main.c: 356: page++;
-"356
-[e ++ F7571 -> -> 1 `i `uc ]
-[; ;main.c: 357: dir = stop;
+[; ;main.c: 357: page++;
 "357
-[e = _dir . `E7515 0 ]
-[; ;main.c: 358: for(i=0;i<12;i++) {
+[e ++ F7571 -> -> 1 `i `uc ]
+[; ;main.c: 358: dir = stop;
 "358
+[e = _dir . `E7515 0 ]
+[; ;main.c: 359: for(i=0;i<12;i++) {
+"359
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 12 `i 1044  ]
 [e $U 1045  ]
 [e :U 1044 ]
 {
-[; ;main.c: 359: OLED_scrollDisplayLeft();
-"359
-[e ( _OLED_scrollDisplayLeft ..  ]
-[; ;main.c: 360: _delay((unsigned long)((20)*(1000000/4000.0)));
+[; ;main.c: 360: OLED_scrollDisplayLeft();
 "360
-[e ( __delay (1 -> * -> -> 20 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
+[e ( _OLED_scrollDisplayLeft ..  ]
+[; ;main.c: 361: _delay((unsigned long)((20)*(1000000/4000.0)));
 "361
+[e ( __delay (1 -> * -> -> 20 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
+"362
 }
-"358
+"359
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 12 `i 1044  ]
 [e :U 1045 ]
-"361
-}
 "362
 }
-[; ;main.c: 361: }
-[; ;main.c: 362: }
-[e $U 1047  ]
 "363
+}
+[; ;main.c: 362: }
+[; ;main.c: 363: }
+[e $U 1047  ]
+"364
 [e :U 1043 ]
-[; ;main.c: 363: else if ((dir == ccw) && (page > 0)) {
+[; ;main.c: 364: else if ((dir == ccw) && (page > 0)) {
 [e $ ! && == -> _dir `i -> . `E7515 2 `i > -> F7571 `i -> 0 `i 1048  ]
 {
-[; ;main.c: 364: page--;
-"364
-[e -- F7571 -> -> 1 `i `uc ]
-[; ;main.c: 365: dir = stop;
+[; ;main.c: 365: page--;
 "365
-[e = _dir . `E7515 0 ]
-[; ;main.c: 366: for(i=0;i<12;i++) {
+[e -- F7571 -> -> 1 `i `uc ]
+[; ;main.c: 366: dir = stop;
 "366
+[e = _dir . `E7515 0 ]
+[; ;main.c: 367: for(i=0;i<12;i++) {
+"367
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 12 `i 1049  ]
 [e $U 1050  ]
 [e :U 1049 ]
 {
-[; ;main.c: 367: OLED_scrollDisplayRight();
-"367
-[e ( _OLED_scrollDisplayRight ..  ]
-[; ;main.c: 368: _delay((unsigned long)((20)*(1000000/4000.0)));
+[; ;main.c: 368: OLED_scrollDisplayRight();
 "368
-[e ( __delay (1 -> * -> -> 20 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
+[e ( _OLED_scrollDisplayRight ..  ]
+[; ;main.c: 369: _delay((unsigned long)((20)*(1000000/4000.0)));
 "369
+[e ( __delay (1 -> * -> -> 20 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
+"370
 }
-"366
+"367
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 12 `i 1049  ]
 [e :U 1050 ]
-"369
-}
 "370
 }
+"371
+}
 [e :U 1048 ]
-"372
+"373
 [e :U 1047 ]
 }
 [e :U 1042 ]
-[; ;main.c: 369: }
 [; ;main.c: 370: }
-[; ;main.c: 372: }
+[; ;main.c: 371: }
 [; ;main.c: 373: }
-"373
+[; ;main.c: 374: }
+"374
 [e :UE 1025 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"378
-[v _main `(v ~T0 @X0 1 ef ]
 "379
+[v _main `(v ~T0 @X0 1 ef ]
+"380
 {
-[; ;main.c: 378: void main(void)
-[; ;main.c: 379: {
+[; ;main.c: 379: void main(void)
+[; ;main.c: 380: {
 [e :U _main ]
 [f ]
-"380
-[v _i `uc ~T0 @X0 1 a ]
 "381
+[v _i `uc ~T0 @X0 1 a ]
+"382
 [v _uRH `ui ~T0 @X0 1 a ]
 [v _utemp_C `ui ~T0 @X0 1 a ]
 [v _ustat `ui ~T0 @X0 1 a ]
-"382
+"383
 [v _fRH `f ~T0 @X0 1 a ]
 [v _ftemp_C `f ~T0 @X0 1 a ]
 [v _ftd `f ~T0 @X0 1 a ]
 [v _fH `f ~T0 @X0 1 a ]
-"383
+"384
 [v _obj `S978 ~T0 @X0 1 a ]
-[; ;main.c: 380: uint8_t i;
-[; ;main.c: 381: uint16_t uRH, utemp_C,ustat;
-[; ;main.c: 382: float fRH, ftemp_C, ftd, fH;
-[; ;main.c: 383: DATA_OBJ obj;
-[; ;main.c: 386: SYSTEM_Initialize();
-"386
+[; ;main.c: 381: uint8_t i;
+[; ;main.c: 382: uint16_t uRH, utemp_C,ustat;
+[; ;main.c: 383: float fRH, ftemp_C, ftd, fH;
+[; ;main.c: 384: DATA_OBJ obj;
+[; ;main.c: 387: SYSTEM_Initialize();
+"387
 [e ( _SYSTEM_Initialize ..  ]
-[; ;main.c: 389: (INTCONbits.GIE = 1);
-"389
+[; ;main.c: 390: (INTCONbits.GIE = 1);
+"390
 [e = . . _INTCONbits 0 3 -> -> 1 `i `uc ]
-[; ;main.c: 392: (INTCONbits.PEIE = 1);
-"392
+[; ;main.c: 393: (INTCONbits.PEIE = 1);
+"393
 [e = . . _INTCONbits 0 2 -> -> 1 `i `uc ]
-[; ;main.c: 394: ADC_Initialize();
-"394
+[; ;main.c: 395: ADC_Initialize();
+"395
 [e ( _ADC_Initialize ..  ]
-[; ;main.c: 397: LATBbits.LATB5 = 1;
-"397
+[; ;main.c: 398: LATBbits.LATB5 = 1;
+"398
 [e = . . _LATBbits 0 5 -> -> 1 `i `uc ]
-[; ;main.c: 400: LATCbits.LATC3 = 1;
-"400
+[; ;main.c: 401: LATCbits.LATC3 = 1;
+"401
 [e = . . _LATCbits 0 3 -> -> 1 `i `uc ]
-[; ;main.c: 403: OLED_init();
-"403
+[; ;main.c: 404: OLED_init();
+"404
 [e ( _OLED_init ..  ]
-[; ;main.c: 405: read_cur_volt();
-"405
+[; ;main.c: 406: read_cur_volt();
+"406
 [e ( _read_cur_volt ..  ]
-[; ;main.c: 408: IOCAF7_SetInterruptHandler(pushbutton);
-"408
-[e ( _IOCAF7_SetInterruptHandler (1 &U _pushbutton ]
-[; ;main.c: 409: IOCAF4_SetInterruptHandler(rot);
+[; ;main.c: 409: IOCAF7_SetInterruptHandler(pushbutton);
 "409
-[e ( _IOCAF4_SetInterruptHandler (1 &U _rot ]
-[; ;main.c: 410: IOCAF5_SetInterruptHandler(rot);
+[e ( _IOCAF7_SetInterruptHandler (1 &U _pushbutton ]
+[; ;main.c: 410: IOCAF4_SetInterruptHandler(rot);
 "410
-[e ( _IOCAF5_SetInterruptHandler (1 &U _rot ]
-[; ;main.c: 411: TMR0_SetInterruptHandler(timer0);
+[e ( _IOCAF4_SetInterruptHandler (1 &U _rot ]
+[; ;main.c: 411: IOCAF5_SetInterruptHandler(rot);
 "411
-[e ( _TMR0_SetInterruptHandler (1 &U _timer0 ]
-[; ;main.c: 412: TMR1_SetInterruptHandler(timer1);
+[e ( _IOCAF5_SetInterruptHandler (1 &U _rot ]
+[; ;main.c: 412: TMR0_SetInterruptHandler(timer0);
 "412
-[e ( _TMR1_SetInterruptHandler (1 &U _timer1 ]
-[; ;main.c: 413: IOCCF2_SetInterruptHandler(overcurrent);
+[e ( _TMR0_SetInterruptHandler (1 &U _timer0 ]
+[; ;main.c: 413: TMR1_SetInterruptHandler(timer1);
 "413
+[e ( _TMR1_SetInterruptHandler (1 &U _timer1 ]
+[; ;main.c: 414: IOCCF2_SetInterruptHandler(overcurrent);
+"414
 [e ( _IOCCF2_SetInterruptHandler (1 &U _overcurrent ]
-[; ;main.c: 415: dc[0] = 50;
-"415
+[; ;main.c: 416: dc[0] = 50;
+"416
 [e = *U + &U _dc * -> -> -> 0 `i `ui `ux -> -> # *U &U _dc `ui `ux -> -> 50 `i `uc ]
-[; ;main.c: 418: while (1)
-"418
-[e :U 1054 ]
-[; ;main.c: 419: {
+[; ;main.c: 419: while (1)
 "419
+[e :U 1054 ]
+[; ;main.c: 420: {
+"420
 {
-[; ;main.c: 421: read_ntc_temp();
-"421
+[; ;main.c: 422: read_ntc_temp();
+"422
 [e ( _read_ntc_temp ..  ]
-[; ;main.c: 423: if (eusart1RxCount >= 6) {
-"423
+[; ;main.c: 424: if (eusart1RxCount >= 6) {
+"424
 [e $ ! >= -> _eusart1RxCount `i -> 6 `i 1056  ]
 {
-[; ;main.c: 427: i = EUSART1_Read(); uRH = i;
-"427
-[e = _i ( _EUSART1_Read ..  ]
-[e = _uRH -> _i `ui ]
-[; ;main.c: 428: i = EUSART1_Read(); uRH |= i<<8;
+[; ;main.c: 428: i = EUSART1_Read(); uRH = i;
 "428
 [e = _i ( _EUSART1_Read ..  ]
-[e =| _uRH -> << -> _i `i -> 8 `i `ui ]
-[; ;main.c: 430: i = EUSART1_Read(); utemp_C = i;
-"430
+[e = _uRH -> _i `ui ]
+[; ;main.c: 429: i = EUSART1_Read(); uRH |= i<<8;
+"429
 [e = _i ( _EUSART1_Read ..  ]
-[e = _utemp_C -> _i `ui ]
-[; ;main.c: 431: i = EUSART1_Read(); utemp_C |= i<<8;
+[e =| _uRH -> << -> _i `i -> 8 `i `ui ]
+[; ;main.c: 431: i = EUSART1_Read(); utemp_C = i;
 "431
 [e = _i ( _EUSART1_Read ..  ]
-[e =| _utemp_C -> << -> _i `i -> 8 `i `ui ]
-[; ;main.c: 433: i = EUSART1_Read(); ustat = i;
-"433
+[e = _utemp_C -> _i `ui ]
+[; ;main.c: 432: i = EUSART1_Read(); utemp_C |= i<<8;
+"432
 [e = _i ( _EUSART1_Read ..  ]
-[e = _ustat -> _i `ui ]
-[; ;main.c: 434: i = EUSART1_Read(); ustat |= i<<8;
+[e =| _utemp_C -> << -> _i `i -> 8 `i `ui ]
+[; ;main.c: 434: i = EUSART1_Read(); ustat = i;
 "434
 [e = _i ( _EUSART1_Read ..  ]
+[e = _ustat -> _i `ui ]
+[; ;main.c: 435: i = EUSART1_Read(); ustat |= i<<8;
+"435
+[e = _i ( _EUSART1_Read ..  ]
 [e =| _ustat -> << -> _i `i -> 8 `i `ui ]
-[; ;main.c: 439: fRH = (125.0 * uRH) / 65536 - 6;
-"439
-[e = _fRH -> - / * .125.0 -> _uRH `d -> -> 65536 `l `d -> -> 6 `i `d `f ]
-[; ;main.c: 440: ftemp_C = (175.72 * utemp_C) / 65536 - 46.85;
+[; ;main.c: 440: fRH = (125.0 * uRH) / 65536 - 6;
 "440
+[e = _fRH -> - / * .125.0 -> _uRH `d -> -> 65536 `l `d -> -> 6 `i `d `f ]
+[; ;main.c: 441: ftemp_C = (175.72 * utemp_C) / 65536 - 46.85;
+"441
 [e = _ftemp_C -> - / * .175.72 -> _utemp_C `d -> -> 65536 `l `d .46.85 `f ]
-[; ;main.c: 443: fH = (log10(fRH) - 2.0) / 0.4343 + (17.62 * ftemp_C) / (243.12 + ftemp_C);
-"443
-[e = _fH -> + / - ( _log10 (1 -> _fRH `d .2.0 .0.4343 / * .17.62 -> _ftemp_C `d + .243.12 -> _ftemp_C `d `f ]
-[; ;main.c: 444: ftd = 243.12 * fH / (17.62 - fH);
+[; ;main.c: 444: fH = (log10(fRH) - 2.0) / 0.4343 + (17.62 * ftemp_C) / (243.12 + ftemp_C);
 "444
+[e = _fH -> + / - ( _log10 (1 -> _fRH `d .2.0 .0.4343 / * .17.62 -> _ftemp_C `d + .243.12 -> _ftemp_C `d `f ]
+[; ;main.c: 445: ftd = 243.12 * fH / (17.62 - fH);
+"445
 [e = _ftd -> / * .243.12 -> _fH `d - .17.62 -> _fH `d `f ]
-[; ;main.c: 446: if (fRH < 0) fRH = 0;
-"446
+[; ;main.c: 447: if (fRH < 0) fRH = 0;
+"447
 [e $ ! < _fRH -> -> 0 `i `f 1057  ]
 [e = _fRH -> -> 0 `i `f ]
 [e $U 1058  ]
-"447
+"448
 [e :U 1057 ]
-[; ;main.c: 447: else if (fRH > 100) fRH = 100;
+[; ;main.c: 448: else if (fRH > 100) fRH = 100;
 [e $ ! > _fRH -> -> 100 `i `f 1059  ]
 [e = _fRH -> -> 100 `i `f ]
 [e :U 1059 ]
-"448
-[e :U 1058 ]
-[; ;main.c: 448: rh = round(fRH * 10.0);
-[e = _rh -> ( _round (1 * -> _fRH `d .10.0 `uc ]
-[; ;main.c: 449: temp = round(ftemp_C * 10.0);
 "449
-[e = _temp -> ( _round (1 * -> _ftemp_C `d .10.0 `c ]
-[; ;main.c: 450: __nop();
+[e :U 1058 ]
+[; ;main.c: 449: rh = round(fRH * 10.0);
+[e = _rh -> ( _round (1 * -> _fRH `d .10.0 `uc ]
+[; ;main.c: 450: temp = round(ftemp_C * 10.0);
 "450
-[e ( ___nop ..  ]
+[e = _temp -> ( _round (1 * -> _ftemp_C `d .10.0 `c ]
+[; ;main.c: 451: __nop();
 "451
+[e ( ___nop ..  ]
+"452
 }
 [e :U 1056 ]
-[; ;main.c: 451: }
-[; ;main.c: 454: if (duty == 0) {
-"454
+[; ;main.c: 452: }
+[; ;main.c: 455: if (duty == 0) {
+"455
 [e $ ! == -> _duty `i -> 0 `i 1060  ]
 {
-[; ;main.c: 455: read_cur_volt();
-"455
-[e ( _read_cur_volt ..  ]
-[; ;main.c: 456: TMR1_StartTimer();
+[; ;main.c: 456: read_cur_volt();
 "456
-[e ( _TMR1_StartTimer ..  ]
+[e ( _read_cur_volt ..  ]
+[; ;main.c: 457: TMR1_StartTimer();
 "457
+[e ( _TMR1_StartTimer ..  ]
+"458
 }
 [e :U 1060 ]
-[; ;main.c: 457: }
-[; ;main.c: 460: if (check_status() == 0) {
-"460
+[; ;main.c: 458: }
+[; ;main.c: 461: if (check_status() == 0) {
+"461
 [e $ ! == -> ( _check_status ..  `i -> 0 `i 1061  ]
 {
-[; ;main.c: 462: main_menu();
-"462
-[e ( _main_menu ..  ]
+[; ;main.c: 463: main_menu();
 "463
+[e ( _main_menu ..  ]
+"464
 }
 [e :U 1061 ]
-[; ;main.c: 463: }
-[; ;main.c: 467: _delay((unsigned long)((100)*(1000000/4000.0)));
-"467
+[; ;main.c: 464: }
+[; ;main.c: 468: _delay((unsigned long)((100)*(1000000/4000.0)));
+"468
 [e ( __delay (1 -> * -> -> 100 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
-"469
+"470
 }
 [e :U 1053 ]
-"418
+"419
 [e $U 1054  ]
 [e :U 1055 ]
-[; ;main.c: 469: }
 [; ;main.c: 470: }
-"470
+[; ;main.c: 471: }
+"471
 [e :UE 1052 ]
 }
 [p f _sprintf 9471104 ]

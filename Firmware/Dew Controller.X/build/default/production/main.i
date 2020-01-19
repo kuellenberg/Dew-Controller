@@ -12482,14 +12482,14 @@ typedef uint32_t uint_fast32_t;
 
 
 
-#pragma config FEXTOSC = ECH
+#pragma config FEXTOSC = OFF
 #pragma config RSTOSC = HFINT1
 #pragma config CLKOUTEN = OFF
 #pragma config CSWEN = ON
 #pragma config FCMEN = ON
 
 
-#pragma config MCLRE = OFF
+#pragma config MCLRE = ON
 #pragma config PWRTE = OFF
 #pragma config LPBOREN = OFF
 #pragma config BOREN = ON
@@ -12733,34 +12733,79 @@ char *ctermid(char *);
 
 char *tempnam(const char *, const char *);
 # 15 "main.c" 2
-# 25 "main.c"
-typedef struct
-{
-    uint8_t header;
-    uint8_t version;
-    uint8_t status;
-    float tempC;
-    float relHum;
-    float dewPointC;
+# 26 "main.c"
+typedef struct {
+ uint8_t header;
+ uint8_t version;
+ uint8_t status;
+ float tempC;
+ float relHum;
+ float dewPointC;
 } t_dataPacket;
 
 
 
 
 
-uint8_t g_10msTick = 0;
-uint8_t g_100msTick = 0;
-uint8_t g_rxFErrCount = 0;
-uint8_t g_rxOErrCount = 0;
-uint8_t g_dataReady = 0;
-t_dataPacket g_dataPacket;
+volatile uint8_t g_10msTick = 0;
+volatile uint8_t g_100msTick = 0;
+volatile uint8_t g_sensorTimer = 0;
+volatile uint8_t g_rxFErrCount = 0;
+volatile uint8_t g_rxOErrCount = 0;
+volatile uint8_t g_dataReady = 0;
+volatile t_dataPacket g_dataPacket;
 
+float g_tempC, g_relHum, g_dewPointC, g_sensorVersion;
+float g_voltage, g_current, g_power;
+
+enum e_states {
+ START = 0, CW1, CW2, CW3, CCW1, CCW2, CCW3
+};
+
+enum e_flags {
+ CW_FLAG = 0b10000000, CCW_FLAG = 0b01000000
+};
+
+enum e_direction {
+ ROT_STOP, ROT_CW, ROT_CCW
+};
+
+enum e_buttonPress {
+ PB_NONE, PB_SHORT, PB_LONG, PB_ABORT
+};
+
+
+const uint8_t transition_table[7][4] = {
+
+
+                  {START, CCW1, CW1, START},
+                  {CW2|CW_FLAG, START, CW1, START},
+                  {CW2, CW3, CW1, START},
+                  {CW2, CW3, START, START|CW_FLAG},
+                  {CCW2|CCW_FLAG,CCW1, START, START},
+                  {CCW2, CCW1, CCW3, START},
+                  {CCW2, START, CCW3, START|CCW_FLAG}
+};
+
+volatile uint8_t g_curRotState = START;
+volatile enum e_direction g_rotDir = ROT_STOP;
+volatile enum e_buttonPress g_pbState = PB_NONE;
 
 
 
 
 void initialize(void);
-void eusartRxIsr(void);
+void uartReceiveISR(void);
+void pushButtonISR(void);
+void rotISR(void);
+void uartSendByte(char s);
+void showMenu(void);
+void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
+ uint8_t pbShort, uint8_t pbLong, uint8_t timeout);
+enum e_direction getRotDir(void);
+enum e_buttonPress getPB(void);
+void handleSensorData(void);
+void readAnalogValues(void);
 
 
 
@@ -12768,38 +12813,139 @@ void eusartRxIsr(void);
 
 void main(void)
 {
-    char s1[16], s2[16];
+ char s1[16], s2[16];
 
-    initialize();
-    LATBbits.LATB5 = 1;
-    LATCbits.LATC3 = 1;
-    OLED_init();
-
-    OLED_returnHome();
-    OLED_command(0x01);
-
-    INTCON = 0b11000000;
+ initialize();
+ LATBbits.LATB5 = 1;
+ LATCbits.LATC3 = 1;
+ OLED_init();
+ OLED_returnHome();
+ OLED_command(0x01);
 
 
+ LATAbits.LATA0 = 1;
 
-    while (1)
-    {
-        __asm("clrwdt");
+ while (1) {
+  __asm("clrwdt");
+  readAnalogValues();
 
-        if (g_dataReady == 1)
-        {
-            sprintf(s1, "%6.2f|%6.2f", g_dataPacket.relHum,
-                    g_dataPacket.tempC);
-            sprintf(s2, "DP:%6.2f", g_dataPacket.dewPointC);
-            OLED_print_xy(0,0, s1);
-            OLED_print_xy(0,1, s2);
-            g_dataReady = 0;
-        }
-        _delay((unsigned long)((1000)*(4000000UL/4000.0)));
-        TX1REG = '?';
-        __nop();
-        while (!PIR3bits.TX1IF);
-    }
+  if (g_sensorTimer >= 5) {
+   g_sensorTimer = 0;
+   uartSendByte('?');
+  }
+
+  if (g_dataReady == 1) {
+   g_dataReady = 0;
+   handleSensorData();
+  }
+
+  showMenu();
+  _delay((unsigned long)((10)*(4000000/4000.0)));
+
+ }
+}
+
+void readAnalogValues(void)
+{
+ uint16_t adc;
+
+ ADCON0bits.CHS = 0b010000;
+ ADCON0bits.GO = 1;
+ while (ADCON0bits.GO);
+ adc = (uint16_t)((ADRESH << 8) + ADRESL);
+ g_voltage = (adc * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+
+ ADCON0bits.CHS = 0b010001;
+ ADCON0bits.GO = 1;
+ while (ADCON0bits.GO);
+ adc = (uint16_t)((ADRESH << 8) + ADRESL);
+ g_current = (adc * 5.0) / (1023.0 * 0.05 * 50.0);
+ g_power = g_voltage * g_current;
+}
+
+void handleSensorData(void)
+{
+ if ((g_dataPacket.header == 0xAA) && (g_dataPacket.status == 1)) {
+  g_tempC = g_dataPacket.tempC;
+  g_relHum = g_dataPacket.relHum;
+  g_dewPointC = g_dataPacket.dewPointC;
+  g_sensorVersion = g_dataPacket.version;
+ } else {
+
+ }
+}
+
+void showMenu(void)
+{
+ static uint8_t menu = 0;
+ static uint8_t page = 0;
+ enum e_buttonPress pb;
+ char s[61];
+
+ pb = getPB();
+ if (menu == 0) {
+
+  OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   Power");
+  sprintf(s, "%5.1f \xdf\C    %5.1f %%     %5.1f \xdf\C    %4.1fV%5.3fW",
+   g_tempC, g_relHum, g_dewPointC, g_voltage, g_current);
+  OLED_print_xy(0, 1, s);
+  menuInput(&page, 4, &menu, 1, 0, 0);
+ } else if (menu == 1) {
+
+  OLED_print_xy(0, 0, "Ch1: xx inchCh2: xx inchCh3: xx inchCh4: xx inch");
+  menuInput(&page, 4, &menu, 1, 0, 0);
+ }
+}
+
+void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
+ uint8_t pbShort, uint8_t pbLong, uint8_t timeout)
+{
+ uint8_t n;
+ enum e_direction dir;
+ enum e_buttonPress pb;
+
+ PIE0bits.IOCIE = 0;
+ dir = getRotDir();
+ pb = getPB();
+
+ if ((dir == ROT_CW) && (*page < numPages - 1)) {
+  (*page)++;
+  for(n = 0; n < 12; n++) {
+   OLED_scrollDisplayLeft();
+   _delay((unsigned long)((20)*(4000000/4000.0)));
+  }
+ }
+ else if ((dir == ROT_CCW) && (*page > 0)) {
+  (*page)--;
+  for(n = 0; n < 12; n++) {
+   OLED_scrollDisplayRight();
+   _delay((unsigned long)((20)*(4000000/4000.0)));
+  }
+ }
+ if (pb == PB_SHORT) {
+  *menu = pbShort;
+  *page = 0;
+  OLED_returnHome();
+ } else if (pb == PB_LONG) {
+  *menu = pbLong;
+  *page = 0;
+  OLED_returnHome();
+ }
+ PIE0bits.IOCIE = 1;
+}
+
+enum e_direction getRotDir(void)
+{
+ enum e_direction ret = g_rotDir;
+ g_rotDir = ROT_STOP;
+ return ret;
+}
+
+enum e_buttonPress getPB(void)
+{
+ enum e_buttonPress ret = g_pbState;
+ g_pbState = PB_NONE;
+ return ret;
 }
 
 
@@ -12808,53 +12954,66 @@ void main(void)
 
 void initialize(void)
 {
-    OSCFRQ = 0b00000010;
-    OSCCON1 = 0b01100000;
-    while (!OSCCON3bits.ORDY);
+ OSCFRQ = 0b00000010;
+ OSCCON1 = 0b01100000;
+ while (!OSCCON3bits.ORDY);
 
 
-    RC6PPS = 0x0F;
+ RX1DTPPSbits.RX1DTPPS = 0x17;
+ RC6PPS = 0x0F;
 
 
-    ANSELA = 0b0100000;
-    ANSELB = 0b0000000;
-    ANSELC = 0b0000011;
+ ANSELA = 0b01000000;
+ ANSELB = 0b00000000;
+ ANSELC = 0b00000011;
 
 
-    TRISA = 0b11110000;
-    TRISB = 0b00000000;
-    TRISC = 0b10000111;
+ TRISA = 0b11110000;
+ TRISB = 0b00000000;
+ TRISC = 0b10000111;
 
 
-    ADCON1 = 0b11100000;
+ ADCON0bits.ADON = 1;
+ ADCON1 = 0b11100000;
 
 
-    T0CON0 = 0b10000000;
-    T0CON1 = 0b01000111;
-    TMR0 = 178;
+ T0CON0 = 0b10000000;
+ T0CON1 = 0b01000111;
+ TMR0 = 178;
 
 
-    T1CON = 0b00110011;
-    T1CLK = 0b00000001;
-    TMR1 = 53035;
+ T1CON = 0b00110011;
+ T1CLK = 0b00000001;
+ TMR1 = 53035;
 
 
-    PIE0 = 0b00110000;
-    PIE3 = 0b00100000;
-    PIE4 = 0b00000001;
+ PIE0 = 0b00110000;
+ PIE3 = 0b00100000;
+ PIE4 = 0b00000001;
+ INTCON = 0b11000000;
+
+
+ IOCAP = 0b10110000;
+ IOCAN = 0b10110000;
+ IOCCN = 0b00000100;
 
 
 
-    IOCAP = 0b10110000;
-    IOCAN = 0b10110000;
-    IOCCN = 0b00000100;
+ BAUD1CON = 0b00001000;
+ SPBRGL = 25;
+ RC1STA = 0b10010000;
+ TX1STA = 0b00100000;
+}
 
 
 
-    BAUD1CON = 0b00001000;
-    SPBRGL = 25;
-    RC1STA = 0b10010000;
-    TX1STA = 0b00100000;
+
+
+void uartSendByte(char s)
+{
+ TX1REG = s;
+ __nop();
+ while (!PIR3bits.TX1IF);
 }
 
 
@@ -12863,88 +13022,111 @@ void initialize(void)
 
 void __attribute__((picinterrupt(""))) ISR(void)
 {
-    if (PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1)
-    {
+ if (PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1) {
 
-        TMR0 = 178;
-        PIR0bits.TMR0IF = 0;
-    }
-    else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
-    {
 
-        PIR0bits.IOCIF = 0;
-    }
-    else if (INTCONbits.PEIE == 1)
-    {
-        if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
-        {
+  g_10msTick++;
+  TMR0 = 178;
+  PIR0bits.TMR0IF = 0;
+ } else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1) {
 
-            TMR1 = 53035;
-            PIR4bits.TMR1IF = 0;
+  if (IOCAFbits.IOCAF7 == 1) {
+   pushButtonISR();
+   IOCAFbits.IOCAF7 = 0;
+  }
+  if (IOCAFbits.IOCAF4 == 1) {
+   rotISR();
+   IOCAFbits.IOCAF4 = 0;
+  }
+  if (IOCAFbits.IOCAF5 == 1) {
+   rotISR();
+   IOCAFbits.IOCAF5 = 0;
+  }
+  PIR0bits.IOCIF = 0;
+ } else if (INTCONbits.PEIE == 1) {
+  if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1) {
 
-        }
-        else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1)
-        {
+   if (++g_100msTick == 10) {
+    g_100msTick = 0;
+    g_sensorTimer++;
+   }
+   TMR1 = 53035;
+   PIR4bits.TMR1IF = 0;
 
-            eusartRxIsr();
-            PIR3bits.RC1IF = 0;
-        }
-    }
+  } else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1) {
+   uartReceiveISR();
+   PIR3bits.RC1IF = 0;
+  }
+ }
 }
 
 
 
 
 
-void eusartRxIsr(void)
+void uartReceiveISR(void)
 {
-    static char buffer[20];
-    static uint8_t rxCount = 0;
-    static uint8_t checksum = 0;
+ static char buffer[20];
+ static uint8_t rxCount = 0;
+ static uint8_t checksum = 0;
 
-    if (RC1STAbits.OERR)
-    {
+ if (RC1STAbits.OERR)
+ {
 
-        RC1STAbits.CREN = 0;
-        RC1STAbits.CREN = 1;
-        g_rxOErrCount++;
-    }
-    if (RC1STAbits.FERR)
-    {
-        RC1STAbits.SPEN = 0;
-        RC1STAbits.SPEN = 1;
-        g_rxFErrCount++;
-    }
+  RC1STAbits.CREN = 0;
+  RC1STAbits.CREN = 1;
+  g_rxOErrCount++;
+ }
+ if (RC1STAbits.FERR)
+ {
+  RC1STAbits.SPEN = 0;
+  RC1STAbits.SPEN = 1;
+  g_rxFErrCount++;
+ }
 
-    if (rxCount < sizeof (g_dataPacket))
-    {
-        buffer[rxCount] = RC1REG;
-        checksum ^= buffer[rxCount];
-        rxCount++;
-    }
-    else
-    {
-        if (RC1REG == checksum)
-        {
-            g_dataReady = 1;
-            strncpy((char *)&g_dataPacket, buffer, sizeof(g_dataPacket));
-        }
-        checksum = 0;
-        rxCount = 0;
-    }
+ if (rxCount < sizeof(g_dataPacket)) {
+  buffer[rxCount] = RC1REG;
+  checksum ^= buffer[rxCount];
+  rxCount++;
+ } else {
+  if (RC1REG == checksum) {
+   g_dataReady = 1;
+   strncpy((char *) &g_dataPacket, buffer, sizeof(g_dataPacket));
+  }
+  checksum = 0;
+  rxCount = 0;
+ }
 }
 
-
-
-
-
-void eusartTransmit(char *s)
+void rotISR()
 {
-    do
-    {
-        TX1REG = *s++;
-        __nop();
-        while (!PIR3bits.TX1IF);
-    }
-    while (*s != (char) ((void*)0));
+ uint8_t input;
+
+ input = (PORTAbits.RA5 << 1) | PORTAbits.RA4;
+
+
+ g_curRotState = transition_table[g_curRotState & 0b00000111][input];
+
+
+ if (g_curRotState & CW_FLAG) g_rotDir = ROT_CW;
+ if (g_curRotState & CCW_FLAG) g_rotDir = ROT_CCW;
+ __nop();
+}
+
+void pushButtonISR()
+{
+
+ if (!PORTAbits.RA7) {
+  g_10msTick = 0;
+ } else {
+  if ((g_10msTick > 5) & (g_10msTick <= 50))
+
+   g_pbState = PB_SHORT;
+  else if ((g_10msTick > 50) & (g_10msTick <= 150))
+
+   g_pbState = PB_LONG;
+  else
+
+   g_pbState = PB_ABORT;
+ }
 }

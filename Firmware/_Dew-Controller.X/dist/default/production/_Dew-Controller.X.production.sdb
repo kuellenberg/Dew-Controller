@@ -42,7 +42,7 @@ short_press 1
 long_press 2
 abort 3
 ]
-"145
+"146
 [e E7402 . `uc
 TEMP 6
 VSENS 16
@@ -107,25 +107,25 @@ channel_FVR_BUF2 63
 [v _timer0 timer0 `(v  1 e 1 0 ]
 "101
 [v _rot rot `(v  1 e 1 0 ]
-"114
+"115
 [v _pushbutton pushbutton `(v  1 e 1 0 ]
-"131
+"132
 [v _overcurrent overcurrent `(v  1 e 1 0 ]
-"141
+"142
 [v _read_ntc_temp read_ntc_temp `(v  1 e 1 0 ]
-"154
+"155
 [v _get_battery_volt get_battery_volt `(ui  1 e 2 0 ]
-"160
+"161
 [v _get_current get_current `(ui  1 e 2 0 ]
-"167
+"168
 [v _read_cur_volt read_cur_volt `(v  1 e 1 0 ]
-"213
+"214
 [v _timer1 timer1 `(v  1 e 1 0 ]
-"231
+"232
 [v _check_status check_status `(uc  1 e 1 0 ]
-"286
+"287
 [v _main_menu main_menu `(v  1 e 1 0 ]
-"378
+"379
 [v _main main `(v  1 e 1 0 ]
 "65 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\mcc_generated_files/adc.c
 [v _ADC_Initialize ADC_Initialize `(v  1 e 1 0 ]
@@ -279,7 +279,7 @@ channel_FVR_BUF2 63
 [v _TRISCbits TRISCbits `VES1336  1 e 1 @20 ]
 "860
 [v _LATA LATA `VEuc  1 e 1 @24 ]
-[s S1043 . 1 `uc 1 LATA0 1 0 :1:0 
+[s S1047 . 1 `uc 1 LATA0 1 0 :1:0 
 `uc 1 LATA1 1 0 :1:1 
 `uc 1 LATA2 1 0 :1:2 
 `uc 1 LATA3 1 0 :1:3 
@@ -289,11 +289,11 @@ channel_FVR_BUF2 63
 `uc 1 LATA7 1 0 :1:7 
 ]
 "877
-[u S1052 . 1 `S1043 1 . 1 0 ]
-[v _LATAbits LATAbits `VES1052  1 e 1 @24 ]
+[u S1056 . 1 `S1047 1 . 1 0 ]
+[v _LATAbits LATAbits `VES1056  1 e 1 @24 ]
 "922
 [v _LATB LATB `VEuc  1 e 1 @25 ]
-[s S1090 . 1 `uc 1 LATB0 1 0 :1:0 
+[s S1094 . 1 `uc 1 LATB0 1 0 :1:0 
 `uc 1 LATB1 1 0 :1:1 
 `uc 1 LATB2 1 0 :1:2 
 `uc 1 LATB3 1 0 :1:3 
@@ -303,11 +303,11 @@ channel_FVR_BUF2 63
 `uc 1 LATB7 1 0 :1:7 
 ]
 "939
-[u S1099 . 1 `S1090 1 . 1 0 ]
-[v _LATBbits LATBbits `VES1099  1 e 1 @25 ]
+[u S1103 . 1 `S1094 1 . 1 0 ]
+[v _LATBbits LATBbits `VES1103  1 e 1 @25 ]
 "984
 [v _LATC LATC `VEuc  1 e 1 @26 ]
-[s S1021 . 1 `uc 1 LATC0 1 0 :1:0 
+[s S1025 . 1 `uc 1 LATC0 1 0 :1:0 
 `uc 1 LATC1 1 0 :1:1 
 `uc 1 LATC2 1 0 :1:2 
 `uc 1 LATC3 1 0 :1:3 
@@ -317,8 +317,8 @@ channel_FVR_BUF2 63
 `uc 1 LATC7 1 0 :1:7 
 ]
 "1001
-[u S1030 . 1 `S1021 1 . 1 0 ]
-[v _LATCbits LATCbits `VES1030  1 e 1 @26 ]
+[u S1034 . 1 `S1025 1 . 1 0 ]
+[v _LATCbits LATCbits `VES1034  1 e 1 @26 ]
 "1053
 [v _ADRESL ADRESL `VEuc  1 e 1 @155 ]
 "1123
@@ -712,21 +712,21 @@ channel_FVR_BUF2 63
 [v _timer1ReloadVal timer1ReloadVal `VEui  1 e 2 0 ]
 "58
 [v _TMR1_InterruptHandler TMR1_InterruptHandler `*.37(v  1 e 2 0 ]
-"378 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
+"379 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
 [v _main main `(v  1 e 1 0 ]
 {
-"382
+"383
 [v main@fRH fRH `f  1 a 4 34 ]
 [v main@ftemp_C ftemp_C `f  1 a 4 30 ]
 [v main@fH fH `f  1 a 4 22 ]
 [v main@ftd ftd `f  1 a 4 0 ]
-"381
+"382
 [v main@utemp_C utemp_C `ui  1 a 2 20 ]
 [v main@uRH uRH `ui  1 a 2 18 ]
 [v main@ustat ustat `ui  1 a 2 4 ]
-"380
+"381
 [v main@i i `uc  1 a 1 38 ]
-"470
+"471
 } 0
 "6 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c90\common\round.c
 [v _round round `(d  1 e 4 0 ]
@@ -764,29 +764,29 @@ channel_FVR_BUF2 63
 [v ___flneg@f1 f1 `d  1 p 4 67 ]
 "20
 } 0
-"141 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
+"142 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
 [v _read_ntc_temp read_ntc_temp `(v  1 e 1 0 ]
 {
-"142
+"143
 [v read_ntc_temp@val val `ul  1 a 4 30 ]
-"152
+"153
 } 0
-"167
+"168
 [v _read_cur_volt read_cur_volt `(v  1 e 1 0 ]
 {
-"169
+"170
 [v read_cur_volt@volt volt `ui  1 a 2 41 ]
 [v read_cur_volt@volt_min volt_min `ui  1 a 2 38 ]
-"168
+"169
 [v read_cur_volt@i i `uc  1 a 1 40 ]
-"211
+"212
 } 0
-"160
+"161
 [v _get_current get_current `(ui  1 e 2 0 ]
 {
-"161
+"162
 [v get_current@val val `ul  1 a 4 28 ]
-"164
+"165
 } 0
 "15 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c90\common\Umul32.c
 [v ___lmul __lmul `(ul  1 e 4 0 ]
@@ -798,12 +798,12 @@ channel_FVR_BUF2 63
 [v ___lmul@multiplicand multiplicand `ul  1 p 4 4 ]
 "129
 } 0
-"154 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
+"155 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
 [v _get_battery_volt get_battery_volt `(ui  1 e 2 0 ]
 {
-"155
+"156
 [v get_battery_volt@val val `ul  1 a 4 32 ]
-"158
+"159
 } 0
 "5 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c90\common\__lldiv.c
 [v ___lldiv __lldiv `(ul  1 e 4 0 ]
@@ -826,20 +826,20 @@ channel_FVR_BUF2 63
 [v ADC_GetConversion@channel channel `E7175  1 a 1 3 ]
 "131
 } 0
-"286 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
+"287 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
 [v _main_menu main_menu `(v  1 e 1 0 ]
 {
-"292
+"293
 [v main_menu@s s `[61]uc  1 a 61 0 ]
-"290
+"291
 [v main_menu@i i `uc  1 a 1 72 ]
-"289
+"290
 [v main_menu@pages pages `uc  1 a 1 63 ]
-"287
-[v main_menu@menu menu `uc  1 s 1 menu ]
 "288
+[v main_menu@menu menu `uc  1 s 1 menu ]
+"289
 [v main_menu@page page `uc  1 s 1 page ]
-"373
+"374
 } 0
 "500 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c90\common\doprnt.c
 [v _sprintf sprintf `(i  1 e 2 0 ]
@@ -1075,10 +1075,10 @@ channel_FVR_BUF2 63
 [v ___flge@ff2 ff2 `d  1 p 4 4 ]
 "19
 } 0
-"231 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
+"232 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
 [v _check_status check_status `(uc  1 e 1 0 ]
 {
-"284
+"285
 } 0
 "99 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\mcc_generated_files/tmr1.c
 [v _TMR1_StartTimer TMR1_StartTimer `(v  1 e 1 0 ]
@@ -1299,10 +1299,10 @@ channel_FVR_BUF2 63
 {
 "192
 } 0
-"213 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
+"214 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
 [v _timer1 timer1 `(v  1 e 1 0 ]
 {
-"229
+"230
 } 0
 "121 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\mcc_generated_files/tmr0.c
 [v _TMR0_ISR TMR0_ISR `(v  1 e 1 0 ]
@@ -1339,10 +1339,10 @@ channel_FVR_BUF2 63
 {
 "287
 } 0
-"131 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
+"132 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
 [v _overcurrent overcurrent `(v  1 e 1 0 ]
 {
-"139
+"140
 } 0
 "105 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\mcc_generated_files/tmr1.c
 [v _TMR1_StopTimer TMR1_StopTimer `(v  1 e 1 0 ]
@@ -1359,10 +1359,10 @@ channel_FVR_BUF2 63
 {
 "257
 } 0
-"114 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
+"115 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\main.c
 [v _pushbutton pushbutton `(v  1 e 1 0 ]
 {
-"129
+"130
 } 0
 "202 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\mcc_generated_files/pin_manager.c
 [v _IOCAF5_ISR IOCAF5_ISR `(v  1 e 1 0 ]
@@ -1379,7 +1379,7 @@ channel_FVR_BUF2 63
 {
 "102
 [v rot@input input `uc  1 a 1 7 ]
-"112
+"113
 } 0
 "224 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\_Dew-Controller.X\mcc_generated_files/pin_manager.c
 [v _IOCAF5_DefaultInterruptHandler IOCAF5_DefaultInterruptHandler `(v  1 e 1 0 ]

@@ -9,7 +9,7 @@
 #define	COMMON_H
 
 
-#define _XTAL_FREQ  4000000UL
+#define _XTAL_FREQ 4000000
 
 #include <xc.h>
 #include <stdint.h>

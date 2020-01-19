@@ -13003,6 +13003,7 @@ current_state = transition_table[current_state & 0b00000111][input];
 
 if (current_state & cw_flag) dir = cw;
 if (current_state & ccw_flag) dir = ccw;
+__nop();
 }
 
 void pushbutton() {
@@ -13039,7 +13040,7 @@ uint32_t val;
 val = ADC_GetConversion(TEMP);
 ntc_temp = (uint16_t)(((val * 119) - 34511) / 100);
 
-# 152
+# 153
 }
 
 uint16_t get_battery_volt(void) {
@@ -13263,7 +13264,7 @@ _delay((unsigned long)((20)*(1000000/4000.0)));
 }
 }
 
-# 378
+# 379
 void main(void)
 {
 uint8_t i;
