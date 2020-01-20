@@ -12733,7 +12733,13 @@ char *ctermid(char *);
 
 char *tempnam(const char *, const char *);
 # 15 "main.c" 2
-# 26 "main.c"
+# 30 "main.c"
+typedef struct {
+ unsigned BATLO:1;
+ unsigned NOSENSOR:1;
+ unsigned NOAUXTEMP:1;
+} t_status;
+
 typedef struct {
  uint8_t header;
  uint8_t version;
@@ -12743,36 +12749,14 @@ typedef struct {
  float dewPointC;
 } t_dataPacket;
 
+enum e_states {START = 0, CW1, CW2, CW3, CCW1, CCW2, CCW3};
+enum e_flags {CW_FLAG = 0b10000000, CCW_FLAG = 0b01000000};
+enum e_direction {ROT_STOP, ROT_CW, ROT_CCW};
+enum e_buttonPress {PB_NONE, PB_SHORT, PB_LONG, PB_ABORT};
 
 
 
 
-volatile uint8_t g_10msTick = 0;
-volatile uint8_t g_100msTick = 0;
-volatile uint8_t g_sensorTimer = 0;
-volatile uint8_t g_rxFErrCount = 0;
-volatile uint8_t g_rxOErrCount = 0;
-volatile uint8_t g_dataReady = 0;
-volatile t_dataPacket g_dataPacket;
-
-float g_tempC, g_relHum, g_dewPointC, g_sensorVersion;
-float g_voltage, g_current, g_power;
-
-enum e_states {
- START = 0, CW1, CW2, CW3, CCW1, CCW2, CCW3
-};
-
-enum e_flags {
- CW_FLAG = 0b10000000, CCW_FLAG = 0b01000000
-};
-
-enum e_direction {
- ROT_STOP, ROT_CW, ROT_CCW
-};
-
-enum e_buttonPress {
- PB_NONE, PB_SHORT, PB_LONG, PB_ABORT
-};
 
 
 const uint8_t transition_table[7][4] = {
@@ -12786,6 +12770,18 @@ const uint8_t transition_table[7][4] = {
                   {CCW2, CCW1, CCW3, START},
                   {CCW2, START, CCW3, START|CCW_FLAG}
 };
+
+t_status g_status;
+volatile uint8_t g_10msTick = 0;
+volatile uint32_t g_100msTick = 0;
+volatile uint8_t g_sensorTimer = 0;
+volatile uint8_t g_rxFErrCount = 0;
+volatile uint8_t g_rxOErrCount = 0;
+volatile uint8_t g_dataReady = 0;
+volatile t_dataPacket g_dataPacket;
+
+float g_tempC, g_relHum, g_dewPointC, g_sensorVersion;
+float g_tempAux, g_voltage, g_current, g_power;
 
 volatile uint8_t g_curRotState = START;
 volatile enum e_direction g_rotDir = ROT_STOP;
@@ -12805,7 +12801,11 @@ void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
 enum e_direction getRotDir(void);
 enum e_buttonPress getPB(void);
 void handleSensorData(void);
-void readAnalogValues(void);
+void convertAnalogValues(void);
+uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
+void checkStatus(void);
+uint32_t timeNow(void);
+uint32_t timeSince(uint32_t since);
 
 
 
@@ -12813,7 +12813,8 @@ void readAnalogValues(void);
 
 void main(void)
 {
- char s1[16], s2[16];
+ uint32_t sensorTime, sensorTimeout;
+ uint8_t state;
 
  initialize();
  LATBbits.LATB5 = 1;
@@ -12822,21 +12823,36 @@ void main(void)
  OLED_returnHome();
  OLED_command(0x01);
 
-
  LATAbits.LATA0 = 1;
+
+ sensorTime = sensorTimeout = timeNow();
+ state = 0;
 
  while (1) {
   __asm("clrwdt");
-  readAnalogValues();
+  convertAnalogValues();
+  checkStatus();
 
-  if (g_sensorTimer >= 5) {
-   g_sensorTimer = 0;
-   uartSendByte('?');
-  }
-
-  if (g_dataReady == 1) {
-   g_dataReady = 0;
-   handleSensorData();
+  switch (state) {
+  case 0:
+   if (timeSince(sensorTime) >= 50) {
+    sensorTime = sensorTimeout = timeNow();
+    uartSendByte('?');
+    state = 1;
+   }
+   break;
+  case 1:
+   if (timeSince(sensorTimeout) > 20) {
+    g_status.NOSENSOR = 1;
+    state = 0;
+   } else if (g_dataReady == 1) {
+    g_dataReady = 0;
+    handleSensorData();
+    state = 0;
+   }
+   break;
+  default:
+   state = 0;
   }
 
   showMenu();
@@ -12845,21 +12861,58 @@ void main(void)
  }
 }
 
-void readAnalogValues(void)
+uint32_t timeNow(void)
 {
+ return g_100msTick;
+}
+
+uint32_t timeSince(uint32_t since)
+{
+ uint32_t now = timeNow();
+ if (now >= since)
+  return (now - since);
+
+ return (now + (1 + (0xffffffffu)/2 - since));
+}
+
+void checkStatus(void)
+{
+ if (g_tempAux < -30) {
+  g_status.NOAUXTEMP = 1;
+ } else
+  g_status.NOAUXTEMP = 0;
+}
+
+uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha)
+{
+  uint32_t tmp;
+  tmp = in * alpha + average * (65536 - alpha);
+  return (tmp + 32768) / 65536;
+}
+
+uint16_t adcGetConversion(uint8_t channel)
+{
+ ADCON0bits.CHS = channel;
+ _delay((unsigned long)((5)*(4000000/4000000.0)));
+ ADCON0bits.GO = 1;
+ while (ADCON0bits.GO);
+ return (uint16_t)((ADRESH << 8) + ADRESL);
+}
+
+void convertAnalogValues(void)
+{
+ static uint16_t avgT, avgV, avgI;
  uint16_t adc;
 
- ADCON0bits.CHS = 0b010000;
- ADCON0bits.GO = 1;
- while (ADCON0bits.GO);
- adc = (uint16_t)((ADRESH << 8) + ADRESL);
- g_voltage = (adc * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
-
- ADCON0bits.CHS = 0b010001;
- ADCON0bits.GO = 1;
- while (ADCON0bits.GO);
- adc = (uint16_t)((ADRESH << 8) + ADRESL);
- g_current = (adc * 5.0) / (1023.0 * 0.05 * 50.0);
+ adc = adcGetConversion(0b000110);
+ avgT = ema(adc, avgT, ( (uint32_t)(0.65 * 65535) ));
+ adc = adcGetConversion(0b010000);
+ avgV = ema(adc, avgV, ( (uint32_t)(0.65 * 65535) ));
+ adc = adcGetConversion(0b010001);
+ avgI = ema(adc, avgI, ( (uint32_t)(0.65 * 65535) ));
+ g_tempAux = (avgT * 0.1191) - 34.512;
+ g_voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+ g_current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
  g_power = g_voltage * g_current;
 }
 
@@ -12870,8 +12923,10 @@ void handleSensorData(void)
   g_relHum = g_dataPacket.relHum;
   g_dewPointC = g_dataPacket.dewPointC;
   g_sensorVersion = g_dataPacket.version;
+  g_status.NOSENSOR = 0;
  } else {
 
+  g_status.NOSENSOR = 1;
  }
 }
 
@@ -12880,16 +12935,29 @@ void showMenu(void)
  static uint8_t menu = 0;
  static uint8_t page = 0;
  enum e_buttonPress pb;
- char s[61];
+ char s[61], s12[12];
 
  pb = getPB();
  if (menu == 0) {
 
-  OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   Power");
-  sprintf(s, "%5.1f \xdf\C    %5.1f %%     %5.1f \xdf\C    %4.1fV%5.3fW",
-   g_tempC, g_relHum, g_dewPointC, g_voltage, g_current);
-  OLED_print_xy(0, 1, s);
-  menuInput(&page, 4, &menu, 1, 0, 0);
+  if (g_status.NOSENSOR) {
+   OLED_returnHome();
+   OLED_print_xy(0, 0, "Bat.   Power");
+   sprintf(s, "%4.1fV  %4.1fW", g_voltage, g_power);
+   OLED_print_xy(0, 1, s);
+   menuInput(&page, 1, &menu, 1, 0, 0);
+  } else {
+   OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   Power");
+   if (g_status.NOAUXTEMP)
+    sprintf(s12, "%5.1f \337C    ", g_tempC);
+   else
+    sprintf(s12, "%3.0f | %3.0f \337C", g_tempC, g_tempAux);
+
+   sprintf(s, "%s%5.1f %%     %5.1f \337C    %4.1fV  %4.1fW",
+    s12, g_relHum, g_dewPointC, g_voltage, g_power);
+   OLED_print_xy(0, 1, s);
+   menuInput(&page, 4, &menu, 1, 0, 0);
+  }
  } else if (menu == 1) {
 
   OLED_print_xy(0, 0, "Ch1: xx inchCh2: xx inchCh3: xx inchCh4: xx inch");
@@ -13046,8 +13114,8 @@ void __attribute__((picinterrupt(""))) ISR(void)
  } else if (INTCONbits.PEIE == 1) {
   if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1) {
 
-   if (++g_100msTick == 10) {
-    g_100msTick = 0;
+   if (++g_100msTick % 10) {
+
     g_sensorTimer++;
    }
    TMR1 = 53035;

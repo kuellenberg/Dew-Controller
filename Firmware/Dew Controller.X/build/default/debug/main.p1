@@ -1,25 +1,29 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"26 main.c
-[; ;main.c: 26: typedef struct {
-[s S983 `uc 1 `uc 1 `uc 1 `f 1 `f 1 `f 1 ]
-[n S983 . header version status tempC relHum dewPointC ]
-"67
-[; ;main.c: 67: const uint8_t transition_table[7][4] = {
-[c E7833 0 1 2 3 4 5 6 .. ]
-[n E7833 e_states START CW1 CW2 CW3 CCW1 CCW2 CCW3  ]
-[c E7841 128 64 .. ]
-[n E7841 e_flags CW_FLAG CCW_FLAG  ]
+"54 main.c
+[; ;main.c: 54: const uint8_t transition_table[7][4] = {
+[c E7825 0 1 2 3 4 5 6 .. ]
+[n E7825 e_states START CW1 CW2 CW3 CCW1 CCW2 CCW3  ]
+[c E7833 128 64 .. ]
+[n E7833 e_flags CW_FLAG CCW_FLAG  ]
+"29
+[; ;main.c: 29: typedef struct {
+[s S983 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S983 . BATLO NOSENSOR NOAUXTEMP ]
+"35
+[; ;main.c: 35: typedef struct {
+[s S984 `uc 1 `uc 1 `uc 1 `f 1 `f 1 `f 1 ]
+[n S984 . header version status tempC relHum dewPointC ]
+"79
+[; ;main.c: 79: volatile enum e_direction g_rotDir = ROT_STOP;
+[c E7836 0 1 2 .. ]
+[n E7836 e_direction ROT_STOP ROT_CW ROT_CCW  ]
 "80
-[; ;main.c: 80: volatile enum e_direction g_rotDir = ROT_STOP;
-[c E7844 0 1 2 .. ]
-[n E7844 e_direction ROT_STOP ROT_CW ROT_CCW  ]
-"81
-[; ;main.c: 81: volatile enum e_buttonPress g_pbState = PB_NONE;
-[c E7848 0 1 2 3 .. ]
-[n E7848 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT  ]
+[; ;main.c: 80: volatile enum e_buttonPress g_pbState = PB_NONE;
+[c E7840 0 1 2 3 .. ]
+[n E7840 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT  ]
 [p mainexit ]
-"86
-[; ;main.c: 86: void initialize(void);
+"85
+[; ;main.c: 85: void initialize(void);
 [v _initialize `(v ~T0 @X0 0 ef ]
 "928 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 928:     struct {
@@ -52,17 +56,37 @@ Version 4.0 HI-TECH Software Intermediate Code
 "52
 [; ;./oled.h: 52: void OLED_command(uint8_t value);
 [v _OLED_command `(v ~T0 @X0 0 ef1`uc ]
-"97 main.c
-[; ;main.c: 97: void readAnalogValues(void);
-[v _readAnalogValues `(v ~T0 @X0 0 ef ]
-"90
-[; ;main.c: 90: void uartSendByte(char s);
-[v _uartSendByte `(v ~T0 @X0 0 ef1`uc ]
+"866 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 866:     struct {
+[s S49 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S49 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
+"865
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 865: typedef union {
+[u S48 `S49 1 ]
+[n S48 . . ]
+"877
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 877: extern volatile LATAbits_t LATAbits __attribute__((address(0x018)));
+[v _LATAbits `VS48 ~T0 @X0 0 e@24 ]
+"99 main.c
+[; ;main.c: 99: uint32_t timeNow(void);
+[v _timeNow `(ul ~T0 @X0 0 ef ]
 "96
-[; ;main.c: 96: void handleSensorData(void);
+[; ;main.c: 96: void convertAnalogValues(void);
+[v _convertAnalogValues `(v ~T0 @X0 0 ef ]
+"98
+[; ;main.c: 98: void checkStatus(void);
+[v _checkStatus `(v ~T0 @X0 0 ef ]
+"100
+[; ;main.c: 100: uint32_t timeSince(uint32_t since);
+[v _timeSince `(ul ~T0 @X0 0 ef1`ul ]
+"89
+[; ;main.c: 89: void uartSendByte(char s);
+[v _uartSendByte `(v ~T0 @X0 0 ef1`uc ]
+"95
+[; ;main.c: 95: void handleSensorData(void);
 [v _handleSensorData `(v ~T0 @X0 0 ef ]
-"91
-[; ;main.c: 91: void showMenu(void);
+"90
+[; ;main.c: 90: void showMenu(void);
 [v _showMenu `(v ~T0 @X0 0 ef ]
 [v F7273 `(v ~T0 @X0 1 tf1`ul ]
 "92 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic.h
@@ -89,16 +113,16 @@ Version 4.0 HI-TECH Software Intermediate Code
 "1053
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 1053: extern volatile unsigned char ADRESL __attribute__((address(0x09B)));
 [v _ADRESL `Vuc ~T0 @X0 0 e@155 ]
-"95 main.c
-[; ;main.c: 95: enum e_buttonPress getPB(void);
-[v _getPB `(E7848 ~T0 @X0 0 ef ]
+"94 main.c
+[; ;main.c: 94: enum e_buttonPress getPB(void);
+[v _getPB `(E7840 ~T0 @X0 0 ef ]
 "58 ./oled.h
 [; ;./oled.h: 58: void OLED_print_xy(uint8_t col, uint8_t row, char *s);
 [v _OLED_print_xy `(v ~T0 @X0 0 ef3`uc`uc`*uc ]
 "115 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\c99\stdio.h
 [v _sprintf `(i ~T0 @X0 0 e1v`*uc`*Cuc ]
-"92 main.c
-[; ;main.c: 92: void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
+"91 main.c
+[; ;main.c: 91: void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
 [v _menuInput `(v ~T0 @X0 0 ef6`*uc`Cuc`*uc`uc`uc`uc ]
 "9356 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 9356:     struct {
@@ -111,9 +135,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "9363
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 9363: extern volatile PIE0bits_t PIE0bits __attribute__((address(0x716)));
 [v _PIE0bits `VS441 ~T0 @X0 0 e@1814 ]
-"94 main.c
-[; ;main.c: 94: enum e_direction getRotDir(void);
-[v _getRotDir `(E7844 ~T0 @X0 0 ef ]
+"93 main.c
+[; ;main.c: 93: enum e_direction getRotDir(void);
+[v _getRotDir `(E7836 ~T0 @X0 0 ef ]
 "55 ./oled.h
 [; ;./oled.h: 55: void OLED_scrollDisplayLeft(void);
 [v _OLED_scrollDisplayLeft `(v ~T0 @X0 0 ef ]
@@ -268,11 +292,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 "19973
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 19973: extern volatile IOCAFbits_t IOCAFbits __attribute__((address(0x1F3F)));
 [v _IOCAFbits `VS912 ~T0 @X0 0 e@7999 ]
-"88 main.c
-[; ;main.c: 88: void pushButtonISR(void);
+"87 main.c
+[; ;main.c: 87: void pushButtonISR(void);
 [v _pushButtonISR `(v ~T0 @X0 0 ef ]
-"89
-[; ;main.c: 89: void rotISR(void);
+"88
+[; ;main.c: 88: void rotISR(void);
 [v _rotISR `(v ~T0 @X0 0 ef ]
 "419 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 419:     struct {
@@ -318,8 +342,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "9472
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 9472: extern volatile PIE3bits_t PIE3bits __attribute__((address(0x719)));
 [v _PIE3bits `VS447 ~T0 @X0 0 e@1817 ]
-"87 main.c
-[; ;main.c: 87: void uartReceiveISR(void);
+"86 main.c
+[; ;main.c: 86: void uartReceiveISR(void);
 [v _uartReceiveISR `(v ~T0 @X0 0 ef ]
 "1642 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15356.h: 1642:     struct {
@@ -1439,1002 +1463,1234 @@ Version 4.0 HI-TECH Software Intermediate Code
 [p x LVP = ON ]
 "40
 [p x CP = OFF ]
-"39 main.c
-[; ;main.c: 39: volatile uint8_t g_10msTick = 0;
+[v F7846 `Cuc ~T0 @X0 -> 4 `i t ]
+"54 main.c
+[; ;main.c: 54: const uint8_t transition_table[7][4] = {
+[v _transition_table `F7846 ~T0 @X0 -> 7 `i e ]
+[i _transition_table
+:U ..
+:U ..
+-> . `E7825 0 `uc
+-> . `E7825 4 `uc
+-> . `E7825 1 `uc
+-> . `E7825 0 `uc
+..
+:U ..
+-> | -> . `E7825 2 `i -> . `E7833 0 `i `uc
+-> . `E7825 0 `uc
+-> . `E7825 1 `uc
+-> . `E7825 0 `uc
+..
+:U ..
+-> . `E7825 2 `uc
+-> . `E7825 3 `uc
+-> . `E7825 1 `uc
+-> . `E7825 0 `uc
+..
+:U ..
+-> . `E7825 2 `uc
+-> . `E7825 3 `uc
+-> . `E7825 0 `uc
+-> | -> . `E7825 0 `i -> . `E7833 0 `i `uc
+..
+:U ..
+-> | -> . `E7825 5 `i -> . `E7833 1 `i `uc
+-> . `E7825 4 `uc
+-> . `E7825 0 `uc
+-> . `E7825 0 `uc
+..
+:U ..
+-> . `E7825 5 `uc
+-> . `E7825 4 `uc
+-> . `E7825 6 `uc
+-> . `E7825 0 `uc
+..
+:U ..
+-> . `E7825 5 `uc
+-> . `E7825 0 `uc
+-> . `E7825 6 `uc
+-> | -> . `E7825 0 `i -> . `E7833 1 `i `uc
+..
+..
+]
+"66
+[; ;main.c: 66: t_status g_status;
+[v _g_status `S983 ~T0 @X0 1 e ]
+"67
+[; ;main.c: 67: volatile uint8_t g_10msTick = 0;
 [v _g_10msTick `Vuc ~T0 @X0 1 e ]
 [i _g_10msTick
 -> -> 0 `i `uc
 ]
-"40
-[; ;main.c: 40: volatile uint8_t g_100msTick = 0;
-[v _g_100msTick `Vuc ~T0 @X0 1 e ]
+"68
+[; ;main.c: 68: volatile uint32_t g_100msTick = 0;
+[v _g_100msTick `Vul ~T0 @X0 1 e ]
 [i _g_100msTick
--> -> 0 `i `uc
+-> -> -> 0 `i `l `ul
 ]
-"41
-[; ;main.c: 41: volatile uint8_t g_sensorTimer = 0;
+"69
+[; ;main.c: 69: volatile uint8_t g_sensorTimer = 0;
 [v _g_sensorTimer `Vuc ~T0 @X0 1 e ]
 [i _g_sensorTimer
 -> -> 0 `i `uc
 ]
-"42
-[; ;main.c: 42: volatile uint8_t g_rxFErrCount = 0;
+"70
+[; ;main.c: 70: volatile uint8_t g_rxFErrCount = 0;
 [v _g_rxFErrCount `Vuc ~T0 @X0 1 e ]
 [i _g_rxFErrCount
 -> -> 0 `i `uc
 ]
-"43
-[; ;main.c: 43: volatile uint8_t g_rxOErrCount = 0;
+"71
+[; ;main.c: 71: volatile uint8_t g_rxOErrCount = 0;
 [v _g_rxOErrCount `Vuc ~T0 @X0 1 e ]
 [i _g_rxOErrCount
 -> -> 0 `i `uc
 ]
-"44
-[; ;main.c: 44: volatile uint8_t g_dataReady = 0;
+"72
+[; ;main.c: 72: volatile uint8_t g_dataReady = 0;
 [v _g_dataReady `Vuc ~T0 @X0 1 e ]
 [i _g_dataReady
 -> -> 0 `i `uc
 ]
-"45
-[; ;main.c: 45: volatile t_dataPacket g_dataPacket;
-[v _g_dataPacket `VS983 ~T0 @X0 1 e ]
-"47
-[; ;main.c: 47: float g_tempC, g_relHum, g_dewPointC, g_sensorVersion;
+"73
+[; ;main.c: 73: volatile t_dataPacket g_dataPacket;
+[v _g_dataPacket `VS984 ~T0 @X0 1 e ]
+"75
+[; ;main.c: 75: float g_tempC, g_relHum, g_dewPointC, g_sensorVersion;
 [v _g_tempC `f ~T0 @X0 1 e ]
 [v _g_relHum `f ~T0 @X0 1 e ]
 [v _g_dewPointC `f ~T0 @X0 1 e ]
 [v _g_sensorVersion `f ~T0 @X0 1 e ]
-"48
-[; ;main.c: 48: float g_voltage, g_power;
+"76
+[; ;main.c: 76: float g_tempAux, g_voltage, g_current, g_power;
+[v _g_tempAux `f ~T0 @X0 1 e ]
 [v _g_voltage `f ~T0 @X0 1 e ]
+[v _g_current `f ~T0 @X0 1 e ]
 [v _g_power `f ~T0 @X0 1 e ]
-[v F7854 `Cuc ~T0 @X0 -> 4 `i t ]
-"67
-[; ;main.c: 67: const uint8_t transition_table[7][4] = {
-[v _transition_table `F7854 ~T0 @X0 -> 7 `i e ]
-[i _transition_table
-:U ..
-:U ..
--> . `E7833 0 `uc
--> . `E7833 4 `uc
--> . `E7833 1 `uc
--> . `E7833 0 `uc
-..
-:U ..
--> | -> . `E7833 2 `i -> . `E7841 0 `i `uc
--> . `E7833 0 `uc
--> . `E7833 1 `uc
--> . `E7833 0 `uc
-..
-:U ..
--> . `E7833 2 `uc
--> . `E7833 3 `uc
--> . `E7833 1 `uc
--> . `E7833 0 `uc
-..
-:U ..
--> . `E7833 2 `uc
--> . `E7833 3 `uc
--> . `E7833 0 `uc
--> | -> . `E7833 0 `i -> . `E7841 0 `i `uc
-..
-:U ..
--> | -> . `E7833 5 `i -> . `E7841 1 `i `uc
--> . `E7833 4 `uc
--> . `E7833 0 `uc
--> . `E7833 0 `uc
-..
-:U ..
--> . `E7833 5 `uc
--> . `E7833 4 `uc
--> . `E7833 6 `uc
--> . `E7833 0 `uc
-..
-:U ..
--> . `E7833 5 `uc
--> . `E7833 0 `uc
--> . `E7833 6 `uc
--> | -> . `E7833 0 `i -> . `E7841 1 `i `uc
-..
-..
-]
-"79
-[; ;main.c: 79: volatile uint8_t g_curRotState = START;
+"78
+[; ;main.c: 78: volatile uint8_t g_curRotState = START;
 [v _g_curRotState `Vuc ~T0 @X0 1 e ]
 [i _g_curRotState
--> . `E7833 0 `uc
+-> . `E7825 0 `uc
+]
+"79
+[; ;main.c: 79: volatile enum e_direction g_rotDir = ROT_STOP;
+[v _g_rotDir `VE7836 ~T0 @X0 1 e ]
+[i _g_rotDir
+. `E7836 0
 ]
 "80
-[; ;main.c: 80: volatile enum e_direction g_rotDir = ROT_STOP;
-[v _g_rotDir `VE7844 ~T0 @X0 1 e ]
-[i _g_rotDir
-. `E7844 0
-]
-"81
-[; ;main.c: 81: volatile enum e_buttonPress g_pbState = PB_NONE;
-[v _g_pbState `VE7848 ~T0 @X0 1 e ]
+[; ;main.c: 80: volatile enum e_buttonPress g_pbState = PB_NONE;
+[v _g_pbState `VE7840 ~T0 @X0 1 e ]
 [i _g_pbState
-. `E7848 0
+. `E7840 0
 ]
 [v $root$_main `(v ~T0 @X0 0 e ]
-"103
-[; ;main.c: 103: void main(void)
+"106
+[; ;main.c: 106: void main(void)
 [v _main `(v ~T0 @X0 1 ef ]
-"104
-[; ;main.c: 104: {
+"107
+[; ;main.c: 107: {
 {
 [e :U _main ]
 [f ]
-"105
-[; ;main.c: 105:  char s1[16], s2[16];
-[v _s1 `uc ~T0 @X0 -> 16 `i a ]
-[v _s2 `uc ~T0 @X0 -> 16 `i a ]
-"107
-[; ;main.c: 107:  initialize();
-[e ( _initialize ..  ]
 "108
-[; ;main.c: 108:  LATBbits.LATB5 = 1;
-[e = . . _LATBbits 0 5 -> -> 1 `i `uc ]
-"109
-[; ;main.c: 109:  LATCbits.LATC3 = 1;
-[e = . . _LATCbits 0 3 -> -> 1 `i `uc ]
+[; ;main.c: 108:  uint32_t sensorTime, sensorTimeout;
+[v _sensorTime `ul ~T0 @X0 1 a ]
+[v _sensorTimeout `ul ~T0 @X0 1 a ]
 "110
-[; ;main.c: 110:  OLED_init();
-[e ( _OLED_init ..  ]
+[; ;main.c: 110:  initialize();
+[e ( _initialize ..  ]
 "111
-[; ;main.c: 111:  OLED_returnHome();
-[e ( _OLED_returnHome ..  ]
+[; ;main.c: 111:  LATBbits.LATB5 = 1;
+[e = . . _LATBbits 0 5 -> -> 1 `i `uc ]
 "112
-[; ;main.c: 112:  OLED_command(0x01);
-[e ( _OLED_command (1 -> -> 1 `i `uc ]
+[; ;main.c: 112:  LATCbits.LATC3 = 1;
+[e = . . _LATCbits 0 3 -> -> 1 `i `uc ]
+"113
+[; ;main.c: 113:  OLED_init();
+[e ( _OLED_init ..  ]
+"114
+[; ;main.c: 114:  OLED_returnHome();
+[e ( _OLED_returnHome ..  ]
 "115
-[; ;main.c: 115:  g_power = 1.0;
-[e = _g_power -> .1.0 `f ]
+[; ;main.c: 115:  OLED_command(0x01);
+[e ( _OLED_command (1 -> -> 1 `i `uc ]
 "117
-[; ;main.c: 117:  while (1) {
-[e :U 986 ]
-{
-"118
-[; ;main.c: 118:   __asm("clrwdt");
-[; <" clrwdt ;# ">
+[; ;main.c: 117:  LATAbits.LATA0 = 1;
+[e = . . _LATAbits 0 0 -> -> 1 `i `uc ]
 "119
-[; ;main.c: 119:   readAnalogValues();
-[e ( _readAnalogValues ..  ]
+[; ;main.c: 119:  sensorTime = sensorTimeout = timeNow();
+[e = _sensorTime = _sensorTimeout ( _timeNow ..  ]
 "121
-[; ;main.c: 121:   if (g_sensorTimer >= 5) {
-[e $ ! >= -> _g_sensorTimer `i -> 5 `i 988  ]
+[; ;main.c: 121:  while (1) {
+[e :U 987 ]
 {
 "122
-[; ;main.c: 122:    g_sensorTimer = 0;
-[e = _g_sensorTimer -> -> 0 `i `uc ]
+[; ;main.c: 122:   __asm("clrwdt");
+[; <" clrwdt ;# ">
 "123
-[; ;main.c: 123:    uartSendByte('?');
-[e ( _uartSendByte (1 -> -> 63 `ui `uc ]
+[; ;main.c: 123:   convertAnalogValues();
+[e ( _convertAnalogValues ..  ]
 "124
-[; ;main.c: 124:   }
-}
-[e :U 988 ]
-"126
-[; ;main.c: 126:   if (g_dataReady == 1) {
-[e $ ! == -> _g_dataReady `i -> 1 `i 989  ]
-{
+[; ;main.c: 124:   checkStatus();
+[e ( _checkStatus ..  ]
 "127
-[; ;main.c: 127:    g_dataReady = 0;
-[e = _g_dataReady -> -> 0 `i `uc ]
+[; ;main.c: 127:   if (timeSince(sensorTime) >= 5*10) {
+[e $ ! >= ( _timeSince (1 _sensorTime -> -> * -> 5 `i -> 10 `i `l `ul 989  ]
+{
 "128
-[; ;main.c: 128:    handleSensorData();
-[e ( _handleSensorData ..  ]
-"129
-[; ;main.c: 129:   }
+[; ;main.c: 128:    sensorTime = sensorTimeout = timeNow();
+[e = _sensorTime = _sensorTimeout ( _timeNow ..  ]
+"130
+[; ;main.c: 130:    uartSendByte('?');
+[e ( _uartSendByte (1 -> -> 63 `ui `uc ]
+"131
+[; ;main.c: 131:   }
 }
 [e :U 989 ]
-"131
-[; ;main.c: 131:   showMenu();
-[e ( _showMenu ..  ]
-"132
-[; ;main.c: 132:   _delay((unsigned long)((10)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-"134
-[; ;main.c: 134:  }
-}
-[e :U 985 ]
-[e $U 986  ]
-[e :U 987 ]
-"135
-[; ;main.c: 135: }
-[e :UE 984 ]
-}
-"137
-[; ;main.c: 137: void readAnalogValues(void)
-[v _readAnalogValues `(v ~T0 @X0 1 ef ]
-"138
-[; ;main.c: 138: {
+"133
+[; ;main.c: 133:   if (timeSince(sensorTimeout) > 50) {
+[e $ ! > ( _timeSince (1 _sensorTimeout -> -> -> 50 `i `l `ul 990  ]
 {
-[e :U _readAnalogValues ]
-[f ]
+"134
+[; ;main.c: 134:    g_status.NOSENSOR = 1;
+[e = . _g_status 1 -> -> 1 `i `uc ]
+"135
+[; ;main.c: 135:   }
+}
+[e :U 990 ]
+"137
+[; ;main.c: 137:   if (g_dataReady == 1) {
+[e $ ! == -> _g_dataReady `i -> 1 `i 991  ]
+{
+"138
+[; ;main.c: 138:    g_dataReady = 0;
+[e = _g_dataReady -> -> 0 `i `uc ]
 "139
-[; ;main.c: 139:  uint16_t adc;
-[v _adc `us ~T0 @X0 1 a ]
-"141
-[; ;main.c: 141:  ADCON0bits.CHS = 0b010000;
-[e = . . _ADCON0bits 1 2 -> -> 16 `i `uc ]
-"142
-[; ;main.c: 142:  ADCON0bits.ADON = 1;
-[e = . . _ADCON0bits 0 0 -> -> 1 `i `uc ]
-"143
-[; ;main.c: 143:  while (ADCON0bits.GO);
-[e $U 991  ]
-[e :U 992 ]
+[; ;main.c: 139:    handleSensorData();
+[e ( _handleSensorData ..  ]
+"140
+[; ;main.c: 140:   }
+}
 [e :U 991 ]
-[e $ != -> . . _ADCON0bits 1 1 `i -> 0 `i 992  ]
-[e :U 993 ]
-"144
-[; ;main.c: 144:  adc = (uint16_t)((ADRESH << 8) + ADRESL);
-[e = _adc -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `us ]
+"142
+[; ;main.c: 142:   showMenu();
+[e ( _showMenu ..  ]
+"143
+[; ;main.c: 143:   _delay((unsigned long)((10)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
 "145
-[; ;main.c: 145:  g_voltage = (adc * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
-[e = _g_voltage -> / * * -> -> _adc `ui `d .5.0 + .150.0 .47.0 * .1023.0 .47.0 `f ]
+[; ;main.c: 145:  }
+}
+[e :U 986 ]
+[e $U 987  ]
+[e :U 988 ]
 "146
 [; ;main.c: 146: }
-[e :UE 990 ]
+[e :UE 985 ]
 }
 "148
-[; ;main.c: 148: void handleSensorData(void)
-[v _handleSensorData `(v ~T0 @X0 1 ef ]
+[; ;main.c: 148: uint32_t timeNow(void)
+[v _timeNow `(ul ~T0 @X0 1 ef ]
 "149
 [; ;main.c: 149: {
 {
-[e :U _handleSensorData ]
+[e :U _timeNow ]
 [f ]
 "150
-[; ;main.c: 150:  if ((g_dataPacket.header == 0xAA) && (g_dataPacket.status == 1)) {
-[e $ ! && == -> . _g_dataPacket 0 `i -> 170 `i == -> . _g_dataPacket 2 `i -> 1 `i 995  ]
-{
+[; ;main.c: 150:  return g_100msTick;
+[e ) _g_100msTick ]
+[e $UE 992  ]
 "151
-[; ;main.c: 151:   g_tempC = g_dataPacket.tempC;
-[e = _g_tempC . _g_dataPacket 3 ]
-"152
-[; ;main.c: 152:   g_relHum = g_dataPacket.relHum;
-[e = _g_relHum . _g_dataPacket 4 ]
+[; ;main.c: 151: }
+[e :UE 992 ]
+}
 "153
-[; ;main.c: 153:   g_dewPointC = g_dataPacket.dewPointC;
-[e = _g_dewPointC . _g_dataPacket 5 ]
+[; ;main.c: 153: uint32_t timeSince(uint32_t since)
+[v _timeSince `(ul ~T0 @X0 1 ef1`ul ]
 "154
-[; ;main.c: 154:   g_sensorVersion = g_dataPacket.version;
-[e = _g_sensorVersion -> . _g_dataPacket 1 `f ]
-"155
-[; ;main.c: 155:  } else {
-}
-[e $U 996  ]
-[e :U 995 ]
+[; ;main.c: 154: {
 {
+[e :U _timeSince ]
+"153
+[; ;main.c: 153: uint32_t timeSince(uint32_t since)
+[v _since `ul ~T0 @X0 1 r1 ]
+"154
+[; ;main.c: 154: {
+[f ]
+"155
+[; ;main.c: 155:  uint32_t now = timeNow();
+[v _now `ul ~T0 @X0 1 a ]
+[e = _now ( _timeNow ..  ]
+"156
+[; ;main.c: 156:  if (now >= since)
+[e $ ! >= _now _since 994  ]
 "157
-[; ;main.c: 157:  }
-}
-[e :U 996 ]
-"158
-[; ;main.c: 158: }
-[e :UE 994 ]
-}
+[; ;main.c: 157:   return (now - since);
+[e ) - _now _since ]
+[e $UE 993  ]
+[e :U 994 ]
+"159
+[; ;main.c: 159:  return (now + (1 + (0xffffffffu)/2 - since));
+[e ) + _now - + -> -> -> 1 `i `l `ul / -> 4294967295 `ul -> -> -> 2 `i `l `ul _since ]
+[e $UE 993  ]
 "160
-[; ;main.c: 160: void showMenu(void)
+[; ;main.c: 160: }
+[e :UE 993 ]
+}
+"162
+[; ;main.c: 162: void checkStatus(void)
+[v _checkStatus `(v ~T0 @X0 1 ef ]
+"163
+[; ;main.c: 163: {
+{
+[e :U _checkStatus ]
+[f ]
+"164
+[; ;main.c: 164:  if (g_tempAux < -30) {
+[e $ ! < _g_tempAux -> -U -> 30 `i `f 996  ]
+{
+"165
+[; ;main.c: 165:   g_status.NOAUXTEMP = 1;
+[e = . _g_status 2 -> -> 1 `i `uc ]
+"166
+[; ;main.c: 166:  } else
+}
+[e $U 997  ]
+[e :U 996 ]
+"167
+[; ;main.c: 167:   g_status.NOAUXTEMP = 0;
+[e = . _g_status 2 -> -> 0 `i `uc ]
+[e :U 997 ]
+"168
+[; ;main.c: 168: }
+[e :UE 995 ]
+}
+"170
+[; ;main.c: 170: uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha)
+[v _ema `(us ~T0 @X0 1 ef3`us`us`ul ]
+"171
+[; ;main.c: 171: {
+{
+[e :U _ema ]
+"170
+[; ;main.c: 170: uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha)
+[v _in `us ~T0 @X0 1 r1 ]
+[v _average `us ~T0 @X0 1 r2 ]
+[v _alpha `ul ~T0 @X0 1 r3 ]
+"171
+[; ;main.c: 171: {
+[f ]
+"172
+[; ;main.c: 172:   uint32_t tmp;
+[v _tmp `ul ~T0 @X0 1 a ]
+"173
+[; ;main.c: 173:   tmp = in * alpha + average * (65536 - alpha);
+[e = _tmp + * -> _in `ul _alpha * -> _average `ul - -> -> 65536 `l `ul _alpha ]
+"174
+[; ;main.c: 174:   return (tmp + 32768) / 65536;
+[e ) -> / + _tmp -> -> 32768 `l `ul -> -> 65536 `l `ul `us ]
+[e $UE 998  ]
+"175
+[; ;main.c: 175: }
+[e :UE 998 ]
+}
+"177
+[; ;main.c: 177: uint16_t adcGetConversion(uint8_t channel)
+[v _adcGetConversion `(us ~T0 @X0 1 ef1`uc ]
+"178
+[; ;main.c: 178: {
+{
+[e :U _adcGetConversion ]
+"177
+[; ;main.c: 177: uint16_t adcGetConversion(uint8_t channel)
+[v _channel `uc ~T0 @X0 1 r1 ]
+"178
+[; ;main.c: 178: {
+[f ]
+"179
+[; ;main.c: 179:  ADCON0bits.CHS = channel;
+[e = . . _ADCON0bits 1 2 _channel ]
+"180
+[; ;main.c: 180:  _delay((unsigned long)((5)*(4000000/4000000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
+"181
+[; ;main.c: 181:  ADCON0bits.GO = 1;
+[e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
+"182
+[; ;main.c: 182:  while (ADCON0bits.GO);
+[e $U 1000  ]
+[e :U 1001 ]
+[e :U 1000 ]
+[e $ != -> . . _ADCON0bits 1 1 `i -> 0 `i 1001  ]
+[e :U 1002 ]
+"183
+[; ;main.c: 183:  return (uint16_t)((ADRESH << 8) + ADRESL);
+[e ) -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `us ]
+[e $UE 999  ]
+"184
+[; ;main.c: 184: }
+[e :UE 999 ]
+}
+"186
+[; ;main.c: 186: void convertAnalogValues(void)
+[v _convertAnalogValues `(v ~T0 @X0 1 ef ]
+"187
+[; ;main.c: 187: {
+{
+[e :U _convertAnalogValues ]
+[f ]
+"188
+[; ;main.c: 188:  static uint16_t avgT, avgV, avgI;
+[v F7908 `us ~T0 @X0 1 s avgT ]
+[v F7909 `us ~T0 @X0 1 s avgV ]
+[v F7910 `us ~T0 @X0 1 s avgI ]
+"189
+[; ;main.c: 189:  uint16_t adc;
+[v _adc `us ~T0 @X0 1 a ]
+"191
+[; ;main.c: 191:  adc = adcGetConversion(0b000110);
+[e = _adc ( _adcGetConversion (1 -> -> 6 `i `uc ]
+"192
+[; ;main.c: 192:  avgT = ema(adc, avgT, ( (uint32_t)(0.65 * 65535) ));
+[e = F7908 ( _ema (3 , , _adc F7908 -> * .0.65 -> -> 65535 `l `d `ul ]
+"193
+[; ;main.c: 193:  adc = adcGetConversion(0b010000);
+[e = _adc ( _adcGetConversion (1 -> -> 16 `i `uc ]
+"194
+[; ;main.c: 194:  avgV = ema(adc, avgV, ( (uint32_t)(0.65 * 65535) ));
+[e = F7909 ( _ema (3 , , _adc F7909 -> * .0.65 -> -> 65535 `l `d `ul ]
+"195
+[; ;main.c: 195:  adc = adcGetConversion(0b010001);
+[e = _adc ( _adcGetConversion (1 -> -> 17 `i `uc ]
+"196
+[; ;main.c: 196:  avgI = ema(adc, avgI, ( (uint32_t)(0.65 * 65535) ));
+[e = F7910 ( _ema (3 , , _adc F7910 -> * .0.65 -> -> 65535 `l `d `ul ]
+"197
+[; ;main.c: 197:  g_tempAux = (avgT * 0.1191) - 34.512;
+[e = _g_tempAux -> - * -> -> F7908 `ui `d .0.1191 .34.512 `f ]
+"198
+[; ;main.c: 198:  g_voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+[e = _g_voltage -> / * * -> -> F7909 `ui `d .5.0 + .150.0 .47.0 * .1023.0 .47.0 `f ]
+"199
+[; ;main.c: 199:  g_current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
+[e = _g_current -> / * -> -> F7910 `ui `d .5.0 * * .1023.0 .0.05 .50.0 `f ]
+"200
+[; ;main.c: 200:  g_power = g_voltage * g_current;
+[e = _g_power * _g_voltage _g_current ]
+"201
+[; ;main.c: 201: }
+[e :UE 1003 ]
+}
+"203
+[; ;main.c: 203: void handleSensorData(void)
+[v _handleSensorData `(v ~T0 @X0 1 ef ]
+"204
+[; ;main.c: 204: {
+{
+[e :U _handleSensorData ]
+[f ]
+"205
+[; ;main.c: 205:  if ((g_dataPacket.header == 0xAA) && (g_dataPacket.status == 1)) {
+[e $ ! && == -> . _g_dataPacket 0 `i -> 170 `i == -> . _g_dataPacket 2 `i -> 1 `i 1005  ]
+{
+"206
+[; ;main.c: 206:   g_tempC = g_dataPacket.tempC;
+[e = _g_tempC . _g_dataPacket 3 ]
+"207
+[; ;main.c: 207:   g_relHum = g_dataPacket.relHum;
+[e = _g_relHum . _g_dataPacket 4 ]
+"208
+[; ;main.c: 208:   g_dewPointC = g_dataPacket.dewPointC;
+[e = _g_dewPointC . _g_dataPacket 5 ]
+"209
+[; ;main.c: 209:   g_sensorVersion = g_dataPacket.version;
+[e = _g_sensorVersion -> . _g_dataPacket 1 `f ]
+"210
+[; ;main.c: 210:   g_status.NOSENSOR = 0;
+[e = . _g_status 1 -> -> 0 `i `uc ]
+"211
+[; ;main.c: 211:  } else {
+}
+[e $U 1006  ]
+[e :U 1005 ]
+{
+"213
+[; ;main.c: 213:   g_status.NOSENSOR = 1;
+[e = . _g_status 1 -> -> 1 `i `uc ]
+"214
+[; ;main.c: 214:  }
+}
+[e :U 1006 ]
+"215
+[; ;main.c: 215: }
+[e :UE 1004 ]
+}
+"217
+[; ;main.c: 217: void showMenu(void)
 [v _showMenu `(v ~T0 @X0 1 ef ]
-"161
-[; ;main.c: 161: {
+"218
+[; ;main.c: 218: {
 {
 [e :U _showMenu ]
 [f ]
-"162
-[; ;main.c: 162:  static uint8_t menu = 0;
-[v F7883 `uc ~T0 @X0 1 s menu ]
-[i F7883
+"219
+[; ;main.c: 219:  static uint8_t menu = 0;
+[v F7914 `uc ~T0 @X0 1 s menu ]
+[i F7914
 -> -> 0 `i `uc
 ]
-"163
-[; ;main.c: 163:  static uint8_t page = 0;
-[v F7884 `uc ~T0 @X0 1 s page ]
-[i F7884
+"220
+[; ;main.c: 220:  static uint8_t page = 0;
+[v F7915 `uc ~T0 @X0 1 s page ]
+[i F7915
 -> -> 0 `i `uc
 ]
-"164
-[; ;main.c: 164:  enum e_buttonPress pb;
-[v _pb `E7848 ~T0 @X0 1 a ]
-"165
-[; ;main.c: 165:  char s[61];
+"221
+[; ;main.c: 221:  enum e_buttonPress pb;
+[v _pb `E7840 ~T0 @X0 1 a ]
+"222
+[; ;main.c: 222:  char s[61], s12[12];
 [v _s `uc ~T0 @X0 -> 61 `i a ]
-"167
-[; ;main.c: 167:  pb = getPB();
+[v _s12 `uc ~T0 @X0 -> 12 `i a ]
+"224
+[; ;main.c: 224:  pb = getPB();
 [e = _pb ( _getPB ..  ]
-"168
-[; ;main.c: 168:  if (menu == 0) {
-[e $ ! == -> F7883 `i -> 0 `i 998  ]
+"225
+[; ;main.c: 225:  if (menu == 0) {
+[e $ ! == -> F7914 `i -> 0 `i 1008  ]
 {
-"170
-[; ;main.c: 170:   OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   Power");
+"227
+[; ;main.c: 227:   if (g_status.NOSENSOR) {
+[e $ ! != -> . _g_status 1 `i -> 0 `i 1009  ]
+{
+"228
+[; ;main.c: 228:    OLED_print_xy(0, 0, "Bat.   Power");
 [e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc :s 1C ]
-"171
-[; ;main.c: 171:   sprintf(s, "%5.1f \xdf\C    %5.1f %%     %5.1f \xdf\C    %4.1fV  %4.1fW",
-[e ( _sprintf (1 , , , , , (. , &U _s :s 2C -> _g_tempC `d -> _g_relHum `d -> _g_dewPointC `d -> _g_voltage `d -> _g_power `d ]
-"173
-[; ;main.c: 173:   OLED_print_xy(0, 1, s);
+"229
+[; ;main.c: 229:    sprintf(s, "%4.1fV  %4.1fW", g_voltage, g_power);
+[e ( _sprintf (1 , , (. , &U _s :s 2C -> _g_voltage `d -> _g_power `d ]
+"230
+[; ;main.c: 230:    OLED_print_xy(0, 1, s);
 [e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc &U _s ]
-"174
-[; ;main.c: 174:   menuInput(&page, 4, &menu, 1, 0, 0);
-[e ( _menuInput (4 , , , , , &U F7884 -> -> 4 `i `uc &U F7883 -> -> 1 `i `uc -> -> 0 `i `uc -> -> 0 `i `uc ]
-"175
-[; ;main.c: 175:  } else if (menu == 1) {
+"231
+[; ;main.c: 231:    menuInput(&page, 1, &menu, 1, 0, 0);
+[e ( _menuInput (4 , , , , , &U F7915 -> -> 1 `i `uc &U F7914 -> -> 1 `i `uc -> -> 0 `i `uc -> -> 0 `i `uc ]
+"232
+[; ;main.c: 232:   } else {
 }
-[e $U 999  ]
-[e :U 998 ]
-[e $ ! == -> F7883 `i -> 1 `i 1000  ]
+[e $U 1010  ]
+[e :U 1009 ]
 {
-"177
-[; ;main.c: 177:   OLED_print_xy(0, 0, "Ch1: xx inchCh2: xx inchCh3: xx inchCh4: xx inch");
+"233
+[; ;main.c: 233:    OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   Power");
 [e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc :s 3C ]
-"178
-[; ;main.c: 178:   menuInput(&page, 4, &menu, 1, 0, 0);
-[e ( _menuInput (4 , , , , , &U F7884 -> -> 4 `i `uc &U F7883 -> -> 1 `i `uc -> -> 0 `i `uc -> -> 0 `i `uc ]
-"179
-[; ;main.c: 179:  }
+"234
+[; ;main.c: 234:    if (g_status.NOAUXTEMP)
+[e $ ! != -> . _g_status 2 `i -> 0 `i 1011  ]
+"235
+[; ;main.c: 235:     sprintf(s12, "%5.1f \337C    ", g_tempC);
+[e ( _sprintf (1 , (. , &U _s12 :s 4C -> _g_tempC `d ]
+[e $U 1012  ]
+"236
+[; ;main.c: 236:    else
+[e :U 1011 ]
+"237
+[; ;main.c: 237:     sprintf(s12, "%3.0f | %3.0f \337C", g_tempC, g_tempAux);
+[e ( _sprintf (1 , , (. , &U _s12 :s 5C -> _g_tempC `d -> _g_tempAux `d ]
+[e :U 1012 ]
+"239
+[; ;main.c: 239:    sprintf(s, "%s%5.1f %%     %5.1f \337C    %4.1fV  %4.1fW",
+[e ( _sprintf (1 , , , , , (. , &U _s :s 6C &U _s12 -> _g_relHum `d -> _g_dewPointC `d -> _g_voltage `d -> _g_power `d ]
+"241
+[; ;main.c: 241:    OLED_print_xy(0, 1, s);
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 1 `i `uc &U _s ]
+"242
+[; ;main.c: 242:    menuInput(&page, 4, &menu, 1, 0, 0);
+[e ( _menuInput (4 , , , , , &U F7915 -> -> 4 `i `uc &U F7914 -> -> 1 `i `uc -> -> 0 `i `uc -> -> 0 `i `uc ]
+"243
+[; ;main.c: 243:   }
 }
-[e :U 1000 ]
-[e :U 999 ]
-"180
-[; ;main.c: 180: }
-[e :UE 997 ]
+[e :U 1010 ]
+"244
+[; ;main.c: 244:  } else if (menu == 1) {
 }
-"182
-[; ;main.c: 182: void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
+[e $U 1013  ]
+[e :U 1008 ]
+[e $ ! == -> F7914 `i -> 1 `i 1014  ]
+{
+"246
+[; ;main.c: 246:   OLED_print_xy(0, 0, "Ch1: xx inchCh2: xx inchCh3: xx inchCh4: xx inch");
+[e ( _OLED_print_xy (3 , , -> -> 0 `i `uc -> -> 0 `i `uc :s 7C ]
+"247
+[; ;main.c: 247:   menuInput(&page, 4, &menu, 1, 0, 0);
+[e ( _menuInput (4 , , , , , &U F7915 -> -> 4 `i `uc &U F7914 -> -> 1 `i `uc -> -> 0 `i `uc -> -> 0 `i `uc ]
+"248
+[; ;main.c: 248:  }
+}
+[e :U 1014 ]
+[e :U 1013 ]
+"249
+[; ;main.c: 249: }
+[e :UE 1007 ]
+}
+"251
+[; ;main.c: 251: void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
 [v _menuInput `(v ~T0 @X0 1 ef6`*uc`Cuc`*uc`uc`uc`uc ]
-"184
-[; ;main.c: 184: {
+"253
+[; ;main.c: 253: {
 {
 [e :U _menuInput ]
-"182
-[; ;main.c: 182: void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
+"251
+[; ;main.c: 251: void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
 [v _page `*uc ~T0 @X0 1 r1 ]
 [v _numPages `Cuc ~T0 @X0 1 r2 ]
 [v _menu `*uc ~T0 @X0 1 r3 ]
-"183
-[; ;main.c: 183:  uint8_t pbShort, uint8_t pbLong, uint8_t timeout)
+"252
+[; ;main.c: 252:  uint8_t pbShort, uint8_t pbLong, uint8_t timeout)
 [v _pbShort `uc ~T0 @X0 1 r4 ]
 [v _pbLong `uc ~T0 @X0 1 r5 ]
 [v _timeout `uc ~T0 @X0 1 r6 ]
-"184
-[; ;main.c: 184: {
-[f ]
-"185
-[; ;main.c: 185:  uint8_t n;
-[v _n `uc ~T0 @X0 1 a ]
-"186
-[; ;main.c: 186:  enum e_direction dir;
-[v _dir `E7844 ~T0 @X0 1 a ]
-"187
-[; ;main.c: 187:  enum e_buttonPress pb;
-[v _pb `E7848 ~T0 @X0 1 a ]
-"189
-[; ;main.c: 189:  PIE0bits.IOCIE = 0;
-[e = . . _PIE0bits 0 2 -> -> 0 `i `uc ]
-"190
-[; ;main.c: 190:  dir = getRotDir();
-[e = _dir ( _getRotDir ..  ]
-"191
-[; ;main.c: 191:  pb = getPB();
-[e = _pb ( _getPB ..  ]
-"193
-[; ;main.c: 193:  if ((dir == ROT_CW) && (*page < numPages - 1)) {
-[e $ ! && == -> _dir `ui -> . `E7844 1 `ui < -> *U _page `i - -> _numPages `i -> 1 `i 1002  ]
-{
-"194
-[; ;main.c: 194:   (*page)++;
-[e ++ *U _page -> -> 1 `i `uc ]
-"195
-[; ;main.c: 195:   for(n = 0; n < 12; n++) {
-{
-[e = _n -> -> 0 `i `uc ]
-[e $ < -> _n `i -> 12 `i 1003  ]
-[e $U 1004  ]
-[e :U 1003 ]
-{
-"196
-[; ;main.c: 196:    OLED_scrollDisplayLeft();
-[e ( _OLED_scrollDisplayLeft ..  ]
-"197
-[; ;main.c: 197:    _delay((unsigned long)((20)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 20 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-"198
-[; ;main.c: 198:   }
-}
-[e ++ _n -> -> 1 `i `uc ]
-[e $ < -> _n `i -> 12 `i 1003  ]
-[e :U 1004 ]
-}
-"199
-[; ;main.c: 199:  }
-}
-[e $U 1006  ]
-"200
-[; ;main.c: 200:  else if ((dir == ROT_CCW) && (*page > 0)) {
-[e :U 1002 ]
-[e $ ! && == -> _dir `ui -> . `E7844 2 `ui > -> *U _page `i -> 0 `i 1007  ]
-{
-"201
-[; ;main.c: 201:   (*page)--;
-[e -- *U _page -> -> 1 `i `uc ]
-"202
-[; ;main.c: 202:   for(n = 0; n < 12; n++) {
-{
-[e = _n -> -> 0 `i `uc ]
-[e $ < -> _n `i -> 12 `i 1008  ]
-[e $U 1009  ]
-[e :U 1008 ]
-{
-"203
-[; ;main.c: 203:    OLED_scrollDisplayRight();
-[e ( _OLED_scrollDisplayRight ..  ]
-"204
-[; ;main.c: 204:    _delay((unsigned long)((20)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 20 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-"205
-[; ;main.c: 205:   }
-}
-[e ++ _n -> -> 1 `i `uc ]
-[e $ < -> _n `i -> 12 `i 1008  ]
-[e :U 1009 ]
-}
-"206
-[; ;main.c: 206:  }
-}
-[e :U 1007 ]
-[e :U 1006 ]
-"207
-[; ;main.c: 207:  if (pb == PB_SHORT) {
-[e $ ! == -> _pb `ui -> . `E7848 1 `ui 1011  ]
-{
-"208
-[; ;main.c: 208:   *menu = pbShort;
-[e = *U _menu _pbShort ]
-"209
-[; ;main.c: 209:   *page = 0;
-[e = *U _page -> -> 0 `i `uc ]
-"210
-[; ;main.c: 210:   OLED_returnHome();
-[e ( _OLED_returnHome ..  ]
-"211
-[; ;main.c: 211:  } else if (pb == PB_LONG) {
-}
-[e $U 1012  ]
-[e :U 1011 ]
-[e $ ! == -> _pb `ui -> . `E7848 2 `ui 1013  ]
-{
-"212
-[; ;main.c: 212:   *menu = pbLong;
-[e = *U _menu _pbLong ]
-"213
-[; ;main.c: 213:   *page = 0;
-[e = *U _page -> -> 0 `i `uc ]
-"214
-[; ;main.c: 214:   OLED_returnHome();
-[e ( _OLED_returnHome ..  ]
-"215
-[; ;main.c: 215:  }
-}
-[e :U 1013 ]
-[e :U 1012 ]
-"216
-[; ;main.c: 216:  PIE0bits.IOCIE = 1;
-[e = . . _PIE0bits 0 2 -> -> 1 `i `uc ]
-"217
-[; ;main.c: 217: }
-[e :UE 1001 ]
-}
-"219
-[; ;main.c: 219: enum e_direction getRotDir(void)
-[v _getRotDir `(E7844 ~T0 @X0 1 ef ]
-"220
-[; ;main.c: 220: {
-{
-[e :U _getRotDir ]
-[f ]
-"221
-[; ;main.c: 221:  enum e_direction ret = g_rotDir;
-[v _ret `E7844 ~T0 @X0 1 a ]
-[e = _ret _g_rotDir ]
-"222
-[; ;main.c: 222:  g_rotDir = ROT_STOP;
-[e = _g_rotDir . `E7844 0 ]
-"223
-[; ;main.c: 223:  return ret;
-[e ) _ret ]
-[e $UE 1014  ]
-"224
-[; ;main.c: 224: }
-[e :UE 1014 ]
-}
-"226
-[; ;main.c: 226: enum e_buttonPress getPB(void)
-[v _getPB `(E7848 ~T0 @X0 1 ef ]
-"227
-[; ;main.c: 227: {
-{
-[e :U _getPB ]
-[f ]
-"228
-[; ;main.c: 228:  enum e_buttonPress ret = g_pbState;
-[v _ret `E7848 ~T0 @X0 1 a ]
-[e = _ret _g_pbState ]
-"229
-[; ;main.c: 229:  g_pbState = PB_NONE;
-[e = _g_pbState . `E7848 0 ]
-"230
-[; ;main.c: 230:  return ret;
-[e ) _ret ]
-[e $UE 1015  ]
-"231
-[; ;main.c: 231: }
-[e :UE 1015 ]
-}
-"237
-[; ;main.c: 237: void initialize(void)
-[v _initialize `(v ~T0 @X0 1 ef ]
-"238
-[; ;main.c: 238: {
-{
-[e :U _initialize ]
-[f ]
-"239
-[; ;main.c: 239:  OSCFRQ = 0b00000010;
-[e = _OSCFRQ -> -> 2 `i `uc ]
-"240
-[; ;main.c: 240:  OSCCON1 = 0b01100000;
-[e = _OSCCON1 -> -> 96 `i `uc ]
-"241
-[; ;main.c: 241:  while (!OSCCON3bits.ORDY);
-[e $U 1017  ]
-[e :U 1018 ]
-[e :U 1017 ]
-[e $ ! != -> . . _OSCCON3bits 0 2 `i -> 0 `i 1018  ]
-[e :U 1019 ]
-"244
-[; ;main.c: 244:  RX1DTPPSbits.RX1DTPPS = 0x17;
-[e = . . _RX1DTPPSbits 0 0 -> -> 23 `i `uc ]
-"245
-[; ;main.c: 245:  RC6PPS = 0x0F;
-[e = _RC6PPS -> -> 15 `i `uc ]
-"248
-[; ;main.c: 248:  ANSELA = 0b01000000;
-[e = _ANSELA -> -> 64 `i `uc ]
-"249
-[; ;main.c: 249:  ANSELB = 0b00000000;
-[e = _ANSELB -> -> 0 `i `uc ]
-"250
-[; ;main.c: 250:  ANSELC = 0b00000011;
-[e = _ANSELC -> -> 3 `i `uc ]
 "253
-[; ;main.c: 253:  TRISA = 0b11110000;
-[e = _TRISA -> -> 240 `i `uc ]
+[; ;main.c: 253: {
+[f ]
 "254
-[; ;main.c: 254:  TRISB = 0b00000000;
-[e = _TRISB -> -> 0 `i `uc ]
+[; ;main.c: 254:  uint8_t n;
+[v _n `uc ~T0 @X0 1 a ]
 "255
-[; ;main.c: 255:  TRISC = 0b10000111;
-[e = _TRISC -> -> 135 `i `uc ]
+[; ;main.c: 255:  enum e_direction dir;
+[v _dir `E7836 ~T0 @X0 1 a ]
+"256
+[; ;main.c: 256:  enum e_buttonPress pb;
+[v _pb `E7840 ~T0 @X0 1 a ]
 "258
-[; ;main.c: 258:  ADCON1 = 0b11100000;
-[e = _ADCON1 -> -> 224 `i `uc ]
-"261
-[; ;main.c: 261:  T0CON0 = 0b10000000;
-[e = _T0CON0 -> -> 128 `i `uc ]
+[; ;main.c: 258:  PIE0bits.IOCIE = 0;
+[e = . . _PIE0bits 0 2 -> -> 0 `i `uc ]
+"259
+[; ;main.c: 259:  dir = getRotDir();
+[e = _dir ( _getRotDir ..  ]
+"260
+[; ;main.c: 260:  pb = getPB();
+[e = _pb ( _getPB ..  ]
 "262
-[; ;main.c: 262:  T0CON1 = 0b01000111;
-[e = _T0CON1 -> -> 71 `i `uc ]
+[; ;main.c: 262:  if ((dir == ROT_CW) && (*page < numPages - 1)) {
+[e $ ! && == -> _dir `ui -> . `E7836 1 `ui < -> *U _page `i - -> _numPages `i -> 1 `i 1016  ]
+{
 "263
-[; ;main.c: 263:  TMR0 = 178;
-[e = _TMR0 -> -> 178 `i `uc ]
+[; ;main.c: 263:   (*page)++;
+[e ++ *U _page -> -> 1 `i `uc ]
+"264
+[; ;main.c: 264:   for(n = 0; n < 12; n++) {
+{
+[e = _n -> -> 0 `i `uc ]
+[e $ < -> _n `i -> 12 `i 1017  ]
+[e $U 1018  ]
+[e :U 1017 ]
+{
+"265
+[; ;main.c: 265:    OLED_scrollDisplayLeft();
+[e ( _OLED_scrollDisplayLeft ..  ]
 "266
-[; ;main.c: 266:  T1CON = 0b00110011;
-[e = _T1CON -> -> 51 `i `uc ]
+[; ;main.c: 266:    _delay((unsigned long)((20)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 20 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
 "267
-[; ;main.c: 267:  T1CLK = 0b00000001;
-[e = _T1CLK -> -> 1 `i `uc ]
+[; ;main.c: 267:   }
+}
+[e ++ _n -> -> 1 `i `uc ]
+[e $ < -> _n `i -> 12 `i 1017  ]
+[e :U 1018 ]
+}
 "268
-[; ;main.c: 268:  TMR1 = 53035;
-[e = _TMR1 -> -> 53035 `l `us ]
+[; ;main.c: 268:  }
+}
+[e $U 1020  ]
+"269
+[; ;main.c: 269:  else if ((dir == ROT_CCW) && (*page > 0)) {
+[e :U 1016 ]
+[e $ ! && == -> _dir `ui -> . `E7836 2 `ui > -> *U _page `i -> 0 `i 1021  ]
+{
+"270
+[; ;main.c: 270:   (*page)--;
+[e -- *U _page -> -> 1 `i `uc ]
 "271
-[; ;main.c: 271:  PIE0 = 0b00110000;
-[e = _PIE0 -> -> 48 `i `uc ]
-"272
-[; ;main.c: 272:  PIE3 = 0b00100000;
-[e = _PIE3 -> -> 32 `i `uc ]
-"273
-[; ;main.c: 273:  PIE4 = 0b00000001;
-[e = _PIE4 -> -> 1 `i `uc ]
-"274
-[; ;main.c: 274:  INTCON = 0b11000000;
-[e = _INTCON -> -> 192 `i `uc ]
-"277
-[; ;main.c: 277:  IOCAP = 0b10110000;
-[e = _IOCAP -> -> 176 `i `uc ]
-"278
-[; ;main.c: 278:  IOCAN = 0b10110000;
-[e = _IOCAN -> -> 176 `i `uc ]
-"279
-[; ;main.c: 279:  IOCCN = 0b00000100;
-[e = _IOCCN -> -> 4 `i `uc ]
-"283
-[; ;main.c: 283:  BAUD1CON = 0b00001000;
-[e = _BAUD1CON -> -> 8 `i `uc ]
-"284
-[; ;main.c: 284:  SPBRGL = 25;
-[e = _SPBRGL -> -> 25 `i `uc ]
-"285
-[; ;main.c: 285:  RC1STA = 0b10010000;
-[e = _RC1STA -> -> 144 `i `uc ]
-"286
-[; ;main.c: 286:  TX1STA = 0b00100000;
-[e = _TX1STA -> -> 32 `i `uc ]
-"287
-[; ;main.c: 287: }
-[e :UE 1016 ]
-}
-"293
-[; ;main.c: 293: void uartSendByte(char s)
-[v _uartSendByte `(v ~T0 @X0 1 ef1`uc ]
-"294
-[; ;main.c: 294: {
+[; ;main.c: 271:   for(n = 0; n < 12; n++) {
 {
-[e :U _uartSendByte ]
-"293
-[; ;main.c: 293: void uartSendByte(char s)
-[v _s `uc ~T0 @X0 1 r1 ]
-"294
-[; ;main.c: 294: {
-[f ]
-"295
-[; ;main.c: 295:  TX1REG = s;
-[e = _TX1REG -> _s `uc ]
-"296
-[; ;main.c: 296:  __nop();
-[e ( ___nop ..  ]
-"297
-[; ;main.c: 297:  while (!PIR3bits.TX1IF);
-[e $U 1021  ]
+[e = _n -> -> 0 `i `uc ]
+[e $ < -> _n `i -> 12 `i 1022  ]
+[e $U 1023  ]
 [e :U 1022 ]
-[e :U 1021 ]
-[e $ ! != -> . . _PIR3bits 0 4 `i -> 0 `i 1022  ]
-[e :U 1023 ]
-"298
-[; ;main.c: 298: }
-[e :UE 1020 ]
+{
+"272
+[; ;main.c: 272:    OLED_scrollDisplayRight();
+[e ( _OLED_scrollDisplayRight ..  ]
+"273
+[; ;main.c: 273:    _delay((unsigned long)((20)*(4000000/4000.0)));
+[e ( __delay (1 -> * -> -> 20 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+"274
+[; ;main.c: 274:   }
 }
-[v $root$_ISR `(v ~T0 @X0 0 e ]
-"304
-[; ;main.c: 304: void __attribute__((picinterrupt(""))) ISR(void)
-[v _ISR `(v ~T1 @X0 1 ef ]
-"305
-[; ;main.c: 305: {
+[e ++ _n -> -> 1 `i `uc ]
+[e $ < -> _n `i -> 12 `i 1022  ]
+[e :U 1023 ]
+}
+"275
+[; ;main.c: 275:  }
+}
+[e :U 1021 ]
+[e :U 1020 ]
+"276
+[; ;main.c: 276:  if (pb == PB_SHORT) {
+[e $ ! == -> _pb `ui -> . `E7840 1 `ui 1025  ]
 {
-[e :U _ISR ]
-[f ]
-"306
-[; ;main.c: 306:  if (PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1) {
-[e $ ! && == -> . . _PIE0bits 0 3 `i -> 1 `i == -> . . _PIR0bits 0 3 `i -> 1 `i 1025  ]
-{
-"309
-[; ;main.c: 309:   g_10msTick++;
-[e ++ _g_10msTick -> -> 1 `i `Vuc ]
-"310
-[; ;main.c: 310:   TMR0 = 178;
-[e = _TMR0 -> -> 178 `i `uc ]
-"311
-[; ;main.c: 311:   PIR0bits.TMR0IF = 0;
-[e = . . _PIR0bits 0 3 -> -> 0 `i `uc ]
-"312
-[; ;main.c: 312:  } else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1) {
+"277
+[; ;main.c: 277:   *menu = pbShort;
+[e = *U _menu _pbShort ]
+"278
+[; ;main.c: 278:   *page = 0;
+[e = *U _page -> -> 0 `i `uc ]
+"279
+[; ;main.c: 279:   OLED_returnHome();
+[e ( _OLED_returnHome ..  ]
+"280
+[; ;main.c: 280:  } else if (pb == PB_LONG) {
 }
 [e $U 1026  ]
 [e :U 1025 ]
-[e $ ! && == -> . . _PIE0bits 0 2 `i -> 1 `i == -> . . _PIR0bits 0 2 `i -> 1 `i 1027  ]
+[e $ ! == -> _pb `ui -> . `E7840 2 `ui 1027  ]
 {
-"314
-[; ;main.c: 314:   if (IOCAFbits.IOCAF7 == 1) {
-[e $ ! == -> . . _IOCAFbits 0 7 `i -> 1 `i 1028  ]
-{
-"315
-[; ;main.c: 315:    pushButtonISR();
-[e ( _pushButtonISR ..  ]
-"316
-[; ;main.c: 316:    IOCAFbits.IOCAF7 = 0;
-[e = . . _IOCAFbits 0 7 -> -> 0 `i `uc ]
-"317
-[; ;main.c: 317:   }
+"281
+[; ;main.c: 281:   *menu = pbLong;
+[e = *U _menu _pbLong ]
+"282
+[; ;main.c: 282:   *page = 0;
+[e = *U _page -> -> 0 `i `uc ]
+"283
+[; ;main.c: 283:   OLED_returnHome();
+[e ( _OLED_returnHome ..  ]
+"284
+[; ;main.c: 284:  }
 }
-[e :U 1028 ]
-"318
-[; ;main.c: 318:   if (IOCAFbits.IOCAF4 == 1) {
-[e $ ! == -> . . _IOCAFbits 0 4 `i -> 1 `i 1029  ]
-{
-"319
-[; ;main.c: 319:    rotISR();
-[e ( _rotISR ..  ]
-"320
-[; ;main.c: 320:    IOCAFbits.IOCAF4 = 0;
-[e = . . _IOCAFbits 0 4 -> -> 0 `i `uc ]
-"321
-[; ;main.c: 321:   }
-}
-[e :U 1029 ]
-"322
-[; ;main.c: 322:   if (IOCAFbits.IOCAF5 == 1) {
-[e $ ! == -> . . _IOCAFbits 0 5 `i -> 1 `i 1030  ]
-{
-"323
-[; ;main.c: 323:    rotISR();
-[e ( _rotISR ..  ]
-"324
-[; ;main.c: 324:    IOCAFbits.IOCAF5 = 0;
-[e = . . _IOCAFbits 0 5 -> -> 0 `i `uc ]
-"325
-[; ;main.c: 325:   }
-}
-[e :U 1030 ]
-"326
-[; ;main.c: 326:   PIR0bits.IOCIF = 0;
-[e = . . _PIR0bits 0 2 -> -> 0 `i `uc ]
-"327
-[; ;main.c: 327:  } else if (INTCONbits.PEIE == 1) {
-}
-[e $U 1031  ]
 [e :U 1027 ]
-[e $ ! == -> . . _INTCONbits 0 2 `i -> 1 `i 1032  ]
-{
-"328
-[; ;main.c: 328:   if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1) {
-[e $ ! && == -> . . _PIE4bits 0 0 `i -> 1 `i == -> . . _PIR4bits 0 0 `i -> 1 `i 1033  ]
-{
-"330
-[; ;main.c: 330:    if (++g_100msTick == 10) {
-[e $ ! == -> =+ _g_100msTick -> -> 1 `i `Vuc `i -> 10 `i 1034  ]
-{
-"331
-[; ;main.c: 331:     g_100msTick = 0;
-[e = _g_100msTick -> -> 0 `i `uc ]
-"332
-[; ;main.c: 332:     g_sensorTimer++;
-[e ++ _g_sensorTimer -> -> 1 `i `Vuc ]
-"333
-[; ;main.c: 333:    }
+[e :U 1026 ]
+"285
+[; ;main.c: 285:  PIE0bits.IOCIE = 1;
+[e = . . _PIE0bits 0 2 -> -> 1 `i `uc ]
+"286
+[; ;main.c: 286: }
+[e :UE 1015 ]
 }
-[e :U 1034 ]
-"334
-[; ;main.c: 334:    TMR1 = 53035;
-[e = _TMR1 -> -> 53035 `l `us ]
-"335
-[; ;main.c: 335:    PIR4bits.TMR1IF = 0;
-[e = . . _PIR4bits 0 0 -> -> 0 `i `uc ]
-"337
-[; ;main.c: 337:   } else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1) {
-}
-[e $U 1035  ]
-[e :U 1033 ]
-[e $ ! && == -> . . _PIE3bits 0 5 `i -> 1 `i == -> . . _PIR3bits 0 5 `i -> 1 `i 1036  ]
+"288
+[; ;main.c: 288: enum e_direction getRotDir(void)
+[v _getRotDir `(E7836 ~T0 @X0 1 ef ]
+"289
+[; ;main.c: 289: {
 {
-"338
-[; ;main.c: 338:    uartReceiveISR();
-[e ( _uartReceiveISR ..  ]
-"339
-[; ;main.c: 339:    PIR3bits.RC1IF = 0;
-[e = . . _PIR3bits 0 5 -> -> 0 `i `uc ]
-"340
-[; ;main.c: 340:   }
+[e :U _getRotDir ]
+[f ]
+"290
+[; ;main.c: 290:  enum e_direction ret = g_rotDir;
+[v _ret `E7836 ~T0 @X0 1 a ]
+[e = _ret _g_rotDir ]
+"291
+[; ;main.c: 291:  g_rotDir = ROT_STOP;
+[e = _g_rotDir . `E7836 0 ]
+"292
+[; ;main.c: 292:  return ret;
+[e ) _ret ]
+[e $UE 1028  ]
+"293
+[; ;main.c: 293: }
+[e :UE 1028 ]
 }
-[e :U 1036 ]
-[e :U 1035 ]
-"341
-[; ;main.c: 341:  }
+"295
+[; ;main.c: 295: enum e_buttonPress getPB(void)
+[v _getPB `(E7840 ~T0 @X0 1 ef ]
+"296
+[; ;main.c: 296: {
+{
+[e :U _getPB ]
+[f ]
+"297
+[; ;main.c: 297:  enum e_buttonPress ret = g_pbState;
+[v _ret `E7840 ~T0 @X0 1 a ]
+[e = _ret _g_pbState ]
+"298
+[; ;main.c: 298:  g_pbState = PB_NONE;
+[e = _g_pbState . `E7840 0 ]
+"299
+[; ;main.c: 299:  return ret;
+[e ) _ret ]
+[e $UE 1029  ]
+"300
+[; ;main.c: 300: }
+[e :UE 1029 ]
 }
+"306
+[; ;main.c: 306: void initialize(void)
+[v _initialize `(v ~T0 @X0 1 ef ]
+"307
+[; ;main.c: 307: {
+{
+[e :U _initialize ]
+[f ]
+"308
+[; ;main.c: 308:  OSCFRQ = 0b00000010;
+[e = _OSCFRQ -> -> 2 `i `uc ]
+"309
+[; ;main.c: 309:  OSCCON1 = 0b01100000;
+[e = _OSCCON1 -> -> 96 `i `uc ]
+"310
+[; ;main.c: 310:  while (!OSCCON3bits.ORDY);
+[e $U 1031  ]
 [e :U 1032 ]
 [e :U 1031 ]
-[e :U 1026 ]
+[e $ ! != -> . . _OSCCON3bits 0 2 `i -> 0 `i 1032  ]
+[e :U 1033 ]
+"313
+[; ;main.c: 313:  RX1DTPPSbits.RX1DTPPS = 0x17;
+[e = . . _RX1DTPPSbits 0 0 -> -> 23 `i `uc ]
+"314
+[; ;main.c: 314:  RC6PPS = 0x0F;
+[e = _RC6PPS -> -> 15 `i `uc ]
+"317
+[; ;main.c: 317:  ANSELA = 0b01000000;
+[e = _ANSELA -> -> 64 `i `uc ]
+"318
+[; ;main.c: 318:  ANSELB = 0b00000000;
+[e = _ANSELB -> -> 0 `i `uc ]
+"319
+[; ;main.c: 319:  ANSELC = 0b00000011;
+[e = _ANSELC -> -> 3 `i `uc ]
+"322
+[; ;main.c: 322:  TRISA = 0b11110000;
+[e = _TRISA -> -> 240 `i `uc ]
+"323
+[; ;main.c: 323:  TRISB = 0b00000000;
+[e = _TRISB -> -> 0 `i `uc ]
+"324
+[; ;main.c: 324:  TRISC = 0b10000111;
+[e = _TRISC -> -> 135 `i `uc ]
+"327
+[; ;main.c: 327:  ADCON0bits.ADON = 1;
+[e = . . _ADCON0bits 0 0 -> -> 1 `i `uc ]
+"328
+[; ;main.c: 328:  ADCON1 = 0b11100000;
+[e = _ADCON1 -> -> 224 `i `uc ]
+"331
+[; ;main.c: 331:  T0CON0 = 0b10000000;
+[e = _T0CON0 -> -> 128 `i `uc ]
+"332
+[; ;main.c: 332:  T0CON1 = 0b01000111;
+[e = _T0CON1 -> -> 71 `i `uc ]
+"333
+[; ;main.c: 333:  TMR0 = 178;
+[e = _TMR0 -> -> 178 `i `uc ]
+"336
+[; ;main.c: 336:  T1CON = 0b00110011;
+[e = _T1CON -> -> 51 `i `uc ]
+"337
+[; ;main.c: 337:  T1CLK = 0b00000001;
+[e = _T1CLK -> -> 1 `i `uc ]
+"338
+[; ;main.c: 338:  TMR1 = 53035;
+[e = _TMR1 -> -> 53035 `l `us ]
+"341
+[; ;main.c: 341:  PIE0 = 0b00110000;
+[e = _PIE0 -> -> 48 `i `uc ]
 "342
-[; ;main.c: 342: }
-[e :UE 1024 ]
-}
+[; ;main.c: 342:  PIE3 = 0b00100000;
+[e = _PIE3 -> -> 32 `i `uc ]
+"343
+[; ;main.c: 343:  PIE4 = 0b00000001;
+[e = _PIE4 -> -> 1 `i `uc ]
+"344
+[; ;main.c: 344:  INTCON = 0b11000000;
+[e = _INTCON -> -> 192 `i `uc ]
+"347
+[; ;main.c: 347:  IOCAP = 0b10110000;
+[e = _IOCAP -> -> 176 `i `uc ]
 "348
-[; ;main.c: 348: void uartReceiveISR(void)
-[v _uartReceiveISR `(v ~T0 @X0 1 ef ]
+[; ;main.c: 348:  IOCAN = 0b10110000;
+[e = _IOCAN -> -> 176 `i `uc ]
 "349
-[; ;main.c: 349: {
+[; ;main.c: 349:  IOCCN = 0b00000100;
+[e = _IOCCN -> -> 4 `i `uc ]
+"353
+[; ;main.c: 353:  BAUD1CON = 0b00001000;
+[e = _BAUD1CON -> -> 8 `i `uc ]
+"354
+[; ;main.c: 354:  SPBRGL = 25;
+[e = _SPBRGL -> -> 25 `i `uc ]
+"355
+[; ;main.c: 355:  RC1STA = 0b10010000;
+[e = _RC1STA -> -> 144 `i `uc ]
+"356
+[; ;main.c: 356:  TX1STA = 0b00100000;
+[e = _TX1STA -> -> 32 `i `uc ]
+"357
+[; ;main.c: 357: }
+[e :UE 1030 ]
+}
+"363
+[; ;main.c: 363: void uartSendByte(char s)
+[v _uartSendByte `(v ~T0 @X0 1 ef1`uc ]
+"364
+[; ;main.c: 364: {
+{
+[e :U _uartSendByte ]
+"363
+[; ;main.c: 363: void uartSendByte(char s)
+[v _s `uc ~T0 @X0 1 r1 ]
+"364
+[; ;main.c: 364: {
+[f ]
+"365
+[; ;main.c: 365:  TX1REG = s;
+[e = _TX1REG -> _s `uc ]
+"366
+[; ;main.c: 366:  __nop();
+[e ( ___nop ..  ]
+"367
+[; ;main.c: 367:  while (!PIR3bits.TX1IF);
+[e $U 1035  ]
+[e :U 1036 ]
+[e :U 1035 ]
+[e $ ! != -> . . _PIR3bits 0 4 `i -> 0 `i 1036  ]
+[e :U 1037 ]
+"368
+[; ;main.c: 368: }
+[e :UE 1034 ]
+}
+[v $root$_ISR `(v ~T0 @X0 0 e ]
+"374
+[; ;main.c: 374: void __attribute__((picinterrupt(""))) ISR(void)
+[v _ISR `(v ~T1 @X0 1 ef ]
+"375
+[; ;main.c: 375: {
+{
+[e :U _ISR ]
+[f ]
+"376
+[; ;main.c: 376:  if (PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1) {
+[e $ ! && == -> . . _PIE0bits 0 3 `i -> 1 `i == -> . . _PIR0bits 0 3 `i -> 1 `i 1039  ]
+{
+"379
+[; ;main.c: 379:   g_10msTick++;
+[e ++ _g_10msTick -> -> 1 `i `Vuc ]
+"380
+[; ;main.c: 380:   TMR0 = 178;
+[e = _TMR0 -> -> 178 `i `uc ]
+"381
+[; ;main.c: 381:   PIR0bits.TMR0IF = 0;
+[e = . . _PIR0bits 0 3 -> -> 0 `i `uc ]
+"382
+[; ;main.c: 382:  } else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1) {
+}
+[e $U 1040  ]
+[e :U 1039 ]
+[e $ ! && == -> . . _PIE0bits 0 2 `i -> 1 `i == -> . . _PIR0bits 0 2 `i -> 1 `i 1041  ]
+{
+"384
+[; ;main.c: 384:   if (IOCAFbits.IOCAF7 == 1) {
+[e $ ! == -> . . _IOCAFbits 0 7 `i -> 1 `i 1042  ]
+{
+"385
+[; ;main.c: 385:    pushButtonISR();
+[e ( _pushButtonISR ..  ]
+"386
+[; ;main.c: 386:    IOCAFbits.IOCAF7 = 0;
+[e = . . _IOCAFbits 0 7 -> -> 0 `i `uc ]
+"387
+[; ;main.c: 387:   }
+}
+[e :U 1042 ]
+"388
+[; ;main.c: 388:   if (IOCAFbits.IOCAF4 == 1) {
+[e $ ! == -> . . _IOCAFbits 0 4 `i -> 1 `i 1043  ]
+{
+"389
+[; ;main.c: 389:    rotISR();
+[e ( _rotISR ..  ]
+"390
+[; ;main.c: 390:    IOCAFbits.IOCAF4 = 0;
+[e = . . _IOCAFbits 0 4 -> -> 0 `i `uc ]
+"391
+[; ;main.c: 391:   }
+}
+[e :U 1043 ]
+"392
+[; ;main.c: 392:   if (IOCAFbits.IOCAF5 == 1) {
+[e $ ! == -> . . _IOCAFbits 0 5 `i -> 1 `i 1044  ]
+{
+"393
+[; ;main.c: 393:    rotISR();
+[e ( _rotISR ..  ]
+"394
+[; ;main.c: 394:    IOCAFbits.IOCAF5 = 0;
+[e = . . _IOCAFbits 0 5 -> -> 0 `i `uc ]
+"395
+[; ;main.c: 395:   }
+}
+[e :U 1044 ]
+"396
+[; ;main.c: 396:   PIR0bits.IOCIF = 0;
+[e = . . _PIR0bits 0 2 -> -> 0 `i `uc ]
+"397
+[; ;main.c: 397:  } else if (INTCONbits.PEIE == 1) {
+}
+[e $U 1045  ]
+[e :U 1041 ]
+[e $ ! == -> . . _INTCONbits 0 2 `i -> 1 `i 1046  ]
+{
+"398
+[; ;main.c: 398:   if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1) {
+[e $ ! && == -> . . _PIE4bits 0 0 `i -> 1 `i == -> . . _PIR4bits 0 0 `i -> 1 `i 1047  ]
+{
+"400
+[; ;main.c: 400:    if (++g_100msTick % 10) {
+[e $ ! != % =+ _g_100msTick -> -> 1 `i `Vul -> -> -> 10 `i `l `ul -> -> -> 0 `i `l `ul 1048  ]
+{
+"402
+[; ;main.c: 402:     g_sensorTimer++;
+[e ++ _g_sensorTimer -> -> 1 `i `Vuc ]
+"403
+[; ;main.c: 403:    }
+}
+[e :U 1048 ]
+"404
+[; ;main.c: 404:    TMR1 = 53035;
+[e = _TMR1 -> -> 53035 `l `us ]
+"405
+[; ;main.c: 405:    PIR4bits.TMR1IF = 0;
+[e = . . _PIR4bits 0 0 -> -> 0 `i `uc ]
+"407
+[; ;main.c: 407:   } else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1) {
+}
+[e $U 1049  ]
+[e :U 1047 ]
+[e $ ! && == -> . . _PIE3bits 0 5 `i -> 1 `i == -> . . _PIR3bits 0 5 `i -> 1 `i 1050  ]
+{
+"408
+[; ;main.c: 408:    uartReceiveISR();
+[e ( _uartReceiveISR ..  ]
+"409
+[; ;main.c: 409:    PIR3bits.RC1IF = 0;
+[e = . . _PIR3bits 0 5 -> -> 0 `i `uc ]
+"410
+[; ;main.c: 410:   }
+}
+[e :U 1050 ]
+[e :U 1049 ]
+"411
+[; ;main.c: 411:  }
+}
+[e :U 1046 ]
+[e :U 1045 ]
+[e :U 1040 ]
+"412
+[; ;main.c: 412: }
+[e :UE 1038 ]
+}
+"418
+[; ;main.c: 418: void uartReceiveISR(void)
+[v _uartReceiveISR `(v ~T0 @X0 1 ef ]
+"419
+[; ;main.c: 419: {
 {
 [e :U _uartReceiveISR ]
 [f ]
-"350
-[; ;main.c: 350:  static char buffer[20];
-[v F7906 `uc ~T0 @X0 -> 20 `i s buffer ]
-"351
-[; ;main.c: 351:  static uint8_t rxCount = 0;
-[v F7907 `uc ~T0 @X0 1 s rxCount ]
-[i F7907
+"420
+[; ;main.c: 420:  static char buffer[20];
+[v F7938 `uc ~T0 @X0 -> 20 `i s buffer ]
+"421
+[; ;main.c: 421:  static uint8_t rxCount = 0;
+[v F7939 `uc ~T0 @X0 1 s rxCount ]
+[i F7939
 -> -> 0 `i `uc
 ]
-"352
-[; ;main.c: 352:  static uint8_t checksum = 0;
-[v F7908 `uc ~T0 @X0 1 s checksum ]
-[i F7908
+"422
+[; ;main.c: 422:  static uint8_t checksum = 0;
+[v F7940 `uc ~T0 @X0 1 s checksum ]
+[i F7940
 -> -> 0 `i `uc
 ]
-"354
-[; ;main.c: 354:  if (RC1STAbits.OERR)
-[e $ ! != -> . . _RC1STAbits 0 1 `i -> 0 `i 1038  ]
-"355
-[; ;main.c: 355:  {
+"424
+[; ;main.c: 424:  if (RC1STAbits.OERR)
+[e $ ! != -> . . _RC1STAbits 0 1 `i -> 0 `i 1052  ]
+"425
+[; ;main.c: 425:  {
 {
-"357
-[; ;main.c: 357:   RC1STAbits.CREN = 0;
+"427
+[; ;main.c: 427:   RC1STAbits.CREN = 0;
 [e = . . _RC1STAbits 0 4 -> -> 0 `i `uc ]
-"358
-[; ;main.c: 358:   RC1STAbits.CREN = 1;
+"428
+[; ;main.c: 428:   RC1STAbits.CREN = 1;
 [e = . . _RC1STAbits 0 4 -> -> 1 `i `uc ]
-"359
-[; ;main.c: 359:   g_rxOErrCount++;
+"429
+[; ;main.c: 429:   g_rxOErrCount++;
 [e ++ _g_rxOErrCount -> -> 1 `i `Vuc ]
-"360
-[; ;main.c: 360:  }
+"430
+[; ;main.c: 430:  }
 }
-[e :U 1038 ]
-"361
-[; ;main.c: 361:  if (RC1STAbits.FERR)
-[e $ ! != -> . . _RC1STAbits 0 2 `i -> 0 `i 1039  ]
-"362
-[; ;main.c: 362:  {
+[e :U 1052 ]
+"431
+[; ;main.c: 431:  if (RC1STAbits.FERR)
+[e $ ! != -> . . _RC1STAbits 0 2 `i -> 0 `i 1053  ]
+"432
+[; ;main.c: 432:  {
 {
-"363
-[; ;main.c: 363:   RC1STAbits.SPEN = 0;
+"433
+[; ;main.c: 433:   RC1STAbits.SPEN = 0;
 [e = . . _RC1STAbits 0 7 -> -> 0 `i `uc ]
-"364
-[; ;main.c: 364:   RC1STAbits.SPEN = 1;
+"434
+[; ;main.c: 434:   RC1STAbits.SPEN = 1;
 [e = . . _RC1STAbits 0 7 -> -> 1 `i `uc ]
-"365
-[; ;main.c: 365:   g_rxFErrCount++;
+"435
+[; ;main.c: 435:   g_rxFErrCount++;
 [e ++ _g_rxFErrCount -> -> 1 `i `Vuc ]
-"366
-[; ;main.c: 366:  }
+"436
+[; ;main.c: 436:  }
 }
-[e :U 1039 ]
-"368
-[; ;main.c: 368:  if (rxCount < sizeof(g_dataPacket)) {
-[e $ ! < -> F7907 `ui -> # _g_dataPacket `ui 1040  ]
+[e :U 1053 ]
+"438
+[; ;main.c: 438:  if (rxCount < sizeof(g_dataPacket)) {
+[e $ ! < -> F7939 `ui -> # _g_dataPacket `ui 1054  ]
 {
-"369
-[; ;main.c: 369:   buffer[rxCount] = RC1REG;
-[e = *U + &U F7906 * -> F7907 `ux -> -> # *U &U F7906 `ui `ux -> _RC1REG `uc ]
-"370
-[; ;main.c: 370:   checksum ^= buffer[rxCount];
-[e =^ F7908 -> *U + &U F7906 * -> F7907 `ux -> -> # *U &U F7906 `ui `ux `uc ]
-"371
-[; ;main.c: 371:   rxCount++;
-[e ++ F7907 -> -> 1 `i `uc ]
-"372
-[; ;main.c: 372:  } else {
+"439
+[; ;main.c: 439:   buffer[rxCount] = RC1REG;
+[e = *U + &U F7938 * -> F7939 `ux -> -> # *U &U F7938 `ui `ux -> _RC1REG `uc ]
+"440
+[; ;main.c: 440:   checksum ^= buffer[rxCount];
+[e =^ F7940 -> *U + &U F7938 * -> F7939 `ux -> -> # *U &U F7938 `ui `ux `uc ]
+"441
+[; ;main.c: 441:   rxCount++;
+[e ++ F7939 -> -> 1 `i `uc ]
+"442
+[; ;main.c: 442:  } else {
 }
-[e $U 1041  ]
-[e :U 1040 ]
+[e $U 1055  ]
+[e :U 1054 ]
 {
-"373
-[; ;main.c: 373:   if (RC1REG == checksum) {
-[e $ ! == -> _RC1REG `i -> F7908 `i 1042  ]
+"443
+[; ;main.c: 443:   if (RC1REG == checksum) {
+[e $ ! == -> _RC1REG `i -> F7940 `i 1056  ]
 {
-"374
-[; ;main.c: 374:    g_dataReady = 1;
+"444
+[; ;main.c: 444:    g_dataReady = 1;
 [e = _g_dataReady -> -> 1 `i `uc ]
-"375
-[; ;main.c: 375:    strncpy((char *) &g_dataPacket, buffer, sizeof(g_dataPacket));
-[e ( _strncpy (3 , , -> &U _g_dataPacket `*uc -> &U F7906 `*Cuc -> # _g_dataPacket `ui ]
-"376
-[; ;main.c: 376:   }
+"445
+[; ;main.c: 445:    strncpy((char *) &g_dataPacket, buffer, sizeof(g_dataPacket));
+[e ( _strncpy (3 , , -> &U _g_dataPacket `*uc -> &U F7938 `*Cuc -> # _g_dataPacket `ui ]
+"446
+[; ;main.c: 446:   }
 }
-[e :U 1042 ]
-"377
-[; ;main.c: 377:   checksum = 0;
-[e = F7908 -> -> 0 `i `uc ]
-"378
-[; ;main.c: 378:   rxCount = 0;
-[e = F7907 -> -> 0 `i `uc ]
-"379
-[; ;main.c: 379:  }
+[e :U 1056 ]
+"447
+[; ;main.c: 447:   checksum = 0;
+[e = F7940 -> -> 0 `i `uc ]
+"448
+[; ;main.c: 448:   rxCount = 0;
+[e = F7939 -> -> 0 `i `uc ]
+"449
+[; ;main.c: 449:  }
 }
-[e :U 1041 ]
-"380
-[; ;main.c: 380: }
-[e :UE 1037 ]
+[e :U 1055 ]
+"450
+[; ;main.c: 450: }
+[e :UE 1051 ]
 }
-"382
-[; ;main.c: 382: void rotISR()
+"452
+[; ;main.c: 452: void rotISR()
 [v _rotISR `(v ~T0 @X0 1 ef ]
-"383
-[; ;main.c: 383: {
+"453
+[; ;main.c: 453: {
 {
 [e :U _rotISR ]
 [f ]
-"384
-[; ;main.c: 384:  uint8_t input;
+"454
+[; ;main.c: 454:  uint8_t input;
 [v _input `uc ~T0 @X0 1 a ]
-"386
-[; ;main.c: 386:  input = (PORTAbits.RA5 << 1) | PORTAbits.RA4;
+"456
+[; ;main.c: 456:  input = (PORTAbits.RA5 << 1) | PORTAbits.RA4;
 [e = _input -> | << -> . . _PORTAbits 0 5 `i -> 1 `i -> . . _PORTAbits 0 4 `i `uc ]
-"389
-[; ;main.c: 389:  g_curRotState = transition_table[g_curRotState & 0b00000111][input];
+"459
+[; ;main.c: 459:  g_curRotState = transition_table[g_curRotState & 0b00000111][input];
 [e = _g_curRotState *U + &U *U + &U _transition_table * -> -> & -> _g_curRotState `i -> 7 `i `ui `ux -> * -> # *U &U *U &U _transition_table `ui -> -> 4 `i `ui `ux * -> _input `ux -> -> # *U &U *U + &U _transition_table * -> -> & -> _g_curRotState `i -> 7 `i `ui `ux -> * -> # *U &U *U &U _transition_table `ui -> -> 4 `i `ui `ux `ui `ux ]
-"392
-[; ;main.c: 392:  if (g_curRotState & CW_FLAG) g_rotDir = ROT_CW;
-[e $ ! != & -> _g_curRotState `i -> . `E7841 0 `i -> 0 `i 1044  ]
-[e = _g_rotDir . `E7844 1 ]
-[e :U 1044 ]
-"393
-[; ;main.c: 393:  if (g_curRotState & CCW_FLAG) g_rotDir = ROT_CCW;
-[e $ ! != & -> _g_curRotState `i -> . `E7841 1 `i -> 0 `i 1045  ]
-[e = _g_rotDir . `E7844 2 ]
-[e :U 1045 ]
-"394
-[; ;main.c: 394:  __nop();
+"462
+[; ;main.c: 462:  if (g_curRotState & CW_FLAG) g_rotDir = ROT_CW;
+[e $ ! != & -> _g_curRotState `i -> . `E7833 0 `i -> 0 `i 1058  ]
+[e = _g_rotDir . `E7836 1 ]
+[e :U 1058 ]
+"463
+[; ;main.c: 463:  if (g_curRotState & CCW_FLAG) g_rotDir = ROT_CCW;
+[e $ ! != & -> _g_curRotState `i -> . `E7833 1 `i -> 0 `i 1059  ]
+[e = _g_rotDir . `E7836 2 ]
+[e :U 1059 ]
+"464
+[; ;main.c: 464:  __nop();
 [e ( ___nop ..  ]
-"395
-[; ;main.c: 395: }
-[e :UE 1043 ]
+"465
+[; ;main.c: 465: }
+[e :UE 1057 ]
 }
-"397
-[; ;main.c: 397: void pushButtonISR()
+"467
+[; ;main.c: 467: void pushButtonISR()
 [v _pushButtonISR `(v ~T0 @X0 1 ef ]
-"398
-[; ;main.c: 398: {
+"468
+[; ;main.c: 468: {
 {
 [e :U _pushButtonISR ]
 [f ]
-"400
-[; ;main.c: 400:  if (!PORTAbits.RA7) {
-[e $ ! ! != -> . . _PORTAbits 0 7 `i -> 0 `i 1047  ]
+"470
+[; ;main.c: 470:  if (!PORTAbits.RA7) {
+[e $ ! ! != -> . . _PORTAbits 0 7 `i -> 0 `i 1061  ]
 {
-"401
-[; ;main.c: 401:   g_10msTick = 0;
+"471
+[; ;main.c: 471:   g_10msTick = 0;
 [e = _g_10msTick -> -> 0 `i `uc ]
-"402
-[; ;main.c: 402:  } else {
+"472
+[; ;main.c: 472:  } else {
 }
-[e $U 1048  ]
-[e :U 1047 ]
+[e $U 1062  ]
+[e :U 1061 ]
 {
-"403
-[; ;main.c: 403:   if ((g_10msTick > 5) & (g_10msTick <= 50))
-[e $ ! & > -> _g_10msTick `i -> 5 `i <= -> _g_10msTick `i -> 50 `i 1049  ]
-"405
-[; ;main.c: 405:    g_pbState = PB_SHORT;
-[e = _g_pbState . `E7848 1 ]
-[e $U 1050  ]
-"406
-[; ;main.c: 406:   else if ((g_10msTick > 50) & (g_10msTick <= 150))
-[e :U 1049 ]
-[e $ ! & > -> _g_10msTick `i -> 50 `i <= -> _g_10msTick `i -> 150 `i 1051  ]
-"408
-[; ;main.c: 408:    g_pbState = PB_LONG;
-[e = _g_pbState . `E7848 2 ]
-[e $U 1052  ]
-"409
-[; ;main.c: 409:   else
-[e :U 1051 ]
-"411
-[; ;main.c: 411:    g_pbState = PB_ABORT;
-[e = _g_pbState . `E7848 3 ]
-[e :U 1052 ]
-[e :U 1050 ]
-"412
-[; ;main.c: 412:  }
+"473
+[; ;main.c: 473:   if ((g_10msTick > 5) & (g_10msTick <= 50))
+[e $ ! & > -> _g_10msTick `i -> 5 `i <= -> _g_10msTick `i -> 50 `i 1063  ]
+"475
+[; ;main.c: 475:    g_pbState = PB_SHORT;
+[e = _g_pbState . `E7840 1 ]
+[e $U 1064  ]
+"476
+[; ;main.c: 476:   else if ((g_10msTick > 50) & (g_10msTick <= 150))
+[e :U 1063 ]
+[e $ ! & > -> _g_10msTick `i -> 50 `i <= -> _g_10msTick `i -> 150 `i 1065  ]
+"478
+[; ;main.c: 478:    g_pbState = PB_LONG;
+[e = _g_pbState . `E7840 2 ]
+[e $U 1066  ]
+"479
+[; ;main.c: 479:   else
+[e :U 1065 ]
+"481
+[; ;main.c: 481:    g_pbState = PB_ABORT;
+[e = _g_pbState . `E7840 3 ]
+[e :U 1066 ]
+[e :U 1064 ]
+"482
+[; ;main.c: 482:  }
 }
-[e :U 1048 ]
-"413
-[; ;main.c: 413: }
-[e :UE 1046 ]
+[e :U 1062 ]
+"483
+[; ;main.c: 483: }
+[e :UE 1060 ]
 }
-[p f _sprintf 9543680 ]
-[a 1C 84 101 109 112 101 114 97 116 117 114 101 32 82 101 108 46 104 117 109 105 100 105 116 121 68 101 119 112 111 105 110 116 32 32 32 32 66 97 116 46 32 32 32 80 111 119 101 114 0 ]
-[a 3C 67 104 49 58 32 120 120 32 105 110 99 104 67 104 50 58 32 120 120 32 105 110 99 104 67 104 51 58 32 120 120 32 105 110 99 104 67 104 52 58 32 120 120 32 105 110 99 104 0 ]
-[a 2C 37 53 46 49 102 32 18446744073709551583 67 32 32 32 32 37 53 46 49 102 32 37 37 32 32 32 32 32 37 53 46 49 102 32 18446744073709551583 67 32 32 32 32 37 52 46 49 102 86 32 32 37 52 46 49 102 87 0 ]
+[p f _sprintf 9805824 ]
+[a 3C 84 101 109 112 101 114 97 116 117 114 101 32 82 101 108 46 104 117 109 105 100 105 116 121 68 101 119 112 111 105 110 116 32 32 32 32 66 97 116 46 32 32 32 80 111 119 101 114 0 ]
+[a 1C 66 97 116 46 32 32 32 80 111 119 101 114 0 ]
+[a 7C 67 104 49 58 32 120 120 32 105 110 99 104 67 104 50 58 32 120 120 32 105 110 99 104 67 104 51 58 32 120 120 32 105 110 99 104 67 104 52 58 32 120 120 32 105 110 99 104 0 ]
+[a 6C 37 115 37 53 46 49 102 32 37 37 32 32 32 32 32 37 53 46 49 102 32 18446744073709551583 67 32 32 32 32 37 52 46 49 102 86 32 32 37 52 46 49 102 87 0 ]
+[a 2C 37 52 46 49 102 86 32 32 37 52 46 49 102 87 0 ]
+[a 5C 37 51 46 48 102 32 124 32 37 51 46 48 102 32 18446744073709551583 67 0 ]
+[a 4C 37 53 46 49 102 32 18446744073709551583 67 32 32 32 32 0 ]
