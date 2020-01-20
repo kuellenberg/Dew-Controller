@@ -22,6 +22,8 @@
 #define SENSOR_TIMER 5
 #define RX_BUF_LEN 20
 #define COLUMNS 12
+#define ADC_ARRAY_SIZE 10
+#define ADC_CHANNELS 3
 
 typedef struct {
 	uint8_t header;
@@ -32,36 +34,20 @@ typedef struct {
 	float dewPointC;
 } t_dataPacket;
 
+enum e_states {START = 0, CW1, CW2, CW3, CCW1, CCW2, CCW3};
+enum e_flags {CW_FLAG = 0b10000000, CCW_FLAG = 0b01000000};
+enum e_direction {ROT_STOP, ROT_CW, ROT_CCW};
+enum e_buttonPress {PB_NONE, PB_SHORT, PB_LONG, PB_ABORT};
+
+const uint8_t g_adcChannels[ADC_CHANNELS] = {AIN_TEMP, AIN_VSENS, AIN_ISENS};
+volatile uint8_t g_adcArrayIdx = 0;
+volatile uint16_t g_adcArray[ADC_ARRAY_SIZE];
+volatile uint16_t g_adcArrayAvg;
+volatile uint32_t g_adcArraySum;
 
 //-----------------------------------------------------------------------------
 // Global Data
 //-----------------------------------------------------------------------------
-volatile uint8_t g_10msTick = 0;
-volatile uint8_t g_100msTick = 0;
-volatile uint8_t g_sensorTimer  = 0;
-volatile uint8_t g_rxFErrCount = 0;
-volatile uint8_t g_rxOErrCount = 0;
-volatile uint8_t g_dataReady = 0;
-volatile t_dataPacket g_dataPacket;
-
-float g_tempC, g_relHum, g_dewPointC, g_sensorVersion;
-float g_voltage, g_current, g_power;
-
-enum e_states {
-	START = 0, CW1, CW2, CW3, CCW1, CCW2, CCW3
-};
-
-enum e_flags {
-	CW_FLAG = 0b10000000, CCW_FLAG = 0b01000000
-};
-
-enum e_direction {
-	ROT_STOP, ROT_CW, ROT_CCW
-};
-
-enum e_buttonPress {
-	PB_NONE, PB_SHORT, PB_LONG, PB_ABORT
-};
 
 // transition table for encoder FSM 
 const uint8_t transition_table[7][4] = {
@@ -79,6 +65,18 @@ const uint8_t transition_table[7][4] = {
 volatile uint8_t g_curRotState = START;
 volatile enum e_direction g_rotDir = ROT_STOP;
 volatile enum e_buttonPress g_pbState = PB_NONE;
+
+volatile uint8_t g_10msTick = 0;
+volatile uint8_t g_100msTick = 0;
+volatile uint8_t g_sensorTimer  = 0;
+volatile uint8_t g_rxFErrCount = 0;
+volatile uint8_t g_rxOErrCount = 0;
+volatile uint8_t g_dataReadyFlag = 0;
+volatile t_dataPacket g_dataPacket;
+
+float g_tempC, g_relHum, g_dewPointC, g_sensorVersion;
+float g_voltage, g_current, g_power;
+
 
 //-----------------------------------------------------------------------------
 // Function Prototypes
@@ -116,15 +114,19 @@ void main(void)
 
 	while (1) {
 		CLRWDT();
-		readAnalogValues();
+		
+		if (g_adcReadyFlag == 1) {
+			g_adcReadyFlag = 0;
+			getAnalogValues();
+		}
 		
 		if (g_sensorTimer >= SENSOR_TIMER) {
 			g_sensorTimer = 0;
 			uartSendByte('?');
 		}
 		
-		if (g_dataReady == 1) {
-			g_dataReady = 0;
+		if (g_dataReadyFlag == 1) {
+			g_dataReadyFlag = 0;
 			handleSensorData();
 		}
 		
@@ -134,21 +136,11 @@ void main(void)
 	}
 }
 
-void readAnalogValues(void)
+void getAnalogValues(void)
 {
-	uint16_t adc;
-	
-	ADCON0bits.CHS = AIN_VSENS;
-	ADCON0bits.GO = 1;
-	while (ADCON0bits.GO);
-	adc = (uint16_t)((ADRESH << 8) + ADRESL);
-	g_voltage = (adc * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
-	
-	ADCON0bits.CHS = AIN_ISENS;
-	ADCON0bits.GO = 1;
-	while (ADCON0bits.GO);
-	adc = (uint16_t)((ADRESH << 8) + ADRESL);
-	g_current = (adc * 5.0) / (1023.0 * 0.05 * 50.0);
+	g_tempAux = g_adcArrayAvg[0] * 0.1191 - 34.512;
+	g_voltage = (g_adcArrayAvg[1] * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+	g_current = (g_adcArrayAvg[2] * 5.0) / (1023.0 * 0.05 * 50.0);
 	g_power = g_voltage * g_current;
 }
 
@@ -277,9 +269,10 @@ void initialize(void)
 
 	// Interrupts
 	PIE0 = 0b00110000; // TMR0IE, IOCIE
+	PIE1 = 0b00000001; // ADIE
 	PIE3 = 0b00100000; // RC1IE
 	PIE4 = 0b00000001; // TMR1IE
-	INTCON = 0b11000000;    // GIE, PEIE
+	INTCON = 0b11000000; // GIE, PEIE
 
 	// Interrupt-on-change
 	IOCAP = 0b10110000; // Pos. edge on RA7, RA5, RA4 (PB, ROT_B, ROT_A)
@@ -345,7 +338,22 @@ void __interrupt() ISR(void)
 		} else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1) {
 			uartReceiveISR();
 			PIR3bits.RC1IF = 0;
+		} else if (PIE1bits.ADIE == 1 && PIR1bits.ADIF == 1) {
+			adcISR();
+			PIR1bits.ADIF = 0;
 		}
+	}
+}
+
+void adcISR(void)
+{
+	g_adcArraySum -= g_adcArraySum;
+	g_adcArray[g_adcArrayIdx] = (uint16_t)((ADRESH << 8) + ADRESL);
+	g_adcArraySum += g_adcArray[g_adcArrayIdx];
+	g_adcArrayAvg = (uint16_t)(g_adcArraySum / ADC_ARRAY_SIZE);
+	if (++g_adcArrayIdx >= ADC_ARRAY_SIZE) {
+		g_adcArrayIdx = 0;
+		g_adcReadyFlag = 1;
 	}
 }
 
@@ -361,7 +369,6 @@ void uartReceiveISR(void)
 
 	if (RC1STAbits.OERR) // Receiver buffer overrun error
 	{
-
 		RC1STAbits.CREN = 0;
 		RC1STAbits.CREN = 1;
 		g_rxOErrCount++;
