@@ -8,6 +8,7 @@
       <itemPath>pins.h</itemPath>
       <itemPath>config.h</itemPath>
       <itemPath>common.h</itemPath>
+      <itemPath>interrupt.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -18,6 +19,13 @@
                    projectFiles="true">
       <itemPath>main.c</itemPath>
       <itemPath>oled.c</itemPath>
+      <itemPath>interrupt.c</itemPath>
+      <itemPath>inputs.c</itemPath>
+      <itemPath>inputs.h</itemPath>
+      <itemPath>uart.c</itemPath>
+      <itemPath>uart.h</itemPath>
+      <itemPath>menu.c</itemPath>
+      <itemPath>menu.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

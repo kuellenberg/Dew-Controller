@@ -7,182 +7,114 @@
 
 #include "common.h"
 #include "config.h"
+#include "menu.h"
 #include "oled.h"
-
-#include <xc.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 //-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------
-#define TMR0_PRELOAD 178
-#define TMR1_PRELOAD 53035
-#define SENSOR_TIMER 50
+#define TEMP_AUX_MIN -30
+#define TEMP_AUX_MAX 100
+#define SENSOR_UPDATE_INTERVALL 50
 #define SENSOR_TIMEOUT 20
-#define RX_BUF_LEN 20
-#define COLUMNS 12
-#define AVG 5
 
 #define ALPHA(x) ( (uint32_t)(x * 65535) )
-
-typedef struct {
-	unsigned BATLO:1;
-	unsigned NOSENSOR:1;
-	unsigned NOAUXTEMP:1;
-} t_status;
-
-typedef struct {
-	uint8_t header;
-	uint8_t version;
-	uint8_t status;
-	float tempC;
-	float relHum;
-	float dewPointC;
-} t_dataPacket;
-
-enum e_states {START = 0, CW1, CW2, CW3, CCW1, CCW2, CCW3};
-enum e_flags {CW_FLAG = 0b10000000, CCW_FLAG = 0b01000000};
-enum e_direction {ROT_STOP, ROT_CW, ROT_CCW};
-enum e_buttonPress {PB_NONE, PB_SHORT, PB_LONG, PB_ABORT};
-
-//-----------------------------------------------------------------------------
-// Global Data
-//-----------------------------------------------------------------------------
-
-// transition table for encoder FSM 
-const uint8_t transition_table[7][4] = {
-/*                 00           01      10      11  */
-/* -----------------------------------------------------*/
-/*START     | */  {START,       CCW1,   CW1,    START},
-/*CW_Step1  | */  {CW2|CW_FLAG, START,  CW1,    START},
-/*CW_Step2  | */  {CW2,         CW3,    CW1,    START},
-/*CW_Step3  | */  {CW2,         CW3,    START,  START|CW_FLAG},
-/*CCW_Step1 | */  {CCW2|CCW_FLAG,CCW1,  START,  START},
-/*CCW_Step2 | */  {CCW2,        CCW1,   CCW3,   START},
-/*CCW_Step3 | */  {CCW2,        START,  CCW3,   START|CCW_FLAG}
-};
-
-t_status g_status;
-volatile uint8_t g_10msTick = 0;
-volatile uint32_t g_100msTick = 0;
-volatile uint8_t g_sensorTimer  = 0;
-volatile uint8_t g_rxFErrCount = 0;
-volatile uint8_t g_rxOErrCount = 0;
-volatile uint8_t g_dataReady = 0;
-volatile t_dataPacket g_dataPacket;
-
-float g_tempC, g_relHum, g_dewPointC, g_sensorVersion;
-float g_tempAux, g_voltage, g_current, g_power;
-
-volatile uint8_t g_curRotState = START;
-volatile enum e_direction g_rotDir = ROT_STOP;
-volatile enum e_buttonPress g_pbState = PB_NONE;
 
 //-----------------------------------------------------------------------------
 // Function Prototypes
 //-----------------------------------------------------------------------------
 void initialize(void);
-void uartReceiveISR(void);
-void pushButtonISR(void);
-void rotISR(void);
-void uartSendByte(char s);
-void showMenu(void);
-void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu, 
-	uint8_t pbShort, uint8_t pbLong, uint8_t timeout);
-enum e_direction getRotDir(void);
-enum e_buttonPress getPB(void);
-void handleSensorData(void);
-void convertAnalogValues(void);
+void convertAnalogValues(t_globalData *data);
+void checkSensor(t_globalData *data);
 uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
-void checkStatus(void);
-uint32_t timeNow(void);
-uint32_t timeSince(uint32_t since);
 
 //-----------------------------------------------------------------------------
 // Main program loop
 //-----------------------------------------------------------------------------
-
 void main(void)
 {
-	uint32_t sensorTime, sensorTimeout;
-	uint8_t state;
-	
+	t_globalData data;
+		
 	initialize();
 	OLED_PWR = 1;
 	PEN = 1;
 	OLED_init();
 	OLED_returnHome();
-	OLED_command(OLED_CLEARDISPLAY);
+	OLED_clearDisplay();
 	
 	SW_CH1 = 1;
-	
-	sensorTime = sensorTimeout = timeNow();
-	state = 0;
 
 	while (1) {
 		CLRWDT();
-		convertAnalogValues();
-		checkStatus();
-		
-		switch (state) {
+		convertAnalogValues(&data);
+		checkSensor(&data);
+		menu(&data);
+		__delay_ms(10);	
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Test aux. temperature sensor, query main sensor, check data from sensor
+//-----------------------------------------------------------------------------
+void checkSensor(t_globalData *data)
+{
+	t_dataPacket *dp;
+	static uint32_t sensorUpdateInterval = 0;
+	static uint32_t sensorTimeout = 0;
+	static uint8_t state = 0;	
+
+	// Check aux. temperature sensor
+	if ((data->tempAux < TEMP_AUX_MIN) || (data->tempAux > TEMP_AUX_MAX)) {
+		data->status.AUX_SENSOR_OK = 0;
+	} else
+		data->status.AUX_SENSOR_OK = 1;
+
+	switch (state) {
 		case 0:
-			if (timeSince(sensorTime) >= SENSOR_TIMER) {
-				sensorTime = sensorTimeout = timeNow();
+			// Request data from sensor after SENSOR_UPDATE_INTERVALL
+			if (timeSince(sensorUpdateInterval) >= SENSOR_UPDATE_INTERVALL) {
+				sensorUpdateInterval = sensorTimeout = timeNow();
 				uartSendByte('?');
 				state = 1;
 			}			
 			break;
 		case 1:
+			// Wait for response
 			if (timeSince(sensorTimeout) > SENSOR_TIMEOUT) {
-				g_status.NOSENSOR = 1;
+				data->status.SENSOR_OK = 0;
 				state = 0;
-			} else if (g_dataReady == 1) {
-				g_dataReady = 0;
-				handleSensorData();
+			} else if (uartIsDataReady()) {
+				dp = getDataPacket(); // get Pointer to dataPacket
+				if ((dp->header == 0xAA) && (dp->status == 1)) {
+					data->tempC = dp->tempC;
+					data->relHum = dp->relHum;
+					data->dewPointC = dp->dewPointC;
+					data->sensorVersion = dp->version;
+					data->status.SENSOR_OK = 1;
+				} else {
+					// set error bits
+					data->status.SENSOR_OK = 0;
+				}
 				state = 0;
 			}
 			break;
 		default:
 			state = 0;
-		}
-		
-		showMenu();
-		__delay_ms(10);
-	
 	}
 }
 
-uint32_t timeNow(void)
-{
-	return g_100msTick;
-}
-
-uint32_t timeSince(uint32_t since)
-{
-	uint32_t now = timeNow();
-	if (now >= since)
-		return (now - since);
-	
-	return (now + (1 + UINT32_MAX/2 - since));
-}
-
-void checkStatus(void)
-{
-	if (g_tempAux < -30) {
-		g_status.NOAUXTEMP = 1;
-	} else
-		g_status.NOAUXTEMP = 0;
-}
-
+//-----------------------------------------------------------------------------
+// Exponential moving average filter
+//-----------------------------------------------------------------------------
 uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha)
 {
   uint32_t tmp;
   tmp = in * alpha + average * (65536 - alpha);
   return (tmp + 32768) / 65536;
 }
-
+//-----------------------------------------------------------------------------
+// Start ADC conversion and return result
+//-----------------------------------------------------------------------------
 uint16_t adcGetConversion(uint8_t channel)
 {
 	ADCON0bits.CHS = channel;
@@ -191,8 +123,10 @@ uint16_t adcGetConversion(uint8_t channel)
 	while (ADCON0bits.GO);
 	return (uint16_t)((ADRESH << 8) + ADRESL);
 }
-
-void convertAnalogValues(void)
+//-----------------------------------------------------------------------------
+// Convert ADC counts to actual measurements
+//-----------------------------------------------------------------------------
+void convertAnalogValues(t_globalData *data)
 {
 	static uint16_t avgT, avgV, avgI;
 	uint16_t adc;
@@ -203,117 +137,15 @@ void convertAnalogValues(void)
 	avgV = ema(adc, avgV, ALPHA(0.65));
 	adc = adcGetConversion(AIN_ISENS);
 	avgI = ema(adc, avgI, ALPHA(0.65));
-	g_tempAux = (avgT * 0.1191) - 34.512;
-	g_voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
-	g_current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
-	g_power = g_voltage * g_current;
-}
-
-void handleSensorData(void)
-{
-	if ((g_dataPacket.header == 0xAA) && (g_dataPacket.status == 1)) {
-		g_tempC = g_dataPacket.tempC;
-		g_relHum = g_dataPacket.relHum;
-		g_dewPointC = g_dataPacket.dewPointC;
-		g_sensorVersion = g_dataPacket.version;
-		g_status.NOSENSOR = 0;
-	} else {
-		// set error bits
-		g_status.NOSENSOR = 1;
-	}
-}
-
-void showMenu(void)
-{
-	static uint8_t menu = 0;
-	static uint8_t page = 0;
-	enum e_buttonPress pb;
-	char s[61], s12[12];
-
-	pb = getPB();
-	if (menu == 0) {
-		// Main menu
-		if (g_status.NOSENSOR) {
-			page = 0;
-			OLED_returnHome();
-			OLED_print_xy(0, 0, "Bat.   Power");
-			sprintf(s, "%4.1fV  %4.1fW", g_voltage, g_power);
-			OLED_print_xy(0, 1, s);
-			menuInput(&page, 1, &menu, 1, 0, 0);
-		} else {
-			OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   Power");
-			if (g_status.NOAUXTEMP)
-				sprintf(s12, "%5.1f \337C    ", g_tempC);
-			else
-				sprintf(s12, "%3.0f | %3.0f \337C", g_tempC, g_tempAux);
-
-			sprintf(s, "%s%5.1f %%     %5.1f \337C    %4.1fV  %4.1fW", 
-				s12, g_relHum, g_dewPointC, g_voltage, g_power);
-			OLED_print_xy(0, 1, s);
-			menuInput(&page, 4, &menu, 1, 0, 0);
-		}
-	} else if (menu == 1) {
-		// Display power for each channel
-		OLED_print_xy(0, 0, "Ch1: xx inchCh2: xx inchCh3: xx inchCh4: xx inch");
-		menuInput(&page, 4, &menu, 1, 0, 0);
-	}
-}
-
-void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu, 
-	uint8_t pbShort, uint8_t pbLong, uint8_t timeout)
-{
-	uint8_t n;
-	enum e_direction dir;
-	enum e_buttonPress pb;
-	
-	PIE0bits.IOCIE = 0;
-	dir = getRotDir();
-	pb = getPB();
-	
-	if ((dir == ROT_CW) && (*page < numPages - 1)) {
-		(*page)++;
-		for(n = 0; n < COLUMNS; n++) {
-			OLED_scrollDisplayLeft();
-			__delay_ms(20);
-		}
-	}
-	else if ((dir == ROT_CCW) && (*page > 0)) {
-		(*page)--;
-		for(n = 0; n < COLUMNS; n++) {
-			OLED_scrollDisplayRight();
-			__delay_ms(20);
-		}
-	}
-	if (pb == PB_SHORT) {
-		*menu = pbShort;
-		*page = 0;
-		OLED_returnHome();
-	} else if (pb == PB_LONG) {
-		*menu = pbLong;
-		*page = 0;
-		OLED_returnHome();
-	}
-	PIE0bits.IOCIE = 1;
-}
-
-enum e_direction getRotDir(void)
-{
-	enum e_direction ret = g_rotDir;
-	g_rotDir = ROT_STOP;
-	return ret;
-}
-
-enum e_buttonPress getPB(void)
-{
-	enum e_buttonPress ret = g_pbState;
-	g_pbState = PB_NONE;
-	return ret;
+	data->tempAux = (avgT * 0.1191) - 34.512;
+	data->voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+	data->current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
+	data->power = data->voltage * data->current;
 }
 
 //-----------------------------------------------------------------------------
 // Initialization
 //-----------------------------------------------------------------------------
-
 void initialize(void)
 {
 	OSCFRQ = 0b00000010; // 4 MHz
@@ -365,130 +197,4 @@ void initialize(void)
 	SPBRGL = 25;
 	RC1STA = 0b10010000; // SPEN = 1, CREN = 1
 	TX1STA = 0b00100000; // TXEN = 1
-}
-
-//-----------------------------------------------------------------------------
-// Transmit character string over UART
-//-----------------------------------------------------------------------------
-
-void uartSendByte(char s)
-{
-	TX1REG = s;
-	NOP();
-	while (!PIR3bits.TX1IF);
-}
-
-//-----------------------------------------------------------------------------
-// Interrupt Service Routine
-//-----------------------------------------------------------------------------
-
-void __interrupt() ISR(void)
-{
-	if (PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1) {
-		// Timer 0 ISR
-		// TODO: 1 or 10ms tick for pushbutton?
-		g_10msTick++;
-		TMR0 = TMR0_PRELOAD;
-		PIR0bits.TMR0IF = 0;
-	} else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1) {
-		// Interrupt on change ISRs
-		if (IOCAFbits.IOCAF7 == 1) {
-			pushButtonISR();
-			IOCAFbits.IOCAF7 = 0;
-		}
-		if (IOCAFbits.IOCAF4 == 1) {
-			rotISR();
-			IOCAFbits.IOCAF4 = 0;
-		}
-		if (IOCAFbits.IOCAF5 == 1) {
-			rotISR();
-			IOCAFbits.IOCAF5 = 0;
-		}
-		PIR0bits.IOCIF = 0;
-	} else if (INTCONbits.PEIE == 1) {
-		if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1) {
-			// Timer 1 ISR
-			if (++g_100msTick % 10) {
-				//g_100msTick = 0;
-				g_sensorTimer++;
-			}			
-			TMR1 = TMR1_PRELOAD;
-			PIR4bits.TMR1IF = 0;
-
-		} else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1) {
-			uartReceiveISR();
-			PIR3bits.RC1IF = 0;
-		}
-	}
-}
-
-//-----------------------------------------------------------------------------
-// EUSART Receive Interrupt
-//-----------------------------------------------------------------------------
-
-void uartReceiveISR(void)
-{
-	static char buffer[RX_BUF_LEN];
-	static uint8_t rxCount = 0;
-	static uint8_t checksum = 0;
-
-	if (RC1STAbits.OERR) // Receiver buffer overrun error
-	{
-
-		RC1STAbits.CREN = 0;
-		RC1STAbits.CREN = 1;
-		g_rxOErrCount++;
-	}
-	if (RC1STAbits.FERR) // Framing error
-	{
-		RC1STAbits.SPEN = 0;
-		RC1STAbits.SPEN = 1;
-		g_rxFErrCount++;
-	}
-
-	if (rxCount < sizeof(g_dataPacket)) {
-		buffer[rxCount] = RC1REG;
-		checksum ^= buffer[rxCount];
-		rxCount++;
-	} else {
-		if (RC1REG == checksum) {
-			g_dataReady = 1;
-			strncpy((char *) &g_dataPacket, buffer, sizeof(g_dataPacket));
-		}
-		checksum = 0;
-		rxCount = 0;
-	}
-}
-
-void rotISR()
-{
-	uint8_t input;
-
-	input = (ROT_B << 1) | ROT_A; // input code for rot_a and rot_b combined
-
-	// set current state according to transition table (cw/ccw flags masked out)
-	g_curRotState = transition_table[g_curRotState & 0b00000111][input];
-
-	// set global direction flag
-	if (g_curRotState & CW_FLAG) g_rotDir = ROT_CW;
-	if (g_curRotState & CCW_FLAG) g_rotDir = ROT_CCW;
-	NOP();
-}
-
-void pushButtonISR()
-{
-	// reset millisecond tick counter upon first rising edge of push button 
-	if (!ROT_PB) {
-		g_10msTick = 0;
-	} else {
-		if ((g_10msTick > 5) & (g_10msTick <= 50)) 
-			// short button press
-			g_pbState = PB_SHORT;		
-		else if ((g_10msTick > 50) & (g_10msTick <= 150))
-			// long button press
-			g_pbState = PB_LONG; 
-		else 
-			// button pressed too long => abort
-			g_pbState = PB_ABORT;
-	}
 }

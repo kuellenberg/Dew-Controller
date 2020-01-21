@@ -12471,73 +12471,6 @@ typedef uint32_t uint_fast32_t;
 # 131 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\stdint.h" 2 3
 # 15 "./common.h" 2
 
-# 1 "./pins.h" 1
-# 16 "./common.h" 2
-# 8 "main.c" 2
-
-# 1 "./config.h" 1
-
-
-
-
-
-
-#pragma config FEXTOSC = OFF
-#pragma config RSTOSC = HFINT1
-#pragma config CLKOUTEN = OFF
-#pragma config CSWEN = ON
-#pragma config FCMEN = ON
-
-
-#pragma config MCLRE = ON
-#pragma config PWRTE = OFF
-#pragma config LPBOREN = OFF
-#pragma config BOREN = ON
-#pragma config BORV = LO
-#pragma config ZCD = OFF
-#pragma config PPS1WAY = ON
-#pragma config STVREN = ON
-
-
-#pragma config WDTCPS = WDTCPS_31
-#pragma config WDTE = OFF
-#pragma config WDTCWS = WDTCWS_7
-#pragma config WDTCCS = SC
-
-
-#pragma config BBSIZE = BB512
-#pragma config BBEN = OFF
-#pragma config SAFEN = OFF
-#pragma config WRTAPP = OFF
-#pragma config WRTB = OFF
-#pragma config WRTC = OFF
-#pragma config WRTSAF = OFF
-#pragma config LVP = ON
-
-
-#pragma config CP = OFF
-# 9 "main.c" 2
-
-# 1 "./oled.h" 1
-# 47 "./oled.h"
-void OLED_pulseEnable(void);
-
-void OLED_write4bits(uint8_t value);
-void OLED_send(uint8_t value, uint8_t mode);
-void OLED_waitForReady(void);
-void OLED_command(uint8_t value);
-void OLED_write(uint8_t value);
-void OLED_init(void);
-void OLED_scrollDisplayLeft(void);
-void OLED_scrollDisplayRight(void);
-void OLED_print(char *s);
-void OLED_print_xy(uint8_t col, uint8_t row, char *s);
-void OLED_setCursor(uint8_t col, uint8_t row);
-void OLED_returnHome(void);
-# 10 "main.c" 2
-
-
-
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\string.h" 1 3
 # 25 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\string.h" 3
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\bits/alltypes.h" 1 3
@@ -12593,7 +12526,7 @@ size_t strxfrm_l (char *restrict, const char *restrict, size_t, locale_t);
 
 
 void *memccpy (void *restrict, const void *restrict, int, size_t);
-# 13 "main.c" 2
+# 16 "./common.h" 2
 
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.00\\pic\\include\\c99\\stdio.h" 1 3
@@ -12732,14 +12665,22 @@ char *ctermid(char *);
 
 
 char *tempnam(const char *, const char *);
-# 15 "main.c" 2
-# 30 "main.c"
-typedef struct {
- unsigned BATLO:1;
- unsigned NOSENSOR:1;
- unsigned NOAUXTEMP:1;
-} t_status;
+# 18 "./common.h" 2
 
+# 1 "./pins.h" 1
+# 19 "./common.h" 2
+
+# 1 "./interrupt.h" 1
+# 11 "./interrupt.h"
+void reset10msTick(void);
+uint8_t get10msTick(void);
+uint32_t timeNow(void);
+uint32_t timeSince(uint32_t since);
+void __attribute__((picinterrupt(""))) ISR(void);
+# 20 "./common.h" 2
+
+# 1 "./uart.h" 1
+# 14 "./uart.h"
 typedef struct {
  uint8_t header;
  uint8_t version;
@@ -12749,139 +12690,189 @@ typedef struct {
  float dewPointC;
 } t_dataPacket;
 
-enum e_states {START = 0, CW1, CW2, CW3, CCW1, CCW2, CCW3};
-enum e_flags {CW_FLAG = 0b10000000, CCW_FLAG = 0b01000000};
-enum e_direction {ROT_STOP, ROT_CW, ROT_CCW};
-enum e_buttonPress {PB_NONE, PB_SHORT, PB_LONG, PB_ABORT};
-
-
-
-
-
-
-const uint8_t transition_table[7][4] = {
-
-
-                  {START, CCW1, CW1, START},
-                  {CW2|CW_FLAG, START, CW1, START},
-                  {CW2, CW3, CW1, START},
-                  {CW2, CW3, START, START|CW_FLAG},
-                  {CCW2|CCW_FLAG,CCW1, START, START},
-                  {CCW2, CCW1, CCW3, START},
-                  {CCW2, START, CCW3, START|CCW_FLAG}
-};
-
-t_status g_status;
-volatile uint8_t g_10msTick = 0;
-volatile uint32_t g_100msTick = 0;
-volatile uint8_t g_sensorTimer = 0;
-volatile uint8_t g_rxFErrCount = 0;
-volatile uint8_t g_rxOErrCount = 0;
-volatile uint8_t g_dataReady = 0;
-volatile t_dataPacket g_dataPacket;
-
-float g_tempC, g_relHum, g_dewPointC, g_sensorVersion;
-float g_tempAux, g_voltage, g_current, g_power;
-
-volatile uint8_t g_curRotState = START;
-volatile enum e_direction g_rotDir = ROT_STOP;
-volatile enum e_buttonPress g_pbState = PB_NONE;
-
-
-
-
-void initialize(void);
+t_dataPacket *getDataPacket(void);
+uint8_t uartIsDataReady(void);
 void uartReceiveISR(void);
-void pushButtonISR(void);
-void rotISR(void);
 void uartSendByte(char s);
-void showMenu(void);
+# 21 "./common.h" 2
+
+
+
+typedef struct {
+ unsigned BAT_LOW:1;
+ unsigned SENSOR_OK:1;
+ unsigned AUX_SENSOR_OK:1;
+} t_status;
+
+typedef struct {
+ float tempC;
+ float relHum;
+ float dewPointC;
+ float sensorVersion;
+ float tempAux;
+ float voltage;
+ float current;
+ float power;
+ t_status status;
+} t_globalData;
+# 8 "main.c" 2
+
+# 1 "./config.h" 1
+
+
+
+
+
+
+#pragma config FEXTOSC = OFF
+#pragma config RSTOSC = HFINT1
+#pragma config CLKOUTEN = OFF
+#pragma config CSWEN = ON
+#pragma config FCMEN = ON
+
+
+#pragma config MCLRE = ON
+#pragma config PWRTE = OFF
+#pragma config LPBOREN = OFF
+#pragma config BOREN = ON
+#pragma config BORV = LO
+#pragma config ZCD = OFF
+#pragma config PPS1WAY = ON
+#pragma config STVREN = ON
+
+
+#pragma config WDTCPS = WDTCPS_31
+#pragma config WDTE = OFF
+#pragma config WDTCWS = WDTCWS_7
+#pragma config WDTCCS = SC
+
+
+#pragma config BBSIZE = BB512
+#pragma config BBEN = OFF
+#pragma config SAFEN = OFF
+#pragma config WRTAPP = OFF
+#pragma config WRTB = OFF
+#pragma config WRTC = OFF
+#pragma config WRTSAF = OFF
+#pragma config LVP = ON
+
+
+#pragma config CP = OFF
+# 9 "main.c" 2
+
+# 1 "./menu.h" 1
+# 11 "./menu.h"
+void menu(t_globalData *data);
 void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
  uint8_t pbShort, uint8_t pbLong, uint8_t timeout);
-enum e_direction getRotDir(void);
-enum e_buttonPress getPB(void);
-void handleSensorData(void);
-void convertAnalogValues(void);
-uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
-void checkStatus(void);
-uint32_t timeNow(void);
-uint32_t timeSince(uint32_t since);
+# 10 "main.c" 2
 
+# 1 "./oled.h" 1
+
+
+
+
+
+
+
+void OLED_pulseEnable(void);
+void OLED_write4bits(uint8_t value);
+void OLED_send(uint8_t value, uint8_t mode);
+void OLED_waitForReady(void);
+void OLED_command(uint8_t value);
+void OLED_write(uint8_t value);
+void OLED_init(void);
+void OLED_scrollDisplayLeft(void);
+void OLED_scrollDisplayRight(void);
+void OLED_print(char *s);
+void OLED_print_xy(uint8_t col, uint8_t row, char *s);
+void OLED_setCursor(uint8_t col, uint8_t row);
+void OLED_returnHome(void);
+void OLED_clearDisplay(void);
+# 11 "main.c" 2
+# 26 "main.c"
+void initialize(void);
+void convertAnalogValues(t_globalData *data);
+void checkSensor(t_globalData *data);
+uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 
 
 
 
 void main(void)
 {
- uint32_t sensorTime, sensorTimeout;
- uint8_t state;
+ t_globalData data;
 
  initialize();
  LATBbits.LATB5 = 1;
  LATCbits.LATC3 = 1;
  OLED_init();
  OLED_returnHome();
- OLED_command(0x01);
+ OLED_clearDisplay();
 
  LATAbits.LATA0 = 1;
 
- sensorTime = sensorTimeout = timeNow();
- state = 0;
-
  while (1) {
   __asm("clrwdt");
-  convertAnalogValues();
-  checkStatus();
+  convertAnalogValues(&data);
+  checkSensor(&data);
+  menu(&data);
+  _delay((unsigned long)((10)*(4000000/4000.0)));
+ }
+}
 
-  switch (state) {
+
+
+
+void checkSensor(t_globalData *data)
+{
+ t_dataPacket *dp;
+ static uint32_t sensorUpdateInterval = 0;
+ static uint32_t sensorTimeout = 0;
+ static uint8_t state = 0;
+
+
+ if ((data->tempAux < -30) || (data->tempAux > 100)) {
+  data->status.AUX_SENSOR_OK = 0;
+ } else
+  data->status.AUX_SENSOR_OK = 1;
+
+ switch (state) {
   case 0:
-   if (timeSince(sensorTime) >= 50) {
-    sensorTime = sensorTimeout = timeNow();
+
+   if (timeSince(sensorUpdateInterval) >= 50) {
+    sensorUpdateInterval = sensorTimeout = timeNow();
     uartSendByte('?');
     state = 1;
    }
    break;
   case 1:
+
    if (timeSince(sensorTimeout) > 20) {
-    g_status.NOSENSOR = 1;
+    data->status.SENSOR_OK = 0;
     state = 0;
-   } else if (g_dataReady == 1) {
-    g_dataReady = 0;
-    handleSensorData();
+   } else if (uartIsDataReady()) {
+    dp = getDataPacket();
+    if ((dp->header == 0xAA) && (dp->status == 1)) {
+     data->tempC = dp->tempC;
+     data->relHum = dp->relHum;
+     data->dewPointC = dp->dewPointC;
+     data->sensorVersion = dp->version;
+     data->status.SENSOR_OK = 1;
+    } else {
+
+     data->status.SENSOR_OK = 0;
+    }
     state = 0;
    }
    break;
   default:
    state = 0;
-  }
-
-  showMenu();
-  _delay((unsigned long)((10)*(4000000/4000.0)));
-
  }
 }
 
-uint32_t timeNow(void)
-{
- return g_100msTick;
-}
 
-uint32_t timeSince(uint32_t since)
-{
- uint32_t now = timeNow();
- if (now >= since)
-  return (now - since);
 
- return (now + (1 + (0xffffffffu)/2 - since));
-}
-
-void checkStatus(void)
-{
- if (g_tempAux < -30) {
-  g_status.NOAUXTEMP = 1;
- } else
-  g_status.NOAUXTEMP = 0;
-}
 
 uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha)
 {
@@ -12889,6 +12880,8 @@ uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha)
   tmp = in * alpha + average * (65536 - alpha);
   return (tmp + 32768) / 65536;
 }
+
+
 
 uint16_t adcGetConversion(uint8_t channel)
 {
@@ -12899,7 +12892,9 @@ uint16_t adcGetConversion(uint8_t channel)
  return (uint16_t)((ADRESH << 8) + ADRESL);
 }
 
-void convertAnalogValues(void)
+
+
+void convertAnalogValues(t_globalData *data)
 {
  static uint16_t avgT, avgV, avgI;
  uint16_t adc;
@@ -12910,112 +12905,11 @@ void convertAnalogValues(void)
  avgV = ema(adc, avgV, ( (uint32_t)(0.65 * 65535) ));
  adc = adcGetConversion(0b010001);
  avgI = ema(adc, avgI, ( (uint32_t)(0.65 * 65535) ));
- g_tempAux = (avgT * 0.1191) - 34.512;
- g_voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
- g_current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
- g_power = g_voltage * g_current;
+ data->tempAux = (avgT * 0.1191) - 34.512;
+ data->voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+ data->current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
+ data->power = data->voltage * data->current;
 }
-
-void handleSensorData(void)
-{
- if ((g_dataPacket.header == 0xAA) && (g_dataPacket.status == 1)) {
-  g_tempC = g_dataPacket.tempC;
-  g_relHum = g_dataPacket.relHum;
-  g_dewPointC = g_dataPacket.dewPointC;
-  g_sensorVersion = g_dataPacket.version;
-  g_status.NOSENSOR = 0;
- } else {
-
-  g_status.NOSENSOR = 1;
- }
-}
-
-void showMenu(void)
-{
- static uint8_t menu = 0;
- static uint8_t page = 0;
- enum e_buttonPress pb;
- char s[61], s12[12];
-
- pb = getPB();
- if (menu == 0) {
-
-  if (g_status.NOSENSOR) {
-   OLED_returnHome();
-   OLED_print_xy(0, 0, "Bat.   Power");
-   sprintf(s, "%4.1fV  %4.1fW", g_voltage, g_power);
-   OLED_print_xy(0, 1, s);
-   menuInput(&page, 1, &menu, 1, 0, 0);
-  } else {
-   OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   Power");
-   if (g_status.NOAUXTEMP)
-    sprintf(s12, "%5.1f \337C    ", g_tempC);
-   else
-    sprintf(s12, "%3.0f | %3.0f \337C", g_tempC, g_tempAux);
-
-   sprintf(s, "%s%5.1f %%     %5.1f \337C    %4.1fV  %4.1fW",
-    s12, g_relHum, g_dewPointC, g_voltage, g_power);
-   OLED_print_xy(0, 1, s);
-   menuInput(&page, 4, &menu, 1, 0, 0);
-  }
- } else if (menu == 1) {
-
-  OLED_print_xy(0, 0, "Ch1: xx inchCh2: xx inchCh3: xx inchCh4: xx inch");
-  menuInput(&page, 4, &menu, 1, 0, 0);
- }
-}
-
-void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
- uint8_t pbShort, uint8_t pbLong, uint8_t timeout)
-{
- uint8_t n;
- enum e_direction dir;
- enum e_buttonPress pb;
-
- PIE0bits.IOCIE = 0;
- dir = getRotDir();
- pb = getPB();
-
- if ((dir == ROT_CW) && (*page < numPages - 1)) {
-  (*page)++;
-  for(n = 0; n < 12; n++) {
-   OLED_scrollDisplayLeft();
-   _delay((unsigned long)((20)*(4000000/4000.0)));
-  }
- }
- else if ((dir == ROT_CCW) && (*page > 0)) {
-  (*page)--;
-  for(n = 0; n < 12; n++) {
-   OLED_scrollDisplayRight();
-   _delay((unsigned long)((20)*(4000000/4000.0)));
-  }
- }
- if (pb == PB_SHORT) {
-  *menu = pbShort;
-  *page = 0;
-  OLED_returnHome();
- } else if (pb == PB_LONG) {
-  *menu = pbLong;
-  *page = 0;
-  OLED_returnHome();
- }
- PIE0bits.IOCIE = 1;
-}
-
-enum e_direction getRotDir(void)
-{
- enum e_direction ret = g_rotDir;
- g_rotDir = ROT_STOP;
- return ret;
-}
-
-enum e_buttonPress getPB(void)
-{
- enum e_buttonPress ret = g_pbState;
- g_pbState = PB_NONE;
- return ret;
-}
-
 
 
 
@@ -13071,130 +12965,4 @@ void initialize(void)
  SPBRGL = 25;
  RC1STA = 0b10010000;
  TX1STA = 0b00100000;
-}
-
-
-
-
-
-void uartSendByte(char s)
-{
- TX1REG = s;
- __nop();
- while (!PIR3bits.TX1IF);
-}
-
-
-
-
-
-void __attribute__((picinterrupt(""))) ISR(void)
-{
- if (PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1) {
-
-
-  g_10msTick++;
-  TMR0 = 178;
-  PIR0bits.TMR0IF = 0;
- } else if (PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1) {
-
-  if (IOCAFbits.IOCAF7 == 1) {
-   pushButtonISR();
-   IOCAFbits.IOCAF7 = 0;
-  }
-  if (IOCAFbits.IOCAF4 == 1) {
-   rotISR();
-   IOCAFbits.IOCAF4 = 0;
-  }
-  if (IOCAFbits.IOCAF5 == 1) {
-   rotISR();
-   IOCAFbits.IOCAF5 = 0;
-  }
-  PIR0bits.IOCIF = 0;
- } else if (INTCONbits.PEIE == 1) {
-  if (PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1) {
-
-   if (++g_100msTick % 10) {
-
-    g_sensorTimer++;
-   }
-   TMR1 = 53035;
-   PIR4bits.TMR1IF = 0;
-
-  } else if (PIE3bits.RC1IE == 1 && PIR3bits.RC1IF == 1) {
-   uartReceiveISR();
-   PIR3bits.RC1IF = 0;
-  }
- }
-}
-
-
-
-
-
-void uartReceiveISR(void)
-{
- static char buffer[20];
- static uint8_t rxCount = 0;
- static uint8_t checksum = 0;
-
- if (RC1STAbits.OERR)
- {
-
-  RC1STAbits.CREN = 0;
-  RC1STAbits.CREN = 1;
-  g_rxOErrCount++;
- }
- if (RC1STAbits.FERR)
- {
-  RC1STAbits.SPEN = 0;
-  RC1STAbits.SPEN = 1;
-  g_rxFErrCount++;
- }
-
- if (rxCount < sizeof(g_dataPacket)) {
-  buffer[rxCount] = RC1REG;
-  checksum ^= buffer[rxCount];
-  rxCount++;
- } else {
-  if (RC1REG == checksum) {
-   g_dataReady = 1;
-   strncpy((char *) &g_dataPacket, buffer, sizeof(g_dataPacket));
-  }
-  checksum = 0;
-  rxCount = 0;
- }
-}
-
-void rotISR()
-{
- uint8_t input;
-
- input = (PORTAbits.RA5 << 1) | PORTAbits.RA4;
-
-
- g_curRotState = transition_table[g_curRotState & 0b00000111][input];
-
-
- if (g_curRotState & CW_FLAG) g_rotDir = ROT_CW;
- if (g_curRotState & CCW_FLAG) g_rotDir = ROT_CCW;
- __nop();
-}
-
-void pushButtonISR()
-{
-
- if (!PORTAbits.RA7) {
-  g_10msTick = 0;
- } else {
-  if ((g_10msTick > 5) & (g_10msTick <= 50))
-
-   g_pbState = PB_SHORT;
-  else if ((g_10msTick > 50) & (g_10msTick <= 150))
-
-   g_pbState = PB_LONG;
-  else
-
-   g_pbState = PB_ABORT;
- }
 }
