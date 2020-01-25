@@ -12763,18 +12763,10 @@ typedef struct {
 # 1 "./menu.h" 1
 # 11 "./menu.h"
 void menu(t_globalData *data);
-void menuInput(uint8_t *page, const uint8_t numPages, uint8_t *menu,
- uint8_t pbShort, uint8_t pbLong, uint8_t timeout);
 # 10 "main.c" 2
 
 # 1 "./oled.h" 1
-
-
-
-
-
-
-
+# 46 "./oled.h"
 void OLED_pulseEnable(void);
 void OLED_write4bits(uint8_t value);
 void OLED_send(uint8_t value, uint8_t mode);
@@ -12795,13 +12787,13 @@ void initialize(void);
 void convertAnalogValues(t_globalData *data);
 void checkSensor(t_globalData *data);
 uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
-
+t_globalData data;
 
 
 
 void main(void)
 {
- t_globalData data;
+
 
  initialize();
  LATBbits.LATB5 = 1;
@@ -12898,6 +12890,7 @@ void convertAnalogValues(t_globalData *data)
 {
  static uint16_t avgT, avgV, avgI;
  uint16_t adc;
+ float f;
 
  adc = adcGetConversion(0b000110);
  avgT = ema(adc, avgT, ( (uint32_t)(0.65 * 65535) ));
@@ -12906,7 +12899,7 @@ void convertAnalogValues(t_globalData *data)
  adc = adcGetConversion(0b010001);
  avgI = ema(adc, avgI, ( (uint32_t)(0.65 * 65535) ));
  data->tempAux = (avgT * 0.1191) - 34.512;
- data->voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+ data->voltage = ((float)avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
  data->current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
  data->power = data->voltage * data->current;
 }

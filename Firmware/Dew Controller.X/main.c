@@ -27,13 +27,13 @@ void initialize(void);
 void convertAnalogValues(t_globalData *data);
 void checkSensor(t_globalData *data);
 uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
-
+t_globalData data;
 //-----------------------------------------------------------------------------
 // Main program loop
 //-----------------------------------------------------------------------------
 void main(void)
 {
-	t_globalData data;
+	
 		
 	initialize();
 	OLED_PWR = 1;
@@ -130,6 +130,7 @@ void convertAnalogValues(t_globalData *data)
 {
 	static uint16_t avgT, avgV, avgI;
 	uint16_t adc;
+	float f;
 	
 	adc = adcGetConversion(AIN_TEMP);
 	avgT = ema(adc, avgT, ALPHA(0.65));
@@ -138,7 +139,7 @@ void convertAnalogValues(t_globalData *data)
 	adc = adcGetConversion(AIN_ISENS);
 	avgI = ema(adc, avgI, ALPHA(0.65));
 	data->tempAux = (avgT * 0.1191) - 34.512;
-	data->voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+	data->voltage = ((float)avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
 	data->current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
 	data->power = data->voltage * data->current;
 }

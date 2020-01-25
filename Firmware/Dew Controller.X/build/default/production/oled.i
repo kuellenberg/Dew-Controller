@@ -12719,13 +12719,7 @@ typedef struct {
 # 9 "oled.c" 2
 
 # 1 "./oled.h" 1
-
-
-
-
-
-
-
+# 46 "./oled.h"
 void OLED_pulseEnable(void);
 void OLED_write4bits(uint8_t value);
 void OLED_send(uint8_t value, uint8_t mode);
@@ -12741,153 +12735,150 @@ void OLED_setCursor(uint8_t col, uint8_t row);
 void OLED_returnHome(void);
 void OLED_clearDisplay(void);
 # 10 "oled.c" 2
-# 50 "oled.c"
+
+
 void OLED_pulseEnable(void)
 {
-    LATBbits.LATB2 = 1;
-    _delay((unsigned long)((50)*(4000000/4000000.0)));
-    LATBbits.LATB2 = 0;
+ LATBbits.LATB2 = 1;
+ _delay((unsigned long)((50)*(4000000/4000000.0)));
+ LATBbits.LATB2 = 0;
 }
 
 void OLED_write4bits(uint8_t value)
 {
-    LATBbits.LATB1 = (value >> 0) & 0x01;
-    LATBbits.LATB0 = (value >> 1) & 0x01;
-    LATCbits.LATC5 = (value >> 2) & 0x01;
-    LATCbits.LATC4 = (value >> 3) & 0x01;
+ LATBbits.LATB1 = (value >> 0) & 0x01;
+ LATBbits.LATB0 = (value >> 1) & 0x01;
+ LATCbits.LATC5 = (value >> 2) & 0x01;
+ LATCbits.LATC4 = (value >> 3) & 0x01;
 
-    _delay((unsigned long)((50)*(4000000/4000000.0)));
-    OLED_pulseEnable();
+ _delay((unsigned long)((50)*(4000000/4000000.0)));
+ OLED_pulseEnable();
 }
 
 void OLED_send(uint8_t value, uint8_t mode)
 {
-    LATBbits.LATB4 = mode;
-    LATBbits.LATB3 = 0;
+ LATBbits.LATB4 = mode;
+ LATBbits.LATB3 = 0;
 
-    OLED_write4bits(value>>4);
-    OLED_write4bits(value);
+ OLED_write4bits(value >> 4);
+ OLED_write4bits(value);
 }
+
 
 
 void OLED_waitForReady(void)
 {
+ unsigned char busy = 1;
 
-    unsigned char busy = 1;
+ TRISCbits.TRISC4 = 1;
+ LATBbits.LATB4 = 0;
+ LATBbits.LATB3 = 1;
 
-    TRISCbits.TRISC4 = 1;
-    LATBbits.LATB4 = 0;
-    LATBbits.LATB3 = 1;
+ do {
+  LATBbits.LATB2 = 0;
+  _delay((unsigned long)((10)*(4000000/4000000.0)));
+  LATBbits.LATB2 = 1;
 
-    do
-    {
-        LATBbits.LATB2 = 0;
-        _delay((unsigned long)((10)*(4000000/4000000.0)));
-        LATBbits.LATB2 = 1;
+  _delay((unsigned long)((10)*(4000000/4000000.0)));
+  busy = PORTCbits.RC4;
 
-        _delay((unsigned long)((10)*(4000000/4000000.0)));
-        busy = PORTCbits.RC4;
+  LATBbits.LATB2 = 0;
 
-        LATBbits.LATB2 = 0;
+  OLED_pulseEnable();
+ } while (busy);
 
-        OLED_pulseEnable();
-    }
-    while(busy);
-
-    TRISCbits.TRISC4 = 0;
-    LATBbits.LATB3 = 0;
+ TRISCbits.TRISC4 = 0;
+ LATBbits.LATB3 = 0;
 }
 
 void OLED_command(uint8_t value)
 {
-    OLED_send(value, 0);
-    OLED_waitForReady();
+ OLED_send(value, 0);
+ OLED_waitForReady();
 }
 
 void OLED_write(uint8_t value)
 {
-    OLED_send(value, 1);
-    OLED_waitForReady();
+ OLED_send(value, 1);
+ OLED_waitForReady();
 }
 
 void OLED_init(void)
 {
-    LATBbits.LATB4 = 0;
-    LATBbits.LATB2 = 0;
-    LATBbits.LATB3 = 0;
+ LATBbits.LATB4 = 0;
+ LATBbits.LATB2 = 0;
+ LATBbits.LATB3 = 0;
 
-    _delay((unsigned long)((50)*(4000000/4000.0)));
+ _delay((unsigned long)((50)*(4000000/4000.0)));
 
 
 
-    LATBbits.LATB1 = 0;
-    LATBbits.LATB0 = 0;
-    LATCbits.LATC5 = 0;
-    LATCbits.LATC4 = 0;
-# 142 "oled.c"
-    OLED_write4bits(0x03);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
-    OLED_write4bits(0x08);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
+ LATBbits.LATB1 = 0;
+ LATBbits.LATB0 = 0;
+ LATCbits.LATC5 = 0;
+ LATCbits.LATC4 = 0;
+# 102 "oled.c"
+ OLED_write4bits(0x03);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
+ OLED_write4bits(0x08);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
 
-    OLED_write4bits(0x02);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
-    OLED_write4bits(0x02);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
-    OLED_write4bits(0x08);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
+ OLED_write4bits(0x02);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
+ OLED_write4bits(0x02);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
+ OLED_write4bits(0x08);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
 
-    OLED_command(0x08);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
-    OLED_command(0x01);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
-    OLED_command(0x06);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
-    OLED_command(0x02);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
-    OLED_command(0x0C);
-    _delay((unsigned long)((5)*(4000000/4000.0)));
+ OLED_command(0x08);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
+ OLED_command(0x01);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
+ OLED_command(0x06);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
+ OLED_command(0x02);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
+ OLED_command(0x0C);
+ _delay((unsigned long)((5)*(4000000/4000.0)));
 }
 
 void OLED_scrollDisplayLeft(void)
 {
-    OLED_command(0x10 | 0x08 | 0x00);
+ OLED_command(0x10 | 0x08 | 0x00);
 }
 
 void OLED_scrollDisplayRight(void)
 {
-    OLED_command(0x10 | 0x08 | 0x04);
+ OLED_command(0x10 | 0x08 | 0x04);
 }
 
 void OLED_setCursor(uint8_t col, uint8_t row)
 {
-  uint8_t row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
+ uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
 
-  OLED_command(0x80 | (col + row_offsets[row]));
+ OLED_command(0x80 | (col + row_offsets[row]));
 }
 
 void OLED_print(char *s)
 {
-    while (*s != (char)((void*)0))
-    {
-        OLED_write(*s++);
-    }
+ while (*s != (char) ((void*)0)) {
+  OLED_write(*s++);
+ }
 }
 
 void OLED_print_xy(uint8_t col, uint8_t row, char *s)
 {
-    uint8_t row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
+ uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
 
-    OLED_command(0x80 | (col + row_offsets[row]));
-    while (*s != (char)((void*)0))
-    {
-        OLED_write(*s++);
-    }
+ OLED_command(0x80 | (col + row_offsets[row]));
+ while (*s != (char) ((void*)0)) {
+  OLED_write(*s++);
+ }
 }
 
 void OLED_returnHome(void)
 {
-    OLED_command(0x02);
+ OLED_command(0x02);
 }
 
 void OLED_clearDisplay(void)
