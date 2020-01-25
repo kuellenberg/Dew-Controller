@@ -57,5 +57,6 @@ void OLED_print_xy(uint8_t col, uint8_t row, char *s);
 void OLED_setCursor(uint8_t col, uint8_t row);
 void OLED_returnHome(void);
 void OLED_clearDisplay(void);
+void OLED_loadSpecialChars(void);
 
 #endif

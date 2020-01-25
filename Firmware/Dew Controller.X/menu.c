@@ -5,17 +5,20 @@
 
 #define COLUMNS 12
 #define ANY_PAGE 255
+#define SCREEN_BUFFER_SIZE 49
 
-static char s[61], s12[13];
+static char sBuf1[SCREEN_BUFFER_SIZE], sBuf2[COLUMNS];
 
-static uint8_t statusView(t_globalData *data);
-static uint8_t channelView(t_globalData *data);
-static uint8_t channelSetup(t_globalData *data);
-static uint8_t setOutputPower(t_globalData *data);
-static uint8_t setLensDia(t_globalData *data);
-static uint8_t paging(uint8_t currentPage, const uint8_t lastPage);
-static int8_t getNextState(uint8_t state, uint8_t page, enum e_buttonPress pb);
+uint8_t statusView(t_globalData *data);
+uint8_t channelView(t_globalData *data);
+uint8_t channelSetup(t_globalData *data);
+uint8_t setOutputPower(t_globalData *data);
+uint8_t setLensDia(t_globalData *data);
+uint8_t paging(uint8_t currentPage, const uint8_t lastPage);
+void getStateFunc(enum e_menuStates state);
+int8_t getNextState(enum e_menuStates state, uint8_t page, enum e_buttonPress pb);
 static void returnToPage(uint8_t page);
+void menuError();
 
 enum e_menuStates {
 	ST_STATUS_VIEW,
@@ -41,6 +44,21 @@ typedef struct {
 	uint8_t timeout;
 } t_nextState;
 
+typedef uint8_t (*t_stateFunc)(t_globalData*);
+
+typedef struct {
+	enum e_menuStates state;
+	t_stateFunc func;
+} t_stateFunc;
+
+static const t_stateFunc stateFuncTbl[] = {
+	{ST_STATUS_VIEW, statusView},
+	{ST_CHANNEL_VIEW, channelView},
+	{ST_CHANNEL_SETUP, channelSetup},
+	{ST_SET_OUTPUT_POWER, setOutputPower},
+	{ST_SET_LENS_DIA, setLensDia}
+};
+
 static const t_nextState nextStateTbl[] = {
 	{ST_STATUS_VIEW,	ANY_PAGE,	ST_CHANNEL_VIEW,	ST_STATUS_VIEW,		ST_STATUS_VIEW},
 	{ST_CHANNEL_VIEW,	ANY_PAGE,	ST_STATUS_VIEW,		ST_CHANNEL_SETUP,	ST_CHANNEL_VIEW},
@@ -61,8 +79,14 @@ void menu(t_globalData *data)
 	static uint8_t state = 0;
 	int8_t page, nextState;
 	enum e_buttonPress pb;
+	t_stateFunc func;
 	
-	page = (p_fct[state])(data);
+	//page = (p_fct[state])(data);
+	func = getStateFunc(state);
+	if (func)
+		page = (*func)(data);
+	else 
+		menuError(); // replace with error handling code
 	updateScreen = 0;
 	pb = getPB();
 	nextState = getNextState(state, page, pb);	
@@ -74,7 +98,27 @@ void menu(t_globalData *data)
 	}
 }
 
-static int8_t getNextState(uint8_t state, uint8_t page, enum e_buttonPress pb)
+void menuError()
+{
+	OLED_returnHome();
+	OLED_clearDisplay();
+	OLED_print_xy(0, 0, "-> Fuckup <-");
+	while(1);
+}
+
+t_stateFunc getStateFunc(enum e_menuStates state)
+{
+	uint8_t n;
+	
+	for(n = 0; n < sizeof(stateFuncTbl)/sizeof(t_stateFunc); n++) {
+		if ((stateFuncTbl[n].state == state))
+			return stateFuncTbl[n].func;
+	}
+	return (t_stateFunc)NULL;
+}
+
+
+int8_t getNextState(enum e_menuStates state, uint8_t page, enum e_buttonPress pb)
 {
 	uint8_t n;
 	
@@ -92,7 +136,7 @@ static int8_t getNextState(uint8_t state, uint8_t page, enum e_buttonPress pb)
 	return -1;
 }
 
-static uint8_t statusView(t_globalData *data)
+uint8_t statusView(t_globalData *data)
 {
 	static uint8_t page = 0;
 	
@@ -100,69 +144,101 @@ static uint8_t statusView(t_globalData *data)
 	if (data->status.SENSOR_OK) {
 		OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   Power");
 		if (data->status.AUX_SENSOR_OK)
-			sprintf(s12, "%3.0f | %3.0f \337C", data->tempC, data->tempAux);
+			sprintf(sBuf2, "%3.0f | %3.0f \337C", data->tempC, data->tempAux);
 		else
-			sprintf(s12, "%5.1f \337C    ", data->tempC);
-		sprintf(s, "%s%5.1f %%     %5.1f \337C    %4.1fV  %4.1fW", 
-			s12, data->relHum, data->dewPointC, data->voltage, data->power);
-		OLED_print_xy(0, 1, s);
+			sprintf(sBuf2, "%5.1f \337C    ", data->tempC);
+		sprintf(sBuf1, "%s%5.1f %%     %5.1f \337C    %4.1fV  %4.1fW", 
+			sBuf2, data->relHum, data->dewPointC, data->voltage, data->power);
+		OLED_print_xy(0, 1, sBuf1);
 		page = paging(page, 4);
 	} else {
 		page = 0;
 		OLED_returnHome();
 		OLED_print_xy(0, 0, "Bat.   Power");
-		sprintf(s, "%4.1fV  %4.1fW", data->voltage, data->power);
-		OLED_print_xy(0, 1, s);
+		sprintf(sBuf1, "%4.1fV  %4.1fW", data->voltage, data->power);
+		OLED_print_xy(0, 1, sBuf1);
 	}
 	return page;
 }
 
-static uint8_t channelView(t_globalData *data)
+uint8_t channelView(t_globalData *data)
 {
 	static uint8_t page = 0;
 	
 	returnToPage(page);
 	if (updateScreen) 
-		OLED_print_xy(0, 0, "Ch1: xx inchCh2: xx inchCh3: xx inchCh4: xx inch");
+
+	sBuf1 = '\0';
+	for(n = 0; n < NUM_CHANNELS; n++) {
+		sprintf(sBuf2, "Ch%2d: %2d inch", n, data->chData[n].lensDia);
+		strcat(sBuf1,sBuf2);
+	}
+	OLED_print_xy(0, 0, s);
+	sBuf1 = '\0';
+	for(n = 0; n < NUM_CHANNELS; n++) {
+		switch(data->chData[n].status) {
+		case OFF:
+			strcpy(sBuf2, "Off         ");
+			break;
+		case ON:
+			sprintf(sBuf2, "%4.1fW %s", data->chData[n].Patt, (data->chData[n].mode == AUTO ? "auto   " : "manual"));
+			break;
+		case OPEN:
+			strcpy(sBuf2, "Disconnected");
+			breakl
+		case SHORT:
+			strcpy(sBuf2, "Shorted!");
+			break;
+		case OVERCURRENT:
+			strcpy(sBuf2, "Overcurrent!");
+			break;
+		default:
+			strcpy(sBuf2, "OndreSpecial");
+			break;
+		}
+		strcat(sBuf1, sBuf2);
+	}
+	OLED_print_xy(0, 1, sBuf1);
+
 	page = paging(page, 4);
 	selectedChannel = page;
 	return page;
 }
 
-static uint8_t channelSetup(t_globalData *data)
+uint8_t channelSetup(t_globalData *data)
 {
 	static uint8_t page = 0;
 	
 	returnToPage(page);
 	OLED_print_xy(0, 0, "Output power Lens diam. ");
-	sprintf(s, "%1d            %1d", selectedChannel, selectedChannel);
-	OLED_print_xy(0,1,s);
+	sprintf(sBuf1, "%1d            %1d", selectedChannel, selectedChannel);
+	OLED_print_xy(0,1,sBuf1);
 
 	page = paging(page, 2);
 	return page;
 }
 
-static uint8_t setOutputPower(t_globalData *data)
+uint8_t setOutputPower(t_globalData *data)
 {
 	returnToPage(0);
 	OLED_print_xy(0, 0, "Set outp    ");
-	sprintf(s, "%1d          ", selectedChannel);
-	OLED_print_xy(0,1,s);
+	sprintf(sBuf2, "%1d          ", selectedChannel);
+	OLED_print_xy(0,1,sBuf2);
 
 	return 0;
 }
 
-static uint8_t setLensDia(t_globalData *data)
+uint8_t setLensDia(t_globalData *data)
 {
 	returnToPage(0);
 	OLED_print_xy(0, 0, "Set lens   ");
-	sprintf(s, "%1d          ", selectedChannel);
-	OLED_print_xy(0,1,s);
+	sprintf(sBuf2, "%1d          ", selectedChannel);
+	OLED_print_xy(0,1,sBuf2);
 
 	return 0;
 }
 
-static uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
+uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
 {
 	uint8_t n;
 	enum e_direction dir;
@@ -188,7 +264,7 @@ static uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
 	return currentPage;	
 }
 
-static void returnToPage(uint8_t page)
+void returnToPage(uint8_t page)
 {
 	uint8_t n;
 	if (! updateScreen)

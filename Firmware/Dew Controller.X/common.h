@@ -8,8 +8,9 @@
 #ifndef COMMON_H
 #define	COMMON_H
 
-
 #define _XTAL_FREQ 4000000
+#define NUM_CHANNELS 4
+
 
 #include <xc.h>
 #include <stdint.h>
@@ -27,6 +28,21 @@ typedef struct {
 	unsigned AUX_SENSOR_OK:1;
 } t_status;
 
+enum e_channelMode {MANUAL, AUTO};
+enum e_channelStatus {OFF, ON, OPEN, SHORT, OVERCURRENT, REMOVED};
+
+typedef struct {
+	float cur;
+	float Pmax;
+	float Preq;
+	float Patt;
+	uint8_t DCreq;
+	uint8_t DCatt;
+	uint8_t lensDia;
+	enum e_channelMode mode;
+	enum e_channelStatus status;
+} t_channelData;
+
 typedef struct {
 	float tempC;
 	float relHum;
@@ -37,7 +53,9 @@ typedef struct {
 	float current; 
 	float power;
 	t_status status;
+	t_channelData chData[NUM_CHANNELS];
 } t_globalData;
 
-#endif	/* COMMON_H */
 
+
+#endif	/* COMMON_H */

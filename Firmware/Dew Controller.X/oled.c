@@ -166,3 +166,14 @@ void OLED_clearDisplay(void)
 {
 	OLED_command(OLED_CLEARDISPLAY);
 }
+
+void OLED_LoadSpecialChars(void)
+{
+	uint8_t special[8] = {0x08, 0x14, 0x0B, 0x04, 0x04, 0x04, 0x03, 0x00};
+	uint8_t n;
+	
+	OLED_command(OLED_SETCGRAMADDR);
+	for(n = 0; n < 8; n++) {
+		OLED_write(special[n]);
+	}
+}
