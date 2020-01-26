@@ -32,17 +32,21 @@ t_globalData data;
 // Main program loop
 //-----------------------------------------------------------------------------
 void main(void)
-{
-	
-		
+{		
 	initialize();
 	OLED_PWR = 1;
 	PEN = 1;
 	OLED_init();
+	OLED_loadSpecialChars();
 	OLED_returnHome();
 	OLED_clearDisplay();
 	
 	SW_CH1 = 1;
+	
+	data.chData[0].lensDia = 4;
+	data.chData[0].status = ON;
+	data.chData[0].mode = AUTO;
+	data.chData[0].Patt = 2.54;
 
 	while (1) {
 		CLRWDT();

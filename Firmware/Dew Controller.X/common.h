@@ -11,6 +11,7 @@
 #define _XTAL_FREQ 4000000
 #define NUM_CHANNELS 4
 
+#define len(array) sizeof(array)/sizeof(array[0])
 
 #include <xc.h>
 #include <stdint.h>
@@ -29,7 +30,7 @@ typedef struct {
 } t_status;
 
 enum e_channelMode {MANUAL, AUTO};
-enum e_channelStatus {OFF, ON, OPEN, SHORT, OVERCURRENT, REMOVED};
+enum e_channelStatus {OFF, ON, OPEN, SHORTED, OVERCURRENT, REMOVED};
 
 typedef struct {
 	float cur;
