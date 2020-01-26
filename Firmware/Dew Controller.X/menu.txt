@@ -8,8 +8,6 @@ Dew         Controller  Sensor
 (timeout = main)
 
 --- ERRORS & WARNINGS ---
-Switch to 1 line mode, 128 chars max., scroll text
-
 Warning! Battery voltage low! Please turn off device to protect battery!
 Warning! Battery voltage high! Please turn off to protect device! 
 Warning! No sensor connected. Automatic mode disabled.
@@ -87,8 +85,8 @@ Overcurrent!
 
 --- CONFIG ---
 123456789ABC123456789ABC123456789ABC123456789ABC
-DP offset   Sky temp.   Fudge factorDebug output
-temp. +xx °C-xx °C      xx.x        xxx
+DP offset   Sky temp.   Fudge factor
+temp. +xx.xC-xxC        x.x         
 
 (cw/ccw = next/prev. item)
 (short = select item)

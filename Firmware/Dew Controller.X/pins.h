@@ -8,10 +8,10 @@
 #ifndef PINS_H
 #define	PINS_H
 
-#define SW_CH1      LATAbits.LATA0
-#define SW_CH2      LATAbits.LATA1
-#define SW_CH3      LATAbits.LATA2
-#define SW_CH4      LATAbits.LATA3
+#define SW_CH0      LATAbits.LATA0
+#define SW_CH1      LATAbits.LATA1
+#define SW_CH2      LATAbits.LATA2
+#define SW_CH3      LATAbits.LATA3
 
 #define ROT_A       PORTAbits.RA4
 #define ROT_B       PORTAbits.RA5

@@ -8,7 +8,14 @@
 #ifndef MENU_H
 #define	MENU_H
 
-void menu(t_globalData *data);
+//-----------------------------------------------------------------------------
+// Function Prototypes
+//-----------------------------------------------------------------------------
+uint8_t statusView(t_globalData *data);
+uint8_t channelView(t_globalData *data);
+uint8_t channelSetup(t_globalData *data);
+uint8_t setOutputPower(t_globalData *data);
+uint8_t setLensDia(t_globalData *data);
 
 #endif	/* MENU_H */
 

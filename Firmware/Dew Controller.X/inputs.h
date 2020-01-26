@@ -15,6 +15,7 @@ void rotISR(void);
 void pushButtonISR(void);
 enum e_buttonPress getPB(void);
 enum e_direction getRotDir(void);
+void spinInput(float *input, float min, float max, float step);
 
 #endif	/* INPUTS_H */
 
