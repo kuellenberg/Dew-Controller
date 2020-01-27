@@ -1,14 +1,14 @@
-	/*
+/*
  * File:   main.c
  * Author: Andre
  *
  * Created on 12. Januar 2020, 13:20
  */
-
 #include "common.h"
 #include "config.h"
 #include "menuhelper.h"
 #include "oled.h"
+#include <math.h>
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -50,29 +50,39 @@ uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 uint8_t getAvgChannelCurrents(t_globalData *data);
 void setSwitch(uint8_t channel, uint8_t state);
 void calcRequiredPower(t_globalData *data);
-void testHeaters(t_globalData *data);
+void initGlobalData(t_globalData *data);
+void systemCheck(t_globalData *data);
+
+t_globalData data;
 
 //-----------------------------------------------------------------------------
 // Main program loop
 //-----------------------------------------------------------------------------
 void main(void)
-{		
-	t_globalData data;
+{
+	uint32_t checkInt = 0;
 	
 	initialize();
 	OLED_PWR = 1;
-	PEN = 1;
 	OLED_init();
 	OLED_loadSpecialChars();
 	OLED_returnHome();
 	OLED_clearDisplay();
+	initGlobalData(&data);
 	
-	SW_CH1 = 1;
+	PEN = 1;
+	SW_CH0 = 1;
 
 	while (1) {
 		CLRWDT();
 		convertAnalogValues(&data);
 		checkSensor(&data);
+		if (timeSince(checkInt) > 10) {
+			checkInt = timeNow();
+			//systemCheck(&data);
+			//calcRequiredPower(&data);
+			//getAvgChannelCurrents(&data);
+		}
 		menu(&data);
 		__delay_ms(10);	
 	}
@@ -92,26 +102,28 @@ void initGlobalData(t_globalData *data)
 	data->power = 0;
 	data->dpOffset = 3.0;
 	data->skyTemp = -40;
-	data->fudgeFactor 1.0;
+	data->fudgeFactor = 1.0;
 	
 	for(n = 0; n < NUM_CHANNELS; n++) {
-		data.chData[n].lensDia = 4;
-		data.chData[n].status = OFF;
-		data.chData[n].mode = AUTO;
-		data.chData[n].Pmax = 0;
-		data.chData[n].Preq = 0;
-		data.chData[n].Patt = 0;
-		data.chData[n].cur = 0;
+		data->chData[n].lensDia = 4;
+		data->chData[n].status = CH_DISABLED;
+		data->chData[n].mode = MODE_AUTO;
+		data->chData[n].Pmax = 10;
+		data->chData[n].Preq = 0;
+		data->chData[n].Patt = 0;
+		data->chData[n].current = 0;
 	}
+}
 		
 
 void systemCheck(t_globalData *data)
 {
+	
 	if (data->current > MAX_CURRENT) {
+		SW_CH0 = 0;
 		SW_CH1 = 0;
 		SW_CH2 = 0;
 		SW_CH3 = 0;
-		SW_CH4 = 0;
 		PEN = 0;
 		convertAnalogValues(data);
 		if (data->current > MAX_CURRENT) {
@@ -121,37 +133,40 @@ void systemCheck(t_globalData *data)
 			error(ERR_OVERCURRENT);
 		}		
 	}
-	if ((data->voltage > VOLT_CRIT_HIGH) || 
-		(data->voltage <= VOLT_TURN_OFF)) {
+	
+	if ((data->voltage > VOLT_CRIT_HIGH) || (data->voltage <= VOLT_TURN_OFF)) {
+		SW_CH0 = 0;
 		SW_CH1 = 0;
 		SW_CH2 = 0;
 		SW_CH3 = 0;
-		SW_CH4 = 0;
 		PEN = 0;
-		OLED_PWR = 0;
-		while(1);
-	} else if ((data->voltage > VOLT_WARN_HIGH) && (data->voltage <= VOLT_CRIT_HIGH)) {
+		INTCON = 0;
+		//OLED_Off();
+		OLED_print_xy(0,0, "TURN OFF");
+		
+	}/* else if ((data->voltage > VOLT_WARN_HIGH) && (data->voltage <= VOLT_CRIT_HIGH)) {
 		error(WARN_VOLT_HIGH);
 	} else if ((data->voltage > VOLT_TURN_OFF) && (data->voltage <= VOLT_WARN_LOW)) {
 		error(WARN_VOLT_LOW);
 	}
+	 */
 }
 
 void calcRequiredPower(t_globalData *data)
 {
 	uint8_t n;
 	float d, A, T1, T2, phi;
-	float p, b, Rth;
+	float p,Rth;
 	
 	for(n = 0; n < NUM_CHANNELS; n++) {
 		// Calculate thermal radiation
 		d = INCH_TO_MM * data->chData[n].lensDia;	// Lens diameter in mm
-		A = (PI * pow(d, 2.0)) / 4;					// Exposed area of lens
+		A = (PI * d * d) / 4;					// Exposed area of lens
 		// Assuming lens temperature has reached dew point + offset
 		T1 = data->dewPointC + data->dpOffset + C_TO_K;
 		T2 = data->skyTemp + C_TO_K;
 		// Stefan Bolzman Law
-		phi = EPSILON * RHO * A * (pow(T1, 4.0) - pow(T2, 4.0));
+		phi = EPSILON * RHO * A * (T1*T1*T1*T1 - T2*T2*T2*T2);
 		// Required power is phi * experimental factor (heat loss etc...)
 		data->chData[n].Preq = phi * data->fudgeFactor;		
 		
@@ -181,6 +196,7 @@ void setSwitch(uint8_t channel, uint8_t state)
 			SW_CH3 = state;
 			break;
 		default:
+			break;
 	}
 }
 
@@ -268,25 +284,25 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
 		busy = 1;
 		samples = 0;
 		channel = 0;
-		avg = data->chData[channel].cur;
-		setSwitch(channel, ON);
+		avg = data->chData[channel].current;
+		setSwitch(channel, 1);
 	} else {		
 		if (samples++ < NUM_SAMPLES) {
 			adc = adcGetConversion(AIN_ISENS);
 			avg = ema(adc, avg, ALPHA(0.65));
 		} else {
-			setSwitch(channel, OFF);
+			setSwitch(channel, 0);
 			current = ADC_TO_I(adc);
 			
 			
 			if (current < MIN_CURRENT) {
 				if (data->chData[channel].status != CH_OPEN) {
 					error(WARN_REMOVED);
-					data->chData[channel].status = CH_OPEN);
+					data->chData[channel].status = CH_OPEN;
 				}
 			} else if (current > MAX_CURRENT) {
 				error(WARN_SHORT);
-				data->chData[channel].status = CH_DISABLED
+				data->chData[channel].status = CH_DISABLED;
 				if (!nFAULT) {
 					PEN = 0;
 					__delay_ms(5);
@@ -301,8 +317,8 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
 			
 			if (channel < NUM_CHANNELS - 1) {
 				channel++;
-				avg = data->chData[channel].cur;
-				setSwitch(channel, ON);
+				avg = data->chData[channel].current;
+				setSwitch(channel, 1);
 			} else {
 				busy = 0;
 			}
@@ -319,7 +335,6 @@ void convertAnalogValues(t_globalData *data)
 {
 	static uint16_t avgT, avgV, avgI;
 	uint16_t adc;
-	float f;
 	
 	adc = adcGetConversion(AIN_TEMP);
 	avgT = ema(adc, avgT, ALPHA(0.65));

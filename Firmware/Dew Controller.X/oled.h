@@ -43,6 +43,7 @@
 #define OLED_RUSSIAN     0x02
 #define OLED_EUROPEAN_II 0x03
 
+void OLED_Off(void);
 void OLED_pulseEnable(void);
 void OLED_write4bits(uint8_t value);
 void OLED_send(uint8_t value, uint8_t mode);

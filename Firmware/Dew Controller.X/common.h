@@ -11,9 +11,6 @@
 #define _XTAL_FREQ 4000000
 #define NUM_CHANNELS 4
 
-#define ON 1
-#define OFF 0
-
 #define len(array) sizeof(array)/sizeof(array[0])
 
 #include <xc.h>
@@ -24,6 +21,7 @@
 #include "pins.h"
 #include "interrupt.h"
 #include "uart.h"
+#include "error.h"
 
 
 typedef struct {
@@ -65,5 +63,7 @@ typedef struct {
 } t_globalData;
 
 
+#define COLUMNS 12
+#define SCREEN_BUFFER_SIZE 49
 
 #endif	/* COMMON_H */

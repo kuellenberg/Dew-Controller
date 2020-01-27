@@ -24,7 +24,7 @@
 #define OLED_EN     LATBbits.LATB2
 #define OLED_RW     LATBbits.LATB3
 #define OLED_RS     LATBbits.LATB4
-#define OLED_PWR    LATBbits.LATB5
+#define OLED_PWR   LATBbits.LATB5
 
 #define OLED_DB3_IN PORTCbits.RC4
 #define OLED_DB3_T  TRISCbits.TRISC4

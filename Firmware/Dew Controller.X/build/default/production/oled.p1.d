@@ -4,4 +4,5 @@ common.h  \
 pins.h  \
 interrupt.h  \
 uart.h  \
+error.h  \
 oled.h 

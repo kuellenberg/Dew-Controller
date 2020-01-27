@@ -9,6 +9,13 @@
 #include "common.h"
 #include "oled.h"
 
+void OLED_Off(void)
+{
+	OLED_command(0x08);
+	OLED_command(0x13);
+	OLED_PWR = 1;
+}
+
 void OLED_pulseEnable(void)
 {
 	OLED_EN = 1;

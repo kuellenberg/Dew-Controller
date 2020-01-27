@@ -16,6 +16,10 @@ uint8_t channelView(t_globalData *data);
 uint8_t channelSetup(t_globalData *data);
 uint8_t setOutputPower(t_globalData *data);
 uint8_t setLensDia(t_globalData *data);
+uint8_t setup(t_globalData *data);
+uint8_t setDPOffset(t_globalData *data);
+uint8_t setSkyTemp(t_globalData *data);
+uint8_t setFudgeFactor(t_globalData *data);
 
 #endif	/* MENU_H */
 

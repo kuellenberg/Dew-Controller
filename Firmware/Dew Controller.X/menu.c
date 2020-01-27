@@ -1,7 +1,8 @@
 #include "common.h"
 #include "menuhelper.h"
 #include "menu.h"
-
+#include "oled.h"
+#include "inputs.h"
 
 //-----------------------------------------------------------------------------
 // Global variables 
@@ -17,6 +18,7 @@ static char lBuf[SCREEN_BUFFER_SIZE], sBuf[COLUMNS + 1];
 uint8_t statusView(t_globalData *data)
 {
 	static uint8_t page = 0;
+	float f;
 	
 	returnToPage(page);
 	if (data->status.SENSOR_OK) {
@@ -24,7 +26,7 @@ uint8_t statusView(t_globalData *data)
 		if (data->status.AUX_SENSOR_OK)
 			sprintf(sBuf, "%3.1f\001\002%3.1f\001", data->tempC, data->tempAux);
 		else
-			sprintf(sBuf, "%5.1f\003      ", data->tempC);
+			sprintf(sBuf, "%5.1f\001      ", data->tempC);
 		sprintf(lBuf, "%s%5.1f %%     %5.1f\001      %4.1fV  %4.1fW", 
 			sBuf, data->relHum, data->dewPointC, data->voltage, data->power);
 		OLED_print_xy(0, 1, lBuf);
@@ -33,8 +35,9 @@ uint8_t statusView(t_globalData *data)
 		page = 0;
 		OLED_returnHome();
 		OLED_print_xy(0, 0, "Bat.   Power");
-		sprintf(lBuf, "%4.1fV  %4.1fW", data->voltage, data->power);
-		OLED_print_xy(0, 1, lBuf);
+		f = data->voltage;
+		sprintf(sBuf, "%4.1fV", 9.997296);
+		OLED_print_xy(0, 1, sBuf);
 	}
 	return page;
 }
@@ -61,20 +64,20 @@ uint8_t channelView(t_globalData *data)
 	lBuf[0] = '\0';
 	for(n = 0; n < NUM_CHANNELS; n++) {
 		switch(data->chData[n].status) {
-		case OFF:
+		case CH_DISABLED:
 			strcpy(sBuf, "Off         ");
 			break;
-		case ON:
+		case CH_ENABLED:
 			tmp0 = data->chData[n].Patt;
-			sprintf(sBuf, "%4.1fW %s", tmp0, (data->chData[n].mode == AUTO ? "auto  " : "manual"));
+			sprintf(sBuf, "%4.1fW %s", tmp0, (data->chData[n].mode == MODE_AUTO ? "auto  " : "manual"));
 			break;
-		case OPEN:
+		case CH_OPEN:
 			strcpy(sBuf, "Disconnected");
 			break;
-		case SHORTED:
+		case CH_SHORTED:
 			strcpy(sBuf, "Shorted!    ");
 			break;
-		case OVERCURRENT:
+		case CH_OVERCURRENT:
 			strcpy(sBuf, "Overcurrent!");
 			break;
 		default:
@@ -97,22 +100,24 @@ uint8_t channelView(t_globalData *data)
 uint8_t channelSetup(t_globalData *data)
 {
 	static uint8_t page = 0;
+	t_channelData *chData = &data->chData[selectedChannel];
 	
 	returnToPage(page);
-	OLED_print_xy(0, 0, "Output powerLens diam.  Back        ");
-
-	if (data->chData[selectedChannel].Preq == 0)
-		sprintf(lBuf, "Ch. %1d off   ", selectedChannel);
-	else if (data->chData[selectedChannel].Preq == data->chData[selectedChannel].Pmax)
-		sprintf(lBuf, "Ch. %1d auto  ", selectedChannel);
+	OLED_print_xy(0, 0, "Output powerLens diam.  ");
+	
+	if (chData->Preq == 0)
+		sprintf(lBuf, "Ch. %1d off   ", selectedChannel + 1);
+	else if (chData->Preq == chData->Pmax)
+		sprintf(lBuf, "Ch. %1d auto  ", selectedChannel + 1);
 	else
-		sprintf(lBuf, "%4.fW manual", data->chData[selectedChannel].Preq);
+		sprintf(lBuf, "%4.fW manual", chData->Preq);
 
-	sprintf(sBuf, "%4.1f inch    \003           ", data->chData[selectedChannel].lensDia);
+	sprintf(sBuf, "%4.1f inch   ", chData->lensDia);
 	strcat(lBuf, sBuf);
+
 	OLED_print_xy(0, 1, lBuf);
 	
-	page = paging(page, 3);
+	page = paging(page, 2);
 	return page;
 }
 
@@ -120,16 +125,18 @@ uint8_t channelSetup(t_globalData *data)
 // Set output power level
 //-----------------------------------------------------------------------------
 uint8_t setOutputPower(t_globalData *data)
+{
+	t_channelData *chData = &data->chData[selectedChannel];
+	
 	returnToPage(0);
 	OLED_print_xy(0, 0, "Output power");
-	spinInput(&data->chData[selectedChannel].Preq, 0, 
-		data->chData[selectedChannel].Pmax, 0.25);
-	if (data->chData[selectedChannel].Preq == 0)
-		sprintf(sBuf, "Ch. %1d off   ", selectedChannel);
-	else if (data->chData[selectedChannel].Preq == data->chData[selectedChannel].Pmax)
-		sprintf(sBuf, "Ch. %1d auto  ", selectedChannel);
+	spinInput(&chData->Preq, 0, chData->Pmax, 0.25);
+	if (chData->Preq == 0)
+		sprintf(sBuf, "Ch. %1d off   ", selectedChannel + 1);
+	else if (chData->Preq == chData->Pmax)
+		sprintf(sBuf, "Ch. %1d auto  ", selectedChannel + 1);
 	else
-		sprintf(sBuf, "%4.fW manual", data->chData[selectedChannel].Preq);
+		sprintf(sBuf, "%4.1fW manual", chData->Preq);
 	OLED_print_xy(0,1,sBuf);
 	return 0;
 }
