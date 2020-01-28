@@ -35,8 +35,6 @@
 
 #define NUM_SAMPLES 20
 
-#define ALPHA(x) ( (uint32_t)(x * 65535) )
-
 #define ADC_TO_I(counts) ( (counts * 5.0) / (1023.0 * 0.05 * 50.0) )
 #define ADC_TO_V(counts) ( (counts * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0) )
 
@@ -46,7 +44,6 @@
 void initialize(void);
 void convertAnalogValues(t_globalData *data);
 void checkSensor(t_globalData *data);
-uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 uint8_t getAvgChannelCurrents(t_globalData *data);
 void setSwitch(uint8_t channel, uint8_t state);
 void calcRequiredPower(t_globalData *data);
@@ -58,10 +55,11 @@ t_globalData data;
 //-----------------------------------------------------------------------------
 // Main program loop
 //-----------------------------------------------------------------------------
+
 void main(void)
 {
 	uint32_t checkInt = 0;
-	
+
 	initialize();
 	OLED_PWR = 1;
 	OLED_init();
@@ -69,7 +67,7 @@ void main(void)
 	OLED_returnHome();
 	OLED_clearDisplay();
 	initGlobalData(&data);
-	
+
 	PEN = 1;
 	SW_CH0 = 1;
 
@@ -79,19 +77,22 @@ void main(void)
 		checkSensor(&data);
 		if (timeSince(checkInt) > 10) {
 			checkInt = timeNow();
-			//systemCheck(&data);
-			//calcRequiredPower(&data);
-			//getAvgChannelCurrents(&data);
+			systemCheck(&data);
+			calcRequiredPower(&data);
 		}
+		//if (idle) {
+			
+			getAvgChannelCurrents(&data);
 		menu(&data);
-		__delay_ms(10);	
+		__delay_ms(10);
 	}
 }
 
 void initGlobalData(t_globalData *data)
 {
 	uint8_t n;
-	
+	t_channelData *chData;
+
 	data->tempC = 0;
 	data->relHum = 0;
 	data->dewPointC = 0;
@@ -103,21 +104,23 @@ void initGlobalData(t_globalData *data)
 	data->dpOffset = 3.0;
 	data->skyTemp = -40;
 	data->fudgeFactor = 1.0;
-	
-	for(n = 0; n < NUM_CHANNELS; n++) {
-		data->chData[n].lensDia = 4;
-		data->chData[n].status = CH_DISABLED;
-		data->chData[n].mode = MODE_AUTO;
-		data->chData[n].Pmax = 10;
-		data->chData[n].Preq = 0;
-		data->chData[n].Patt = 0;
-		data->chData[n].current = 0;
+
+	for (n = 0; n < NUM_CHANNELS; n++) {
+		chData = &data->chData[n];
+		chData->lensDia = 4;
+		chData->status = CH_ENABLED;
+		chData->mode = MODE_AUTO;
+		chData->Pmax = 0;
+		chData->Preq = 0;
+		chData->Patt = 0;
+		chData->current = 0;
 	}
 }
-		
 
 void systemCheck(t_globalData *data)
 {
+	uint8_t n;
+	char str[3];
 	
 	if (data->current > MAX_CURRENT) {
 		SW_CH0 = 0;
@@ -131,84 +134,93 @@ void systemCheck(t_globalData *data)
 			error(ERR_NUKED);
 		} else {
 			error(ERR_OVERCURRENT);
-		}		
+		}
 	}
-	
+
 	if ((data->voltage > VOLT_CRIT_HIGH) || (data->voltage <= VOLT_TURN_OFF)) {
+		OLED_clearDisplay();
+		OLED_returnHome();
+		OLED_print_xy(0, 0, "TURNING OFF");
 		SW_CH0 = 0;
 		SW_CH1 = 0;
 		SW_CH2 = 0;
 		SW_CH3 = 0;
 		PEN = 0;
-		INTCON = 0;
-		//OLED_Off();
-		OLED_print_xy(0,0, "TURN OFF");
-		
-	}/* else if ((data->voltage > VOLT_WARN_HIGH) && (data->voltage <= VOLT_CRIT_HIGH)) {
+		INTCON = 0;		
+		for(n = 5; n > 0; n--) {
+			itoa(str, n, 1);
+			OLED_print_xy(0, 1, "IN ");
+			OLED_print_xy(3, 1, str);
+			__delay_ms(1000);
+		}
+		OLED_Off();
+		while(1);
+
+	} else if ((data->voltage > VOLT_WARN_HIGH) && (data->voltage <= VOLT_CRIT_HIGH)) {
 		error(WARN_VOLT_HIGH);
 	} else if ((data->voltage > VOLT_TURN_OFF) && (data->voltage <= VOLT_WARN_LOW)) {
 		error(WARN_VOLT_LOW);
 	}
-	 */
 }
 
 void calcRequiredPower(t_globalData *data)
 {
 	uint8_t n;
 	float d, A, T1, T2, phi;
-	float p,Rth;
-	
-	for(n = 0; n < NUM_CHANNELS; n++) {
+	float p, Rth;
+
+	for (n = 0; n < NUM_CHANNELS; n++) {
 		// Calculate thermal radiation
-		d = INCH_TO_MM * data->chData[n].lensDia;	// Lens diameter in mm
-		A = (PI * d * d) / 4;					// Exposed area of lens
+		d = INCH_TO_MM * data->chData[n].lensDia; // Lens diameter in mm
+		A = (PI * d * d) / 4; // Exposed area of lens
 		// Assuming lens temperature has reached dew point + offset
 		T1 = data->dewPointC + data->dpOffset + C_TO_K;
 		T2 = data->skyTemp + C_TO_K;
 		// Stefan Bolzman Law
-		phi = EPSILON * RHO * A * (T1*T1*T1*T1 - T2*T2*T2*T2);
+		phi = EPSILON * RHO * A * (T1 * T1 * T1 * T1 - T2 * T2 * T2 * T2);
 		// Required power is phi * experimental factor (heat loss etc...)
-		data->chData[n].Preq = phi * data->fudgeFactor;		
-		
+		data->chData[n].Preq = phi * data->fudgeFactor;
+
 		// Approx. heater temp. required
 		p = 2 * PI * INCH_TO_MM * data->chData[n].lensDia;
-		A = p * WIDTH;	// Area covered by heater strip
+		A = p * WIDTH; // Area covered by heater strip
 		// Thermal resistance of the lens
 		Rth = (data->chData[n].lensDia / 2) * K_FACTOR * A;
 		// Delta T
-		data->chData[n].dt = phi * Rth - data->dewPointC;		
+		data->chData[n].dt = phi * Rth - data->dewPointC;
 	}
 }
 
 void setSwitch(uint8_t channel, uint8_t state)
 {
 	switch (channel) {
-		case 0:
-			SW_CH0 = state;
-			break;
-		case 1:
-			SW_CH1 = state;
-			break;
-		case 2:
-			SW_CH2 = state;
-			break;
-		case 3:
-			SW_CH3 = state;
-			break;
-		default:
-			break;
+	case 0:
+		SW_CH0 = state;
+		break;
+	case 1:
+		SW_CH1 = state;
+		break;
+	case 2:
+		SW_CH2 = state;
+		break;
+	case 3:
+		SW_CH3 = state;
+		break;
+	default:
+		break;
 	}
 }
 
 //-----------------------------------------------------------------------------
 // Test aux. temperature sensor, query main sensor, check data from sensor
 //-----------------------------------------------------------------------------
+
 void checkSensor(t_globalData *data)
 {
 	t_dataPacket *dp;
 	static uint32_t sensorUpdateInterval = 0;
 	static uint32_t sensorTimeout = 0;
-	static uint8_t state = 0;	
+	static uint8_t state = 0;
 
 	// Check aux. temperature sensor
 	if ((data->tempAux < TEMP_AUX_MIN) || (data->tempAux > TEMP_AUX_MAX)) {
@@ -217,58 +229,52 @@ void checkSensor(t_globalData *data)
 		data->status.AUX_SENSOR_OK = 1;
 
 	switch (state) {
-		case 0:
-			// Request data from sensor after SENSOR_UPDATE_INTERVALL
-			if (timeSince(sensorUpdateInterval) >= SENSOR_UPDATE_INTERVALL) {
-				sensorUpdateInterval = sensorTimeout = timeNow();
-				uartSendByte('?');
-				state = 1;
-			}			
-			break;
-		case 1:
-			// Wait for response
-			if (timeSince(sensorTimeout) > SENSOR_TIMEOUT) {
-				data->status.SENSOR_OK = 0;
-				state = 0;
-			} else if (uartIsDataReady()) {
-				dp = getDataPacket(); // get Pointer to dataPacket
-				if ((dp->header == 0xAA) && (dp->status == 1)) {
-					data->tempC = dp->tempC;
-					data->relHum = dp->relHum;
-					data->dewPointC = dp->dewPointC;
-					data->sensorVersion = dp->version;
-					data->status.SENSOR_OK = 1;
-				} else {
-					// set error bits
-					data->status.SENSOR_OK = 0;
-				}
-				state = 0;
-			}
-			break;
-		default:
+	case 0:
+		// Request data from sensor after SENSOR_UPDATE_INTERVALL
+		if (timeSince(sensorUpdateInterval) >= SENSOR_UPDATE_INTERVALL) {
+			sensorUpdateInterval = sensorTimeout = timeNow();
+			uartSendByte('?');
+			state = 1;
+		}
+		break;
+	case 1:
+		// Wait for response
+		if (timeSince(sensorTimeout) > SENSOR_TIMEOUT) {
+			data->status.SENSOR_OK = 0;
 			state = 0;
+			uartReset();
+		} else if (uartIsDataReady()) {
+			dp = getDataPacket(); // get Pointer to dataPacket
+			if ((dp->header == 0xAA) && (dp->status == 1)) {
+				data->tempC = dp->tempC;
+				data->relHum = dp->relHum;
+				data->dewPointC = dp->dewPointC;
+				data->sensorVersion = dp->version;
+				data->status.SENSOR_OK = 1;
+			} else {
+				// set error bits
+				data->status.SENSOR_OK = 0;
+				uartReset();
+			}
+			state = 0;
+		}
+		break;
+	default:
+		state = 0;
 	}
 }
 
 //-----------------------------------------------------------------------------
-// Exponential moving average filter
-//-----------------------------------------------------------------------------
-uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha)
-{
-  uint32_t tmp0;
-  tmp0 = in * alpha + average * (65536 - alpha);
-  return (tmp0 + 32768) / 65536;
-}
-//-----------------------------------------------------------------------------
 // Start ADC conversion and return result
 //-----------------------------------------------------------------------------
+
 uint16_t adcGetConversion(uint8_t channel)
 {
 	ADCON0bits.CHS = channel;
 	__delay_us(5);
 	ADCON0bits.GO = 1;
 	while (ADCON0bits.GO);
-	return (uint16_t)((ADRESH << 8) + ADRESL);
+	return(uint16_t) ((ADRESH << 8) + ADRESL);
 }
 
 uint8_t getAvgChannelCurrents(t_globalData *data)
@@ -279,45 +285,48 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
 	static uint8_t samples = 0;
 	static uint8_t busy = 0;
 	float current;
-	
+	t_channelData *chData;
+
+	chData = &data->chData[channel];
 	if (!busy) {
 		busy = 1;
 		samples = 0;
 		channel = 0;
-		avg = data->chData[channel].current;
+		avg = 0;// data->chData[channel].current;
 		setSwitch(channel, 1);
-	} else {		
+	} else {
 		if (samples++ < NUM_SAMPLES) {
 			adc = adcGetConversion(AIN_ISENS);
 			avg = ema(adc, avg, ALPHA(0.65));
 		} else {
 			setSwitch(channel, 0);
-			current = ADC_TO_I(adc);
-			
-			
+			current = ADC_TO_I(avg);
+
+
 			if (current < MIN_CURRENT) {
-				if (data->chData[channel].status != CH_OPEN) {
+				if (chData->status != CH_OPEN) {
 					error(WARN_REMOVED);
-					data->chData[channel].status = CH_OPEN;
+					chData->status = CH_OPEN;
 				}
 			} else if (current > MAX_CURRENT) {
 				error(WARN_SHORT);
-				data->chData[channel].status = CH_DISABLED;
+				chData->status = CH_DISABLED;
 				if (!nFAULT) {
 					PEN = 0;
 					__delay_ms(5);
 					PEN = 1;
 				}
-			} else {			
-				data->chData[channel].current = current;
-				data->chData[channel].Pmax = data->voltage * current;
-				data->chData[channel].DCreq = data->chData[channel].Pmax / data->chData[channel].Preq;
-			}	
-			
-			
+			} else {
+				chData->status = CH_ENABLED;
+				chData->current = current;
+				chData->Pmax = data->voltage * current;
+				chData->DCreq = chData->Pmax / chData->Preq;
+			}
+
+
 			if (channel < NUM_CHANNELS - 1) {
 				channel++;
-				avg = data->chData[channel].current;
+				avg = 0; //data->chData[channel].current;
 				setSwitch(channel, 1);
 			} else {
 				busy = 0;
@@ -331,19 +340,20 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
 //-----------------------------------------------------------------------------
 // Convert ADC counts to actual measurements
 //-----------------------------------------------------------------------------
+
 void convertAnalogValues(t_globalData *data)
 {
 	static uint16_t avgT, avgV, avgI;
 	uint16_t adc;
-	
+
 	adc = adcGetConversion(AIN_TEMP);
-	avgT = ema(adc, avgT, ALPHA(0.65));
+	avgT = ema(adc, avgT, ALPHA(0.35));
 	adc = adcGetConversion(AIN_VSENS);
-	avgV = ema(adc, avgV, ALPHA(0.65));
+	avgV = ema(adc, avgV, ALPHA(0.35));
 	adc = adcGetConversion(AIN_ISENS);
-	avgI = ema(adc, avgI, ALPHA(0.65));
+	avgI = ema(adc, avgI, ALPHA(0.35));
 	data->tempAux = (avgT * 0.1191) - 34.512;
-	data->voltage = ((float)avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+	data->voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
 	data->current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
 	data->power = data->voltage * data->current;
 }
@@ -351,6 +361,7 @@ void convertAnalogValues(t_globalData *data)
 //-----------------------------------------------------------------------------
 // Initialization
 //-----------------------------------------------------------------------------
+
 void initialize(void)
 {
 	OSCFRQ = 0b00000010; // 4 MHz
@@ -358,7 +369,7 @@ void initialize(void)
 	while (!OSCCON3bits.ORDY); // Wait until clock switch is done
 
 	// Peripheral Pin Select (PPS)
-	RX1DTPPSbits.RX1DTPPS = 0x17;   //RC7->EUSART1:RX1;
+	RX1DTPPSbits.RX1DTPPS = 0x17; //RC7->EUSART1:RX1;
 	RC6PPS = 0x0F; //RC4->EUSART1:TX1;    
 
 	// Analog/digital IO
@@ -389,7 +400,7 @@ void initialize(void)
 	PIE0 = 0b00110000; // TMR0IE, IOCIE
 	PIE3 = 0b00100000; // RC1IE
 	PIE4 = 0b00000001; // TMR1IE
-	INTCON = 0b11000000;    // GIE, PEIE
+	INTCON = 0b11000000; // GIE, PEIE
 
 	// Interrupt-on-change
 	IOCAP = 0b10110000; // Pos. edge on RA7, RA5, RA4 (PB, ROT_B, ROT_A)

@@ -2,8 +2,10 @@
 
 volatile uint8_t rxFErrCount = 0;
 volatile uint8_t rxOErrCount = 0;
+volatile uint8_t rxCount = 0;
 volatile uint8_t dataReadyFlag = 0;
 static t_dataPacket dataPacket;
+
 
 //-----------------------------------------------------------------------------
 // Returns True after data packet has been received
@@ -35,7 +37,7 @@ void uartSendByte(char s)
 void uartReceiveISR(void)
 {
 	static char buffer[RX_BUF_LEN];
-	static uint8_t rxCount = 0;
+	
 	static uint8_t checksum = 0;
 
 	if (RC1STAbits.OERR) // Receiver buffer overrun error
@@ -66,4 +68,15 @@ void uartReceiveISR(void)
 		checksum = 0;
 		rxCount = 0;
 	}
+}
+
+void uartReset(void)
+{
+	uint8_t dump;
+	dump = RC1REG;
+	RC1STAbits.CREN = 0;
+	RC1STAbits.CREN = 1;
+	RC1STAbits.SPEN = 0;
+	RC1STAbits.SPEN = 1;
+	rxCount = 0;
 }

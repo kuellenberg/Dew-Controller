@@ -14,6 +14,7 @@
       <itemPath>uart.h</itemPath>
       <itemPath>error.h</itemPath>
       <itemPath>menuhelper.h</itemPath>
+      <itemPath>common.c</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -51,7 +52,7 @@
         <platformTool>ICD3PlatformTool</platformTool>
         <languageToolchain>XC8</languageToolchain>
         <languageToolchainVersion>2.10</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>2</platform>
       </toolsSet>
       <packs>
         <pack name="PIC16F1xxxx_DFP" vendor="Microchip" version="1.0.62"/>

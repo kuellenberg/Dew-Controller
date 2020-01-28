@@ -3,16 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/common.c</file>
             <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/menu.c</file>
-            <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/error.h</file>
-            <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/menuhelper.c</file>
-            <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/pins.h</file>
-            <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/interrupt.h</file>
-            <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/oled.c</file>
-            <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/config.h</file>
+            <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/menu.h</file>
             <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/main.c</file>
             <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/common.h</file>
-            <file>file:/C:/Users/Ondre/Dropbox/Kicad-Projects/Dew-Controller/Firmware/Dew%20Controller.X/interrupt.c</file>
         </group>
     </open-files>
 </project-private>

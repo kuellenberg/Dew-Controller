@@ -16,7 +16,7 @@
 
 
 # 1 "./common.h" 1
-# 16 "./common.h"
+# 13 "./common.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -12401,7 +12401,7 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 16 "./common.h" 2
+# 13 "./common.h" 2
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\stdint.h" 1 3
 # 22 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\stdint.h" 3
@@ -12486,7 +12486,7 @@ typedef int32_t int_fast32_t;
 typedef uint32_t uint_fast16_t;
 typedef uint32_t uint_fast32_t;
 # 139 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\stdint.h" 2 3
-# 17 "./common.h" 2
+# 14 "./common.h" 2
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 1 3
 # 25 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 3
@@ -12543,7 +12543,7 @@ size_t strxfrm_l (char *restrict, const char *restrict, size_t, locale_t);
 
 
 void *memccpy (void *restrict, const void *restrict, int, size_t);
-# 18 "./common.h" 2
+# 15 "./common.h" 2
 
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\stdio.h" 1 3
@@ -12684,10 +12684,10 @@ char *ctermid(char *);
 
 
 char *tempnam(const char *, const char *);
-# 20 "./common.h" 2
+# 17 "./common.h" 2
 
 # 1 "./pins.h" 1
-# 21 "./common.h" 2
+# 18 "./common.h" 2
 
 # 1 "./interrupt.h" 1
 # 11 "./interrupt.h"
@@ -12696,7 +12696,7 @@ uint8_t get10msTick(void);
 uint32_t timeNow(void);
 uint32_t timeSince(uint32_t since);
 void __attribute__((picinterrupt(("")))) ISR(void);
-# 22 "./common.h" 2
+# 19 "./common.h" 2
 
 # 1 "./uart.h" 1
 # 14 "./uart.h"
@@ -12713,7 +12713,8 @@ t_dataPacket *getDataPacket(void);
 uint8_t uartIsDataReady(void);
 void uartReceiveISR(void);
 void uartSendByte(char s);
-# 23 "./common.h" 2
+void uartReset(void);
+# 20 "./common.h" 2
 
 # 1 "./error.h" 1
 # 11 "./error.h"
@@ -12727,7 +12728,11 @@ enum e_errorcode {
 };
 
 void error(enum e_errorcode error);
-# 24 "./common.h" 2
+# 21 "./common.h" 2
+
+
+
+
 
 
 
@@ -12745,6 +12750,7 @@ typedef struct {
  float Pmax;
  float Preq;
  float Patt;
+    float Pset;
  uint8_t DCreq;
  uint8_t DCatt;
  float lensDia;
@@ -12768,6 +12774,11 @@ typedef struct {
  t_status status;
  t_channelData chData[4];
 } t_globalData;
+
+
+void ftoa(char *str, float fValue, uint8_t width, uint8_t prec);
+void itoa(char *str, uint8_t value, uint8_t width);
+uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 # 9 "oled.c" 2
 
 # 1 "./oled.h" 1
@@ -12951,7 +12962,9 @@ void OLED_loadSpecialChars(void)
 {
  uint8_t special[] = {0x18, 0x18, 0x03, 0x04, 0x04, 0x04, 0x03, 0x00,
         0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00,
-        0x01, 0x01, 0x05, 0x09, 0x1F, 0x08, 0x04, 0x00};
+        0x01, 0x01, 0x05, 0x09, 0x1F, 0x08, 0x04, 0x00,
+        0x00, 0x10, 0x18, 0x1c, 0x18, 0x10, 0x00, 0x00
+ };
  uint8_t n;
 
  OLED_command(0x40 + 8);

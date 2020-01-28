@@ -24,6 +24,7 @@ t_dataPacket *getDataPacket(void);
 uint8_t uartIsDataReady(void);
 void uartReceiveISR(void);
 void uartSendByte(char s);
+void uartReset(void);
 
 
 #endif	/* UART_H */

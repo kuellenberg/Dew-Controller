@@ -221,6 +221,7 @@ void returnToPage(uint8_t page)
 	
 	if (! g_updateScreen)
 		return;
+	OLED_command(OLED_CLEARDISPLAY);
 	OLED_command(OLED_RETURNHOME);
 	for(n = 0; n < COLUMNS * page; n++) {
 		OLED_command(OLED_CURSORSHIFT | OLED_DISPLAYMOVE | OLED_MOVELEFT);

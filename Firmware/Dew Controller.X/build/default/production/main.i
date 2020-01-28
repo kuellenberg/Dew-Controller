@@ -14,7 +14,7 @@
 
 
 # 1 "./common.h" 1
-# 16 "./common.h"
+# 13 "./common.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -12399,7 +12399,7 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 16 "./common.h" 2
+# 13 "./common.h" 2
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\stdint.h" 1 3
 # 22 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\stdint.h" 3
@@ -12484,7 +12484,7 @@ typedef int32_t int_fast32_t;
 typedef uint32_t uint_fast16_t;
 typedef uint32_t uint_fast32_t;
 # 139 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\stdint.h" 2 3
-# 17 "./common.h" 2
+# 14 "./common.h" 2
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 1 3
 # 25 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\string.h" 3
@@ -12541,7 +12541,7 @@ size_t strxfrm_l (char *restrict, const char *restrict, size_t, locale_t);
 
 
 void *memccpy (void *restrict, const void *restrict, int, size_t);
-# 18 "./common.h" 2
+# 15 "./common.h" 2
 
 
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\c99\\stdio.h" 1 3
@@ -12682,10 +12682,10 @@ char *ctermid(char *);
 
 
 char *tempnam(const char *, const char *);
-# 20 "./common.h" 2
+# 17 "./common.h" 2
 
 # 1 "./pins.h" 1
-# 21 "./common.h" 2
+# 18 "./common.h" 2
 
 # 1 "./interrupt.h" 1
 # 11 "./interrupt.h"
@@ -12694,7 +12694,7 @@ uint8_t get10msTick(void);
 uint32_t timeNow(void);
 uint32_t timeSince(uint32_t since);
 void __attribute__((picinterrupt(("")))) ISR(void);
-# 22 "./common.h" 2
+# 19 "./common.h" 2
 
 # 1 "./uart.h" 1
 # 14 "./uart.h"
@@ -12711,7 +12711,8 @@ t_dataPacket *getDataPacket(void);
 uint8_t uartIsDataReady(void);
 void uartReceiveISR(void);
 void uartSendByte(char s);
-# 23 "./common.h" 2
+void uartReset(void);
+# 20 "./common.h" 2
 
 # 1 "./error.h" 1
 # 11 "./error.h"
@@ -12725,7 +12726,11 @@ enum e_errorcode {
 };
 
 void error(enum e_errorcode error);
-# 24 "./common.h" 2
+# 21 "./common.h" 2
+
+
+
+
 
 
 
@@ -12743,6 +12748,7 @@ typedef struct {
  float Pmax;
  float Preq;
  float Patt;
+    float Pset;
  uint8_t DCreq;
  uint8_t DCatt;
  float lensDia;
@@ -12766,6 +12772,11 @@ typedef struct {
  t_status status;
  t_channelData chData[4];
 } t_globalData;
+
+
+void ftoa(char *str, float fValue, uint8_t width, uint8_t prec);
+void itoa(char *str, uint8_t value, uint8_t width);
+uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 # 7 "main.c" 2
 
 # 1 "./config.h" 1
@@ -13213,11 +13224,10 @@ double y0(double);
 double y1(double);
 double yn(int, double);
 # 11 "main.c" 2
-# 46 "main.c"
+# 44 "main.c"
 void initialize(void);
 void convertAnalogValues(t_globalData *data);
 void checkSensor(t_globalData *data);
-uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 uint8_t getAvgChannelCurrents(t_globalData *data);
 void setSwitch(uint8_t channel, uint8_t state);
 void calcRequiredPower(t_globalData *data);
@@ -13225,6 +13235,7 @@ void initGlobalData(t_globalData *data);
 void systemCheck(t_globalData *data);
 
 t_globalData data;
+
 
 
 
@@ -13250,10 +13261,12 @@ void main(void)
   checkSensor(&data);
   if (timeSince(checkInt) > 10) {
    checkInt = timeNow();
-
-
-
+   systemCheck(&data);
+   calcRequiredPower(&data);
   }
+
+
+   getAvgChannelCurrents(&data);
   menu(&data);
   _delay((unsigned long)((10)*(4000000/4000.0)));
  }
@@ -13262,6 +13275,7 @@ void main(void)
 void initGlobalData(t_globalData *data)
 {
  uint8_t n;
+ t_channelData *chData;
 
  data->tempC = 0;
  data->relHum = 0;
@@ -13275,20 +13289,22 @@ void initGlobalData(t_globalData *data)
  data->skyTemp = -40;
  data->fudgeFactor = 1.0;
 
- for(n = 0; n < 4; n++) {
-  data->chData[n].lensDia = 4;
-  data->chData[n].status = CH_DISABLED;
-  data->chData[n].mode = MODE_AUTO;
-  data->chData[n].Pmax = 10;
-  data->chData[n].Preq = 0;
-  data->chData[n].Patt = 0;
-  data->chData[n].current = 0;
+ for (n = 0; n < 4; n++) {
+  chData = &data->chData[n];
+  chData->lensDia = 4;
+  chData->status = CH_ENABLED;
+  chData->mode = MODE_AUTO;
+  chData->Pmax = 0;
+  chData->Preq = 0;
+  chData->Patt = 0;
+  chData->current = 0;
  }
 }
 
-
 void systemCheck(t_globalData *data)
 {
+ uint8_t n;
+ char str[3];
 
  if (data->current > 3.0) {
   LATAbits.LATA0 = 0;
@@ -13306,30 +13322,38 @@ void systemCheck(t_globalData *data)
  }
 
  if ((data->voltage > 13.8) || (data->voltage <= 11.0)) {
+  OLED_clearDisplay();
+  OLED_returnHome();
+  OLED_print_xy(0, 0, "TURNING OFF");
   LATAbits.LATA0 = 0;
   LATAbits.LATA1 = 0;
   LATAbits.LATA2 = 0;
   LATAbits.LATA3 = 0;
   LATCbits.LATC3 = 0;
   INTCON = 0;
+  for(n = 5; n > 0; n--) {
+   itoa(str, n, 1);
+   OLED_print_xy(0, 1, "IN ");
+   OLED_print_xy(3, 1, str);
+   _delay((unsigned long)((1000)*(4000000/4000.0)));
+  }
+  OLED_Off();
+  while(1);
 
-  OLED_print_xy(0,0, "TURN OFF");
-
+ } else if ((data->voltage > 13.0) && (data->voltage <= 13.8)) {
+  error(WARN_VOLT_HIGH);
+ } else if ((data->voltage > 11.0) && (data->voltage <= 11.4)) {
+  error(WARN_VOLT_LOW);
  }
-
-
-
-
-
 }
 
 void calcRequiredPower(t_globalData *data)
 {
  uint8_t n;
  float d, A, T1, T2, phi;
- float p,Rth;
+ float p, Rth;
 
- for(n = 0; n < 4; n++) {
+ for (n = 0; n < 4; n++) {
 
   d = 0.0254 * data->chData[n].lensDia;
   A = (3.14 * d * d) / 4;
@@ -13337,7 +13361,7 @@ void calcRequiredPower(t_globalData *data)
   T1 = data->dewPointC + data->dpOffset + 273.15;
   T2 = data->skyTemp + 273.15;
 
-  phi = 0.95 * 5.67e-8 * A * (T1*T1*T1*T1 - T2*T2*T2*T2);
+  phi = 0.95 * 5.67e-8 * A * (T1 * T1 * T1 * T1 - T2 * T2 * T2 * T2);
 
   data->chData[n].Preq = phi * data->fudgeFactor;
 
@@ -13354,22 +13378,23 @@ void calcRequiredPower(t_globalData *data)
 void setSwitch(uint8_t channel, uint8_t state)
 {
  switch (channel) {
-  case 0:
-   LATAbits.LATA0 = state;
-   break;
-  case 1:
-   LATAbits.LATA1 = state;
-   break;
-  case 2:
-   LATAbits.LATA2 = state;
-   break;
-  case 3:
-   LATAbits.LATA3 = state;
-   break;
-  default:
-   break;
+ case 0:
+  LATAbits.LATA0 = state;
+  break;
+ case 1:
+  LATAbits.LATA1 = state;
+  break;
+ case 2:
+  LATAbits.LATA2 = state;
+  break;
+ case 3:
+  LATAbits.LATA3 = state;
+  break;
+ default:
+  break;
  }
 }
+
 
 
 
@@ -13388,48 +13413,42 @@ void checkSensor(t_globalData *data)
   data->status.AUX_SENSOR_OK = 1;
 
  switch (state) {
-  case 0:
+ case 0:
 
-   if (timeSince(sensorUpdateInterval) >= 50) {
-    sensorUpdateInterval = sensorTimeout = timeNow();
-    uartSendByte('?');
-    state = 1;
-   }
-   break;
-  case 1:
+  if (timeSince(sensorUpdateInterval) >= 50) {
+   sensorUpdateInterval = sensorTimeout = timeNow();
+   uartSendByte('?');
+   state = 1;
+  }
+  break;
+ case 1:
 
-   if (timeSince(sensorTimeout) > 20) {
-    data->status.SENSOR_OK = 0;
-    state = 0;
-   } else if (uartIsDataReady()) {
-    dp = getDataPacket();
-    if ((dp->header == 0xAA) && (dp->status == 1)) {
-     data->tempC = dp->tempC;
-     data->relHum = dp->relHum;
-     data->dewPointC = dp->dewPointC;
-     data->sensorVersion = dp->version;
-     data->status.SENSOR_OK = 1;
-    } else {
-
-     data->status.SENSOR_OK = 0;
-    }
-    state = 0;
-   }
-   break;
-  default:
+  if (timeSince(sensorTimeout) > 20) {
+   data->status.SENSOR_OK = 0;
    state = 0;
+   uartReset();
+  } else if (uartIsDataReady()) {
+   dp = getDataPacket();
+   if ((dp->header == 0xAA) && (dp->status == 1)) {
+    data->tempC = dp->tempC;
+    data->relHum = dp->relHum;
+    data->dewPointC = dp->dewPointC;
+    data->sensorVersion = dp->version;
+    data->status.SENSOR_OK = 1;
+   } else {
+
+    data->status.SENSOR_OK = 0;
+    uartReset();
+   }
+   state = 0;
+  }
+  break;
+ default:
+  state = 0;
  }
 }
 
 
-
-
-uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha)
-{
-  uint32_t tmp0;
-  tmp0 = in * alpha + average * (65536 - alpha);
-  return (tmp0 + 32768) / 65536;
-}
 
 
 
@@ -13439,7 +13458,7 @@ uint16_t adcGetConversion(uint8_t channel)
  _delay((unsigned long)((5)*(4000000/4000000.0)));
  ADCON0bits.GO = 1;
  while (ADCON0bits.GO);
- return (uint16_t)((ADRESH << 8) + ADRESL);
+ return(uint16_t) ((ADRESH << 8) + ADRESL);
 }
 
 uint8_t getAvgChannelCurrents(t_globalData *data)
@@ -13450,12 +13469,14 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
  static uint8_t samples = 0;
  static uint8_t busy = 0;
  float current;
+ t_channelData *chData;
 
+ chData = &data->chData[channel];
  if (!busy) {
   busy = 1;
   samples = 0;
   channel = 0;
-  avg = data->chData[channel].current;
+  avg = 0;
   setSwitch(channel, 1);
  } else {
   if (samples++ < 20) {
@@ -13463,32 +13484,33 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
    avg = ema(adc, avg, ( (uint32_t)(0.65 * 65535) ));
   } else {
    setSwitch(channel, 0);
-   current = ( (adc * 5.0) / (1023.0 * 0.05 * 50.0) );
+   current = ( (avg * 5.0) / (1023.0 * 0.05 * 50.0) );
 
 
    if (current < 0.05) {
-    if (data->chData[channel].status != CH_OPEN) {
+    if (chData->status != CH_OPEN) {
      error(WARN_REMOVED);
-     data->chData[channel].status = CH_OPEN;
+     chData->status = CH_OPEN;
     }
    } else if (current > 3.0) {
     error(WARN_SHORT);
-    data->chData[channel].status = CH_DISABLED;
+    chData->status = CH_DISABLED;
     if (!PORTCbits.RC2) {
      LATCbits.LATC3 = 0;
      _delay((unsigned long)((5)*(4000000/4000.0)));
      LATCbits.LATC3 = 1;
     }
    } else {
-    data->chData[channel].current = current;
-    data->chData[channel].Pmax = data->voltage * current;
-    data->chData[channel].DCreq = data->chData[channel].Pmax / data->chData[channel].Preq;
+    chData->status = CH_ENABLED;
+    chData->current = current;
+    chData->Pmax = data->voltage * current;
+    chData->DCreq = chData->Pmax / chData->Preq;
    }
 
 
    if (channel < 4 - 1) {
     channel++;
-    avg = data->chData[channel].current;
+    avg = 0;
     setSwitch(channel, 1);
    } else {
     busy = 0;
@@ -13502,22 +13524,24 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
 
 
 
+
 void convertAnalogValues(t_globalData *data)
 {
  static uint16_t avgT, avgV, avgI;
  uint16_t adc;
 
  adc = adcGetConversion(0b000110);
- avgT = ema(adc, avgT, ( (uint32_t)(0.65 * 65535) ));
+ avgT = ema(adc, avgT, ( (uint32_t)(0.35 * 65535) ));
  adc = adcGetConversion(0b010000);
- avgV = ema(adc, avgV, ( (uint32_t)(0.65 * 65535) ));
+ avgV = ema(adc, avgV, ( (uint32_t)(0.35 * 65535) ));
  adc = adcGetConversion(0b010001);
- avgI = ema(adc, avgI, ( (uint32_t)(0.65 * 65535) ));
+ avgI = ema(adc, avgI, ( (uint32_t)(0.35 * 65535) ));
  data->tempAux = (avgT * 0.1191) - 34.512;
- data->voltage = ((float)avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
+ data->voltage = (avgV * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0);
  data->current = (avgI * 5.0) / (1023.0 * 0.05 * 50.0);
  data->power = data->voltage * data->current;
 }
+
 
 
 
