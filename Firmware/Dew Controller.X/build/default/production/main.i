@@ -13251,9 +13251,8 @@ void main(void)
  OLED_returnHome();
  OLED_clearDisplay();
  initGlobalData(&data);
-
  LATCbits.LATC3 = 1;
- LATAbits.LATA0 = 1;
+
 
  while (1) {
   __asm("clrwdt");
@@ -13377,22 +13376,16 @@ void calcRequiredPower(t_globalData *data)
 
 void setSwitch(uint8_t channel, uint8_t state)
 {
- switch (channel) {
- case 0:
+ if (channel == 0)
   LATAbits.LATA0 = state;
-  break;
- case 1:
+ else if (channel == 1)
   LATAbits.LATA1 = state;
-  break;
- case 2:
+ else if (channel == 2)
   LATAbits.LATA2 = state;
-  break;
- case 3:
+ else if (channel == 3)
   LATAbits.LATA3 = state;
-  break;
- default:
-  break;
- }
+ else
+  __nop();
 }
 
 
@@ -13471,7 +13464,6 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
  float current;
  t_channelData *chData;
 
- chData = &data->chData[channel];
  if (!busy) {
   busy = 1;
   samples = 0;
@@ -13479,13 +13471,15 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
   avg = 0;
   setSwitch(channel, 1);
  } else {
+  chData = &data->chData[channel];
   if (samples++ < 20) {
+   if (channel == 2)
+    __nop();
    adc = adcGetConversion(0b010001);
    avg = ema(adc, avg, ( (uint32_t)(0.65 * 65535) ));
   } else {
    setSwitch(channel, 0);
    current = ( (avg * 5.0) / (1023.0 * 0.05 * 50.0) );
-
 
    if (current < 0.05) {
     if (chData->status != CH_OPEN) {
@@ -13510,6 +13504,7 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
 
    if (channel < 4 - 1) {
     channel++;
+    samples = 0;
     avg = 0;
     setSwitch(channel, 1);
    } else {

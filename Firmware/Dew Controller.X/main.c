@@ -67,10 +67,9 @@ void main(void)
 	OLED_returnHome();
 	OLED_clearDisplay();
 	initGlobalData(&data);
-
 	PEN = 1;
-	SW_CH0 = 1;
 
+	
 	while (1) {
 		CLRWDT();
 		convertAnalogValues(&data);
@@ -193,22 +192,16 @@ void calcRequiredPower(t_globalData *data)
 
 void setSwitch(uint8_t channel, uint8_t state)
 {
-	switch (channel) {
-	case 0:
+	if (channel == 0)
 		SW_CH0 = state;
-		break;
-	case 1:
+	else if (channel == 1)
 		SW_CH1 = state;
-		break;
-	case 2:
+	else if (channel == 2)
 		SW_CH2 = state;
-		break;
-	case 3:
+	else if (channel == 3)
 		SW_CH3 = state;
-		break;
-	default:
-		break;
-	}
+	else
+		NOP();
 }
 
 //-----------------------------------------------------------------------------
@@ -287,7 +280,6 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
 	float current;
 	t_channelData *chData;
 
-	chData = &data->chData[channel];
 	if (!busy) {
 		busy = 1;
 		samples = 0;
@@ -295,14 +287,16 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
 		avg = 0;// data->chData[channel].current;
 		setSwitch(channel, 1);
 	} else {
+		chData = &data->chData[channel];
 		if (samples++ < NUM_SAMPLES) {
+			if (channel == 2)
+				NOP();
 			adc = adcGetConversion(AIN_ISENS);
 			avg = ema(adc, avg, ALPHA(0.65));
 		} else {
 			setSwitch(channel, 0);
 			current = ADC_TO_I(avg);
-
-
+			
 			if (current < MIN_CURRENT) {
 				if (chData->status != CH_OPEN) {
 					error(WARN_REMOVED);
@@ -326,6 +320,7 @@ uint8_t getAvgChannelCurrents(t_globalData *data)
 
 			if (channel < NUM_CHANNELS - 1) {
 				channel++;
+				samples = 0;
 				avg = 0; //data->chData[channel].current;
 				setSwitch(channel, 1);
 			} else {
