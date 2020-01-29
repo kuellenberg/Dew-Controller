@@ -1,12 +1,12 @@
 /* 
- * File:   pins.h
+ * File:   io.h
  * Author: Andre
  *
  * Created on 12. Januar 2020, 17:44
  */
 
-#ifndef PINS_H
-#define	PINS_H
+#ifndef IO_H
+#define	IO_H
 
 #define SW_CH0      LATAbits.LATA0
 #define SW_CH1      LATAbits.LATA1
@@ -24,7 +24,7 @@
 #define OLED_EN     LATBbits.LATB2
 #define OLED_RW     LATBbits.LATB3
 #define OLED_RS     LATBbits.LATB4
-#define OLED_PWR   LATBbits.LATB5
+#define OLED_PWR	LATBbits.LATB5
 
 #define OLED_DB3_IN PORTCbits.RC4
 #define OLED_DB3_T  TRISCbits.TRISC4
@@ -36,5 +36,11 @@
 #define AIN_ISENS   0b010001
 #define AIN_TEMP    0b000110
 
-#endif	/* PINS_H */
+//-----------------------------------------------------------------------------
+// Function Prototypes
+//-----------------------------------------------------------------------------
+void setLoadSwitch(uint8_t state);
+void setChannelSwitch(uint8_t channel, uint8_t state);
+uint16_t getAnalogValue(uint8_t channel);
 
+#endif	/* IO_H */

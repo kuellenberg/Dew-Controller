@@ -13,6 +13,7 @@ enum e_errorcode {
     WARN_SHORT, 
     WARN_VOLT_HIGH, 
     WARN_VOLT_LOW, 
+	WARN_OVERCURRENT,
     ERR_NUKED, 
     ERR_OVERCURRENT
 };

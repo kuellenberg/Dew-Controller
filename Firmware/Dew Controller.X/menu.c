@@ -86,8 +86,11 @@ uint8_t channelView(t_globalData *data)
 
 	for (n = 0; n < NUM_CHANNELS; n++) {
 		switch (data->chData[n].status) {
+		case CH_UNCHECKED:
+			OLED_print_xy(n * COLUMNS + 0, 1, "Please wait!");
+			break;
 		case CH_DISABLED:
-			OLED_print_xy(n * COLUMNS + 0, 1, "Off         ");
+			OLED_print_xy(n * COLUMNS + 0, 1, "Disabled    ");
 			break;
 		case CH_ENABLED:
 			ftoa(str, data->chData[n].Patt, 4, 1);
@@ -121,34 +124,57 @@ uint8_t channelView(t_globalData *data)
 uint8_t channelSetup(t_globalData *data)
 {
 	static uint8_t page = 0;
+	uint8_t intState = 0;
 	t_channelData *chData = &data->chData[selectedChannel];
 
 	returnToPage(page);
+	
 	if (g_updateScreen) {
-		OLED_print_xy(0, 0, "Output powerLens diam.  ");
-
-		if (chData->Pset == 0) {
-			OLED_print_xy(0, 1, "Ch. ");
-			itoa(str, selectedChannel + 1, 1);
-			OLED_print_xy(4, 1, str);
-			OLED_print_xy(5, 1, " off   ");
-		} else if (chData->Pset >= chData->Pmax) {
-			OLED_print_xy(0, 1, "Ch. ");
-			itoa(str, selectedChannel + 1, 1);
-			OLED_print_xy(4, 1, str);
-			OLED_print_xy(5, 1, " auto  ");
-		} else {
-			ftoa(str, chData->Pset, 4, 1);
-			OLED_print_xy(0, 1, str);
-			OLED_print_xy(4, 1, "W manual");
-		}
+	
+		if ((chData->status == CH_ENABLED) || (chData->status == CH_DISABLED)) {
+				
+			OLED_print_xy(0, 0, "Output power");
+			if (chData->Pset == 0) {
+				OLED_print_xy(0, 1, "Ch. ");
+				itoa(str, selectedChannel + 1, 1);
+				OLED_print_xy(4, 1, str);
+				OLED_print_xy(5, 1, " off   ");
+			} else if (chData->Pset < 0) {
+				OLED_print_xy(0, 1, "Ch. ");
+				itoa(str, selectedChannel + 1, 1);
+				OLED_print_xy(4, 1, str);
+				OLED_print_xy(5, 1, " auto  ");
+			} else {
+				ftoa(str, chData->Pset, 4, 1);
+				OLED_print_xy(0, 1, str);
+				OLED_print_xy(4, 1, "W manual");
+			}
+			
+		} else if (chData->status == CH_OPEN) {
+			
+			OLED_print_xy(0, 0, " No heater  ");
+			OLED_print_xy(0, 1, " connected. ");
+			
+			// prevent from getting into setOutputPower()
+			intState = 1;
+			
+		} else if ((chData->status == CH_OVERCURRENT) || (chData->status == CH_SHORTED)) {
+			
+			OLED_print_xy(0, 0, "Reset       ");
+			OLED_print_xy(0, 1, "channel     ");
+			
+		}		
+			
+		OLED_print_xy(COLUMNS, 0, "Lens diam.  ");
 		ftoa(str, chData->lensDia, 4, 1);
 		OLED_print_xy(COLUMNS + 0, 1, str);
 		OLED_print_xy(COLUMNS + 5, 1, " inch  ");
-		
+	
 	}
+		
 	page = paging(page, 2);
-	return page;
+	
+	return page + intState;
 }
 
 //-----------------------------------------------------------------------------
@@ -159,27 +185,42 @@ uint8_t setOutputPower(t_globalData *data)
 	t_channelData *chData = &data->chData[selectedChannel];
 
 	returnToPage(0);
-	if (g_updateScreen)
-		OLED_print_xy(0, 0, "Output power");
-	spinInput(&chData->Pset, 0, chData->Pmax, 0.25);
-	if (chData->Pset == 0) {
-		itoa(str, selectedChannel + 1, 1);
-		OLED_print_xy(0, 1, "\004Ch. ");
-		OLED_print_xy(5, 1, str);
-		OLED_print_xy(6, 1, " off \003");
-	} else if (chData->Pset >= chData->Pmax) {
-		itoa(str, selectedChannel + 1, 1);
-		OLED_print_xy(0, 1, "\004Ch. ");
-		OLED_print_xy(5, 1, str);
-		OLED_print_xy(6, 1, " auto\003");
-	} else {
-		OLED_print_xy(0, 1, "\004");
-		ftoa(str, chData->Pset, 4, 1);
-		OLED_print_xy(1, 1, str);
-		OLED_print_xy(5, 1, "W man.\003");
+	
+	if ((chData->status == CH_ENABLED) || (chData->status == CH_DISABLED)) {
+	
+		if (g_updateScreen)
+			OLED_print_xy(0, 0, "Output power");
+		spinInput(&chData->Pset, -0.25, chData->Pmax, 0.25);
+		if (chData->Pset == 0) {
+			itoa(str, selectedChannel + 1, 1);
+			OLED_print_xy(0, 1, "\004Ch. ");
+			OLED_print_xy(5, 1, str);
+			OLED_print_xy(6, 1, " off \003");
+		} else if (chData->Pset < 0) {
+			itoa(str, selectedChannel + 1, 1);
+			OLED_print_xy(0, 1, "\004Ch. ");
+			OLED_print_xy(5, 1, str);
+			OLED_print_xy(6, 1, " auto\003");
+		} else {
+			OLED_print_xy(0, 1, "\004");
+			ftoa(str, chData->Pset, 4, 1);
+			OLED_print_xy(1, 1, str);
+			OLED_print_xy(5, 1, "W man.\003");
+		}
+		
+	} else if ((chData->status == CH_OVERCURRENT) || (chData->status == CH_SHORTED)) {
+		
+		if (g_updateScreen) {
+			OLED_print_xy(0, 0, "Hold button ");
+			OLED_print_xy(0, 1, "to re-enable");
+		}
+		if (getPB() == PB_LONG)
+			chData->status = CH_OPEN;
+		
 	}
 	return 0;
 }
+
 //-----------------------------------------------------------------------------
 // Set lens diameter
 //-----------------------------------------------------------------------------

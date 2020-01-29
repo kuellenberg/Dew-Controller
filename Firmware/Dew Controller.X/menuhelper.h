@@ -14,8 +14,5 @@ void returnToPage(uint8_t page);
 
 int8_t g_updateScreen = 1;
 
-
-
-
 #endif	/* MENUHELPER_H */
 
