@@ -1,4 +1,8 @@
 Version 4.0 HI-TECH Software Intermediate Code
+"14 ./inputs.h
+[; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
+[c E7869 0 1 2 3 4 .. ]
+[n E7869 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
 "51 ./oled.h
 [; ;./oled.h: 51: void OLED_command(uint8_t value);
 [v _OLED_command `(v ~T0 @X0 0 ef1`uc ]
@@ -1088,6 +1092,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "21398
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h: 21398: __asm("TOSH equ 01FEFh");
 [; <" TOSH equ 01FEFh ;# ">
+"14 ./inputs.h
+[; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
+[v _pbState `VE7869 ~T0 @X0 1 e ]
+[i _pbState
+. `E7869 0
+]
 "12 oled.c
 [; ;oled.c: 12: void OLED_Off(void)
 [v _OLED_Off `(v ~T0 @X0 1 ef ]
@@ -1121,8 +1131,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;oled.c: 21:  LATBbits.LATB2 = 1;
 [e = . . _LATBbits 0 2 -> -> 1 `i `uc ]
 "22
-[; ;oled.c: 22:  _delay((unsigned long)((50)*(4000000/4000000.0)));
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
+[; ;oled.c: 22:  _delay((unsigned long)((50)*(4000000UL/4000000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `ul `d .4000000.0 `ul ]
 "23
 [; ;oled.c: 23:  LATBbits.LATB2 = 0;
 [e = . . _LATBbits 0 2 -> -> 0 `i `uc ]
@@ -1156,8 +1166,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;oled.c: 31:  LATCbits.LATC4 = (value >> 3) & 0x01;
 [e = . . _LATCbits 0 4 -> & >> -> _value `i -> 3 `i -> 1 `i `uc ]
 "33
-[; ;oled.c: 33:  _delay((unsigned long)((50)*(4000000/4000000.0)));
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
+[; ;oled.c: 33:  _delay((unsigned long)((50)*(4000000UL/4000000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `ul `d .4000000.0 `ul ]
 "34
 [; ;oled.c: 34:  OLED_pulseEnable();
 [e ( _OLED_pulseEnable ..  ]
@@ -1224,14 +1234,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;oled.c: 57:   LATBbits.LATB2 = 0;
 [e = . . _LATBbits 0 2 -> -> 0 `i `uc ]
 "58
-[; ;oled.c: 58:   _delay((unsigned long)((10)*(4000000/4000000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
+[; ;oled.c: 58:   _delay((unsigned long)((10)*(4000000UL/4000000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 4000000 `ul `d .4000000.0 `ul ]
 "59
 [; ;oled.c: 59:   LATBbits.LATB2 = 1;
 [e = . . _LATBbits 0 2 -> -> 1 `i `uc ]
 "61
-[; ;oled.c: 61:   _delay((unsigned long)((10)*(4000000/4000000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
+[; ;oled.c: 61:   _delay((unsigned long)((10)*(4000000UL/4000000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 4000000 `ul `d .4000000.0 `ul ]
 "62
 [; ;oled.c: 62:   busy = PORTCbits.RC4;
 [e = _busy . . _PORTCbits 0 4 ]
@@ -1320,8 +1330,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;oled.c: 89:  LATBbits.LATB3 = 0;
 [e = . . _LATBbits 0 3 -> -> 0 `i `uc ]
 "91
-[; ;oled.c: 91:  _delay((unsigned long)((50)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 91:  _delay((unsigned long)((50)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "95
 [; ;oled.c: 95:  LATBbits.LATB1 = 0;
 [e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
@@ -1338,62 +1348,62 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;oled.c: 109:  OLED_write4bits(0x03);
 [e ( _OLED_write4bits (1 -> -> 3 `i `uc ]
 "110
-[; ;oled.c: 110:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 110:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "111
 [; ;oled.c: 111:  OLED_write4bits(0x08);
 [e ( _OLED_write4bits (1 -> -> 8 `i `uc ]
 "112
-[; ;oled.c: 112:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 112:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "114
 [; ;oled.c: 114:  OLED_write4bits(0x02);
 [e ( _OLED_write4bits (1 -> -> 2 `i `uc ]
 "115
-[; ;oled.c: 115:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 115:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "116
 [; ;oled.c: 116:  OLED_write4bits(0x02);
 [e ( _OLED_write4bits (1 -> -> 2 `i `uc ]
 "117
-[; ;oled.c: 117:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 117:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "118
 [; ;oled.c: 118:  OLED_write4bits(0x08);
 [e ( _OLED_write4bits (1 -> -> 8 `i `uc ]
 "119
-[; ;oled.c: 119:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 119:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "121
 [; ;oled.c: 121:  OLED_command(0x08);
 [e ( _OLED_command (1 -> -> 8 `i `uc ]
 "122
-[; ;oled.c: 122:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 122:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "123
 [; ;oled.c: 123:  OLED_command(0x01);
 [e ( _OLED_command (1 -> -> 1 `i `uc ]
 "124
-[; ;oled.c: 124:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 124:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "125
 [; ;oled.c: 125:  OLED_command(0x06);
 [e ( _OLED_command (1 -> -> 6 `i `uc ]
 "126
-[; ;oled.c: 126:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 126:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "127
 [; ;oled.c: 127:  OLED_command(0x02);
 [e ( _OLED_command (1 -> -> 2 `i `uc ]
 "128
-[; ;oled.c: 128:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 128:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "129
 [; ;oled.c: 129:  OLED_command(0x0C);
 [e ( _OLED_command (1 -> -> 12 `i `uc ]
 "130
-[; ;oled.c: 130:  _delay((unsigned long)((5)*(4000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;oled.c: 130:  _delay((unsigned long)((5)*(4000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
 "131
 [; ;oled.c: 131: }
 [e :UE 997 ]
@@ -1442,8 +1452,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "144
 [; ;oled.c: 144: {
 [f ]
-[v F7932 `uc ~T0 @X0 -> 4 `i s ]
-[i F7932
+[v F7960 `uc ~T0 @X0 -> 4 `i s ]
+[i F7960
 :U ..
 "145
 [; ;oled.c: 145:  uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
@@ -1454,7 +1464,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _row_offsets `uc ~T0 @X0 -> 4 `i a ]
-[e = _row_offsets F7932 ]
+[e = _row_offsets F7960 ]
 "147
 [; ;oled.c: 147:  OLED_command(0x80 | (col + row_offsets[row]));
 [e ( _OLED_command (1 -> | -> 128 `i + -> _col `i -> *U + &U _row_offsets * -> _row `ux -> -> # *U &U _row_offsets `ui `ux `i `uc ]
@@ -1510,8 +1520,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "158
 [; ;oled.c: 158: {
 [f ]
-[v F7940 `uc ~T0 @X0 -> 4 `i s ]
-[i F7940
+[v F7968 `uc ~T0 @X0 -> 4 `i s ]
+[i F7968
 :U ..
 "159
 [; ;oled.c: 159:  uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
@@ -1522,7 +1532,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _row_offsets `uc ~T0 @X0 -> 4 `i a ]
-[e = _row_offsets F7940 ]
+[e = _row_offsets F7968 ]
 "161
 [; ;oled.c: 161:  OLED_command(0x80 | (col + row_offsets[row]));
 [e ( _OLED_command (1 -> | -> 128 `i + -> _col `i -> *U + &U _row_offsets * -> _row `ux -> -> # *U &U _row_offsets `ui `ux `i `uc ]
@@ -1584,8 +1594,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 [e :U _OLED_loadSpecialChars ]
 [f ]
-[v F7945 `uc ~T0 @X0 -> 32 `i s ]
-[i F7945
+[v F7973 `uc ~T0 @X0 -> 32 `i s ]
+[i F7973
 :U ..
 "179
 [; ;oled.c: 179:  uint8_t special[] = {0x18, 0x18, 0x03, 0x04, 0x04, 0x04, 0x03, 0x00,
@@ -1624,7 +1634,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _special `uc ~T0 @X0 -> 32 `i a ]
-[e = _special F7945 ]
+[e = _special F7973 ]
 "184
 [; ;oled.c: 184:  uint8_t n;
 [v _n `uc ~T0 @X0 1 a ]

@@ -26,7 +26,6 @@ const uint8_t transition_table[7][4] = {
 
 volatile uint8_t curRotState = START;
 volatile enum e_direction rotDir = ROT_STOP;
-volatile enum e_buttonPress pbState = PB_NONE;
 
 //-----------------------------------------------------------------------------
 // Rotary encoder ISR
@@ -54,17 +53,18 @@ void pushButtonISR()
 {
 	uint8_t time;
 	// reset millisecond tick counter upon first rising edge of push button 
-	if (!ROT_PB) {
+	if ((!ROT_PB) && (pbState != PB_WAIT)) {
 		reset10msTick();
-	} else {
+		pbState = PB_WAIT;
+	} else if (pbState == PB_WAIT) {
 		time = get10msTick();
-		if ((time > 5) & (time <= 50)) 
+		if ((time > 10) && (time <= 70) && (ROT_PB)) 
 			// short button press
 			pbState = PB_SHORT;		
-		else if ((time > 50) & (time <= 150))
+		else if ((time > 70) && (!ROT_PB))
 			// long button press
 			pbState = PB_LONG; 
-		else 
+		else if (ROT_PB)
 			// button pressed too long => abort
 			pbState = PB_ABORT;
 	}
@@ -86,7 +86,8 @@ enum e_direction getRotDir(void)
 enum e_buttonPress getPB(void)
 {
 	enum e_buttonPress ret = pbState;
-	pbState = PB_NONE;
+	if (pbState != PB_WAIT)
+		pbState = PB_NONE;
 	return ret;
 }
 

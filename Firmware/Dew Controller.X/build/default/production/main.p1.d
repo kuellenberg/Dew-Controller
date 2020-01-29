@@ -1,10 +1,12 @@
 build/default/production/main.p1:  \
 main.c  \
 common.h  \
-pins.h  \
+io.h  \
 interrupt.h  \
 uart.h  \
 error.h  \
+oled.h  \
+inputs.h  \
 config.h  \
 menuhelper.h  \
-oled.h 
+system.h 

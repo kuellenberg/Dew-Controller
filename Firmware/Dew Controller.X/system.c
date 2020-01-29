@@ -8,10 +8,10 @@
 #define TEMP_AUX_MAX 100
 #define SENSOR_UPDATE_INTERVALL 50
 #define SENSOR_TIMEOUT 20
-#define NUM_SAMPLES 20
+#define NUM_SAMPLES 10
 
 #define MIN_CHANNEL_CURRENT 0.05
-#define MAX_CHANNEL_CURRENT 2.0
+#define MAX_CHANNEL_CURRENT 0.5
 #define MAX_CURRENT 3.0
 #define VOLT_CRIT_HIGH 13.8
 #define VOLT_WARN_HIGH 13.0
@@ -55,11 +55,10 @@ uint8_t checkChannelStatus(t_globalData *data)
 		samples = 0;
 		channel = 0;
 		avg = data->chData[channel].current;
-		setChannelSwitch(channel, 1);
 	}
 	
 	chData = &data->chData[channel];
-	
+	setChannelSwitch(channel, 1);
 	// Not enough samples?
 	if (samples++ < NUM_SAMPLES) {
 		adc = getAnalogValue(AIN_ISENS);
@@ -84,7 +83,7 @@ uint8_t checkChannelStatus(t_globalData *data)
 			chData->status = CH_OVERCURRENT;
 			// Reset loadswitch, if neccesary
 			if (! nFAULT) {
-				chData->status = CH_SHORT;
+				chData->status = CH_SHORTED;
 				setLoadSwitch(0);
 				__delay_ms(5);
 				setLoadSwitch(1);
@@ -157,18 +156,19 @@ void systemCheck(t_globalData *data)
 	// So, in both cases, we just turn everything off.
 	if ((data->voltage > VOLT_CRIT_HIGH) || 
 			(data->voltage <= VOLT_TURN_OFF)) {
+		INTCON = 0;
 		OLED_clearDisplay();
 		OLED_returnHome();
 		OLED_print_xy(0, 0, "TURNING OFF");
 		setChannelSwitch(255, 0);
 		setLoadSwitch(0);
-		INTCON = 0;		
 		for(n = 5; n > 0; n--) {
 			itoa(str, n, 1);
 			OLED_print_xy(0, 1, "IN ");
 			OLED_print_xy(3, 1, str);
 			__delay_ms(1000);
 		}
+		
 		OLED_Off();
 		
 		// TODO: Turn peripherals off, lower clock speed?
@@ -223,6 +223,7 @@ uint8_t checkSensor(t_globalData *data)
 				data->dewPointC = dp->dewPointC;
 				data->sensorVersion = dp->version;
 				data->status.SENSOR_OK = 1;
+				state = 0;
 				
 				return 1;
 			} else {
@@ -287,11 +288,11 @@ void getAnalogValues(t_globalData *data)
 	uint16_t adc;
 
 	adc = getAnalogValue(AIN_TEMP);
-	avgT = ema(adc, avgT, ALPHA(0.35));
+	avgT = ema(adc, avgT, ALPHA(0.5));
 	adc = getAnalogValue(AIN_VSENS);
-	avgV = ema(adc, avgV, ALPHA(0.35));
+	avgV = ema(adc, avgV, ALPHA(0.8));
 	adc = getAnalogValue(AIN_ISENS);
-	avgI = ema(adc, avgI, ALPHA(0.35));
+	avgI = ema(adc, avgI, ALPHA(0.3));
 	data->tempAux = ADC_TO_T(avgT);
 	data->voltage = ADC_TO_V(avgV);
 	data->current = ADC_TO_I(avgI);

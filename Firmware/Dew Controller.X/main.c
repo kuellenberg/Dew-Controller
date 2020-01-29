@@ -61,7 +61,7 @@ void main(void)
 		menu(&data);
 		
 		// relax :-)
-		__delay_ms(10);
+		__delay_ms(100);
 	}
 }
 

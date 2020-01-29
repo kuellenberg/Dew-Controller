@@ -19,6 +19,8 @@
 #include "interrupt.h"
 #include "uart.h"
 #include "error.h"
+#include "oled.h"
+#include "inputs.h"
 
 //-----------------------------------------------------------------------------
 // Definitions

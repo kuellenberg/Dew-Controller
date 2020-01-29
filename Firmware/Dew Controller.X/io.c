@@ -1,4 +1,4 @@
-#include "io.h"
+#include "common.h"
 
 void setLoadSwitch(uint8_t state)
 {

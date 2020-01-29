@@ -1,8 +1,6 @@
 #include "common.h"
 #include "menuhelper.h"
 #include "menu.h"
-#include "oled.h"
-#include "inputs.h"
 
 //-----------------------------------------------------------------------------
 // Global variables 
@@ -124,57 +122,53 @@ uint8_t channelView(t_globalData *data)
 uint8_t channelSetup(t_globalData *data)
 {
 	static uint8_t page = 0;
-	uint8_t intState = 0;
 	t_channelData *chData = &data->chData[selectedChannel];
-
+	
 	returnToPage(page);
 	
-	if (g_updateScreen) {
-	
-		if ((chData->status == CH_ENABLED) || (chData->status == CH_DISABLED)) {
-				
-			OLED_print_xy(0, 0, "Output power");
-			if (chData->Pset == 0) {
-				OLED_print_xy(0, 1, "Ch. ");
-				itoa(str, selectedChannel + 1, 1);
-				OLED_print_xy(4, 1, str);
-				OLED_print_xy(5, 1, " off   ");
-			} else if (chData->Pset < 0) {
-				OLED_print_xy(0, 1, "Ch. ");
-				itoa(str, selectedChannel + 1, 1);
-				OLED_print_xy(4, 1, str);
-				OLED_print_xy(5, 1, " auto  ");
-			} else {
-				ftoa(str, chData->Pset, 4, 1);
-				OLED_print_xy(0, 1, str);
-				OLED_print_xy(4, 1, "W manual");
-			}
+	if ((chData->status == CH_ENABLED) || (chData->status == CH_DISABLED)) {	
+		OLED_print_xy(0, 0, "Output power");
+		if (chData->Pset == 0) {
+			OLED_print_xy(0, 1, "Ch. ");
+			itoa(str, selectedChannel + 1, 1);
+			OLED_print_xy(4, 1, str);
+			OLED_print_xy(5, 1, " off   ");
+		} else if (chData->Pset < 0) {
+			OLED_print_xy(0, 1, "Ch. ");
+			itoa(str, selectedChannel + 1, 1);
+			OLED_print_xy(4, 1, str);
+			OLED_print_xy(5, 1, " auto  ");
+		} else {
+			ftoa(str, chData->Pset, 4, 1);
+			OLED_print_xy(0, 1, str);
+			OLED_print_xy(4, 1, "W manual");
+		}
+
+	} else if (chData->status == CH_OPEN) {
+
+		OLED_print_xy(0, 0, "Not         ");
+		OLED_print_xy(0, 1, "connected   ");
+
+	} else if (chData->status == CH_UNCHECKED) {
+
+		OLED_print_xy(0, 0, "Testing     ");
+		OLED_print_xy(0, 1, "heater...   ");
+
+	} else if ((chData->status == CH_OVERCURRENT) || (chData->status == CH_SHORTED)) {
+
+		OLED_print_xy(0, 0, "Reset       ");
+		OLED_print_xy(0, 1, "channel     ");
+
+	}		
+
+	OLED_print_xy(COLUMNS, 0, "Lens diam.  ");
+	ftoa(str, chData->lensDia, 4, 1);
+	OLED_print_xy(COLUMNS + 0, 1, str);
+	OLED_print_xy(COLUMNS + 5, 1, " inch  ");
 			
-		} else if (chData->status == CH_OPEN) {
-			
-			OLED_print_xy(0, 0, " No heater  ");
-			OLED_print_xy(0, 1, " connected. ");
-			
-			// prevent from getting into setOutputPower()
-			intState = 1;
-			
-		} else if ((chData->status == CH_OVERCURRENT) || (chData->status == CH_SHORTED)) {
-			
-			OLED_print_xy(0, 0, "Reset       ");
-			OLED_print_xy(0, 1, "channel     ");
-			
-		}		
-			
-		OLED_print_xy(COLUMNS, 0, "Lens diam.  ");
-		ftoa(str, chData->lensDia, 4, 1);
-		OLED_print_xy(COLUMNS + 0, 1, str);
-		OLED_print_xy(COLUMNS + 5, 1, " inch  ");
-	
-	}
-		
 	page = paging(page, 2);
 	
-	return page + intState;
+	return page;
 }
 
 //-----------------------------------------------------------------------------
@@ -215,9 +209,13 @@ uint8_t setOutputPower(t_globalData *data)
 			OLED_print_xy(0, 1, "to re-enable");
 		}
 		if (getPB() == PB_LONG)
-			chData->status = CH_OPEN;
+			chData->status = CH_UNCHECKED;
+		return 0;
 		
-	}
+	} 
+	else 
+		return 1;
+
 	return 0;
 }
 
