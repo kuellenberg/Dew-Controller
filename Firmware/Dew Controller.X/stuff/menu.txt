@@ -22,9 +22,9 @@ ERROR! Hardware fault detected. Please check device!
 
   
 --- MAIN ---
-123456789ABC123456789ABC123456789ABC123456789ABC
-Temperature Humidity    Dewpoint    Bat.   Power
-xxx,x °C    xxx,x %rel  xxx,x °C    xx,xV  xx,xW
+123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC
+Temperature Humidity    Dewpoint    Bat.   PowerVersion:  
+xxx,x °C    xxx,x %rel  xxx,x °C    xx,xV  xx,xWSensor:   
 xxx | xxx °C						xx,xV LOW!
 (sensor | aux temp)
 ---,- °C    ---,- %rel  ---,- °C	xx,xV HIGH!

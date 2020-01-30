@@ -26,12 +26,14 @@ uint8_t statusView(t_globalData *data)
 			page = 0;
 		else
 			page = 3;
-		g_updateScreen = 1;
+		g_screenRefresh = 1;
 	}
 	
 	returnToPage(page);	
-	if (g_updateScreen)
-		OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   Power");
+	if (g_screenRefresh) {
+		OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   PowerVersion:");
+		OLED_print_xy(4 * COLUMNS, 1, "Sensor:");
+	}
 	if (data->status.AUX_SENSOR_OK) {
 		ftoa(str, data->tempC, 5, 1);
 		OLED_print_xy(0, 1, str);
@@ -49,15 +51,21 @@ uint8_t statusView(t_globalData *data)
 	OLED_print_xy(COLUMNS + 5, 1, "%     ");
 	ftoa(str, data->dewPointC, 5, 1);
 	OLED_print_xy(2 * COLUMNS, 1, str);
-	OLED_print_xy(2 * COLUMNS+5, 1, "\001      ");
+	OLED_print_xy(2 * COLUMNS + 5, 1, "\001      ");
 	ftoa(str, data->voltage, 4, 1);
 	OLED_print_xy(3 * COLUMNS, 1, str);
-	OLED_print_xy(3 * COLUMNS+4, 1, "V  ");
+	OLED_print_xy(3 * COLUMNS + 4, 1, "V  ");
 	ftoa(str, data->power, 4, 1);
-	OLED_print_xy(3 * COLUMNS+7, 1, str);
-	OLED_print_xy(3 * COLUMNS+11, 1, "W");
-	if (data->status.SENSOR_OK)
-		page = paging(page, 4);
+	OLED_print_xy(3 * COLUMNS + 7, 1, str);
+	OLED_print_xy(3 * COLUMNS + 11, 1, "W");
+	itoa(str, VERSION, 3);
+	OLED_print_xy(4 * COLUMNS + 8, 0, str);
+	
+	if (data->status.SENSOR_OK) {
+		itoa(str, data->sensorVersion, 3);
+		OLED_print_xy(4 * COLUMNS + 8, 1, str);
+		page = paging(page, 5);
+	}
 	return page;
 }
 
@@ -70,7 +78,7 @@ uint8_t channelView(t_globalData *data)
 	uint8_t n;
 
 	returnToPage(page);
-	if (g_updateScreen) {
+	if (g_screenRefresh) {
 		for (n = 0; n < NUM_CHANNELS; n++) {
 			OLED_print_xy(n * COLUMNS + 0, 0, "Ch ");
 			itoa(str, n + 1, 1);
@@ -92,9 +100,19 @@ uint8_t channelView(t_globalData *data)
 			break;
 		case CH_ENABLED:
 			ftoa(str, data->chData[n].Patt, 4, 1);
+			//ftoa(str, data->chData[n].current, 6, 4);
 			OLED_print_xy(n * COLUMNS + 0, 1, str);
-			OLED_print_xy(n * COLUMNS + 4, 1, "W ");
-			OLED_print_xy(n * COLUMNS + 6, 1, (data->chData[n].mode == MODE_AUTO ? "auto  " : "manual"));
+			//OLED_print_xy(n * COLUMNS + 6, 1, "      ");
+			//OLED_print_xy(n * COLUMNS + 4, 1, "W ");
+			//OLED_print_xy(n * COLUMNS + 6, 1, (data->chData[n].mode == MODE_AUTO ? "auto  " : "manual"));
+			if (data->chData[n].mode == MODE_AUTO) {
+				OLED_print_xy(n * COLUMNS + 4, 1, " (");
+				ftoa(str, data->chData[n].Preq, 4,1);
+				OLED_print_xy(n * COLUMNS + 6, 1, str);
+				OLED_print_xy(n * COLUMNS + 10, 1, "W)");
+			} else {
+				OLED_print_xy(n * COLUMNS + 4, 1, "W manual");
+			}
 			break;
 		case CH_OPEN:
 			OLED_print_xy(n * COLUMNS + 0, 1, "Disconnected");
@@ -182,7 +200,7 @@ uint8_t setOutputPower(t_globalData *data)
 	
 	if ((chData->status == CH_ENABLED) || (chData->status == CH_DISABLED)) {
 	
-		if (g_updateScreen)
+		if (g_screenRefresh)
 			OLED_print_xy(0, 0, "Output power");
 		spinInput(&chData->Pset, -0.25, chData->Pmax, 0.25);
 		if (chData->Pset == 0) {
@@ -204,7 +222,7 @@ uint8_t setOutputPower(t_globalData *data)
 		
 	} else if ((chData->status == CH_OVERCURRENT) || (chData->status == CH_SHORTED)) {
 		
-		if (g_updateScreen) {
+		if (g_screenRefresh) {
 			OLED_print_xy(0, 0, "Hold button ");
 			OLED_print_xy(0, 1, "to re-enable");
 		}
@@ -225,7 +243,7 @@ uint8_t setOutputPower(t_globalData *data)
 uint8_t setLensDia(t_globalData *data)
 {
 	returnToPage(0);
-	if (g_updateScreen)
+	if (g_screenRefresh)
 		OLED_print_xy(0, 0, "Lens diam.  ");
 	spinInput(&data->chData[selectedChannel].lensDia, 1, 16, 0.5);
 	ftoa(str, data->chData[selectedChannel].lensDia, 4, 1);
@@ -243,7 +261,7 @@ uint8_t setup(t_globalData *data)
 	static uint8_t page = 0;
 
 	returnToPage(page);
-	if (g_updateScreen) {
+	if (g_screenRefresh) {
 		OLED_print_xy(0, 0, "DP offset   Sky temp.   Fudge factor");
 		OLED_print_xy(0, 1, "temp. ");
 		ftoa(str, data->dpOffset, 4, 1);
@@ -265,7 +283,7 @@ uint8_t setup(t_globalData *data)
 uint8_t setDPOffset(t_globalData *data)
 {
 	returnToPage(0);
-	if (g_updateScreen)
+	if (g_screenRefresh)
 		OLED_print_xy(0, 0, "DP offset   ");
 	spinInput(&data->dpOffset, 0, 10, 0.5);
 	ftoa(str, data->dpOffset, 4, 1);
@@ -282,7 +300,7 @@ uint8_t setDPOffset(t_globalData *data)
 uint8_t setSkyTemp(t_globalData *data)
 {
 	returnToPage(0);
-	if (g_updateScreen)
+	if (g_screenRefresh)
 		OLED_print_xy(0, 0, "Sky temp.   ");
 	spinInput(&data->skyTemp, -50, -20, 1);
 	ftoa(str, data->skyTemp, 3, 0);
@@ -299,7 +317,7 @@ uint8_t setSkyTemp(t_globalData *data)
 uint8_t setFudgeFactor(t_globalData *data)
 {
 	returnToPage(0);
-	if (g_updateScreen)
+	if (g_screenRefresh)
 		OLED_print_xy(0, 0, "Fudge factor");
 	spinInput(&data->fudgeFactor, 0.1, 5.0, 0.1);
 	ftoa(str, data->fudgeFactor, 3, 1);

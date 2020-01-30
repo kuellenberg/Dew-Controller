@@ -1,4 +1,5 @@
 #include "common.h"
+#include "menuhelper.h"
 
 #define NUM_ERROR_MESSAGES 10
 
@@ -12,7 +13,7 @@ void removeLastError(void);
 void viewErrorMessage(void)
 {
 	enum e_errorcode errorCode = getLastError();
-	
+	OLED_returnHome();
 	switch(errorCode) {
 	case WARN_REMOVED:
 		OLED_print_xy(0, 0, "Heater      ");
@@ -26,6 +27,10 @@ void viewErrorMessage(void)
 		OLED_print_xy(0, 0, "Overcurrent ");
 		OLED_print_xy(0, 1, "detected!   ");
 		break;
+	case WARN_HEATER_OVERCURRENT:
+		OLED_print_xy(0, 0, "Heater      ");
+		OLED_print_xy(0, 1, "overcurrent ");
+		break;
 	case WARN_VOLT_HIGH:
 		OLED_print_xy(0, 0, "Supply volt.");
 		OLED_print_xy(0, 1, "too high!   ");
@@ -34,6 +39,14 @@ void viewErrorMessage(void)
 		OLED_print_xy(0, 0, "Supply volt.");
 		OLED_print_xy(0, 1, "too low!    ");
 		break;
+	case WARN_SENSOR_TIMEOUT:
+		OLED_print_xy(0, 0, "Sensor      ");
+		OLED_print_xy(0, 1, "timeout     ");
+		break;
+	case WARN_SENSOR_CHECKSUM:
+		OLED_print_xy(0, 0, "Sensor wrong");
+		OLED_print_xy(0, 1, "checksum    ");
+		break;
 	case ERR_NUKED:
 		OLED_print_xy(0, 0, "OVERCURRENT ");
 		OLED_print_xy(0, 1, "TURN OFF NOW");
@@ -41,6 +54,8 @@ void viewErrorMessage(void)
 	case ERR_OVERCURRENT:
 		OLED_print_xy(0, 0, "Overcurrent ");
 		OLED_print_xy(0, 1, "Please check");
+		if (getPB() == PB_SHORT)
+			setLoadSwitch(1);
 		break;
 	case ERR_MENU:
 		OLED_print_xy(0, 0, "Menu broken ");
@@ -53,6 +68,8 @@ void viewErrorMessage(void)
 	
 	if (getPB() == PB_SHORT)
 		removeLastError();
+	
+	g_screenRefresh = 1;
 }
 
 
@@ -65,18 +82,14 @@ void error(enum e_errorcode error)
 }
 
 enum e_errorcode getLastError(void)
-{
-	enum e_errorcode e;
-	
+{	
 	if (head == tail)
 		return NO_ERROR;
-	return errorMessageQueue[tail];
-	
-	return e;		
+	return errorMessageQueue[tail];		
 }
 
 void removeLastError(void)
 {	
 	if (head != tail)
-		tail = (tail + 1) % LENGTH;
+		tail = (tail + 1) % NUM_ERROR_MESSAGES;
 }

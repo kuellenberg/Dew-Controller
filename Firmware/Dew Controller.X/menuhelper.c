@@ -6,8 +6,8 @@
 // Definitions
 //-----------------------------------------------------------------------------
 #define ST_ANY 255
-#define MENU_TIMEOUT 100
-#define DISPLAY_TIMEOUT 150
+#define MENU_TIMEOUT 300
+#define DISPLAY_TIMEOUT 1200
 
 enum e_menuStates {
 	ST_STATUS_VIEW,
@@ -42,24 +42,13 @@ typedef struct {
 // Function Prototypes
 //-----------------------------------------------------------------------------
 t_stateFuncPtr getStateFunc(enum e_menuStates state);
-int8_t getNextState(enum e_menuStates state, uint8_t intState, enum e_buttonPress pb);
+int8_t getNextState(enum e_menuStates state, uint8_t intState, 
+			enum e_buttonPress pb, uint8_t timeout);
 void menuError(void);
 
 //-----------------------------------------------------------------------------
 // Global variables 
 //-----------------------------------------------------------------------------
-/*static uint8_t (*p_fct[])(t_globalData*) = {
-	statusView,
-	channelView,
-	channelSetup,
-	setOutputPower,
-	setLensDia,
-	setup,
-	setDPOffset,
-	setSkyTemp,
-	setFudgeFactor
-};*/
-
 static const t_stateFunc stateFuncTbl[] = {
 	// menu state		function
 	{ST_STATUS_VIEW,	statusView},
@@ -109,14 +98,14 @@ void menu(t_globalData *data)
 		if (timeSince(userActivity) < DISPLAY_TIMEOUT) {
 			// wake up
 			sleep = 0;
-			OLED_init();
+			OLED_command(OLED_DISPLAYCONTROL | OLED_DISPLAYON);
 		} else {
 			return;
 		}
 	} else {
 		if (timeSince(userActivity) > DISPLAY_TIMEOUT) {
 			sleep = 1;
-			OLED_Off();
+			OLED_command(OLED_DISPLAYCONTROL | OLED_DISPLAYOFF);
 			return;
 		}
 	}
@@ -128,7 +117,7 @@ void menu(t_globalData *data)
 	else 
 		error(ERR_MENU);
 	
-	g_updateScreen = 0;
+	g_screenRefresh = 0;
 	pb = getPB();
 	timeout = (timeSince(userActivity) > MENU_TIMEOUT);
 	// next state depends on current state, exit page and key press
@@ -137,9 +126,8 @@ void menu(t_globalData *data)
 	if (nextState > -1) {
 		// if state has changed, screen update is required
 		if (state != nextState) {
-			g_updateScreen = 1;
+			g_screenRefresh = 1;
 			state = nextState;
-			menuTimeout = timeNow();
 		}
 	} else {
 		error(ERR_MENU);
@@ -164,10 +152,8 @@ t_stateFuncPtr getStateFunc(enum e_menuStates state)
 //-----------------------------------------------------------------------------
 // Returns next state depending on current state, exit page and key press event
 //-----------------------------------------------------------------------------
-int8_t getNextState(enum e_menuStates state, 
-					uint8_t intState, 
-					enum e_buttonPress pb, 
-					uint8_t timeout)
+int8_t getNextState(enum e_menuStates state, uint8_t intState, 
+			enum e_buttonPress pb, uint8_t timeout)
 {
 	uint8_t n;
 	
@@ -176,7 +162,7 @@ int8_t getNextState(enum e_menuStates state,
 		if ((nextStateTbl[n].state == state)) {
 			// compare page
 			if ((nextStateTbl[n].intState == intState) || 
-				(nextStateTbl[n].intState == ANY_PAGE)) {
+				(nextStateTbl[n].intState == ST_ANY)) {
 				if (timeout)
 					return nextStateTbl[n].timeout;
 				// compare key press event
@@ -241,7 +227,7 @@ void returnToPage(uint8_t page)
 {
 	uint8_t n;
 	
-	if (! g_updateScreen)
+	if (! g_screenRefresh)
 		return;
 	OLED_command(OLED_CLEARDISPLAY);
 	OLED_command(OLED_RETURNHOME);

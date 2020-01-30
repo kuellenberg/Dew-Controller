@@ -11,7 +11,7 @@
 #define NUM_SAMPLES 10
 
 #define MIN_CHANNEL_CURRENT 0.05
-#define MAX_CHANNEL_CURRENT 0.5
+#define MAX_CHANNEL_CURRENT 2.0
 #define MAX_CURRENT 3.0
 #define VOLT_CRIT_HIGH 13.8
 #define VOLT_WARN_HIGH 13.0
@@ -39,9 +39,9 @@ typedef struct {
 } t_virtChannel;
 
 //-----------------------------------------------------------------------------
-// 
+// Global variables
 //-----------------------------------------------------------------------------
-t_virtChannel channels[NUM_CHANNELS];
+t_virtChannel vChannels[NUM_CHANNELS];
 uint8_t numGrpA, numGrpB;
 int8_t grpA[NUM_CHANNELS], grpB[NUM_CHANNELS];
 
@@ -73,12 +73,19 @@ uint8_t checkChannelStatus(t_globalData *data)
 	}
 	
 	chData = &data->chData[channel];
+	
+	if (chData->status == CH_OVERCURRENT) {
+		if (++channel >= NUM_CHANNELS)
+			ready = 1;
+		return ready;
+	}
+	
 	setChannelSwitch(channel, 1);
 	// Not enough samples?
 	if (samples++ < NUM_SAMPLES) {
 		adc = getAnalogValue(AIN_ISENS);
 		// Simple exp. moving average on raw value
-		avg = ema(adc, avg, ALPHA(0.65));
+		avg = ema(adc, avg, ALPHA(0.7));
 	} else {
 		setChannelSwitch(channel, 0);
 		// convert raw value to actual current 
@@ -87,14 +94,13 @@ uint8_t checkChannelStatus(t_globalData *data)
 		// no heater is connected on this channel
 		if (current < MIN_CHANNEL_CURRENT) {
 			// Warning, if status has changed
-			if (chData->status != CH_OPEN) {
+			if (chData->status == CH_ENABLED)
 				error(WARN_REMOVED);
-				chData->status = CH_OPEN;
-			}
+			chData->status = CH_OPEN;
 		} else if ((current > MAX_CHANNEL_CURRENT) || (! nFAULT)) {
 			// Disable channel when current is too high
 			// or load switch turned off 
-			error(WARN_OVERCURRENT);
+			error(WARN_HEATER_OVERCURRENT);
 			chData->status = CH_OVERCURRENT;
 			// Reset loadswitch, if neccesary
 			if (! nFAULT) {
@@ -125,7 +131,10 @@ uint8_t checkChannelStatus(t_globalData *data)
 			else
 				chData->status = CH_ENABLED;
 			
-			chData->DCreq = chData->Pmax / chData->Preq;
+			if (chData->mode == MODE_AUTO)
+				chData->DCreq = (chData->Preq / chData->Pmax) * 100;
+			else 
+				chData->DCreq = (chData->Pset / chData->Pmax) * 100;
 		}
 		// Next channel...
 		if (channel < NUM_CHANNELS - 1) {
@@ -160,7 +169,10 @@ void systemCheck(t_globalData *data)
 			error(ERR_NUKED);
 		} else {
 			// puh, just a dead short on the heater?
-			error(ERR_OVERCURRENT);
+			if (! data->status.OVERCURRENT) {
+				data->status.OVERCURRENT = 1;
+				error(ERR_OVERCURRENT);
+			}
 		}
 	}
 
@@ -189,9 +201,18 @@ void systemCheck(t_globalData *data)
 		
 		while(1);
 	} else if ((data->voltage > VOLT_WARN_HIGH) && (data->voltage <= VOLT_CRIT_HIGH)) {
-		error(WARN_VOLT_HIGH);
+		if (! data->status.BAT_HIGH) {
+			data->status.BAT_HIGH = 1;
+			error(WARN_VOLT_HIGH);
+		}
 	} else if ((data->voltage > VOLT_TURN_OFF) && (data->voltage <= VOLT_WARN_LOW)) {
-		error(WARN_VOLT_LOW);
+		if (! data->status.BAT_LOW) {
+			data->status.BAT_LOW = 1;
+			error(WARN_VOLT_LOW);
+		}
+	} else {
+		data->status.BAT_HIGH = 0;
+		data->status.BAT_LOW = 0;
 	}
 }
 
@@ -225,8 +246,11 @@ uint8_t checkSensor(t_globalData *data)
 	case 1:
 		// Wait for response
 		if (timeSince(sensorTimeout) > SENSOR_TIMEOUT) {
-			data->status.SENSOR_OK = 0;
-			state = 0;
+			if (data->status.SENSOR_OK) {
+				data->status.SENSOR_OK = 0;
+				state = 0;
+				error(WARN_SENSOR_TIMEOUT);
+			}
 			uartReset();
 		} else if (uartIsDataReady()) {
 			dp = getDataPacket(); // pointer to dataPacket
@@ -242,7 +266,10 @@ uint8_t checkSensor(t_globalData *data)
 				return 1;
 			} else {
 				// Sensor not ok, set status bit and reset UART
-				data->status.SENSOR_OK = 0;
+				if (data->status.SENSOR_OK) {
+					data->status.SENSOR_OK = 0;
+					error(WARN_SENSOR_CHECKSUM);
+				}
 				uartReset();
 			}
 			state = 0;
@@ -316,34 +343,34 @@ void getAnalogValues(t_globalData *data)
 //-----------------------------------------------------------------------------
 // 
 //-----------------------------------------------------------------------------
-uint8_t sortDC(const void *cmp1, const void *cmp2)
+int sortDC(const void *cmp1, const void *cmp2)
 {
 	uint8_t a = *(uint8_t *)cmp1;
 	uint8_t b = *(uint8_t *)cmp2;
 
-	return (channels[b].DC - channels[a].DC);
+	return (vChannels[b].DC - vChannels[a].DC);
 }
 
 //-----------------------------------------------------------------------------
 // 
 //-----------------------------------------------------------------------------
-uint8_t sortDCRev(const void *cmp1, const void *cmp2)
+int sortDCRev(const void *cmp1, const void *cmp2)
 {
 	uint8_t a = *(uint8_t *)cmp1;
 	uint8_t b = *(uint8_t *)cmp2;
 
-	return (channels[a].DC - channels[b].DC);
+	return (vChannels[a].DC - vChannels[b].DC);
 }
 
 //-----------------------------------------------------------------------------
 // 
 //-----------------------------------------------------------------------------
-uint8_t sortCur(const void *cmp1, const void *cmp2)
+int sortCur(const void *cmp1, const void *cmp2)
 {
-	tChData *a = (tChData *)cmp1;
-	tChData *b = (tChData *)cmp2;
+	t_virtChannel *a = (t_virtChannel *)cmp1;
+	t_virtChannel *b = (t_virtChannel *)cmp2;
 
-	return (b->maxCur - a->maxCur);
+	return (b->current - a->current);
 }
 
 //-----------------------------------------------------------------------------
@@ -353,33 +380,33 @@ uint8_t sortCur(const void *cmp1, const void *cmp2)
 //-----------------------------------------------------------------------------
 void channelThing(t_globalData *data)
 {	
-	uint8_t n;
+	uint8_t n, phyCh;
 	float total, totalGrpA, totalGrpB;
 	
 	for(n = 0; n < NUM_CHANNELS; n++) {
 		grpA[n] = -1;
 		grpB[n] = -1;
 		
-		channels[n].phyChNum = n;
-		channels[n].current = data->chData[n].current;
-		channels[n].dc = data->chData[i].DCreq;
+		vChannels[n].phyChNum = n;
+		vChannels[n].current = data->chData[n].current;
+		vChannels[n].DC = data->chData[n].DCreq;
 	}
 	
-	qsort(channels, NUM_CHANNELS, sizeof(channels[0]), sortCur);
+	qsort(vChannels, NUM_CHANNELS, sizeof(vChannels[0]), sortCur);
 	
 	total = totalGrpA = totalGrpB = 0;
 	numGrpA = numGrpB = 0;
 	
 	for(n = 0; n < NUM_CHANNELS; n++) {
 		
-		channels[n].DCatt = channels[n].DCatt;
-		total += channels[n].current;
+		vChannels[n].DCatt = vChannels[n].DC;
+		total += vChannels[n].current;
 		
-		if (totalGrpA + channels[n].current <= MAX_CURRENT) {
-			totalGrpA += channels[n].current;
+		if (totalGrpA + vChannels[n].current <= MAX_CURRENT) {
+			totalGrpA += vChannels[n].current;
 			grpA[numGrpA++] = n;
-		} else if (totalGrpB + channels[n].current <= MAX_CURRENT) {
-			totalGrpB += channels[n].current;
+		} else if (totalGrpB + vChannels[n].current <= MAX_CURRENT) {
+			totalGrpB += vChannels[n].current;
 			grpB[numGrpB++] = n;
 		}
 		
@@ -390,9 +417,15 @@ void channelThing(t_globalData *data)
 	
 	for(n = 0; n < numGrpA; n++) {
 		if (grpB[n] > -1) {
-			if (channels[grpA[n]].DC + channels[grpB[n]].DC > 100)
-				channels[grpB[n]].DCatt = 100 - channels[grpA[n]].DC;
+			if (vChannels[grpA[n]].DC + vChannels[grpB[n]].DC > 100)
+				vChannels[grpB[n]].DCatt = 100 - vChannels[grpA[n]].DC;
 		}
+	}
+	
+	for(n = 0; n < NUM_CHANNELS; n++) {
+		phyCh = vChannels[n].phyChNum;
+		
+		data->chData[phyCh].Patt = (vChannels[n].DCatt * data->chData[phyCh].Pmax) / 100.0;
 	}
 }
 

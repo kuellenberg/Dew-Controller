@@ -28,6 +28,7 @@ t_globalData data;
 void main(void)
 {
 	uint32_t sysCheckInterval = 0;
+	uint8_t init = 1;
 
 	initialize();
 	OLED_PWR = 1;
@@ -39,7 +40,7 @@ void main(void)
 	setLoadSwitch(1);
 	
 	while (1) {
-		// clear watchdog timer
+		// clear watchdog timer TODO: setup watchdog timer properly
 		CLRWDT();
 		// get battery voltage, current and aux. temperature
 		getAnalogValues(&data);
@@ -49,13 +50,17 @@ void main(void)
 			systemCheck(&data);
 		}
 		// query sensor box
-		if (checkSensor(&data))
+		if (checkSensor(&data)) {
+			init = 0;
 			// once new sensor data is ready, calculate required heater power
 			calcRequiredPower(&data);		
+		}
 
-		//if (idle) {			
-			checkChannelStatus(&data);
-			//doChannelThing();
+		//if (idle) {
+			if (! init) {
+				if (checkChannelStatus(&data))
+					channelThing(&data);
+			}
 			
 		if (getLastError() != NO_ERROR)
 			viewErrorMessage(); // Display last error message
@@ -63,7 +68,7 @@ void main(void)
 			menu(&data); // Status display and config menu
 		
 		// Time to relax :-)
-		__delay_ms(100);
+		__delay_ms(20);
 	}
 }
 
@@ -91,7 +96,7 @@ void initGlobalData(t_globalData *data)
 	for (n = 0; n < NUM_CHANNELS; n++) {
 		chData = &data->chData[n];
 		chData->lensDia = 4;
-		chData->status = CH_ENABLED;
+		chData->status = CH_UNCHECKED;
 		chData->mode = MODE_AUTO;
 		chData->Pmax = 0;
 		chData->Pset = -1;

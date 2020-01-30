@@ -13076,6 +13076,7 @@ char *tempnam(const char *, const char *);
 
 # 1 "./io.h" 1
 # 41 "./io.h"
+void setOLEDPower(uint8_t state);
 void setLoadSwitch(uint8_t state);
 void setChannelSwitch(uint8_t channel, uint8_t state);
 uint16_t getAnalogValue(uint8_t channel);
@@ -13111,16 +13112,23 @@ void uartReset(void);
 # 1 "./error.h" 1
 # 11 "./error.h"
 enum e_errorcode {
+ NO_ERROR,
     WARN_REMOVED,
-    WARN_SHORT,
-    WARN_VOLT_HIGH,
-    WARN_VOLT_LOW,
+    WARN_SHORTED,
  WARN_OVERCURRENT,
+    WARN_HEATER_OVERCURRENT,
+ WARN_VOLT_HIGH,
+    WARN_VOLT_LOW,
+    WARN_SENSOR_TIMEOUT,
+    WARN_SENSOR_CHECKSUM,
     ERR_NUKED,
-    ERR_OVERCURRENT
+    ERR_OVERCURRENT,
+ ERR_MENU
 };
 
 void error(enum e_errorcode error);
+void viewErrorMessage(void);
+enum e_errorcode getLastError(void);
 # 21 "./common.h" 2
 
 # 1 "./oled.h" 1
@@ -13132,7 +13140,7 @@ void error(enum e_errorcode error);
 # 1 "./common.h" 1
 # 6 "./oled.h" 2
 # 46 "./oled.h"
-void OLED_Off(void);
+void OLED_off(void);
 void OLED_pulseEnable(void);
 void OLED_write4bits(uint8_t value);
 void OLED_send(uint8_t value, uint8_t mode);
@@ -13156,6 +13164,7 @@ enum e_direction {ROT_STOP, ROT_CW, ROT_CCW};
 enum e_buttonPress {PB_NONE, PB_SHORT, PB_LONG, PB_ABORT, PB_WAIT};
 
 volatile enum e_buttonPress pbState = PB_NONE;
+volatile uint32_t userActivity = 0;
 
 void rotISR(void);
 void pushButtonISR(void);
@@ -13163,9 +13172,11 @@ enum e_buttonPress getPB(void);
 enum e_direction getRotDir(void);
 void spinInput(float *input, float min, float max, float step);
 # 23 "./common.h" 2
-# 37 "./common.h"
+# 41 "./common.h"
 typedef struct {
  unsigned BAT_LOW:1;
+    unsigned BAT_HIGH:1;
+    unsigned OVERCURRENT:1;
  unsigned SENSOR_OK:1;
  unsigned AUX_SENSOR_OK:1;
 } t_status;
@@ -13201,7 +13212,7 @@ typedef struct {
  float tempC;
  float relHum;
  float dewPointC;
- float sensorVersion;
+ uint8_t sensorVersion;
  float tempAux;
  float voltage;
  float current;
@@ -13270,18 +13281,18 @@ void menu(t_globalData *data);
 uint8_t paging(uint8_t currentPage, const uint8_t lastPage);
 void returnToPage(uint8_t page);
 
-int8_t g_updateScreen = 1;
+int8_t g_screenRefresh = 1;
 # 10 "main.c" 2
-
 
 # 1 "./system.h" 1
 # 11 "./system.h"
 uint8_t checkSensor(t_globalData *data);
 uint8_t checkChannelStatus(t_globalData *data);
 void calcRequiredPower(t_globalData *data);
+void channelThing(t_globalData *data);
 void systemCheck(t_globalData *data);
 void getAnalogValues(t_globalData *data);
-# 12 "main.c" 2
+# 11 "main.c" 2
 
 
 
@@ -13289,6 +13300,9 @@ void getAnalogValues(t_globalData *data);
 
 void initialize(void);
 void initGlobalData(t_globalData *data);
+
+
+
 
 t_globalData data;
 
@@ -13299,6 +13313,7 @@ t_globalData data;
 void main(void)
 {
  uint32_t sysCheckInterval = 0;
+ uint8_t init = 1;
 
  initialize();
  LATBbits.LATB5 = 1;
@@ -13308,7 +13323,6 @@ void main(void)
  OLED_clearDisplay();
  initGlobalData(&data);
  setLoadSwitch(1);
-
 
  while (1) {
 
@@ -13321,20 +13335,25 @@ void main(void)
    systemCheck(&data);
   }
 
-  if (checkSensor(&data))
+  if (checkSensor(&data)) {
+   init = 0;
 
    calcRequiredPower(&data);
+  }
 
 
+   if (! init) {
+    if (checkChannelStatus(&data))
+     channelThing(&data);
+   }
 
-   checkChannelStatus(&data);
+  if (getLastError() != NO_ERROR)
+   viewErrorMessage();
+  else
+   menu(&data);
 
 
-
-  menu(&data);
-
-
-  _delay((unsigned long)((100)*(4000000UL/4000.0)));
+  _delay((unsigned long)((20)*(4000000UL/4000.0)));
  }
 }
 
@@ -13362,9 +13381,10 @@ void initGlobalData(t_globalData *data)
  for (n = 0; n < 4; n++) {
   chData = &data->chData[n];
   chData->lensDia = 4;
-  chData->status = CH_ENABLED;
+  chData->status = CH_UNCHECKED;
   chData->mode = MODE_AUTO;
   chData->Pmax = 0;
+  chData->Pset = -1;
   chData->Preq = 0;
   chData->Patt = 0;
   chData->current = 0;

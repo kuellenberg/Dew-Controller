@@ -12688,6 +12688,7 @@ char *tempnam(const char *, const char *);
 
 # 1 "./io.h" 1
 # 41 "./io.h"
+void setOLEDPower(uint8_t state);
 void setLoadSwitch(uint8_t state);
 void setChannelSwitch(uint8_t channel, uint8_t state);
 uint16_t getAnalogValue(uint8_t channel);
@@ -12723,16 +12724,23 @@ void uartReset(void);
 # 1 "./error.h" 1
 # 11 "./error.h"
 enum e_errorcode {
+ NO_ERROR,
     WARN_REMOVED,
-    WARN_SHORT,
-    WARN_VOLT_HIGH,
-    WARN_VOLT_LOW,
+    WARN_SHORTED,
  WARN_OVERCURRENT,
+    WARN_HEATER_OVERCURRENT,
+ WARN_VOLT_HIGH,
+    WARN_VOLT_LOW,
+    WARN_SENSOR_TIMEOUT,
+    WARN_SENSOR_CHECKSUM,
     ERR_NUKED,
-    ERR_OVERCURRENT
+    ERR_OVERCURRENT,
+ ERR_MENU
 };
 
 void error(enum e_errorcode error);
+void viewErrorMessage(void);
+enum e_errorcode getLastError(void);
 # 21 "./common.h" 2
 
 # 1 "./oled.h" 1
@@ -12744,7 +12752,7 @@ void error(enum e_errorcode error);
 # 1 "./common.h" 1
 # 6 "./oled.h" 2
 # 46 "./oled.h"
-void OLED_Off(void);
+void OLED_off(void);
 void OLED_pulseEnable(void);
 void OLED_write4bits(uint8_t value);
 void OLED_send(uint8_t value, uint8_t mode);
@@ -12768,6 +12776,7 @@ enum e_direction {ROT_STOP, ROT_CW, ROT_CCW};
 enum e_buttonPress {PB_NONE, PB_SHORT, PB_LONG, PB_ABORT, PB_WAIT};
 
 volatile enum e_buttonPress pbState = PB_NONE;
+volatile uint32_t userActivity = 0;
 
 void rotISR(void);
 void pushButtonISR(void);
@@ -12775,9 +12784,11 @@ enum e_buttonPress getPB(void);
 enum e_direction getRotDir(void);
 void spinInput(float *input, float min, float max, float step);
 # 23 "./common.h" 2
-# 37 "./common.h"
+# 41 "./common.h"
 typedef struct {
  unsigned BAT_LOW:1;
+    unsigned BAT_HIGH:1;
+    unsigned OVERCURRENT:1;
  unsigned SENSOR_OK:1;
  unsigned AUX_SENSOR_OK:1;
 } t_status;
@@ -12813,7 +12824,7 @@ typedef struct {
  float tempC;
  float relHum;
  float dewPointC;
- float sensorVersion;
+ uint8_t sensorVersion;
  float tempAux;
  float voltage;
  float current;
@@ -12835,11 +12846,10 @@ uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 
 
 
-void OLED_Off(void)
+void OLED_off(void)
 {
  OLED_command(0x08);
  OLED_command(0x13);
- LATBbits.LATB5 = 1;
 }
 
 void OLED_pulseEnable(void)
@@ -12922,7 +12932,7 @@ void OLED_init(void)
  LATBbits.LATB0 = 0;
  LATCbits.LATC5 = 0;
  LATCbits.LATC4 = 0;
-# 109 "oled.c"
+# 108 "oled.c"
  OLED_write4bits(0x03);
  _delay((unsigned long)((5)*(4000000UL/4000.0)));
  OLED_write4bits(0x08);

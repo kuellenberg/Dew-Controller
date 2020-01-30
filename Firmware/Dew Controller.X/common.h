@@ -26,6 +26,9 @@
 //-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------
+
+#define VERSION 1
+
 #define NUM_CHANNELS 4	// number of heater channels
 #define COLUMNS 12		// columns on display
 
@@ -37,6 +40,8 @@
 // Status bits 
 typedef struct {
 	unsigned BAT_LOW:1;
+    unsigned BAT_HIGH:1;
+    unsigned OVERCURRENT:1;
 	unsigned SENSOR_OK:1;
 	unsigned AUX_SENSOR_OK:1;
 } t_status;
@@ -72,7 +77,7 @@ typedef struct {
 	float tempC;
 	float relHum;
 	float dewPointC;
-	float sensorVersion;
+	uint8_t sensorVersion;
 	float tempAux;
 	float voltage;
 	float current; 
