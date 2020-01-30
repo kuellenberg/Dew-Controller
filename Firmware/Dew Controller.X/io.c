@@ -4,6 +4,10 @@ void setLoadSwitch(uint8_t state)
 {
 	PEN = state;
 }
+void setOLEDPower(uint8_t state)
+{
+	OLED_PWR = state;
+}
 
 void setChannelSwitch(uint8_t channel, uint8_t state)
 {

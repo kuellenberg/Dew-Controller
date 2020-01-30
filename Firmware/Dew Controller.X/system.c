@@ -31,6 +31,21 @@
 #define ADC_TO_T(counts) ( (counts * 0.1191) - 34.512 )
 
 
+typedef struct {
+	int phyChNum;
+	float current;
+	uint8_t DC;
+	uint8_t DCatt;
+} t_virtChannel;
+
+//-----------------------------------------------------------------------------
+// 
+//-----------------------------------------------------------------------------
+t_virtChannel channels[NUM_CHANNELS];
+uint8_t numGrpA, numGrpB;
+int8_t grpA[NUM_CHANNELS], grpB[NUM_CHANNELS];
+
+
 //-----------------------------------------------------------------------------
 // Tests each channel: 
 // - Is a heater connected?
@@ -168,9 +183,8 @@ void systemCheck(t_globalData *data)
 			OLED_print_xy(3, 1, str);
 			__delay_ms(1000);
 		}
-		
-		OLED_Off();
-		
+		OLED_off();
+		setOLEDPower(0);
 		// TODO: Turn peripherals off, lower clock speed?
 		
 		while(1);
@@ -298,3 +312,89 @@ void getAnalogValues(t_globalData *data)
 	data->current = ADC_TO_I(avgI);
 	data->power = data->voltage * data->current;
 }
+
+//-----------------------------------------------------------------------------
+// 
+//-----------------------------------------------------------------------------
+uint8_t sortDC(const void *cmp1, const void *cmp2)
+{
+	uint8_t a = *(uint8_t *)cmp1;
+	uint8_t b = *(uint8_t *)cmp2;
+
+	return (channels[b].DC - channels[a].DC);
+}
+
+//-----------------------------------------------------------------------------
+// 
+//-----------------------------------------------------------------------------
+uint8_t sortDCRev(const void *cmp1, const void *cmp2)
+{
+	uint8_t a = *(uint8_t *)cmp1;
+	uint8_t b = *(uint8_t *)cmp2;
+
+	return (channels[a].DC - channels[b].DC);
+}
+
+//-----------------------------------------------------------------------------
+// 
+//-----------------------------------------------------------------------------
+uint8_t sortCur(const void *cmp1, const void *cmp2)
+{
+	tChData *a = (tChData *)cmp1;
+	tChData *b = (tChData *)cmp2;
+
+	return (b->maxCur - a->maxCur);
+}
+
+//-----------------------------------------------------------------------------
+// Creates virtual heater channels. If the sum of all heater currents exceed 
+// the maximum allowed current of the device, an alternating load switching 
+// scheme during duty cycle is determined.
+//-----------------------------------------------------------------------------
+void channelThing(t_globalData *data)
+{	
+	uint8_t n;
+	float total, totalGrpA, totalGrpB;
+	
+	for(n = 0; n < NUM_CHANNELS; n++) {
+		grpA[n] = -1;
+		grpB[n] = -1;
+		
+		channels[n].phyChNum = n;
+		channels[n].current = data->chData[n].current;
+		channels[n].dc = data->chData[i].DCreq;
+	}
+	
+	qsort(channels, NUM_CHANNELS, sizeof(channels[0]), sortCur);
+	
+	total = totalGrpA = totalGrpB = 0;
+	numGrpA = numGrpB = 0;
+	
+	for(n = 0; n < NUM_CHANNELS; n++) {
+		
+		channels[n].DCatt = channels[n].DCatt;
+		total += channels[n].current;
+		
+		if (totalGrpA + channels[n].current <= MAX_CURRENT) {
+			totalGrpA += channels[n].current;
+			grpA[numGrpA++] = n;
+		} else if (totalGrpB + channels[n].current <= MAX_CURRENT) {
+			totalGrpB += channels[n].current;
+			grpB[numGrpB++] = n;
+		}
+		
+	}
+	
+	qsort(grpA, numGrpA, sizeof(grpA[0]), sortDC);
+	qsort(grpB, numGrpB, sizeof(grpB[0]), sortDCRev);
+	
+	for(n = 0; n < numGrpA; n++) {
+		if (grpB[n] > -1) {
+			if (channels[grpA[n]].DC + channels[grpB[n]].DC > 100)
+				channels[grpB[n]].DCatt = 100 - channels[grpA[n]].DC;
+		}
+	}
+}
+
+
+

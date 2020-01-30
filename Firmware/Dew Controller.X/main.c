@@ -8,7 +8,6 @@
 #include "common.h"
 #include "config.h"
 #include "menuhelper.h"
-#include "oled.h"
 #include "system.h"
 
 //-----------------------------------------------------------------------------
@@ -17,6 +16,9 @@
 void initialize(void);
 void initGlobalData(t_globalData *data);
 
+//-----------------------------------------------------------------------------
+// Global variables
+//-----------------------------------------------------------------------------
 t_globalData data;
 
 //-----------------------------------------------------------------------------
@@ -35,7 +37,6 @@ void main(void)
 	OLED_clearDisplay();
 	initGlobalData(&data);
 	setLoadSwitch(1);
-
 	
 	while (1) {
 		// clear watchdog timer
@@ -50,17 +51,18 @@ void main(void)
 		// query sensor box
 		if (checkSensor(&data))
 			// once new sensor data is ready, calculate required heater power
-			calcRequiredPower(&data);
-		
+			calcRequiredPower(&data);		
 
 		//if (idle) {			
 			checkChannelStatus(&data);
 			//doChannelThing();
 			
-		// Status display and config menu
-		menu(&data);
+		if (getLastError() != NO_ERROR)
+			viewErrorMessage(); // Display last error message
+		else
+			menu(&data); // Status display and config menu
 		
-		// relax :-)
+		// Time to relax :-)
 		__delay_ms(100);
 	}
 }
@@ -92,6 +94,7 @@ void initGlobalData(t_globalData *data)
 		chData->status = CH_ENABLED;
 		chData->mode = MODE_AUTO;
 		chData->Pmax = 0;
+		chData->Pset = -1;
 		chData->Preq = 0;
 		chData->Patt = 0;
 		chData->current = 0;

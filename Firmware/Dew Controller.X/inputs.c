@@ -43,6 +43,8 @@ void rotISR()
 	// set global direction flag
 	if (curRotState & CW_FLAG) rotDir = ROT_CW;
 	if (curRotState & CCW_FLAG) rotDir = ROT_CCW;
+	
+	userActivity = timeNow();
 }
 
 //-----------------------------------------------------------------------------
@@ -56,6 +58,7 @@ void pushButtonISR()
 	if ((!ROT_PB) && (pbState != PB_WAIT)) {
 		reset10msTick();
 		pbState = PB_WAIT;
+		userActivity = timeNow();
 	} else if (pbState == PB_WAIT) {
 		time = get10msTick();
 		if ((time > 10) && (time <= 70) && (ROT_PB)) 

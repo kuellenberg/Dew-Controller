@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------
-#define ANY_PAGE 255
+#define ST_ANY 255
+#define MENU_TIMEOUT 100
+#define DISPLAY_TIMEOUT 150
 
 enum e_menuStates {
 	ST_STATUS_VIEW,
@@ -46,7 +48,7 @@ void menuError(void);
 //-----------------------------------------------------------------------------
 // Global variables 
 //-----------------------------------------------------------------------------
-static uint8_t (*p_fct[])(t_globalData*) = {
+/*static uint8_t (*p_fct[])(t_globalData*) = {
 	statusView,
 	channelView,
 	channelSetup,
@@ -56,9 +58,10 @@ static uint8_t (*p_fct[])(t_globalData*) = {
 	setDPOffset,
 	setSkyTemp,
 	setFudgeFactor
-};
+};*/
 
 static const t_stateFunc stateFuncTbl[] = {
+	// menu state		function
 	{ST_STATUS_VIEW,	statusView},
 	{ST_CHANNEL_VIEW,	channelView},
 	{ST_CHANNEL_SETUP,	channelSetup},
@@ -71,8 +74,9 @@ static const t_stateFunc stateFuncTbl[] = {
 };
 
 static const t_nextState nextStateTbl[] = {
-	{ST_STATUS_VIEW,	ANY_PAGE,	ST_CHANNEL_VIEW,	ST_SETUP,		ST_STATUS_VIEW,		ST_STATUS_VIEW},
-	{ST_CHANNEL_VIEW,	ANY_PAGE,	ST_STATUS_VIEW,		ST_CHANNEL_SETUP,	ST_CHANNEL_VIEW,	ST_CHANNEL_VIEW},
+	// current state	exit page	pb short			pb long			timeout				no action
+	{ST_STATUS_VIEW,	ST_ANY,	ST_CHANNEL_VIEW,	ST_SETUP,		ST_STATUS_VIEW,		ST_STATUS_VIEW},
+	{ST_CHANNEL_VIEW,	ST_ANY,	ST_STATUS_VIEW,		ST_CHANNEL_SETUP,	ST_CHANNEL_VIEW,	ST_CHANNEL_VIEW},
 	{ST_CHANNEL_SETUP,	0,		ST_SET_OUTPUT_POWER,	ST_CHANNEL_VIEW,	ST_CHANNEL_VIEW,	ST_CHANNEL_SETUP},
 	{ST_CHANNEL_SETUP,	1,		ST_SET_LENS_DIA,	ST_CHANNEL_VIEW,	ST_CHANNEL_VIEW,	ST_CHANNEL_SETUP},
 	{ST_CHANNEL_SETUP,	2,		ST_CHANNEL_SETUP,	ST_CHANNEL_VIEW,	ST_CHANNEL_VIEW,	ST_CHANNEL_SETUP}, // required?
@@ -93,43 +97,53 @@ static const t_nextState nextStateTbl[] = {
 //-----------------------------------------------------------------------------
 void menu(t_globalData *data)
 {
+	static uint8_t sleep;
 	static uint8_t state = ST_STATUS_VIEW;
 	int8_t page, nextState;
+	uint8_t timeout = 0;
 	enum e_buttonPress pb;
 	t_stateFuncPtr func;
+	
+	// turn off display after DISPLAY_TIMEOUT
+	if (sleep) {
+		if (timeSince(userActivity) < DISPLAY_TIMEOUT) {
+			// wake up
+			sleep = 0;
+			OLED_init();
+		} else {
+			return;
+		}
+	} else {
+		if (timeSince(userActivity) > DISPLAY_TIMEOUT) {
+			sleep = 1;
+			OLED_Off();
+			return;
+		}
+	}
 	
 	// call menu function according to current state
 	func = getStateFunc(state);
 	if (func)
 		page = (*func)(data);
 	else 
-		menuError(); // replace with error handling code
+		error(ERR_MENU);
 	
 	g_updateScreen = 0;
 	pb = getPB();
+	timeout = (timeSince(userActivity) > MENU_TIMEOUT);
 	// next state depends on current state, exit page and key press
-	nextState = getNextState(state, page, pb);
+	nextState = getNextState(state, page, pb, timeout);
 	
 	if (nextState > -1) {
 		// if state has changed, screen update is required
 		if (state != nextState) {
 			g_updateScreen = 1;
 			state = nextState;
+			menuTimeout = timeNow();
 		}
 	} else {
-		//menuError();
+		error(ERR_MENU);
 	}
-}
-
-//-----------------------------------------------------------------------------
-// Menu error. This should never occur :-)
-//-----------------------------------------------------------------------------
-void menuError(void)
-{
-	OLED_returnHome();
-	OLED_clearDisplay();
-	OLED_print_xy(0, 0, "Menu error");
-	while(1);
 }
 
 //-----------------------------------------------------------------------------
@@ -150,7 +164,10 @@ t_stateFuncPtr getStateFunc(enum e_menuStates state)
 //-----------------------------------------------------------------------------
 // Returns next state depending on current state, exit page and key press event
 //-----------------------------------------------------------------------------
-int8_t getNextState(enum e_menuStates state, uint8_t intState, enum e_buttonPress pb)
+int8_t getNextState(enum e_menuStates state, 
+					uint8_t intState, 
+					enum e_buttonPress pb, 
+					uint8_t timeout)
 {
 	uint8_t n;
 	
@@ -160,6 +177,8 @@ int8_t getNextState(enum e_menuStates state, uint8_t intState, enum e_buttonPres
 			// compare page
 			if ((nextStateTbl[n].intState == intState) || 
 				(nextStateTbl[n].intState == ANY_PAGE)) {
+				if (timeout)
+					return nextStateTbl[n].timeout;
 				// compare key press event
 				if (pb == PB_SHORT)
 					return nextStateTbl[n].pbShort;

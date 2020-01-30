@@ -21,6 +21,7 @@
 #include "error.h"
 #include "oled.h"
 #include "inputs.h"
+#include "error.h"
 
 //-----------------------------------------------------------------------------
 // Definitions

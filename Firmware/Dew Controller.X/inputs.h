@@ -12,6 +12,7 @@ enum e_direction {ROT_STOP, ROT_CW, ROT_CCW};
 enum e_buttonPress {PB_NONE, PB_SHORT, PB_LONG, PB_ABORT, PB_WAIT};
 
 volatile enum e_buttonPress pbState = PB_NONE;
+volatile uint32_t userActivity = 0;
 
 void rotISR(void);
 void pushButtonISR(void);
