@@ -3,13 +3,43 @@
 
 #define NUM_ERROR_MESSAGES 10
 
-enum e_errorcode errorMessageQueue[NUM_ERROR_MESSAGES];
-uint8_t head = 0;
-uint8_t tail = 0;
+static enum e_errorcode errorMessageQueue[NUM_ERROR_MESSAGES];
+static uint8_t head = 0;
+static uint8_t tail = 0;
 
-void removeLastError(void);
+//-----------------------------------------------------------------------------
+// add error to queue
+//-----------------------------------------------------------------------------
+void error(enum e_errorcode error)
+{
+	errorMessageQueue[head] = error;
+	head = (head + 1) % NUM_ERROR_MESSAGES;
+	if (head == tail)
+		tail = (tail + 1) % NUM_ERROR_MESSAGES;
+}
 
+//-----------------------------------------------------------------------------
+// return last error from queue
+//-----------------------------------------------------------------------------
+enum e_errorcode getLastError(void)
+{	
+	if (head == tail)
+		return NO_ERROR;
+	return errorMessageQueue[tail];		
+}
 
+//-----------------------------------------------------------------------------
+// remove last error from queue
+//-----------------------------------------------------------------------------
+void removeLastError(void)
+{	
+	if (head != tail)
+		tail = (tail + 1) % NUM_ERROR_MESSAGES;
+}
+
+//-----------------------------------------------------------------------------
+// view error messages
+//-----------------------------------------------------------------------------
 void viewErrorMessage(void)
 {
 	enum e_errorcode errorCode = getLastError();
@@ -73,23 +103,3 @@ void viewErrorMessage(void)
 }
 
 
-void error(enum e_errorcode error)
-{
-	errorMessageQueue[head] = error;
-	head = (head + 1) % NUM_ERROR_MESSAGES;
-	if (head == tail)
-		tail = (tail + 1) % NUM_ERROR_MESSAGES;
-}
-
-enum e_errorcode getLastError(void)
-{	
-	if (head == tail)
-		return NO_ERROR;
-	return errorMessageQueue[tail];		
-}
-
-void removeLastError(void)
-{	
-	if (head != tail)
-		tail = (tail + 1) % NUM_ERROR_MESSAGES;
-}

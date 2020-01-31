@@ -1,5 +1,10 @@
 #include "common.h"
 
+//-----------------------------------------------------------------------------
+// float to ascii
+// Very crude implementation. Only works for small numbers.
+// Result is truncated, not rounded.
+//-----------------------------------------------------------------------------
 void ftoa(char *str, float fValue, uint8_t width, uint8_t prec)
 {
 	uint8_t len = 1;
@@ -34,6 +39,10 @@ void ftoa(char *str, float fValue, uint8_t width, uint8_t prec)
 	}
 	str[pos] = '\0';
 }
+
+//-----------------------------------------------------------------------------
+// uint8_t to ascii
+//-----------------------------------------------------------------------------
 
 void itoa(char *str, uint8_t value, uint8_t width)
 {

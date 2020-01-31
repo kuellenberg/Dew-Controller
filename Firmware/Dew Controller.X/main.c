@@ -17,7 +17,7 @@ void initialize(void);
 void initGlobalData(t_globalData *data);
 
 //-----------------------------------------------------------------------------
-// Global variables
+// Global data structure 
 //-----------------------------------------------------------------------------
 t_globalData data;
 
@@ -28,16 +28,19 @@ t_globalData data;
 void main(void)
 {
 	uint32_t sysCheckInterval = 0;
-	uint8_t init = 1;
+	uint8_t idle = 1;
+	uint8_t initDone = 0;
 
 	initialize();
-	OLED_PWR = 1;
+	setOLEDPower(1);
 	OLED_init();
 	OLED_loadSpecialChars();
 	OLED_returnHome();
 	OLED_clearDisplay();
 	initGlobalData(&data);
 	setLoadSwitch(1);
+	
+	// TODO: read settings from NVM
 	
 	while (1) {
 		// clear watchdog timer TODO: setup watchdog timer properly
@@ -51,17 +54,27 @@ void main(void)
 		}
 		// query sensor box
 		if (checkSensor(&data)) {
-			init = 0;
 			// once new sensor data is ready, calculate required heater power
 			calcRequiredPower(&data);		
+			initDone = 1;
 		}
 
-		//if (idle) {
-			if (! init) {
-				if (checkChannelStatus(&data))
+		// is control loop running?
+		if (idle) {
+			if (initDone) {
+				// Wait until initial sensor check is finished
+				
+				// TODO: interval ?
+				
+				if (checkChannelStatus(&data)) {
 					channelThing(&data);
+					idle = 0;
 			}
-			
+		} else {
+			// controller returns true after each cycle
+			idle = controller();
+		}
+		
 		if (getLastError() != NO_ERROR)
 			viewErrorMessage(); // Display last error message
 		else
@@ -92,6 +105,7 @@ void initGlobalData(t_globalData *data)
 	data->dpOffset = 3.0;
 	data->skyTemp = -40;
 	data->fudgeFactor = 1.0;
+	data->ctrlRunning = 0;
 
 	for (n = 0; n < NUM_CHANNELS; n++) {
 		chData = &data->chData[n];

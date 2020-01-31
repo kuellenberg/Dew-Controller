@@ -5,14 +5,14 @@
 // Definitions
 //-----------------------------------------------------------------------------
 #define TEMP_AUX_MIN -30
-#define TEMP_AUX_MAX 100
-#define SENSOR_UPDATE_INTERVALL 50
+#define TEMP_AUX_MAX 60
+#define SENSOR_UPDATE_INTERVALL 100
 #define SENSOR_TIMEOUT 20
 #define NUM_SAMPLES 10
 
 #define MIN_CHANNEL_CURRENT 0.05
 #define MAX_CHANNEL_CURRENT 2.0
-#define MAX_CURRENT 3.0
+#define MAX_CURRENT 3.5
 #define VOLT_CRIT_HIGH 13.8
 #define VOLT_WARN_HIGH 13.0
 #define VOLT_WARN_LOW 11.4
@@ -30,20 +30,18 @@
 #define ADC_TO_V(counts) ( (counts * 5.0 * (150.0 + 47.0)) / (1023.0 * 47.0) )
 #define ADC_TO_T(counts) ( (counts * 0.1191) - 34.512 )
 
-
 typedef struct {
-	int phyChNum;
+	int phyChanNum;
 	float current;
 	uint8_t DC;
-	uint8_t DCatt;
+	uint8_t start;
+	uint8_t stop;
 } t_virtChannel;
 
 //-----------------------------------------------------------------------------
-// Global variables
+// Static variables
 //-----------------------------------------------------------------------------
-t_virtChannel vChannels[NUM_CHANNELS];
-uint8_t numGrpA, numGrpB;
-int8_t grpA[NUM_CHANNELS], grpB[NUM_CHANNELS];
+static t_virtChannel virtChannels[NUM_CHANNELS];
 
 
 //-----------------------------------------------------------------------------
@@ -61,12 +59,12 @@ uint8_t checkChannelStatus(t_globalData *data)
 	static uint16_t avg;
 	static uint8_t channel = 0;
 	static uint8_t samples = 0;
-	static uint8_t ready = 0;
+	static uint8_t done = 0;
 	float current;
 	t_channelData *chData;
 
-	if (ready) {
-		ready = 0;
+	if (done) {
+		done = 0;
 		samples = 0;
 		channel = 0;
 		avg = data->chData[channel].current;
@@ -76,34 +74,35 @@ uint8_t checkChannelStatus(t_globalData *data)
 	
 	if (chData->status == CH_OVERCURRENT) {
 		if (++channel >= NUM_CHANNELS)
-			ready = 1;
-		return ready;
+			done = 1;
+		return done;
 	}
 	
 	setChannelSwitch(channel, 1);
 	// Not enough samples?
 	if (samples++ < NUM_SAMPLES) {
 		adc = getAnalogValue(AIN_ISENS);
-		// Simple exp. moving average on raw value
+		// Calculate exp. moving average on raw value
 		avg = ema(adc, avg, ALPHA(0.7));
 	} else {
 		setChannelSwitch(channel, 0);
-		// convert raw value to actual current 
+		// convert raw value into actual current 
 		current = ADC_TO_I(avg);
 		// if current is below threshold, we assume
-		// no heater is connected on this channel
+		// no heater is connected to this channel
 		if (current < MIN_CHANNEL_CURRENT) {
-			// Warning, if status has changed
+			// Warning, if channel as previously enabled
 			if (chData->status == CH_ENABLED)
 				error(WARN_REMOVED);
 			chData->status = CH_OPEN;
-		} else if ((current > MAX_CHANNEL_CURRENT) || (! nFAULT)) {
+		} else if ((current > MAX_CHANNEL_CURRENT)
+			|| (loadSwitchFault())) {
 			// Disable channel when current is too high
-			// or load switch turned off 
+			// or load switch is turned off 
 			error(WARN_HEATER_OVERCURRENT);
 			chData->status = CH_OVERCURRENT;
 			// Reset loadswitch, if neccesary
-			if (! nFAULT) {
+			if (getLoadSwitchFault()) {
 				chData->status = CH_SHORTED;
 				setLoadSwitch(0);
 				__delay_ms(5);
@@ -126,25 +125,25 @@ uint8_t checkChannelStatus(t_globalData *data)
 				chData->Pset = chData->Pmax;
 				chData->mode = MODE_MANUAL;
 			}
+			
 			if (chData->Pset == 0)
 				chData->status = CH_DISABLED;
 			else
 				chData->status = CH_ENABLED;
 			
+			// Calculate required duty cycle
 			if (chData->mode == MODE_AUTO)
 				chData->DCreq = (chData->Preq / chData->Pmax) * 100;
 			else 
 				chData->DCreq = (chData->Pset / chData->Pmax) * 100;
 		}
 		// Next channel...
-		if (channel < NUM_CHANNELS - 1) {
-			channel++;
+		if (++channel < NUM_CHANNELS)
 			samples = 0;
-		} else {
-			ready = 1;
-		}
+		else
+			done = 1;
 	}
-	return ready;
+	return done;
 }
 
 //-----------------------------------------------------------------------------
@@ -181,8 +180,7 @@ void systemCheck(t_globalData *data)
 	// for the OLED display might get a little toasty.
 	// If the voltage is too low, we might damage the battery.
 	// So, in both cases, we just turn everything off.
-	if ((data->voltage > VOLT_CRIT_HIGH) || 
-			(data->voltage <= VOLT_TURN_OFF)) {
+	if ((data->voltage > VOLT_CRIT_HIGH) || (data->voltage <= VOLT_TURN_OFF)) {
 		INTCON = 0;
 		OLED_clearDisplay();
 		OLED_returnHome();
@@ -198,8 +196,8 @@ void systemCheck(t_globalData *data)
 		OLED_off();
 		setOLEDPower(0);
 		// TODO: Turn peripherals off, lower clock speed?
-		
 		while(1);
+		
 	} else if ((data->voltage > VOLT_WARN_HIGH) && (data->voltage <= VOLT_CRIT_HIGH)) {
 		if (! data->status.BAT_HIGH) {
 			data->status.BAT_HIGH = 1;
@@ -298,6 +296,13 @@ void calcRequiredPower(t_globalData *data)
 	float p, Rth;
 
 	for (n = 0; n < NUM_CHANNELS; n++) {
+		
+		// If ambient temperure is above dew point + offset, no heating is required
+		if (data->tempC > data->dewPointC + data->dpOffset) {
+			data->chData[n].Preq = 0;
+			continue;
+		}
+		
 		// Calculate thermal radiation
 		d = INCH_TO_MM * data->chData[n].lensDia; // Lens diameter in mm
 		A = (PI * d * d) / 4; // Exposed area of the lens 
@@ -341,29 +346,29 @@ void getAnalogValues(t_globalData *data)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Sort virtual channels by duty cycle, ascending order
 //-----------------------------------------------------------------------------
 int sortDC(const void *cmp1, const void *cmp2)
 {
 	uint8_t a = *(uint8_t *)cmp1;
 	uint8_t b = *(uint8_t *)cmp2;
 
-	return (vChannels[b].DC - vChannels[a].DC);
+	return (virtChannels[b].DC - virtChannels[a].DC);
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Sort virtual channels by duty cycle, descending order
 //-----------------------------------------------------------------------------
 int sortDCRev(const void *cmp1, const void *cmp2)
 {
 	uint8_t a = *(uint8_t *)cmp1;
 	uint8_t b = *(uint8_t *)cmp2;
 
-	return (vChannels[a].DC - vChannels[b].DC);
+	return (virtChannels[a].DC - virtChannels[b].DC);
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Sort virtual channels by current
 //-----------------------------------------------------------------------------
 int sortCur(const void *cmp1, const void *cmp2)
 {
@@ -380,54 +385,96 @@ int sortCur(const void *cmp1, const void *cmp2)
 //-----------------------------------------------------------------------------
 void channelThing(t_globalData *data)
 {	
-	uint8_t n, phyCh;
+	uint8_t n;
 	float total, totalGrpA, totalGrpB;
-	
+	uint8_t numGrpA, numGrpB;
+	int8_t grpA[NUM_CHANNELS], grpB[NUM_CHANNELS];
+
+	// Copy physical channel data into 'virtual channal' array
 	for(n = 0; n < NUM_CHANNELS; n++) {
 		grpA[n] = -1;
 		grpB[n] = -1;
 		
-		vChannels[n].phyChNum = n;
-		vChannels[n].current = data->chData[n].current;
-		vChannels[n].DC = data->chData[n].DCreq;
+		virtChannels[n].phyChanNum = n;
+		virtChannels[n].current = data->chData[n].current;
+		virtChannels[n].DC = data->chData[n].DCreq;
 	}
 	
-	qsort(vChannels, NUM_CHANNELS, sizeof(vChannels[0]), sortCur);
+	// Sort virtual channel array by current
+	qsort(virtChannels, NUM_CHANNELS, sizeof(virtChannels[0]), sortCur);
 	
 	total = totalGrpA = totalGrpB = 0;
 	numGrpA = numGrpB = 0;
 	
-	for(n = 0; n < NUM_CHANNELS; n++) {
-		
-		vChannels[n].DCatt = vChannels[n].DC;
-		total += vChannels[n].current;
-		
-		if (totalGrpA + vChannels[n].current <= MAX_CURRENT) {
-			totalGrpA += vChannels[n].current;
+	// Split channels into two groups. Add channels to group A until max.
+	// total current is reached. The remaining channels go into group B.
+	for(n = 0; n < NUM_CHANNELS; n++) {		
+		total += virtChannels[n].current;		
+		if (totalGrpA + virtChannels[n].current <= MAX_CURRENT) {
+			totalGrpA += virtChannels[n].current;
 			grpA[numGrpA++] = n;
-		} else if (totalGrpB + vChannels[n].current <= MAX_CURRENT) {
-			totalGrpB += vChannels[n].current;
+		} else if (totalGrpB + virtChannels[n].current <= MAX_CURRENT) {
+			totalGrpB += virtChannels[n].current;
 			grpB[numGrpB++] = n;
-		}
-		
+		}		
 	}
 	
+	// Sort groups by duty cycle, A in ascending order, B in descending order
 	qsort(grpA, numGrpA, sizeof(grpA[0]), sortDC);
 	qsort(grpB, numGrpB, sizeof(grpB[0]), sortDCRev);
 	
+	// If duty cycle times in group A and B overlap, duty cycle in group B is reduced
 	for(n = 0; n < numGrpA; n++) {
 		if (grpB[n] > -1) {
-			if (vChannels[grpA[n]].DC + vChannels[grpB[n]].DC > 100)
-				vChannels[grpB[n]].DCatt = 100 - vChannels[grpA[n]].DC;
+			if (virtChannels[grpA[n]].DC + virtChannels[grpB[n]].DC > 100)
+				virtChannels[grpB[n]].DC = 100 - virtChannels[grpA[n]].DC;
 		}
+		// The controller uses start and stop times to switch the heaters on/off.
+		// We simply use the duty cycle value as on-time.
+		virtChannels[grpA[n]].start = 0;
+		virtChannels[grpA[n]].stop = virtChannels[grpA[n]].DC;
+	}
+	// Start and stop times for group B
+	for(n = 0; n < numGrpB; n++) {
+		virtChannels[grpB[n]].start = 100 - virtChannels[grpB[n]].DC ;
+		virtChannels[grpB[n]].stop = 100;
 	}
 	
+	// Attained power levels are calculated from new duty cycle values
 	for(n = 0; n < NUM_CHANNELS; n++) {
-		phyCh = vChannels[n].phyChNum;
-		
-		data->chData[phyCh].Patt = (vChannels[n].DCatt * data->chData[phyCh].Pmax) / 100.0;
+		data->chData[virtChannels[n].phyChanNum].Patt = 
+			(virtChannels[n].DC * data->chData[virtChannels[n].phyChanNum].Pmax) / 100.0;
 	}
 }
 
 
+//-----------------------------------------------------------------------------
+// Heater control loop
+//-----------------------------------------------------------------------------
+uint8_t controller(void)
+{
+	static uint32_t dutyCycleTimer;
+	uint32_t tick;
+	static uint8_t idle;
+	uint8_t n;
+	
+	if (idle) {
+		dutyCycleTimer = timeNow();
+		idle = 0;
+	}
+		
+	tick = timeSince(dutyCycleTimer);
+	if (tick <= 100) {
+		for(n = 0; n < = NUM_CHANNELS; n++) {
+			if ((tick >= virtChannels[n].start) && (tick < virtChannels[n].stop))
+				setChannelSwitch(virtChannels[n].phyChanNum, 1);
+			else
+				setChannelSwitch(virtChannels[n].phyChanNum, 0);
+		}		
+	} else {
+		idle = 1;
+	}
+	
+	return idle;
+}
 

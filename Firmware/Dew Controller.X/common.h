@@ -65,7 +65,6 @@ typedef struct {
 	float Patt;
     float Pset;
 	uint8_t DCreq;
-	uint8_t DCatt;
 	float lensDia;
 	float dt;	// approx. heater temp. required
 	enum e_channelMode mode;

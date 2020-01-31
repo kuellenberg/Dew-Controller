@@ -16,7 +16,9 @@ uint8_t uartIsDataReady(void)
 	dataReadyFlag = 0;
 	return ret;
 }
-
+//-----------------------------------------------------------------------------
+// Returns pointer to dataPacket
+//-----------------------------------------------------------------------------
 t_dataPacket *getDataPacket(void)
 {
 	return &dataPacket;
@@ -70,6 +72,9 @@ void uartReceiveISR(void)
 	}
 }
 
+//-----------------------------------------------------------------------------
+// Reset UART module
+//-----------------------------------------------------------------------------
 void uartReset(void)
 {
 	uint8_t dump;
