@@ -45,6 +45,7 @@ void main(void)
 	while (1) {
 		// clear watchdog timer TODO: setup watchdog timer properly
 		CLRWDT();
+
 		// get battery voltage, current and aux. temperature
 		getAnalogValues(&data);
 		// system check every 0.5s
@@ -52,6 +53,7 @@ void main(void)
 			sysCheckInterval = timeNow();
 			systemCheck(&data);
 		}
+
 		// query sensor box
 		if (checkSensor(&data)) {
 			// once new sensor data is ready, calculate required heater power
@@ -62,13 +64,11 @@ void main(void)
 		// is control loop running?
 		if (idle) {
 			if (initDone) {
-				// Wait until initial sensor check is finished
-				
-				// TODO: interval ?
-				
-				if (checkChannelStatus(&data)) {
-					channelThing(&data);
-					idle = 0;
+				// Wait until initial sensor check is finished		
+				// TODO: interval ?				
+				checkChannelStatus(&data);
+				channelThing(&data);
+				idle = 0;
 			}
 		} else {
 			// controller returns true after each cycle
@@ -82,6 +82,7 @@ void main(void)
 		
 		// Time to relax :-)
 		__delay_ms(20);
+		NOP();
 	}
 }
 
@@ -105,7 +106,6 @@ void initGlobalData(t_globalData *data)
 	data->dpOffset = 3.0;
 	data->skyTemp = -40;
 	data->fudgeFactor = 1.0;
-	data->ctrlRunning = 0;
 
 	for (n = 0; n < NUM_CHANNELS; n++) {
 		chData = &data->chData[n];

@@ -13078,6 +13078,7 @@ char *tempnam(const char *, const char *);
 # 41 "./io.h"
 void setOLEDPower(uint8_t state);
 void setLoadSwitch(uint8_t state);
+uint8_t getLoadSwitchFault(void);
 void setChannelSwitch(uint8_t channel, uint8_t state);
 uint16_t getAnalogValue(uint8_t channel);
 # 18 "./common.h" 2
@@ -13172,7 +13173,7 @@ enum e_buttonPress getPB(void);
 enum e_direction getRotDir(void);
 void spinInput(float *input, float min, float max, float step);
 # 23 "./common.h" 2
-# 41 "./common.h"
+# 43 "./common.h"
 typedef struct {
  unsigned BAT_LOW:1;
     unsigned BAT_HIGH:1;
@@ -13200,7 +13201,6 @@ typedef struct {
  float Patt;
     float Pset;
  uint8_t DCreq;
- uint8_t DCatt;
  float lensDia;
  float dt;
  enum e_channelMode mode;
@@ -13290,6 +13290,7 @@ uint8_t checkSensor(t_globalData *data);
 uint8_t checkChannelStatus(t_globalData *data);
 void calcRequiredPower(t_globalData *data);
 void channelThing(t_globalData *data);
+uint8_t controller(void);
 void systemCheck(t_globalData *data);
 void getAnalogValues(t_globalData *data);
 # 11 "main.c" 2
@@ -13312,11 +13313,14 @@ t_globalData data;
 
 void main(void)
 {
- uint32_t sysCheckInterval = 0;
- uint8_t init = 1;
+ uint32_t tick, since, sysCheckInterval = 0;
+ uint8_t idle = 1;
+ uint8_t initDone = 0;
+ uint8_t test = 0;
+ char str[10];
 
  initialize();
- LATBbits.LATB5 = 1;
+ setOLEDPower(1);
  OLED_init();
  OLED_loadSpecialChars();
  OLED_returnHome();
@@ -13324,9 +13328,12 @@ void main(void)
  initGlobalData(&data);
  setLoadSwitch(1);
 
+
+
  while (1) {
 
   __asm("clrwdt");
+
 
   getAnalogValues(&data);
 
@@ -13335,17 +13342,26 @@ void main(void)
    systemCheck(&data);
   }
 
+
   if (checkSensor(&data)) {
-   init = 0;
 
    calcRequiredPower(&data);
+   initDone = 1;
   }
 
 
-   if (! init) {
-    if (checkChannelStatus(&data))
-     channelThing(&data);
+  if (idle) {
+   if (initDone) {
+
+
+    checkChannelStatus(&data);
+    channelThing(&data);
+    idle = 0;
    }
+  } else {
+
+   idle = controller();
+  }
 
   if (getLastError() != NO_ERROR)
    viewErrorMessage();
@@ -13354,6 +13370,7 @@ void main(void)
 
 
   _delay((unsigned long)((20)*(4000000UL/4000.0)));
+  __nop();
  }
 }
 

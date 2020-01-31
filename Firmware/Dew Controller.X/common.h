@@ -37,6 +37,8 @@
 // Returns length of an array
 #define len(array) sizeof(array)/sizeof(array[0])
 
+#define MIN(a, b) ((a) < (b) ? (a) : (b)) 
+
 // Status bits 
 typedef struct {
 	unsigned BAT_LOW:1;

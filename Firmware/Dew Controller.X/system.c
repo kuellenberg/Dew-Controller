@@ -8,7 +8,7 @@
 #define TEMP_AUX_MAX 60
 #define SENSOR_UPDATE_INTERVALL 100
 #define SENSOR_TIMEOUT 20
-#define NUM_SAMPLES 10
+#define NUM_SAMPLES 50
 
 #define MIN_CHANNEL_CURRENT 0.05
 #define MAX_CHANNEL_CURRENT 2.0
@@ -49,43 +49,33 @@ static t_virtChannel virtChannels[NUM_CHANNELS];
 // - Is a heater connected?
 // - Measure current through heater
 // - Calculate max. power and required duty cycle
-// 
-// Returns '1' once data is ready
 //-----------------------------------------------------------------------------
 
-uint8_t checkChannelStatus(t_globalData *data)
+void checkChannelStatus(t_globalData *data)
 {
-	uint16_t adc;
-	static uint16_t avg;
-	static uint8_t channel = 0;
-	static uint8_t samples = 0;
-	static uint8_t done = 0;
+	uint16_t adc, avg;
+	uint8_t channel, samples;
 	float current;
 	t_channelData *chData;
 
-	if (done) {
-		done = 0;
-		samples = 0;
-		channel = 0;
+	for (channel = 0; channel < NUM_CHANNELS; channel++)  {
+		
+		chData = &data->chData[channel];
+		
+		if (chData->status == CH_OVERCURRENT) 
+			continue;
+		
 		avg = data->chData[channel].current;
-	}
-	
-	chData = &data->chData[channel];
-	
-	if (chData->status == CH_OVERCURRENT) {
-		if (++channel >= NUM_CHANNELS)
-			done = 1;
-		return done;
-	}
-	
-	setChannelSwitch(channel, 1);
-	// Not enough samples?
-	if (samples++ < NUM_SAMPLES) {
-		adc = getAnalogValue(AIN_ISENS);
-		// Calculate exp. moving average on raw value
-		avg = ema(adc, avg, ALPHA(0.7));
-	} else {
+
+		setChannelSwitch(channel, 1);		
+		samples = 0;
+		do {
+			adc = getAnalogValue(AIN_ISENS);
+			// Calculate exp. moving average on raw value
+			avg = ema(adc, avg, ALPHA(0.7));
+		} while (samples++ < NUM_SAMPLES);		
 		setChannelSwitch(channel, 0);
+		
 		// convert raw value into actual current 
 		current = ADC_TO_I(avg);
 		// if current is below threshold, we assume
@@ -96,7 +86,7 @@ uint8_t checkChannelStatus(t_globalData *data)
 				error(WARN_REMOVED);
 			chData->status = CH_OPEN;
 		} else if ((current > MAX_CHANNEL_CURRENT)
-			|| (loadSwitchFault())) {
+			|| (getLoadSwitchFault())) {
 			// Disable channel when current is too high
 			// or load switch is turned off 
 			error(WARN_HEATER_OVERCURRENT);
@@ -111,11 +101,11 @@ uint8_t checkChannelStatus(t_globalData *data)
 		} else {
 			chData->current = current;
 			chData->Pmax = data->voltage * current;
-			
+
 			// Set status and mode
 			if (chData->Pset > chData->Pmax)
 				chData->Pset = chData->Pmax;
-			
+
 			if (data->status.SENSOR_OK) {
 				if (chData->Pset < 0)
 					chData->mode = MODE_AUTO;
@@ -125,25 +115,20 @@ uint8_t checkChannelStatus(t_globalData *data)
 				chData->Pset = chData->Pmax;
 				chData->mode = MODE_MANUAL;
 			}
-			
+
 			if (chData->Pset == 0)
 				chData->status = CH_DISABLED;
 			else
 				chData->status = CH_ENABLED;
-			
+
 			// Calculate required duty cycle
 			if (chData->mode == MODE_AUTO)
-				chData->DCreq = (chData->Preq / chData->Pmax) * 100;
+				chData->DCreq = MIN((chData->Preq / chData->Pmax) * 100, 100);
 			else 
-				chData->DCreq = (chData->Pset / chData->Pmax) * 100;
+				chData->DCreq = MIN((chData->Pset / chData->Pmax) * 100, 100);
 		}
-		// Next channel...
-		if (++channel < NUM_CHANNELS)
-			samples = 0;
-		else
-			done = 1;
 	}
-	return done;
+	return 1;
 }
 
 //-----------------------------------------------------------------------------
@@ -298,11 +283,12 @@ void calcRequiredPower(t_globalData *data)
 	for (n = 0; n < NUM_CHANNELS; n++) {
 		
 		// If ambient temperure is above dew point + offset, no heating is required
+		/*
 		if (data->tempC > data->dewPointC + data->dpOffset) {
 			data->chData[n].Preq = 0;
 			continue;
 		}
-		
+		*/
 		// Calculate thermal radiation
 		d = INCH_TO_MM * data->chData[n].lensDia; // Lens diameter in mm
 		A = (PI * d * d) / 4; // Exposed area of the lens 
@@ -419,7 +405,7 @@ void channelThing(t_globalData *data)
 		}		
 	}
 	
-	// Sort groups by duty cycle, A in ascending order, B in descending order
+	// Sort groups by duty cycle, A in descending order, B in ascending order
 	qsort(grpA, numGrpA, sizeof(grpA[0]), sortDC);
 	qsort(grpB, numGrpB, sizeof(grpB[0]), sortDCRev);
 	
@@ -465,12 +451,13 @@ uint8_t controller(void)
 		
 	tick = timeSince(dutyCycleTimer);
 	if (tick <= 100) {
-		for(n = 0; n < = NUM_CHANNELS; n++) {
+		for(n = 0; n < NUM_CHANNELS; n++) {
 			if ((tick >= virtChannels[n].start) && (tick < virtChannels[n].stop))
 				setChannelSwitch(virtChannels[n].phyChanNum, 1);
 			else
 				setChannelSwitch(virtChannels[n].phyChanNum, 0);
-		}		
+		}
+		NOP();
 	} else {
 		idle = 1;
 	}

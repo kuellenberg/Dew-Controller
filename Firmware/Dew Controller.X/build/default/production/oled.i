@@ -12690,6 +12690,7 @@ char *tempnam(const char *, const char *);
 # 41 "./io.h"
 void setOLEDPower(uint8_t state);
 void setLoadSwitch(uint8_t state);
+uint8_t getLoadSwitchFault(void);
 void setChannelSwitch(uint8_t channel, uint8_t state);
 uint16_t getAnalogValue(uint8_t channel);
 # 18 "./common.h" 2
@@ -12784,7 +12785,7 @@ enum e_buttonPress getPB(void);
 enum e_direction getRotDir(void);
 void spinInput(float *input, float min, float max, float step);
 # 23 "./common.h" 2
-# 41 "./common.h"
+# 43 "./common.h"
 typedef struct {
  unsigned BAT_LOW:1;
     unsigned BAT_HIGH:1;
@@ -12812,7 +12813,6 @@ typedef struct {
  float Patt;
     float Pset;
  uint8_t DCreq;
- uint8_t DCatt;
  float lensDia;
  float dt;
  enum e_channelMode mode;
