@@ -61,15 +61,14 @@ void checkChannelStatus(void)
 
 	for (channel = 0; channel < NUM_CHANNELS; channel++)  {
 		
-		heater = &data.heater[channel];
+		heater = &(data.heater)[channel];
 		
 		if (heater->status == CH_OVERCURRENT) 
 			continue;
 		
-		avg = data.heater[channel].current;
-
 		setChannelSwitch(channel, 1);		
 		samples = 0;
+		avg = heater->current;
 		do {
 			adc = getAnalogValue(AIN_ISENS);
 			// Calculate exp. moving average on raw value
@@ -165,6 +164,8 @@ void systemCheck(void)
 	// If the voltage is too low, we might damage the battery.
 	// So, in both cases, we just turn everything off.
 	if ((data.voltage > VOLT_CRIT_HIGH) || (data.voltage <= VOLT_TURN_OFF)) {
+		error(ERR_VOLT_CRIT);
+		return;
 		INTCON = 0;
 		OLED_command(OLED_CLEARDISPLAY);
 		OLED_command(OLED_RETURNHOME);
@@ -230,9 +231,9 @@ uint8_t checkSensor(void)
 		if (timeSince(sensorTimeout) > SENSOR_TIMEOUT) {
 			if (data.status.SENSOR_OK) {
 				data.status.SENSOR_OK = 0;
-				state = 0;
 				error(WARN_SENSOR_TIMEOUT);
 			}
+			state = 0;
 			uartReset();
 		} else if (uartDataReadyFlag) {
 			uartDataReadyFlag = 0;
@@ -451,12 +452,11 @@ uint8_t controller(void)
 	tick = timeSince(dutyCycleTimer);
 	if (tick <= 100) {
 		for(n = 0; n < NUM_CHANNELS; n++) {
-			if ((tick >= virtChannels[n].start) && (tick < virtChannels[n].stop))
-				setChannelSwitch(virtChannels[n].phyChanNum, 1);
-			else
+			if (tick >= virtChannels[n].stop)
 				setChannelSwitch(virtChannels[n].phyChanNum, 0);
+			else if ((tick >= virtChannels[n].start) && (tick < virtChannels[n].stop))
+				setChannelSwitch(virtChannels[n].phyChanNum, 1);
 		}
-		NOP();
 	} else {
 		idle = 1;
 	}

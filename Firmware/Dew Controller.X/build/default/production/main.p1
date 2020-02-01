@@ -5,21 +5,21 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S983 . header version status tempC relHum dewPointC ]
 "14 ./inputs.h
 [; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
-[c E8292 0 1 2 3 4 .. ]
-[n E8292 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
+[c E8293 0 1 2 3 4 .. ]
+[n E8293 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
 "43 ./common.h
 [; ;./common.h: 43: typedef struct {
 [s S984 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S984 . BAT_LOW BAT_HIGH OVERCURRENT SENSOR_OK AUX_SENSOR_OK ]
 "97
 [; ;./common.h: 97: t_globalData data;
-[c E8316 0 1 .. ]
-[n E8316 e_channelMode MODE_MANUAL MODE_AUTO  ]
-[c E8319 0 1 2 3 4 5 .. ]
-[n E8319 e_channelStatus CH_DISABLED CH_ENABLED CH_OPEN CH_SHORTED CH_OVERCURRENT CH_UNCHECKED  ]
+[c E8317 0 1 .. ]
+[n E8317 e_channelMode MODE_MANUAL MODE_AUTO  ]
+[c E8320 0 1 2 3 4 5 .. ]
+[n E8320 e_channelStatus CH_DISABLED CH_ENABLED CH_OPEN CH_SHORTED CH_OVERCURRENT CH_UNCHECKED  ]
 "63
 [; ;./common.h: 63: typedef struct {
-[s S985 `f 1 `f 1 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `E8316 1 `E8319 1 ]
+[s S985 `f 1 `f 1 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `E8317 1 `E8320 1 ]
 [n S985 . current Pmax Preq Patt Pset DCreq lensDia dt mode status ]
 "77
 [; ;./common.h: 77: typedef struct {
@@ -103,13 +103,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _controller `(uc ~T0 @X0 0 ef ]
 "76 main.c
 [; ;main.c: 76:   if (getLastError() != NO_ERROR)
-[c E8249 0 1 2 3 4 5 6 7 8 9 10 11 .. ]
-[n E8249 e_errorcode NO_ERROR WARN_REMOVED WARN_SHORTED WARN_OVERCURRENT WARN_HEATER_OVERCURRENT WARN_VOLT_HIGH WARN_VOLT_LOW WARN_SENSOR_TIMEOUT WARN_SENSOR_CHECKSUM ERR_NUKED ERR_OVERCURRENT ERR_MENU  ]
-"28 ./error.h
-[; ;./error.h: 28: enum e_errorcode getLastError(void);
+[c E8249 0 1 2 3 4 5 6 7 8 9 10 11 12 .. ]
+[n E8249 e_errorcode NO_ERROR WARN_REMOVED WARN_SHORTED WARN_OVERCURRENT WARN_HEATER_OVERCURRENT WARN_VOLT_HIGH WARN_VOLT_LOW WARN_SENSOR_TIMEOUT WARN_SENSOR_CHECKSUM ERR_NUKED ERR_OVERCURRENT ERR_VOLT_CRIT ERR_MENU  ]
+"29 ./error.h
+[; ;./error.h: 29: enum e_errorcode getLastError(void);
 [v _getLastError `(E8249 ~T0 @X0 0 ef ]
-"27
-[; ;./error.h: 27: void viewErrorMessage(void);
+"28
+[; ;./error.h: 28: void viewErrorMessage(void);
 [v _viewErrorMessage `(v ~T0 @X0 0 ef ]
 "11 ./menuhelper.h
 [; ;./menuhelper.h: 11: void menu(void);
@@ -174,6 +174,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "777
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h: 777: extern volatile unsigned char TRISC __attribute__((address(0x014)));
 [v _TRISC `Vuc ~T0 @X0 0 e@20 ]
+"860
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h: 860: extern volatile unsigned char LATA __attribute__((address(0x018)));
+[v _LATA `Vuc ~T0 @X0 0 e@24 ]
 "1199
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h: 1199:     struct {
 [s S61 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -1304,9 +1307,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _dataPacket `VS983 ~T0 @X0 1 e ]
 "14 ./inputs.h
 [; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
-[v _pbState `VE8292 ~T0 @X0 1 e ]
+[v _pbState `VE8293 ~T0 @X0 1 e ]
 [i _pbState
-. `E8292 0
+. `E8293 0
 ]
 "15
 [; ;./inputs.h: 15: volatile uint32_t userActivity = 0;
@@ -1328,7 +1331,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "11
 [p x FCMEN = ON ]
 "14
-[p x MCLRE = ON ]
+[p x MCLRE = OFF ]
 "15
 [p x PWRTE = OFF ]
 "16
@@ -1585,17 +1588,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 1002 ]
 {
 "109
-[; ;main.c: 109:   heater = &data.heater[n];
+[; ;main.c: 109:   heater = &(data.heater)[n];
 [e = _heater &U *U + &U . _data 12 * -> _n `ux -> -> # *U &U . _data 12 `ui `ux ]
 "110
 [; ;main.c: 110:   heater->lensDia = 4;
 [e = . *U _heater 6 -> -> 4 `i `f ]
 "111
 [; ;main.c: 111:   heater->status = CH_UNCHECKED;
-[e = . *U _heater 9 . `E8319 5 ]
+[e = . *U _heater 9 . `E8320 5 ]
 "112
 [; ;main.c: 112:   heater->mode = MODE_AUTO;
-[e = . *U _heater 8 . `E8316 1 ]
+[e = . *U _heater 8 . `E8317 1 ]
 "113
 [; ;main.c: 113:   heater->Pmax = 0;
 [e = . *U _heater 1 -> -> 0 `i `f ]
@@ -1667,64 +1670,67 @@ Version 4.0 HI-TECH Software Intermediate Code
 "143
 [; ;main.c: 143:  TRISC = 0b10000111;
 [e = _TRISC -> -> 135 `i `uc ]
-"146
-[; ;main.c: 146:  ADCON0bits.ADON = 1;
-[e = . . _ADCON0bits 0 0 -> -> 1 `i `uc ]
+"144
+[; ;main.c: 144:  LATA = 0;
+[e = _LATA -> -> 0 `i `uc ]
 "147
-[; ;main.c: 147:  ADCON1 = 0b11100000;
+[; ;main.c: 147:  ADCON0bits.ADON = 1;
+[e = . . _ADCON0bits 0 0 -> -> 1 `i `uc ]
+"148
+[; ;main.c: 148:  ADCON1 = 0b11100000;
 [e = _ADCON1 -> -> 224 `i `uc ]
-"150
-[; ;main.c: 150:  T0CON0 = 0b10000000;
-[e = _T0CON0 -> -> 128 `i `uc ]
 "151
-[; ;main.c: 151:  T0CON1 = 0b01000111;
-[e = _T0CON1 -> -> 71 `i `uc ]
+[; ;main.c: 151:  T0CON0 = 0b10000000;
+[e = _T0CON0 -> -> 128 `i `uc ]
 "152
-[; ;main.c: 152:  TMR0 = 178;
+[; ;main.c: 152:  T0CON1 = 0b01000111;
+[e = _T0CON1 -> -> 71 `i `uc ]
+"153
+[; ;main.c: 153:  TMR0 = 178;
 [e = _TMR0 -> -> 178 `i `uc ]
-"155
-[; ;main.c: 155:  T1CON = 0b00110011;
-[e = _T1CON -> -> 51 `i `uc ]
 "156
-[; ;main.c: 156:  T1CLK = 0b00000001;
-[e = _T1CLK -> -> 1 `i `uc ]
+[; ;main.c: 156:  T1CON = 0b00110011;
+[e = _T1CON -> -> 51 `i `uc ]
 "157
-[; ;main.c: 157:  TMR1 = 53035;
+[; ;main.c: 157:  T1CLK = 0b00000001;
+[e = _T1CLK -> -> 1 `i `uc ]
+"158
+[; ;main.c: 158:  TMR1 = 53035;
 [e = _TMR1 -> -> 53035 `l `us ]
-"160
-[; ;main.c: 160:  PIE0 = 0b00110000;
-[e = _PIE0 -> -> 48 `i `uc ]
 "161
-[; ;main.c: 161:  PIE3 = 0b00100000;
-[e = _PIE3 -> -> 32 `i `uc ]
+[; ;main.c: 161:  PIE0 = 0b00110000;
+[e = _PIE0 -> -> 48 `i `uc ]
 "162
-[; ;main.c: 162:  PIE4 = 0b00000001;
-[e = _PIE4 -> -> 1 `i `uc ]
+[; ;main.c: 162:  PIE3 = 0b00100000;
+[e = _PIE3 -> -> 32 `i `uc ]
 "163
-[; ;main.c: 163:  INTCON = 0b11000000;
+[; ;main.c: 163:  PIE4 = 0b00000001;
+[e = _PIE4 -> -> 1 `i `uc ]
+"164
+[; ;main.c: 164:  INTCON = 0b11000000;
 [e = _INTCON -> -> 192 `i `uc ]
-"166
-[; ;main.c: 166:  IOCAP = 0b10110000;
-[e = _IOCAP -> -> 176 `i `uc ]
 "167
-[; ;main.c: 167:  IOCAN = 0b10110000;
-[e = _IOCAN -> -> 176 `i `uc ]
+[; ;main.c: 167:  IOCAP = 0b10110000;
+[e = _IOCAP -> -> 176 `i `uc ]
 "168
-[; ;main.c: 168:  IOCCN = 0b00000100;
+[; ;main.c: 168:  IOCAN = 0b10110000;
+[e = _IOCAN -> -> 176 `i `uc ]
+"169
+[; ;main.c: 169:  IOCCN = 0b00000100;
 [e = _IOCCN -> -> 4 `i `uc ]
-"172
-[; ;main.c: 172:  BAUD1CON = 0b00001000;
-[e = _BAUD1CON -> -> 8 `i `uc ]
 "173
-[; ;main.c: 173:  SPBRGL = 25;
-[e = _SPBRGL -> -> 25 `i `uc ]
+[; ;main.c: 173:  BAUD1CON = 0b00001000;
+[e = _BAUD1CON -> -> 8 `i `uc ]
 "174
-[; ;main.c: 174:  RC1STA = 0b10010000;
-[e = _RC1STA -> -> 144 `i `uc ]
+[; ;main.c: 174:  SPBRGL = 25;
+[e = _SPBRGL -> -> 25 `i `uc ]
 "175
-[; ;main.c: 175:  TX1STA = 0b00100000;
-[e = _TX1STA -> -> 32 `i `uc ]
+[; ;main.c: 175:  RC1STA = 0b10010000;
+[e = _RC1STA -> -> 144 `i `uc ]
 "176
-[; ;main.c: 176: }
+[; ;main.c: 176:  TX1STA = 0b00100000;
+[e = _TX1STA -> -> 32 `i `uc ]
+"177
+[; ;main.c: 177: }
 [e :UE 1005 ]
 }

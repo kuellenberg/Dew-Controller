@@ -5,21 +5,21 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S983 . header version status tempC relHum dewPointC ]
 "14 ./inputs.h
 [; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
-[c E7868 0 1 2 3 4 .. ]
-[n E7868 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
+[c E7869 0 1 2 3 4 .. ]
+[n E7869 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
 "43 ./common.h
 [; ;./common.h: 43: typedef struct {
 [s S984 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S984 . BAT_LOW BAT_HIGH OVERCURRENT SENSOR_OK AUX_SENSOR_OK ]
 "97
 [; ;./common.h: 97: t_globalData data;
-[c E7892 0 1 .. ]
-[n E7892 e_channelMode MODE_MANUAL MODE_AUTO  ]
-[c E7895 0 1 2 3 4 5 .. ]
-[n E7895 e_channelStatus CH_DISABLED CH_ENABLED CH_OPEN CH_SHORTED CH_OVERCURRENT CH_UNCHECKED  ]
+[c E7893 0 1 .. ]
+[n E7893 e_channelMode MODE_MANUAL MODE_AUTO  ]
+[c E7896 0 1 2 3 4 5 .. ]
+[n E7896 e_channelStatus CH_DISABLED CH_ENABLED CH_OPEN CH_SHORTED CH_OVERCURRENT CH_UNCHECKED  ]
 "63
 [; ;./common.h: 63: typedef struct {
-[s S985 `f 1 `f 1 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `E7892 1 `E7895 1 ]
+[s S985 `f 1 `f 1 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `E7893 1 `E7896 1 ]
 [n S985 . current Pmax Preq Patt Pset DCreq lensDia dt mode status ]
 "77
 [; ;./common.h: 77: typedef struct {
@@ -1137,9 +1137,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _dataPacket `VS983 ~T0 @X0 1 e ]
 "14 ./inputs.h
 [; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
-[v _pbState `VE7868 ~T0 @X0 1 e ]
+[v _pbState `VE7869 ~T0 @X0 1 e ]
 [i _pbState
-. `E7868 0
+. `E7869 0
 ]
 "15
 [; ;./inputs.h: 15: volatile uint32_t userActivity = 0;
@@ -1465,8 +1465,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "131
 [; ;oled.c: 131: {
 [f ]
-[v F7959 `uc ~T0 @X0 -> 4 `i s ]
-[i F7959
+[v F7960 `uc ~T0 @X0 -> 4 `i s ]
+[i F7960
 :U ..
 "132
 [; ;oled.c: 132:  uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
@@ -1477,7 +1477,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _row_offsets `uc ~T0 @X0 -> 4 `i a ]
-[e = _row_offsets F7959 ]
+[e = _row_offsets F7960 ]
 "134
 [; ;oled.c: 134:  OLED_command(0x80 | (col + row_offsets[row]));
 [e ( _OLED_command (1 -> | -> 128 `i + -> _col `i -> *U + &U _row_offsets * -> _row `ux -> -> # *U &U _row_offsets `ui `ux `i `uc ]
@@ -1533,8 +1533,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "145
 [; ;oled.c: 145: {
 [f ]
-[v F7967 `uc ~T0 @X0 -> 4 `i s ]
-[i F7967
+[v F7968 `uc ~T0 @X0 -> 4 `i s ]
+[i F7968
 :U ..
 "146
 [; ;oled.c: 146:  uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
@@ -1545,7 +1545,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _row_offsets `uc ~T0 @X0 -> 4 `i a ]
-[e = _row_offsets F7967 ]
+[e = _row_offsets F7968 ]
 "148
 [; ;oled.c: 148:  OLED_command(0x80 | (col + row_offsets[row]));
 [e ( _OLED_command (1 -> | -> 128 `i + -> _col `i -> *U + &U _row_offsets * -> _row `ux -> -> # *U &U _row_offsets `ui `ux `i `uc ]
@@ -1577,8 +1577,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 [e :U _OLED_loadSpecialChars ]
 [f ]
-[v F7970 `uc ~T0 @X0 -> 32 `i s ]
-[i F7970
+[v F7971 `uc ~T0 @X0 -> 32 `i s ]
+[i F7971
 :U ..
 "157
 [; ;oled.c: 157:  uint8_t special[] = {0x18, 0x18, 0x03, 0x04, 0x04, 0x04, 0x03, 0x00,
@@ -1617,7 +1617,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _special `uc ~T0 @X0 -> 32 `i a ]
-[e = _special F7970 ]
+[e = _special F7971 ]
 "162
 [; ;oled.c: 162:  uint8_t n;
 [v _n `uc ~T0 @X0 1 a ]

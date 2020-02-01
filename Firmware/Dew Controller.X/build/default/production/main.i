@@ -13122,6 +13122,7 @@ enum e_errorcode {
     WARN_SENSOR_CHECKSUM,
     ERR_NUKED,
     ERR_OVERCURRENT,
+    ERR_VOLT_CRIT,
  ERR_MENU
 };
 
@@ -13245,7 +13246,7 @@ uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 #pragma config FCMEN = ON
 
 
-#pragma config MCLRE = ON
+#pragma config MCLRE = OFF
 #pragma config PWRTE = OFF
 #pragma config LPBOREN = OFF
 #pragma config BOREN = ON
@@ -13420,7 +13421,7 @@ void initGlobalData(void)
  data.fudgeFactor = 1.0;
 
  for (n = 0; n < 4; n++) {
-  heater = &data.heater[n];
+  heater = &(data.heater)[n];
   heater->lensDia = 4;
   heater->status = CH_UNCHECKED;
   heater->mode = MODE_AUTO;
@@ -13455,6 +13456,7 @@ void initialize(void)
  TRISA = 0b11110000;
  TRISB = 0b00000000;
  TRISC = 0b10000111;
+ LATA = 0;
 
 
  ADCON0bits.ADON = 1;

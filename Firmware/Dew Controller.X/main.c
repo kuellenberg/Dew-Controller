@@ -106,7 +106,7 @@ void initGlobalData(void)
 	data.fudgeFactor = 1.0;
 
 	for (n = 0; n < NUM_CHANNELS; n++) {
-		heater = &data.heater[n];
+		heater = &(data.heater)[n];
 		heater->lensDia = 4;
 		heater->status = CH_UNCHECKED;
 		heater->mode = MODE_AUTO;
@@ -141,6 +141,7 @@ void initialize(void)
 	TRISA = 0b11110000; // Outputs: RA0..3: SW_CH1..4, Inputs: RA4..7
 	TRISB = 0b00000000;
 	TRISC = 0b10000111; // Inputs: RC7: RX, RC2: nFAULT, RC1: ISENS, RC0: VSENS
+	LATA = 0;
 
 	// ADC
 	ADCON0bits.ADON = 1;

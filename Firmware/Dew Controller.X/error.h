@@ -20,6 +20,7 @@ enum e_errorcode {
     WARN_SENSOR_CHECKSUM,
     ERR_NUKED, 
     ERR_OVERCURRENT,
+    ERR_VOLT_CRIT,
 	ERR_MENU
 };
 
