@@ -38,9 +38,6 @@
 //-----------------------------------------------------------------------------
 // Function Prototypes
 //-----------------------------------------------------------------------------
-void setOLEDPower(uint8_t state);
-void setLoadSwitch(uint8_t state);
-uint8_t getLoadSwitchFault(void);
 void setChannelSwitch(uint8_t channel, uint8_t state);
 uint16_t getAnalogValue(uint8_t channel);
 

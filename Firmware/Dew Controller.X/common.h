@@ -71,7 +71,7 @@ typedef struct {
 	float dt;	// approx. heater temp. required
 	enum e_channelMode mode;
 	enum e_channelStatus status;
-} t_channelData;
+} t_heater;
 
 // Global data structure
 typedef struct {
@@ -87,8 +87,14 @@ typedef struct {
 	float skyTemp;
 	float fudgeFactor;
 	t_status status;
-	t_channelData chData[NUM_CHANNELS];
+	t_heater heater[NUM_CHANNELS];
 } t_globalData;
+
+
+//-----------------------------------------------------------------------------
+// Global data structure 
+//-----------------------------------------------------------------------------
+t_globalData data;
 
 //-----------------------------------------------------------------------------
 // Function Prototypes

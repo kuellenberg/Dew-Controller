@@ -51,21 +51,21 @@ static t_virtChannel virtChannels[NUM_CHANNELS];
 // - Calculate max. power and required duty cycle
 //-----------------------------------------------------------------------------
 
-void checkChannelStatus(t_globalData *data)
+void checkChannelStatus(void)
 {
 	uint16_t adc, avg;
 	uint8_t channel, samples;
 	float current;
-	t_channelData *chData;
+	t_heater *chData;
 
 	for (channel = 0; channel < NUM_CHANNELS; channel++)  {
 		
-		chData = &data->chData[channel];
+		chData = &data.heater[channel];
 		
 		if (chData->status == CH_OVERCURRENT) 
 			continue;
 		
-		avg = data->chData[channel].current;
+		avg = data.heater[channel].current;
 
 		setChannelSwitch(channel, 1);		
 		samples = 0;
@@ -85,28 +85,27 @@ void checkChannelStatus(t_globalData *data)
 			if (chData->status == CH_ENABLED)
 				error(WARN_REMOVED);
 			chData->status = CH_OPEN;
-		} else if ((current > MAX_CHANNEL_CURRENT)
-			|| (getLoadSwitchFault())) {
+		} else if ((current > MAX_CHANNEL_CURRENT) || !nFAULT) {
 			// Disable channel when current is too high
 			// or load switch is turned off 
 			error(WARN_HEATER_OVERCURRENT);
 			chData->status = CH_OVERCURRENT;
 			// Reset loadswitch, if neccesary
-			if (getLoadSwitchFault()) {
+			if (!nFAULT) {
 				chData->status = CH_SHORTED;
-				setLoadSwitch(0);
+				PEN = 0;
 				__delay_ms(5);
-				setLoadSwitch(1);
+				PEN = 1;
 			}
 		} else {
 			chData->current = current;
-			chData->Pmax = data->voltage * current;
+			chData->Pmax = data.voltage * current;
 
 			// Set status and mode
 			if (chData->Pset > chData->Pmax)
 				chData->Pset = chData->Pmax;
 
-			if (data->status.SENSOR_OK) {
+			if (data.status.SENSOR_OK) {
 				if (chData->Pset < 0)
 					chData->mode = MODE_AUTO;
 				else if (chData->Pset > 0)
@@ -128,24 +127,23 @@ void checkChannelStatus(t_globalData *data)
 				chData->DCreq = MIN((chData->Pset / chData->Pmax) * 100, 100);
 		}
 	}
-	return 1;
 }
 
 //-----------------------------------------------------------------------------
 // Perform system check: Overcurrent, battery voltage low/high
 //-----------------------------------------------------------------------------
 
-void systemCheck(t_globalData *data)
+void systemCheck(void)
 {
 	uint8_t n;
 	char str[3];
 	
 	// Max. current exceeded?
 	// This condition 'should' only occur, if something shorts out during duty cycle
-	if (data->current > MAX_CURRENT) {
+	if (data.current > MAX_CURRENT) {
 		// Turn everything off
 		setChannelSwitch(255, 0);
-		setLoadSwitch(0);
+		PEN = 0;
 		// Still overcurrent?
 		if (ADC_TO_I(getAnalogValue(AIN_ISENS)) > MAX_CURRENT) {
 			// ...ok, it's well and truely rooted 
@@ -153,8 +151,8 @@ void systemCheck(t_globalData *data)
 			error(ERR_NUKED);
 		} else {
 			// puh, just a dead short on the heater?
-			if (! data->status.OVERCURRENT) {
-				data->status.OVERCURRENT = 1;
+			if (! data.status.OVERCURRENT) {
+				data.status.OVERCURRENT = 1;
 				error(ERR_OVERCURRENT);
 			}
 		}
@@ -165,13 +163,13 @@ void systemCheck(t_globalData *data)
 	// for the OLED display might get a little toasty.
 	// If the voltage is too low, we might damage the battery.
 	// So, in both cases, we just turn everything off.
-	if ((data->voltage > VOLT_CRIT_HIGH) || (data->voltage <= VOLT_TURN_OFF)) {
+	if ((data.voltage > VOLT_CRIT_HIGH) || (data.voltage <= VOLT_TURN_OFF)) {
 		INTCON = 0;
-		OLED_clearDisplay();
-		OLED_returnHome();
+		OLED_command(OLED_CLEARDISPLAY);
+		OLED_command(OLED_RETURNHOME);
 		OLED_print_xy(0, 0, "TURNING OFF");
 		setChannelSwitch(255, 0);
-		setLoadSwitch(0);
+		PEN = 0;
 		for(n = 5; n > 0; n--) {
 			itoa(str, n, 1);
 			OLED_print_xy(0, 1, "IN ");
@@ -179,23 +177,23 @@ void systemCheck(t_globalData *data)
 			__delay_ms(1000);
 		}
 		OLED_off();
-		setOLEDPower(0);
+		OLED_PWR = 0;
 		// TODO: Turn peripherals off, lower clock speed?
 		while(1);
 		
-	} else if ((data->voltage > VOLT_WARN_HIGH) && (data->voltage <= VOLT_CRIT_HIGH)) {
-		if (! data->status.BAT_HIGH) {
-			data->status.BAT_HIGH = 1;
+	} else if ((data.voltage > VOLT_WARN_HIGH) && (data.voltage <= VOLT_CRIT_HIGH)) {
+		if (! data.status.BAT_HIGH) {
+			data.status.BAT_HIGH = 1;
 			error(WARN_VOLT_HIGH);
 		}
-	} else if ((data->voltage > VOLT_TURN_OFF) && (data->voltage <= VOLT_WARN_LOW)) {
-		if (! data->status.BAT_LOW) {
-			data->status.BAT_LOW = 1;
+	} else if ((data.voltage > VOLT_TURN_OFF) && (data.voltage <= VOLT_WARN_LOW)) {
+		if (! data.status.BAT_LOW) {
+			data.status.BAT_LOW = 1;
 			error(WARN_VOLT_LOW);
 		}
 	} else {
-		data->status.BAT_HIGH = 0;
-		data->status.BAT_LOW = 0;
+		data.status.BAT_HIGH = 0;
+		data.status.BAT_LOW = 0;
 	}
 }
 
@@ -204,18 +202,18 @@ void systemCheck(t_globalData *data)
 // Test aux. temperature sensor, query main sensor, check data from sensor
 //-----------------------------------------------------------------------------
 
-uint8_t checkSensor(t_globalData *data)
+uint8_t checkSensor(void)
 {
 	t_dataPacket *dp;
-	static uint32_t sensorUpdateInterval = 0;
+	static uint32_t sensorUpdateInterval = SENSOR_UPDATE_INTERVALL;
 	static uint32_t sensorTimeout = 0;
 	static uint8_t state = 0;
 
 	// Check aux. temperature sensor and set status bit
-	if ((data->tempAux < TEMP_AUX_MIN) || (data->tempAux > TEMP_AUX_MAX)) {
-		data->status.AUX_SENSOR_OK = 0;
+	if ((data.tempAux < TEMP_AUX_MIN) || (data.tempAux > TEMP_AUX_MAX)) {
+		data.status.AUX_SENSOR_OK = 0;
 	} else
-		data->status.AUX_SENSOR_OK = 1;
+		data.status.AUX_SENSOR_OK = 1;
 
 	switch (state) {
 	case 0:
@@ -229,28 +227,28 @@ uint8_t checkSensor(t_globalData *data)
 	case 1:
 		// Wait for response
 		if (timeSince(sensorTimeout) > SENSOR_TIMEOUT) {
-			if (data->status.SENSOR_OK) {
-				data->status.SENSOR_OK = 0;
+			if (data.status.SENSOR_OK) {
+				data.status.SENSOR_OK = 0;
 				state = 0;
 				error(WARN_SENSOR_TIMEOUT);
 			}
 			uartReset();
-		} else if (uartIsDataReady()) {
-			dp = getDataPacket(); // pointer to dataPacket
+		} else if (uartDataReadyFlag) {
+			uartDataReadyFlag = 0;
 			// Is the header ok?
-			if ((dp->header == 0xAA) && (dp->status == 1)) {
-				data->tempC = dp->tempC;
-				data->relHum = dp->relHum;
-				data->dewPointC = dp->dewPointC;
-				data->sensorVersion = dp->version;
-				data->status.SENSOR_OK = 1;
+			if ((dataPacket.header == 0xAA) && (dataPacket.status == 1)) {
+				data.tempC = dataPacket.tempC;
+				data.relHum = dataPacket.relHum;
+				data.dewPointC = dataPacket.dewPointC;
+				data.sensorVersion = dataPacket.version;
+				data.status.SENSOR_OK = 1;
 				state = 0;
 				
 				return 1;
 			} else {
 				// Sensor not ok, set status bit and reset UART
-				if (data->status.SENSOR_OK) {
-					data->status.SENSOR_OK = 0;
+				if (data.status.SENSOR_OK) {
+					data.status.SENSOR_OK = 0;
 					error(WARN_SENSOR_CHECKSUM);
 				}
 				uartReset();
@@ -274,7 +272,7 @@ uint8_t checkSensor(t_globalData *data)
 // assuming that heat is only transferred through the lens :-)
 //-----------------------------------------------------------------------------
 
-void calcRequiredPower(t_globalData *data)
+void calcRequiredPower(void)
 {
 	uint8_t n;
 	float d, A, T1, T2, phi;
@@ -284,29 +282,29 @@ void calcRequiredPower(t_globalData *data)
 		
 		// If ambient temperure is above dew point + offset, no heating is required
 		/*
-		if (data->tempC > data->dewPointC + data->dpOffset) {
-			data->chData[n].Preq = 0;
+		if (data.tempC > data.dewPointC + data.dpOffset) {
+			data.chData[n].Preq = 0;
 			continue;
 		}
 		*/
 		// Calculate thermal radiation
-		d = INCH_TO_MM * data->chData[n].lensDia; // Lens diameter in mm
+		d = INCH_TO_MM * data.heater[n].lensDia; // Lens diameter in mm
 		A = (PI * d * d) / 4; // Exposed area of the lens 
 		// Assuming lens temperature has reached dew point + offset
-		T1 = data->dewPointC + data->dpOffset + C_TO_K;
-		T2 = data->skyTemp + C_TO_K;
+		T1 = data.dewPointC + data.dpOffset + C_TO_K;
+		T2 = data.skyTemp + C_TO_K;
 		// Stefan Bolzman Law
 		phi = EPSILON * RHO * A * (T1 * T1 * T1 * T1 - T2 * T2 * T2 * T2);
 		// Required power is phi * experimental factor (heat loss etc...)
-		data->chData[n].Preq = phi * data->fudgeFactor;
+		data.heater[n].Preq = phi * data.fudgeFactor;
 
 		// Approx. heater temp. required
-		p = 2 * PI * INCH_TO_MM * data->chData[n].lensDia;
+		p = 2 * PI * INCH_TO_MM * data.heater[n].lensDia;
 		A = p * WIDTH; // Area covered by heater strip
 		// Thermal resistance of the lens
-		Rth = (data->chData[n].lensDia / 2) * K_FACTOR * A;
+		Rth = (data.heater[n].lensDia / 2) * K_FACTOR * A;
 		// Delta T
-		data->chData[n].dt = phi * Rth - data->dewPointC;
+		data.heater[n].dt = phi * Rth - data.dewPointC;
 	}
 }
 
@@ -314,7 +312,7 @@ void calcRequiredPower(t_globalData *data)
 // Measure battery voltage, current and aux. temperature
 //-----------------------------------------------------------------------------
 
-void getAnalogValues(t_globalData *data)
+void getAnalogValues(void)
 {
 	static uint16_t avgT, avgV, avgI;
 	uint16_t adc;
@@ -325,10 +323,10 @@ void getAnalogValues(t_globalData *data)
 	avgV = ema(adc, avgV, ALPHA(0.8));
 	adc = getAnalogValue(AIN_ISENS);
 	avgI = ema(adc, avgI, ALPHA(0.3));
-	data->tempAux = ADC_TO_T(avgT);
-	data->voltage = ADC_TO_V(avgV);
-	data->current = ADC_TO_I(avgI);
-	data->power = data->voltage * data->current;
+	data.tempAux = ADC_TO_T(avgT);
+	data.voltage = ADC_TO_V(avgV);
+	data.current = ADC_TO_I(avgI);
+	data.power = data.voltage * data.current;
 }
 
 //-----------------------------------------------------------------------------
@@ -369,7 +367,7 @@ int sortCur(const void *cmp1, const void *cmp2)
 // the maximum allowed current of the device, an alternating load switching 
 // scheme during duty cycle is determined.
 //-----------------------------------------------------------------------------
-void channelThing(t_globalData *data)
+void channelThing(void)
 {	
 	uint8_t n;
 	float total, totalGrpA, totalGrpB;
@@ -382,8 +380,8 @@ void channelThing(t_globalData *data)
 		grpB[n] = -1;
 		
 		virtChannels[n].phyChanNum = n;
-		virtChannels[n].current = data->chData[n].current;
-		virtChannels[n].DC = data->chData[n].DCreq;
+		virtChannels[n].current = data.heater[n].current;
+		virtChannels[n].DC = data.heater[n].DCreq;
 	}
 	
 	// Sort virtual channel array by current
@@ -428,8 +426,8 @@ void channelThing(t_globalData *data)
 	
 	// Attained power levels are calculated from new duty cycle values
 	for(n = 0; n < NUM_CHANNELS; n++) {
-		data->chData[virtChannels[n].phyChanNum].Patt = 
-			(virtChannels[n].DC * data->chData[virtChannels[n].phyChanNum].Pmax) / 100.0;
+		data.heater[virtChannels[n].phyChanNum].Patt = 
+			(virtChannels[n].DC * data.heater[virtChannels[n].phyChanNum].Pmax) / 100.0;
 	}
 }
 

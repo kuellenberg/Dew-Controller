@@ -20,8 +20,9 @@ typedef struct {
 	float dewPointC;
 } t_dataPacket;
 
-t_dataPacket *getDataPacket(void);
-uint8_t uartIsDataReady(void);
+volatile uint8_t uartDataReadyFlag = 0;
+volatile t_dataPacket dataPacket;
+
 void uartReceiveISR(void);
 void uartSendByte(char s);
 void uartReset(void);

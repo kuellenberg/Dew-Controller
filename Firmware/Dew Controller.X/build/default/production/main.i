@@ -13076,18 +13076,15 @@ char *tempnam(const char *, const char *);
 
 # 1 "./io.h" 1
 # 41 "./io.h"
-void setOLEDPower(uint8_t state);
-void setLoadSwitch(uint8_t state);
-uint8_t getLoadSwitchFault(void);
 void setChannelSwitch(uint8_t channel, uint8_t state);
 uint16_t getAnalogValue(uint8_t channel);
 # 18 "./common.h" 2
 
 # 1 "./interrupt.h" 1
-# 11 "./interrupt.h"
-void reset10msTick(void);
-uint8_t get10msTick(void);
-uint32_t timeNow(void);
+# 13 "./interrupt.h"
+volatile uint8_t tick10ms = 0;
+volatile uint32_t tick100ms = 0;
+
 uint32_t timeSince(uint32_t since);
 void __attribute__((picinterrupt(("")))) ISR(void);
 # 19 "./common.h" 2
@@ -13103,8 +13100,9 @@ typedef struct {
  float dewPointC;
 } t_dataPacket;
 
-t_dataPacket *getDataPacket(void);
-uint8_t uartIsDataReady(void);
+volatile uint8_t uartDataReadyFlag = 0;
+volatile t_dataPacket dataPacket;
+
 void uartReceiveISR(void);
 void uartSendByte(char s);
 void uartReset(void);
@@ -13142,20 +13140,15 @@ enum e_errorcode getLastError(void);
 # 6 "./oled.h" 2
 # 46 "./oled.h"
 void OLED_off(void);
-void OLED_pulseEnable(void);
 void OLED_write4bits(uint8_t value);
 void OLED_send(uint8_t value, uint8_t mode);
 void OLED_waitForReady(void);
 void OLED_command(uint8_t value);
 void OLED_write(uint8_t value);
 void OLED_init(void);
-void OLED_scrollDisplayLeft(void);
-void OLED_scrollDisplayRight(void);
 void OLED_print(char *s);
 void OLED_print_xy(uint8_t col, uint8_t row, char *s);
 void OLED_setCursor(uint8_t col, uint8_t row);
-void OLED_returnHome(void);
-void OLED_clearDisplay(void);
 void OLED_loadSpecialChars(void);
 # 22 "./common.h" 2
 
@@ -13205,7 +13198,7 @@ typedef struct {
  float dt;
  enum e_channelMode mode;
  enum e_channelStatus status;
-} t_channelData;
+} t_heater;
 
 
 typedef struct {
@@ -13221,8 +13214,14 @@ typedef struct {
  float skyTemp;
  float fudgeFactor;
  t_status status;
- t_channelData chData[4];
+ t_heater heater[4];
 } t_globalData;
+
+
+
+
+
+t_globalData data;
 
 
 
@@ -13277,7 +13276,7 @@ uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 
 # 1 "./menuhelper.h" 1
 # 11 "./menuhelper.h"
-void menu(t_globalData *data);
+void menu(void);
 uint8_t paging(uint8_t currentPage, const uint8_t lastPage);
 void returnToPage(uint8_t page);
 
@@ -13286,13 +13285,13 @@ int8_t g_screenRefresh = 1;
 
 # 1 "./system.h" 1
 # 11 "./system.h"
-uint8_t checkSensor(t_globalData *data);
-uint8_t checkChannelStatus(t_globalData *data);
-void calcRequiredPower(t_globalData *data);
-void channelThing(t_globalData *data);
+uint8_t checkSensor(void);
+void checkChannelStatus(void);
+void calcRequiredPower(void);
+void channelThing(void);
 uint8_t controller(void);
-void systemCheck(t_globalData *data);
-void getAnalogValues(t_globalData *data);
+void systemCheck(void);
+void getAnalogValues(void);
 # 11 "main.c" 2
 
 
@@ -13300,12 +13299,7 @@ void getAnalogValues(t_globalData *data);
 
 
 void initialize(void);
-void initGlobalData(t_globalData *data);
-
-
-
-
-t_globalData data;
+void initGlobalData(void);
 
 
 
@@ -13313,20 +13307,18 @@ t_globalData data;
 
 void main(void)
 {
- uint32_t tick, since, sysCheckInterval = 0;
+ uint32_t sysCheckInterval = 0;
  uint8_t idle = 1;
  uint8_t initDone = 0;
- uint8_t test = 0;
- char str[10];
 
  initialize();
- setOLEDPower(1);
+ LATBbits.LATB5 = 1;
  OLED_init();
  OLED_loadSpecialChars();
- OLED_returnHome();
- OLED_clearDisplay();
- initGlobalData(&data);
- setLoadSwitch(1);
+ OLED_command(0x02);
+ OLED_command(0x01);
+ initGlobalData();
+ LATCbits.LATC3 = 1;
 
 
 
@@ -13335,17 +13327,17 @@ void main(void)
   __asm("clrwdt");
 
 
-  getAnalogValues(&data);
+  getAnalogValues();
 
   if (timeSince(sysCheckInterval) > 5) {
-   sysCheckInterval = timeNow();
-   systemCheck(&data);
+   sysCheckInterval = tick100ms;
+   systemCheck();
   }
 
 
-  if (checkSensor(&data)) {
+  if (checkSensor()) {
 
-   calcRequiredPower(&data);
+   calcRequiredPower();
    initDone = 1;
   }
 
@@ -13354,8 +13346,8 @@ void main(void)
    if (initDone) {
 
 
-    checkChannelStatus(&data);
-    channelThing(&data);
+    checkChannelStatus();
+    channelThing();
     idle = 0;
    }
   } else {
@@ -13366,7 +13358,7 @@ void main(void)
   if (getLastError() != NO_ERROR)
    viewErrorMessage();
   else
-   menu(&data);
+   menu();
 
 
   _delay((unsigned long)((20)*(4000000UL/4000.0)));
@@ -13378,25 +13370,25 @@ void main(void)
 
 
 
-void initGlobalData(t_globalData *data)
+void initGlobalData(void)
 {
  uint8_t n;
- t_channelData *chData;
+ t_heater *chData;
 
- data->tempC = 0;
- data->relHum = 0;
- data->dewPointC = 0;
- data->sensorVersion = 0;
- data->tempAux = 0;
- data->voltage = 0;
- data->current = 0;
- data->power = 0;
- data->dpOffset = 3.0;
- data->skyTemp = -40;
- data->fudgeFactor = 1.0;
+ data.tempC = 0;
+ data.relHum = 0;
+ data.dewPointC = 0;
+ data.sensorVersion = 0;
+ data.tempAux = 0;
+ data.voltage = 0;
+ data.current = 0;
+ data.power = 0;
+ data.dpOffset = 3.0;
+ data.skyTemp = -40;
+ data.fudgeFactor = 1.0;
 
  for (n = 0; n < 4; n++) {
-  chData = &data->chData[n];
+  chData = &data.heater[n];
   chData->lensDia = 4;
   chData->status = CH_UNCHECKED;
   chData->mode = MODE_AUTO;

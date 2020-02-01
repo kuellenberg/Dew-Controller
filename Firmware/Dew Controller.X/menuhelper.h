@@ -8,7 +8,7 @@
 #ifndef MENUHELPER_H
 #define	MENUHELPER_H
 
-void menu(t_globalData *data);
+void menu(void);
 uint8_t paging(uint8_t currentPage, const uint8_t lastPage);
 void returnToPage(uint8_t page);
 

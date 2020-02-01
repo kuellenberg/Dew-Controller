@@ -3,26 +3,8 @@
 volatile uint8_t rxFErrCount = 0;
 volatile uint8_t rxOErrCount = 0;
 volatile uint8_t rxCount = 0;
-volatile uint8_t dataReadyFlag = 0;
-static t_dataPacket dataPacket;
 
 
-//-----------------------------------------------------------------------------
-// Returns True after data packet has been received
-//-----------------------------------------------------------------------------
-uint8_t uartIsDataReady(void)
-{
-	uint8_t ret = dataReadyFlag;
-	dataReadyFlag = 0;
-	return ret;
-}
-//-----------------------------------------------------------------------------
-// Returns pointer to dataPacket
-//-----------------------------------------------------------------------------
-t_dataPacket *getDataPacket(void)
-{
-	return &dataPacket;
-}
 //-----------------------------------------------------------------------------
 // Transmit character string over UART
 //-----------------------------------------------------------------------------
@@ -64,7 +46,7 @@ void uartReceiveISR(void)
 		// Last byte is checksum
 		if (RC1REG == checksum) {
 			// set data ready flag and copy buffer to data structure
-			dataReadyFlag = 1;
+			uartDataReadyFlag = 1;
 			strncpy((char *) &dataPacket, buffer, sizeof(dataPacket));
 		}
 		checksum = 0;

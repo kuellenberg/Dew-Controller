@@ -1,32 +1,6 @@
 #include "common.h"
 
 //-----------------------------------------------------------------------------
-// Enable/disable load switch
-//-----------------------------------------------------------------------------
-void setLoadSwitch(uint8_t state)
-{
-	PEN = state;
-}
-
-//-----------------------------------------------------------------------------
-// Returns load switch status
-// 	0: no fault
-//  1: overcurrent condition, load switch disabled
-//-----------------------------------------------------------------------------
-uint8_t getLoadSwitchFault(void)
-{
-	return !nFAULT;
-}
-
-//-----------------------------------------------------------------------------
-// Enable/disable power to OLED display
-//-----------------------------------------------------------------------------
-void setOLEDPower(uint8_t state)
-{
-	OLED_PWR = state;
-}
-
-//-----------------------------------------------------------------------------
 // Enable/disable heater output
 //-----------------------------------------------------------------------------
 void setChannelSwitch(uint8_t channel, uint8_t state)

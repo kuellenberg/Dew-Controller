@@ -56,11 +56,11 @@ void pushButtonISR()
 	uint8_t time;
 	// reset millisecond tick counter upon first rising edge of push button 
 	if ((!ROT_PB) && (pbState != PB_WAIT)) {
-		reset10msTick();
+		tick10ms = 0;
 		pbState = PB_WAIT;
 		userActivity = timeNow();
 	} else if (pbState == PB_WAIT) {
-		time = get10msTick();
+		time = tick10ms;
 		if ((time > 10) && (time <= 70) && (ROT_PB)) 
 			// short button press
 			pbState = PB_SHORT;		

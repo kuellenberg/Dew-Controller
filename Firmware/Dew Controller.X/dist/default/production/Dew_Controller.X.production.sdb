@@ -4,19 +4,19 @@
 [d chip 16F15356 ]
 [d frameptr 6 ]
 "14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
-[e E8303 e_buttonPress `uc
+[e E8292 e_buttonPress `uc
 PB_NONE 0
 PB_SHORT 1
 PB_LONG 2
 PB_ABORT 3
 PB_WAIT 4
 ]
-"22 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-[e E8327 e_channelMode `uc
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E8316 e_channelMode `uc
 MODE_MANUAL 0
 MODE_AUTO 1
 ]
-[e E8330 e_channelStatus `uc
+[e E8319 e_channelStatus `uc
 CH_DISABLED 0
 CH_ENABLED 1
 CH_OPEN 2
@@ -24,8 +24,8 @@ CH_SHORTED 3
 CH_OVERCURRENT 4
 CH_UNCHECKED 5
 ]
-"80
-[e E8255 e_errorcode `uc
+"73 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+[e E8249 e_errorcode `uc
 NO_ERROR 0
 WARN_REMOVED 1
 WARN_SHORTED 2
@@ -40,29 +40,70 @@ ERR_OVERCURRENT 10
 ERR_MENU 11
 ]
 "14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
-[e E7879 e_buttonPress `uc
+[e E7868 e_buttonPress `uc
 PB_NONE 0
 PB_SHORT 1
 PB_LONG 2
 PB_ABORT 3
 PB_WAIT 4
 ]
-[e E7879 e_buttonPress `uc
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
+MODE_MANUAL 0
+MODE_AUTO 1
+]
+[e E7895 e_channelStatus `uc
+CH_DISABLED 0
+CH_ENABLED 1
+CH_OPEN 2
+CH_SHORTED 3
+CH_OVERCURRENT 4
+CH_UNCHECKED 5
+]
+"14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
+[e E7868 e_buttonPress `uc
 PB_NONE 0
 PB_SHORT 1
 PB_LONG 2
 PB_ABORT 3
 PB_WAIT 4
 ]
-[e E7879 e_buttonPress `uc
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
+MODE_MANUAL 0
+MODE_AUTO 1
+]
+[e E7895 e_channelStatus `uc
+CH_DISABLED 0
+CH_ENABLED 1
+CH_OPEN 2
+CH_SHORTED 3
+CH_OVERCURRENT 4
+CH_UNCHECKED 5
+]
+"14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
+[e E7868 e_buttonPress `uc
 PB_NONE 0
 PB_SHORT 1
 PB_LONG 2
 PB_ABORT 3
 PB_WAIT 4
+]
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
+MODE_MANUAL 0
+MODE_AUTO 1
+]
+[e E7895 e_channelStatus `uc
+CH_DISABLED 0
+CH_ENABLED 1
+CH_OPEN 2
+CH_SHORTED 3
+CH_OVERCURRENT 4
+CH_UNCHECKED 5
 ]
 "15 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\inputs.c
-[e E7953 e_states `uc
+[e E7943 e_states `uc
 START 0
 CW1 1
 CW2 2
@@ -71,37 +112,30 @@ CCW1 4
 CCW2 5
 CCW3 6
 ]
-[e E7961 e_flags `uc
+[e E7951 e_flags `uc
 CW_FLAG 128
 CCW_FLAG 64
 ]
 "28
-[e E7875 e_direction `uc
+[e E7864 e_direction `uc
 ROT_STOP 0
 ROT_CW 1
 ROT_CCW 2
 ]
 "14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
-[e E7879 e_buttonPress `uc
+[e E7868 e_buttonPress `uc
 PB_NONE 0
 PB_SHORT 1
 PB_LONG 2
 PB_ABORT 3
 PB_WAIT 4
 ]
-[e E7879 e_buttonPress `uc
-PB_NONE 0
-PB_SHORT 1
-PB_LONG 2
-PB_ABORT 3
-PB_WAIT 4
-]
-"16 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menu.c
-[e E7903 e_channelMode `uc
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
 MODE_MANUAL 0
 MODE_AUTO 1
 ]
-[e E7906 e_channelStatus `uc
+[e E7895 e_channelStatus `uc
 CH_DISABLED 0
 CH_ENABLED 1
 CH_OPEN 2
@@ -110,15 +144,49 @@ CH_OVERCURRENT 4
 CH_UNCHECKED 5
 ]
 "14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
-[e E7879 e_buttonPress `uc
+[e E7868 e_buttonPress `uc
 PB_NONE 0
 PB_SHORT 1
 PB_LONG 2
 PB_ABORT 3
 PB_WAIT 4
 ]
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
+MODE_MANUAL 0
+MODE_AUTO 1
+]
+[e E7895 e_channelStatus `uc
+CH_DISABLED 0
+CH_ENABLED 1
+CH_OPEN 2
+CH_SHORTED 3
+CH_OVERCURRENT 4
+CH_UNCHECKED 5
+]
+"14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
+[e E7868 e_buttonPress `uc
+PB_NONE 0
+PB_SHORT 1
+PB_LONG 2
+PB_ABORT 3
+PB_WAIT 4
+]
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
+MODE_MANUAL 0
+MODE_AUTO 1
+]
+[e E7895 e_channelStatus `uc
+CH_DISABLED 0
+CH_ENABLED 1
+CH_OPEN 2
+CH_SHORTED 3
+CH_OVERCURRENT 4
+CH_UNCHECKED 5
+]
 "6 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\error.c
-[e E7831 e_errorcode `uc
+[e E7825 e_errorcode `uc
 NO_ERROR 0
 WARN_REMOVED 1
 WARN_SHORTED 2
@@ -133,15 +201,28 @@ ERR_OVERCURRENT 10
 ERR_MENU 11
 ]
 "14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
-[e E7879 e_buttonPress `uc
+[e E7868 e_buttonPress `uc
 PB_NONE 0
 PB_SHORT 1
 PB_LONG 2
 PB_ABORT 3
 PB_WAIT 4
 ]
-"52 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
-[e E7979 e_menuStates `uc
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
+MODE_MANUAL 0
+MODE_AUTO 1
+]
+[e E7895 e_channelStatus `uc
+CH_DISABLED 0
+CH_ENABLED 1
+CH_OPEN 2
+CH_SHORTED 3
+CH_OVERCURRENT 4
+CH_UNCHECKED 5
+]
+"58 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
+[e E7959 e_menuStates `uc
 ST_STATUS_VIEW 0
 ST_CHANNEL_VIEW 1
 ST_CHANNEL_SETUP 2
@@ -152,20 +233,8 @@ ST_SET_DP_OFFSET 6
 ST_SET_SKY_TEMP 7
 ST_SET_FUDGE_FACTOR 8
 ]
-[e E7903 e_channelMode `uc
-MODE_MANUAL 0
-MODE_AUTO 1
-]
-[e E7906 e_channelStatus `uc
-CH_DISABLED 0
-CH_ENABLED 1
-CH_OPEN 2
-CH_SHORTED 3
-CH_OVERCURRENT 4
-CH_UNCHECKED 5
-]
-"118
-[e E7831 e_errorcode `uc
+"111
+[e E7825 e_errorcode `uc
 NO_ERROR 0
 WARN_REMOVED 1
 WARN_SHORTED 2
@@ -179,33 +248,26 @@ ERR_NUKED 9
 ERR_OVERCURRENT 10
 ERR_MENU 11
 ]
-"188
-[e E7875 e_direction `uc
+"167
+[e E7864 e_direction `uc
 ROT_STOP 0
 ROT_CW 1
 ROT_CCW 2
 ]
 "14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
-[e E7879 e_buttonPress `uc
+[e E7868 e_buttonPress `uc
 PB_NONE 0
 PB_SHORT 1
 PB_LONG 2
 PB_ABORT 3
 PB_WAIT 4
 ]
-[e E7879 e_buttonPress `uc
-PB_NONE 0
-PB_SHORT 1
-PB_LONG 2
-PB_ABORT 3
-PB_WAIT 4
-]
-"56 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
-[e E7903 e_channelMode `uc
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
 MODE_MANUAL 0
 MODE_AUTO 1
 ]
-[e E7906 e_channelStatus `uc
+[e E7895 e_channelStatus `uc
 CH_DISABLED 0
 CH_ENABLED 1
 CH_OPEN 2
@@ -213,8 +275,29 @@ CH_SHORTED 3
 CH_OVERCURRENT 4
 CH_UNCHECKED 5
 ]
-"88
-[e E7831 e_errorcode `uc
+"14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
+[e E7868 e_buttonPress `uc
+PB_NONE 0
+PB_SHORT 1
+PB_LONG 2
+PB_ABORT 3
+PB_WAIT 4
+]
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
+MODE_MANUAL 0
+MODE_AUTO 1
+]
+[e E7895 e_channelStatus `uc
+CH_DISABLED 0
+CH_ENABLED 1
+CH_OPEN 2
+CH_SHORTED 3
+CH_OVERCURRENT 4
+CH_UNCHECKED 5
+]
+"86 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
+[e E7825 e_errorcode `uc
 NO_ERROR 0
 WARN_REMOVED 1
 WARN_SHORTED 2
@@ -229,12 +312,25 @@ ERR_OVERCURRENT 10
 ERR_MENU 11
 ]
 "14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
-[e E7879 e_buttonPress `uc
+[e E7868 e_buttonPress `uc
 PB_NONE 0
 PB_SHORT 1
 PB_LONG 2
 PB_ABORT 3
 PB_WAIT 4
+]
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[e E7892 e_channelMode `uc
+MODE_MANUAL 0
+MODE_AUTO 1
+]
+[e E7895 e_channelStatus `uc
+CH_DISABLED 0
+CH_ENABLED 1
+CH_OPEN 2
+CH_SHORTED 3
+CH_OVERCURRENT 4
+CH_UNCHECKED 5
 ]
 "5 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\awdiv.c
 [v ___awdiv __awdiv `(i  1 e 2 0 ]
@@ -281,47 +377,32 @@ PB_WAIT 4
 "13 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\error.c
 [v _error error `(v  1 e 1 0 ]
 "24
-[v _getLastError getLastError `(E8255  1 e 1 0 ]
-"34
-[v _removeLastError removeLastError `(v  1 e 1 0 ]
-"43
+[v _getLastError getLastError `(E8249  1 e 1 0 ]
+"32
 [v _viewErrorMessage viewErrorMessage `(v  1 e 1 0 ]
 "34 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\inputs.c
 [v _rotISR rotISR `(v  1 e 1 0 ]
 "54
 [v _pushButtonISR pushButtonISR `(v  1 e 1 0 ]
 "79
-[v _getRotDir getRotDir `(E7875  1 e 1 0 ]
+[v _getRotDir getRotDir `(E7864  1 e 1 0 ]
 "89
-[v _getPB getPB `(E7879  1 e 1 0 ]
+[v _getPB getPB `(E7868  1 e 1 0 ]
 "100
 [v _spinInput spinInput `(v  1 e 1 0 ]
-"13 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\interrupt.c
-[v _timeNow timeNow `(ul  1 e 4 0 ]
-[v i1_timeNow timeNow `(ul  1 e 4 0 ]
-"21
+"10 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\interrupt.c
 [v _timeSince timeSince `(ul  1 e 4 0 ]
-"33
-[v _get10msTick get10msTick `(uc  1 e 1 0 ]
-"41
-[v _reset10msTick reset10msTick `(v  1 e 1 0 ]
-"48
+"22
 [v _ISR ISR `II(v  1 e 1 0 ]
 "6 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\io.c
-[v _setLoadSwitch setLoadSwitch `(v  1 e 1 0 ]
-"16
-[v _getLoadSwitchFault getLoadSwitchFault `(uc  1 e 1 0 ]
-"24
-[v _setOLEDPower setOLEDPower `(v  1 e 1 0 ]
-"32
 [v _setChannelSwitch setChannelSwitch `(v  1 e 1 0 ]
-"59
+"33
 [v _getAnalogValue getAnalogValue `(us  1 e 2 0 ]
-"28 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+"23 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
 [v _main main `(v  1 e 1 0 ]
-"95
+"88
 [v _initGlobalData initGlobalData `(v  1 e 1 0 ]
-"129
+"122
 [v _initialize initialize `(v  1 e 1 0 ]
 "16 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menu.c
 [v _statusView statusView `(uc  1 e 1 0 ]
@@ -341,93 +422,94 @@ PB_WAIT 4
 [v _setSkyTemp setSkyTemp `(uc  1 e 1 0 ]
 "317
 [v _setFudgeFactor setFudgeFactor `(uc  1 e 1 0 ]
-"87 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
+"80 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
 [v _menu menu `(v  1 e 1 0 ]
-"140
-[v _getStateFunc getStateFunc `(*.37(uc  1 e 2 0 ]
-"155
+"134
 [v _getNextState getNextState `(c  1 e 1 0 ]
-"185
+"164
 [v _paging paging `(uc  1 e 1 0 ]
-"226
+"205
 [v _returnToPage returnToPage `(v  1 e 1 0 ]
 "12 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
 [v _OLED_off OLED_off `(v  1 e 1 0 ]
 "18
-[v _OLED_pulseEnable OLED_pulseEnable `(v  1 e 1 0 ]
-"25
 [v _OLED_write4bits OLED_write4bits `(v  1 e 1 0 ]
-"36
+"31
 [v _OLED_send OLED_send `(v  1 e 1 0 ]
-"47
+"42
 [v _OLED_waitForReady OLED_waitForReady `(v  1 e 1 0 ]
-"72
+"70
 [v _OLED_command OLED_command `(v  1 e 1 0 ]
-"78
+"76
 [v _OLED_write OLED_write `(v  1 e 1 0 ]
-"84
+"82
 [v _OLED_init OLED_init `(v  1 e 1 0 ]
-"132
-[v _OLED_scrollDisplayLeft OLED_scrollDisplayLeft `(v  1 e 1 0 ]
-"137
-[v _OLED_scrollDisplayRight OLED_scrollDisplayRight `(v  1 e 1 0 ]
-"156
+"144
 [v _OLED_print_xy OLED_print_xy `(v  1 e 1 0 ]
-"166
-[v _OLED_returnHome OLED_returnHome `(v  1 e 1 0 ]
-"171
-[v _OLED_clearDisplay OLED_clearDisplay `(v  1 e 1 0 ]
-"176
+"155
 [v _OLED_loadSpecialChars OLED_loadSpecialChars `(v  1 e 1 0 ]
-"56 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
-[v _checkChannelStatus checkChannelStatus `(uc  1 e 1 0 ]
-"233
+"54 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
+[v _checkChannelStatus checkChannelStatus `(v  1 e 1 0 ]
+"136
 [v _systemCheck systemCheck `(v  1 e 1 0 ]
-"302
+"205
 [v _checkSensor checkSensor `(uc  1 e 1 0 ]
-"372
+"275
 [v _calcRequiredPower calcRequiredPower `(v  1 e 1 0 ]
-"412
+"315
 [v _getAnalogValues getAnalogValues `(v  1 e 1 0 ]
-"432
+"335
 [v _sortDC sortDC `(i  1 e 2 0 ]
-"443
+"346
 [v _sortDCRev sortDCRev `(i  1 e 2 0 ]
-"454
+"357
 [v _sortCur sortCur `(i  1 e 2 0 ]
-"467
+"370
 [v _channelThing channelThing `(v  1 e 1 0 ]
-"535
+"438
 [v _controller controller `(uc  1 e 1 0 ]
-"13 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\uart.c
-[v _uartIsDataReady uartIsDataReady `(uc  1 e 1 0 ]
-"14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/uart.h
-[s S810 . 15 `uc 1 header 1 0 `uc 1 version 1 1 `uc 1 status 1 2 `f 1 tempC 4 3 `f 1 relHum 4 7 `f 1 dewPointC 4 11 ]
-"22 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\uart.c
-[v _getDataPacket getDataPacket `(*.6S810  1 e 1 0 ]
-"29
+"11 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\uart.c
 [v _uartSendByte uartSendByte `(v  1 e 1 0 ]
-"39
+"21
 [v _uartReceiveISR uartReceiveISR `(v  1 e 1 0 ]
-"78
+"60
 [v _uartReset uartReset `(v  1 e 1 0 ]
+[s S35 . 1 `uc 1 BAT_LOW 1 0 :1:0 
+`uc 1 BAT_HIGH 1 0 :1:1 
+`uc 1 OVERCURRENT 1 0 :1:2 
+`uc 1 SENSOR_OK 1 0 :1:3 
+`uc 1 AUX_SENSOR_OK 1 0 :1:4 
+]
+"97 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/common.h
+[s S51 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8316 1 mode 1 29 `E8319 1 status 1 30 ]
+[s S62 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S35 1 status 1 41 `[4]S51 1 heater 124 42 ]
+[v _data data `S62  1 e 166 @10058 ]
 "14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/inputs.h
-[v _pbState pbState `VEE8303  1 e 1 0 ]
+[v _pbState pbState `VEE8292  1 e 1 0 ]
 "15
 [v _userActivity userActivity `VEul  1 e 4 0 ]
+"13 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/interrupt.h
+[v _tick10ms tick10ms `VEuc  1 e 1 0 ]
+"14
+[v _tick100ms tick100ms `VEul  1 e 4 0 ]
 "15 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/menuhelper.h
 [v _g_screenRefresh g_screenRefresh `c  1 e 1 0 ]
+"23 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/uart.h
+[v _uartDataReadyFlag uartDataReadyFlag `VEuc  1 e 1 0 ]
+[s S22 . 15 `uc 1 header 1 0 `uc 1 version 1 1 `uc 1 status 1 2 `f 1 tempC 4 3 `f 1 relHum 4 7 `f 1 dewPointC 4 11 ]
+"24
+[v _dataPacket dataPacket `VES22  1 e 15 0 ]
 "413 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h
 [v _INTCON INTCON `VEuc  1 e 1 @11 ]
-[s S595 . 1 `uc 1 INTEDG 1 0 :1:0 
+[s S679 . 1 `uc 1 INTEDG 1 0 :1:0 
 `uc 1 . 1 0 :5:1 
 `uc 1 PEIE 1 0 :1:6 
 `uc 1 GIE 1 0 :1:7 
 ]
 "426
-[u S600 . 1 `S595 1 . 1 0 ]
-[v _INTCONbits INTCONbits `VES600  1 e 1 @11 ]
-[s S749 . 1 `uc 1 RA0 1 0 :1:0 
+[u S684 . 1 `S679 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES684  1 e 1 @11 ]
+[s S881 . 1 `uc 1 RA0 1 0 :1:0 
 `uc 1 RA1 1 0 :1:1 
 `uc 1 RA2 1 0 :1:2 
 `uc 1 RA3 1 0 :1:3 
@@ -437,9 +519,9 @@ PB_WAIT 4
 `uc 1 RA7 1 0 :1:7 
 ]
 "463
-[u S758 . 1 `S749 1 . 1 0 ]
-[v _PORTAbits PORTAbits `VES758  1 e 1 @12 ]
-[s S437 . 1 `uc 1 RC0 1 0 :1:0 
+[u S890 . 1 `S881 1 . 1 0 ]
+[v _PORTAbits PORTAbits `VES890  1 e 1 @12 ]
+[s S490 . 1 `uc 1 RC0 1 0 :1:0 
 `uc 1 RC1 1 0 :1:1 
 `uc 1 RC2 1 0 :1:2 
 `uc 1 RC3 1 0 :1:3 
@@ -449,15 +531,15 @@ PB_WAIT 4
 `uc 1 RC7 1 0 :1:7 
 ]
 "587
-[u S446 . 1 `S437 1 . 1 0 ]
-[v _PORTCbits PORTCbits `VES446  1 e 1 @14 ]
+[u S499 . 1 `S490 1 . 1 0 ]
+[v _PORTCbits PORTCbits `VES499  1 e 1 @14 ]
 "653
 [v _TRISA TRISA `VEuc  1 e 1 @18 ]
 "715
 [v _TRISB TRISB `VEuc  1 e 1 @19 ]
 "777
 [v _TRISC TRISC `VEuc  1 e 1 @20 ]
-[s S416 . 1 `uc 1 TRISC0 1 0 :1:0 
+[s S469 . 1 `uc 1 TRISC0 1 0 :1:0 
 `uc 1 TRISC1 1 0 :1:1 
 `uc 1 TRISC2 1 0 :1:2 
 `uc 1 TRISC3 1 0 :1:3 
@@ -467,9 +549,9 @@ PB_WAIT 4
 `uc 1 TRISC7 1 0 :1:7 
 ]
 "794
-[u S425 . 1 `S416 1 . 1 0 ]
-[v _TRISCbits TRISCbits `VES425  1 e 1 @20 ]
-[s S1563 . 1 `uc 1 LATA0 1 0 :1:0 
+[u S478 . 1 `S469 1 . 1 0 ]
+[v _TRISCbits TRISCbits `VES478  1 e 1 @20 ]
+[s S1609 . 1 `uc 1 LATA0 1 0 :1:0 
 `uc 1 LATA1 1 0 :1:1 
 `uc 1 LATA2 1 0 :1:2 
 `uc 1 LATA3 1 0 :1:3 
@@ -479,9 +561,9 @@ PB_WAIT 4
 `uc 1 LATA7 1 0 :1:7 
 ]
 "877
-[u S1572 . 1 `S1563 1 . 1 0 ]
-[v _LATAbits LATAbits `VES1572  1 e 1 @24 ]
-[s S372 . 1 `uc 1 LATB0 1 0 :1:0 
+[u S1618 . 1 `S1609 1 . 1 0 ]
+[v _LATAbits LATAbits `VES1618  1 e 1 @24 ]
+[s S80 . 1 `uc 1 LATB0 1 0 :1:0 
 `uc 1 LATB1 1 0 :1:1 
 `uc 1 LATB2 1 0 :1:2 
 `uc 1 LATB3 1 0 :1:3 
@@ -491,9 +573,9 @@ PB_WAIT 4
 `uc 1 LATB7 1 0 :1:7 
 ]
 "939
-[u S381 . 1 `S372 1 . 1 0 ]
-[v _LATBbits LATBbits `VES381  1 e 1 @25 ]
-[s S395 . 1 `uc 1 LATC0 1 0 :1:0 
+[u S89 . 1 `S80 1 . 1 0 ]
+[v _LATBbits LATBbits `VES89  1 e 1 @25 ]
+[s S118 . 1 `uc 1 LATC0 1 0 :1:0 
 `uc 1 LATC1 1 0 :1:1 
 `uc 1 LATC2 1 0 :1:2 
 `uc 1 LATC3 1 0 :1:3 
@@ -503,13 +585,13 @@ PB_WAIT 4
 `uc 1 LATC7 1 0 :1:7 
 ]
 "1001
-[u S404 . 1 `S395 1 . 1 0 ]
-[v _LATCbits LATCbits `VES404  1 e 1 @26 ]
+[u S127 . 1 `S118 1 . 1 0 ]
+[v _LATCbits LATCbits `VES127  1 e 1 @26 ]
 "1053
 [v _ADRESL ADRESL `VEuc  1 e 1 @155 ]
 "1123
 [v _ADRESH ADRESH `VEuc  1 e 1 @156 ]
-[s S231 . 1 `uc 1 ADON 1 0 :1:0 
+[s S255 . 1 `uc 1 ADON 1 0 :1:0 
 `uc 1 GOnDONE 1 0 :1:1 
 `uc 1 CHS0 1 0 :1:2 
 `uc 1 CHS1 1 0 :1:3 
@@ -519,12 +601,12 @@ PB_WAIT 4
 `uc 1 CHS5 1 0 :1:7 
 ]
 "1215
-[s S240 . 1 `uc 1 . 1 0 :1:0 
+[s S264 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 GO 1 0 :1:1 
 `uc 1 CHS 1 0 :6:2 
 ]
-[u S244 . 1 `S231 1 . 1 0 `S240 1 . 1 0 ]
-[v _ADCON0bits ADCON0bits `VES244  1 e 1 @157 ]
+[u S268 . 1 `S255 1 . 1 0 `S264 1 . 1 0 ]
+[v _ADCON0bits ADCON0bits `VES268  1 e 1 @157 ]
 "1270
 [v _ADCON1 ADCON1 `VEuc  1 e 1 @158 ]
 "1388
@@ -535,7 +617,7 @@ PB_WAIT 4
 [v _SPBRGL SPBRGL `VEuc  1 e 1 @283 ]
 "1627
 [v _RC1STA RC1STA `VEuc  1 e 1 @285 ]
-[s S831 . 1 `uc 1 RX9D 1 0 :1:0 
+[s S1004 . 1 `uc 1 RX9D 1 0 :1:0 
 `uc 1 OERR 1 0 :1:1 
 `uc 1 FERR 1 0 :1:2 
 `uc 1 ADDEN 1 0 :1:3 
@@ -545,8 +627,8 @@ PB_WAIT 4
 `uc 1 SPEN 1 0 :1:7 
 ]
 "1653
-[u S840 . 1 `S831 1 . 1 0 ]
-[v _RC1STAbits RC1STAbits `VES840  1 e 1 @285 ]
+[u S1013 . 1 `S1004 1 . 1 0 ]
+[v _RC1STAbits RC1STAbits `VES1013  1 e 1 @285 ]
 "1807
 [v _TX1STA TX1STA `VEuc  1 e 1 @286 ]
 "1987
@@ -563,15 +645,15 @@ PB_WAIT 4
 [v _T0CON0 T0CON0 `VEuc  1 e 1 @1438 ]
 "8196
 [v _T0CON1 T0CON1 `VEuc  1 e 1 @1439 ]
-[s S552 . 1 `uc 1 INTF 1 0 :1:0 
+[s S636 . 1 `uc 1 INTF 1 0 :1:0 
 `uc 1 . 1 0 :3:1 
 `uc 1 IOCIF 1 0 :1:4 
 `uc 1 TMR0IF 1 0 :1:5 
 ]
 "9057
-[u S557 . 1 `S552 1 . 1 0 ]
-[v _PIR0bits PIR0bits `VES557  1 e 1 @1804 ]
-[s S648 . 1 `uc 1 SSP1IF 1 0 :1:0 
+[u S641 . 1 `S636 1 . 1 0 ]
+[v _PIR0bits PIR0bits `VES641  1 e 1 @1804 ]
+[s S732 . 1 `uc 1 SSP1IF 1 0 :1:0 
 `uc 1 BCL1IF 1 0 :1:1 
 `uc 1 SSP2IF 1 0 :1:2 
 `uc 1 BCL2IF 1 0 :1:3 
@@ -581,27 +663,27 @@ PB_WAIT 4
 `uc 1 RC2IF 1 0 :1:7 
 ]
 "9166
-[u S657 . 1 `S648 1 . 1 0 ]
-[v _PIR3bits PIR3bits `VES657  1 e 1 @1807 ]
-[s S617 . 1 `uc 1 TMR1IF 1 0 :1:0 
+[u S741 . 1 `S732 1 . 1 0 ]
+[v _PIR3bits PIR3bits `VES741  1 e 1 @1807 ]
+[s S701 . 1 `uc 1 TMR1IF 1 0 :1:0 
 `uc 1 TMR2IF 1 0 :1:1 
 ]
 "9222
-[u S620 . 1 `S617 1 . 1 0 ]
-[v _PIR4bits PIR4bits `VES620  1 e 1 @1808 ]
+[u S704 . 1 `S701 1 . 1 0 ]
+[v _PIR4bits PIR4bits `VES704  1 e 1 @1808 ]
 "9350
 [v _PIE0 PIE0 `VEuc  1 e 1 @1814 ]
-[s S539 . 1 `uc 1 INTE 1 0 :1:0 
+[s S623 . 1 `uc 1 INTE 1 0 :1:0 
 `uc 1 . 1 0 :3:1 
 `uc 1 IOCIE 1 0 :1:4 
 `uc 1 TMR0IE 1 0 :1:5 
 ]
 "9363
-[u S544 . 1 `S539 1 . 1 0 ]
-[v _PIE0bits PIE0bits `VES544  1 e 1 @1814 ]
+[u S628 . 1 `S623 1 . 1 0 ]
+[v _PIE0bits PIE0bits `VES628  1 e 1 @1814 ]
 "9455
 [v _PIE3 PIE3 `VEuc  1 e 1 @1817 ]
-[s S627 . 1 `uc 1 SSP1IE 1 0 :1:0 
+[s S711 . 1 `uc 1 SSP1IE 1 0 :1:0 
 `uc 1 BCL1IE 1 0 :1:1 
 `uc 1 SSP2IE 1 0 :1:2 
 `uc 1 BCL2IE 1 0 :1:3 
@@ -611,19 +693,19 @@ PB_WAIT 4
 `uc 1 RC2IE 1 0 :1:7 
 ]
 "9472
-[u S636 . 1 `S627 1 . 1 0 ]
-[v _PIE3bits PIE3bits `VES636  1 e 1 @1817 ]
+[u S720 . 1 `S711 1 . 1 0 ]
+[v _PIE3bits PIE3bits `VES720  1 e 1 @1817 ]
 "9517
 [v _PIE4 PIE4 `VEuc  1 e 1 @1818 ]
-[s S608 . 1 `uc 1 TMR1IE 1 0 :1:0 
+[s S692 . 1 `uc 1 TMR1IE 1 0 :1:0 
 `uc 1 TMR2IE 1 0 :1:1 
 ]
 "9528
-[u S611 . 1 `S608 1 . 1 0 ]
-[v _PIE4bits PIE4bits `VES611  1 e 1 @1818 ]
+[u S695 . 1 `S692 1 . 1 0 ]
+[v _PIE4bits PIE4bits `VES695  1 e 1 @1818 ]
 "10951
 [v _OSCCON1 OSCCON1 `VEuc  1 e 1 @2189 ]
-[s S185 . 1 `uc 1 . 1 0 :3:0 
+[s S209 . 1 `uc 1 . 1 0 :3:0 
 `uc 1 NOSCR 1 0 :1:3 
 `uc 1 ORDY 1 0 :1:4 
 `uc 1 . 1 0 :1:5 
@@ -631,22 +713,22 @@ PB_WAIT 4
 `uc 1 CSWHOLD 1 0 :1:7 
 ]
 "11106
-[u S192 . 1 `S185 1 . 1 0 ]
-[v _OSCCON3bits OSCCON3bits `VES192  1 e 1 @2191 ]
+[u S216 . 1 `S209 1 . 1 0 ]
+[v _OSCCON3bits OSCCON3bits `VES216  1 e 1 @2191 ]
 "11297
 [v _OSCFRQ OSCFRQ `VEuc  1 e 1 @2195 ]
-[s S202 . 1 `uc 1 RX1DTPPS 1 0 :6:0 
+[s S226 . 1 `uc 1 RX1DTPPS 1 0 :6:0 
 ]
 "18252
-[s S204 . 1 `uc 1 RX1DTPPS0 1 0 :1:0 
+[s S228 . 1 `uc 1 RX1DTPPS0 1 0 :1:0 
 `uc 1 RX1DTPPS1 1 0 :1:1 
 `uc 1 RX1DTPPS2 1 0 :1:2 
 `uc 1 RX1DTPPS3 1 0 :1:3 
 `uc 1 RX1DTPPS4 1 0 :1:4 
 `uc 1 RX1DTPPS5 1 0 :1:5 
 ]
-[u S211 . 1 `S202 1 . 1 0 `S204 1 . 1 0 ]
-[v _RX1DTPPSbits RX1DTPPSbits `VES211  1 e 1 @7883 ]
+[u S235 . 1 `S226 1 . 1 0 `S228 1 . 1 0 ]
+[v _RX1DTPPSbits RX1DTPPSbits `VES235  1 e 1 @7883 ]
 "19434
 [v _RC6PPS RC6PPS `VEuc  1 e 1 @7974 ]
 "19522
@@ -655,7 +737,7 @@ PB_WAIT 4
 [v _IOCAP IOCAP `VEuc  1 e 1 @7997 ]
 "19894
 [v _IOCAN IOCAN `VEuc  1 e 1 @7998 ]
-[s S570 . 1 `uc 1 IOCAF0 1 0 :1:0 
+[s S654 . 1 `uc 1 IOCAF0 1 0 :1:0 
 `uc 1 IOCAF1 1 0 :1:1 
 `uc 1 IOCAF2 1 0 :1:2 
 `uc 1 IOCAF3 1 0 :1:3 
@@ -665,8 +747,8 @@ PB_WAIT 4
 `uc 1 IOCAF7 1 0 :1:7 
 ]
 "19973
-[u S579 . 1 `S570 1 . 1 0 ]
-[v _IOCAFbits IOCAFbits `VES579  1 e 1 @7999 ]
+[u S663 . 1 `S654 1 . 1 0 ]
+[v _IOCAFbits IOCAFbits `VES663  1 e 1 @7999 ]
 "20018
 [v _ANSELB ANSELB `VEuc  1 e 1 @8003 ]
 "20514
@@ -674,7 +756,7 @@ PB_WAIT 4
 "20886
 [v _IOCCN IOCCN `VEuc  1 e 1 @8020 ]
 "6 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\error.c
-[v _errorMessageQueue errorMessageQueue `[10]E7831  1 s 10 errorMessageQueue ]
+[v _errorMessageQueue errorMessageQueue `[10]E7825  1 s 10 errorMessageQueue ]
 "7
 [v _head head `uc  1 s 1 head ]
 "8
@@ -684,199 +766,94 @@ PB_WAIT 4
 "27
 [v _curRotState curRotState `VEuc  1 e 1 0 ]
 "28
-[v _rotDir rotDir `VEE7875  1 e 1 0 ]
-"7 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\interrupt.c
-[v _tick10ms tick10ms `VEuc  1 e 1 0 ]
-"8
-[v _tick100ms tick100ms `VEul  1 e 4 0 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"22 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v _data data `S55  1 e 166 @10058 ]
+[v _rotDir rotDir `VEE7864  1 e 1 0 ]
 "8 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menu.c
 [v _selectedChannel selectedChannel `uc  1 s 1 selectedChannel ]
 "11
 [v _str str `[10]uc  1 s 10 str ]
-[s S1391 . 3 `E7979 1 state 1 0 `*.37(uc 1 func 2 1 ]
-"52 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
-[v _stateFuncTbl stateFuncTbl `DC[9]S1391  1 s 27 stateFuncTbl ]
-[s S1407 . 6 `uc 1 state 1 0 `uc 1 intState 1 1 `uc 1 pbShort 1 2 `uc 1 pbLong 1 3 `uc 1 timeout 1 4 `uc 1 noAction 1 5 ]
-"65
-[v _nextStateTbl nextStateTbl `DC[14]S1407  1 s 84 nextStateTbl ]
-[s S1634 . 9 `i 1 phyChanNum 2 0 `f 1 current 4 2 `uc 1 DC 1 6 `uc 1 start 1 7 `uc 1 stop 1 8 ]
+"46 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
+[v _stateFuncTbl stateFuncTbl `DC[9]*.37(uc  1 s 18 stateFuncTbl ]
+[s S1450 . 6 `uc 1 state 1 0 `uc 1 intState 1 1 `uc 1 pbShort 1 2 `uc 1 pbLong 1 3 `uc 1 timeout 1 4 `uc 1 noAction 1 5 ]
+"58
+[v _nextStateTbl nextStateTbl `DC[14]S1450  1 s 84 nextStateTbl ]
+[s S1728 . 9 `i 1 phyChanNum 2 0 `f 1 current 4 2 `uc 1 DC 1 6 `uc 1 start 1 7 `uc 1 stop 1 8 ]
 "44 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
-[v _virtChannels virtChannels `[4]S1634  1 s 36 virtChannels ]
+[v _virtChannels virtChannels `[4]S1728  1 s 36 virtChannels ]
 "3 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\uart.c
 [v _rxFErrCount rxFErrCount `VEuc  1 e 1 0 ]
 "4
 [v _rxOErrCount rxOErrCount `VEuc  1 e 1 0 ]
 "5
 [v _rxCount rxCount `VEuc  1 e 1 0 ]
-"6
-[v _dataReadyFlag dataReadyFlag `VEuc  1 e 1 0 ]
-[s S810 . 15 `uc 1 header 1 0 `uc 1 version 1 1 `uc 1 status 1 2 `f 1 tempC 4 3 `f 1 relHum 4 7 `f 1 dewPointC 4 11 ]
-"7
-[v _dataPacket dataPacket `S810  1 s 15 dataPacket ]
-"28 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+"23 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
 [v _main main `(v  1 e 1 0 ]
 {
-"30
-[v main@sysCheckInterval sysCheckInterval `ul  1 a 4 61 ]
-"31
-[v main@idle idle `uc  1 a 1 66 ]
-"32
-[v main@initDone initDone `uc  1 a 1 65 ]
-"89
+"25
+[v main@sysCheckInterval sysCheckInterval `ul  1 a 4 23 ]
+"26
+[v main@idle idle `uc  1 a 1 28 ]
+"27
+[v main@initDone initDone `uc  1 a 1 27 ]
+"82
 } 0
-"43 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\error.c
+"32 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\error.c
 [v _viewErrorMessage viewErrorMessage `(v  1 e 1 0 ]
 {
-"45
-[v viewErrorMessage@errorCode errorCode `E7831  1 a 1 28 ]
-"103
-} 0
 "34
-[v _removeLastError removeLastError `(v  1 e 1 0 ]
-{
-"38
+[v viewErrorMessage@errorCode errorCode `E7825  1 a 1 24 ]
+"97
 } 0
-"24
-[v _getLastError getLastError `(E8255  1 e 1 0 ]
-{
-"29
-} 0
-"233 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
+"136 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
 [v _systemCheck systemCheck `(v  1 e 1 0 ]
 {
-"236
-[v systemCheck@str str `[3]uc  1 a 3 48 ]
-"235
-[v systemCheck@n n `uc  1 a 1 51 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"233
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v systemCheck@data data `*.39S55  1 p 2 42 ]
-"295
+"139
+[v systemCheck@str str `[3]uc  1 a 3 34 ]
+"138
+[v systemCheck@n n `uc  1 a 1 37 ]
+"198
 } 0
-"24 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\io.c
-[v _setOLEDPower setOLEDPower `(v  1 e 1 0 ]
-{
-[v setOLEDPower@state state `uc  1 a 1 wreg ]
-[v setOLEDPower@state state `uc  1 a 1 wreg ]
-"26
-[v setOLEDPower@state state `uc  1 a 1 4 ]
-"27
-} 0
-"166 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-[v _OLED_returnHome OLED_returnHome `(v  1 e 1 0 ]
-{
-"169
-} 0
-"12
+"12 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
 [v _OLED_off OLED_off `(v  1 e 1 0 ]
 {
 "16
 } 0
-"171
-[v _OLED_clearDisplay OLED_clearDisplay `(v  1 e 1 0 ]
-{
-"174
-} 0
-"87 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
+"80 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
 [v _menu menu `(v  1 e 1 0 ]
 {
-"94
-[v menu@func func `*.37(uc  1 a 2 67 ]
-"91
-[v menu@nextState nextState `c  1 a 1 69 ]
-"92
-[v menu@timeout timeout `uc  1 a 1 66 ]
-"93
-[v menu@pb pb `E7879  1 a 1 65 ]
-"91
-[v menu@page page `c  1 a 1 64 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
 "87
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v menu@data data `*.39S55  1 p 2 58 ]
-"89
+[v menu@func func `*.37(uc  1 a 2 57 ]
+"84
+[v menu@nextState nextState `c  1 a 1 59 ]
+"85
+[v menu@timeout timeout `uc  1 a 1 56 ]
+"86
+[v menu@pb pb `E7868  1 a 1 55 ]
+"84
+[v menu@page page `c  1 a 1 54 ]
+"82
 [v menu@sleep sleep `uc  1 s 1 sleep ]
-"90
+"83
 [v menu@state state `uc  1 s 1 state ]
-"135
+"128
 } 0
 "317 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menu.c
 [v _setFudgeFactor setFudgeFactor `(uc  1 e 1 0 ]
 {
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v setFudgeFactor@data data `*.39S55  1 p 2 45 ]
 "328
 } 0
 "300
 [v _setSkyTemp setSkyTemp `(uc  1 e 1 0 ]
 {
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v setSkyTemp@data data `*.39S55  1 p 2 45 ]
 "311
 } 0
 "283
 [v _setDPOffset setDPOffset `(uc  1 e 1 0 ]
 {
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v setDPOffset@data data `*.39S55  1 p 2 45 ]
 "294
 } 0
 "259
 [v _setup setup `(uc  1 e 1 0 ]
 {
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v setup@data data `*.39S55  1 p 2 45 ]
 "261
 [v setup@page page `uc  1 s 1 page ]
 "279
@@ -884,49 +861,22 @@ PB_WAIT 4
 "243
 [v _setLensDia setLensDia `(uc  1 e 1 0 ]
 {
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v setLensDia@data data `*.39S55  1 p 2 45 ]
 "254
 } 0
 "195
 [v _setOutputPower setOutputPower `(uc  1 e 1 0 ]
 {
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
+[s S51 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8316 1 mode 1 29 `E8319 1 status 1 30 ]
 "197
-[v setOutputPower@chData chData `*.39S44  1 a 2 51 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"195
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v setOutputPower@data data `*.39S55  1 p 2 45 ]
+[v setOutputPower@chData chData `*.39S51  1 a 2 44 ]
 "238
 } 0
 "140
 [v _channelSetup channelSetup `(uc  1 e 1 0 ]
 {
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
+[s S51 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8316 1 mode 1 29 `E8319 1 status 1 30 ]
 "143
-[v channelSetup@chData chData `*.39S44  1 a 2 51 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"140
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v channelSetup@data data `*.39S55  1 p 2 45 ]
+[v channelSetup@chData chData `*.39S51  1 a 2 43 ]
 "142
 [v channelSetup@page page `uc  1 s 1 page ]
 "190
@@ -935,17 +885,7 @@ PB_WAIT 4
 [v _channelView channelView `(uc  1 e 1 0 ]
 {
 "78
-[v channelView@n n `uc  1 a 1 57 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"75
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v channelView@data data `*.39S55  1 p 2 45 ]
+[v channelView@n n `uc  1 a 1 49 ]
 "77
 [v channelView@page page `uc  1 s 1 page ]
 "135
@@ -953,15 +893,6 @@ PB_WAIT 4
 "16
 [v _statusView statusView `(uc  1 e 1 0 ]
 {
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v statusView@data data `*.39S55  1 p 2 45 ]
 "18
 [v statusView@page page `uc  1 s 1 page ]
 "19
@@ -969,499 +900,398 @@ PB_WAIT 4
 "70
 } 0
 "89 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\inputs.c
-[v _getPB getPB `(E7879  1 e 1 0 ]
+[v _getPB getPB `(E7868  1 e 1 0 ]
 {
 "91
-[v getPB@ret ret `E7879  1 a 1 5 ]
+[v getPB@ret ret `E7868  1 a 1 1 ]
 "95
 } 0
 "100
 [v _spinInput spinInput `(v  1 e 1 0 ]
 {
 "102
-[v spinInput@dir dir `E7875  1 a 1 44 ]
+[v spinInput@dir dir `E7864  1 a 1 39 ]
 "100
-[v spinInput@input input `*.39f  1 p 2 30 ]
-[v spinInput@min min `f  1 p 4 32 ]
-[v spinInput@max max `f  1 p 4 36 ]
-[v spinInput@step step `f  1 p 4 40 ]
+[v spinInput@input input `*.39f  1 p 2 25 ]
+[v spinInput@min min `f  1 p 4 27 ]
+[v spinInput@max max `f  1 p 4 31 ]
+[v spinInput@step step `f  1 p 4 35 ]
 "108
 } 0
-"140 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
-[v _getStateFunc getStateFunc `(*.37(uc  1 e 2 0 ]
-{
-[v getStateFunc@state state `E7979  1 a 1 wreg ]
-"142
-[v getStateFunc@n n `uc  1 a 1 29 ]
-"140
-[v getStateFunc@state state `E7979  1 a 1 wreg ]
-"145
-[v getStateFunc@state state `E7979  1 a 1 28 ]
-"150
-} 0
-"155
+"134 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\menuhelper.c
 [v _getNextState getNextState `(c  1 e 1 0 ]
 {
-[v getNextState@state state `E7979  1 a 1 wreg ]
+[v getNextState@state state `E7959  1 a 1 wreg ]
+"137
+[v getNextState@n n `uc  1 a 1 26 ]
+"134
+[v getNextState@state state `E7959  1 a 1 wreg ]
+[v getNextState@intState intState `uc  1 p 1 19 ]
+"135
+[v getNextState@pb pb `E7868  1 p 1 20 ]
+[v getNextState@timeout timeout `uc  1 p 1 21 ]
+"140
+[v getNextState@state state `E7959  1 a 1 25 ]
 "158
-[v getNextState@n n `uc  1 a 1 30 ]
-"155
-[v getNextState@state state `E7979  1 a 1 wreg ]
-[v getNextState@intState intState `uc  1 p 1 23 ]
-"156
-[v getNextState@pb pb `E7879  1 p 1 24 ]
-[v getNextState@timeout timeout `uc  1 p 1 25 ]
-"161
-[v getNextState@state state `E7979  1 a 1 29 ]
-"179
 } 0
-"226
+"205
 [v _returnToPage returnToPage `(v  1 e 1 0 ]
 {
 [v returnToPage@page page `uc  1 a 1 wreg ]
-"228
-[v returnToPage@n n `uc  1 a 1 26 ]
-"226
+"207
+[v returnToPage@n n `uc  1 a 1 22 ]
+"205
 [v returnToPage@page page `uc  1 a 1 wreg ]
-"230
-[v returnToPage@page page `uc  1 a 1 25 ]
-"237
+"209
+[v returnToPage@page page `uc  1 a 1 21 ]
+"216
 } 0
-"185
+"164
 [v _paging paging `(uc  1 e 1 0 ]
 {
 [v paging@currentPage currentPage `uc  1 a 1 wreg ]
-"187
-[v paging@n n `uc  1 a 1 16 ]
-"188
-[v paging@dir dir `E7875  1 a 1 15 ]
-"185
+"166
+[v paging@n n `uc  1 a 1 12 ]
+"167
+[v paging@dir dir `E7864  1 a 1 11 ]
+"164
 [v paging@currentPage currentPage `uc  1 a 1 wreg ]
-[v paging@lastPage lastPage `DCuc  1 p 1 11 ]
-"189
-[v paging@lastDir lastDir `E7875  1 s 1 lastDir ]
-"192
-[v paging@currentPage currentPage `uc  1 a 1 14 ]
-"220
+[v paging@lastPage lastPage `DCuc  1 p 1 7 ]
+"168
+[v paging@lastDir lastDir `E7864  1 s 1 lastDir ]
+"171
+[v paging@currentPage currentPage `uc  1 a 1 10 ]
+"199
 } 0
 "79 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\inputs.c
-[v _getRotDir getRotDir `(E7875  1 e 1 0 ]
+[v _getRotDir getRotDir `(E7864  1 e 1 0 ]
 {
 "81
-[v getRotDir@ret ret `E7875  1 a 1 5 ]
+[v getRotDir@ret ret `E7864  1 a 1 1 ]
 "84
-} 0
-"137 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
-[v _OLED_scrollDisplayRight OLED_scrollDisplayRight `(v  1 e 1 0 ]
-{
-"140
-} 0
-"132
-[v _OLED_scrollDisplayLeft OLED_scrollDisplayLeft `(v  1 e 1 0 ]
-{
-"135
 } 0
 "47 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\common.c
 [v _itoa itoa `(v  1 e 1 0 ]
 {
-[v itoa@str str `*.39uc  1 p 2 31 ]
-[v itoa@value value `uc  1 p 1 33 ]
-[v itoa@width width `uc  1 p 1 34 ]
+[v itoa@str str `*.39uc  1 p 2 19 ]
+[v itoa@value value `uc  1 p 1 21 ]
+[v itoa@width width `uc  1 p 1 22 ]
 "57
 } 0
 "8
 [v _ftoa ftoa `(v  1 e 1 0 ]
 {
-[v ftoa@str str `*.6uc  1 a 1 wreg ]
+[v ftoa@str str `*.5uc  1 a 1 wreg ]
 "12
-[v ftoa@pos pos `uc  1 a 1 43 ]
+[v ftoa@pos pos `uc  1 a 1 37 ]
 "11
-[v ftoa@w w `uc  1 a 1 42 ]
+[v ftoa@w w `uc  1 a 1 36 ]
 "13
-[v ftoa@intValue intValue `uc  1 a 1 41 ]
+[v ftoa@intValue intValue `uc  1 a 1 35 ]
 "14
-[v ftoa@sign sign `uc  1 a 1 40 ]
+[v ftoa@sign sign `uc  1 a 1 34 ]
 "10
-[v ftoa@len len `uc  1 a 1 39 ]
+[v ftoa@len len `uc  1 a 1 33 ]
 "8
-[v ftoa@str str `*.6uc  1 a 1 wreg ]
-[v ftoa@fValue fValue `f  1 p 4 31 ]
-[v ftoa@width width `uc  1 p 1 35 ]
-[v ftoa@prec prec `uc  1 p 1 36 ]
+[v ftoa@str str `*.5uc  1 a 1 wreg ]
+[v ftoa@fValue fValue `f  1 p 4 25 ]
+[v ftoa@width width `uc  1 p 1 29 ]
+[v ftoa@prec prec `uc  1 p 1 30 ]
 "10
-[v ftoa@str str `*.6uc  1 a 1 44 ]
+[v ftoa@str str `*.5uc  1 a 1 38 ]
 "41
 } 0
-"156 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+"144 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
 [v _OLED_print_xy OLED_print_xy `(v  1 e 1 0 ]
 {
 [v OLED_print_xy@col col `uc  1 a 1 wreg ]
-"158
-[v OLED_print_xy@row_offsets row_offsets `[4]uc  1 a 4 21 ]
-"156
+"146
+[v OLED_print_xy@row_offsets row_offsets `[4]uc  1 a 4 17 ]
+"144
 [v OLED_print_xy@col col `uc  1 a 1 wreg ]
-[v OLED_print_xy@row row `uc  1 p 1 17 ]
-[v OLED_print_xy@s s `*.26uc  1 p 2 18 ]
-"157
-[v OLED_print_xy@F7980 F7980 `[4]uc  1 s 4 F7980 ]
-[v OLED_print_xy@col col `uc  1 a 1 25 ]
-"164
+[v OLED_print_xy@row row `uc  1 p 1 13 ]
+[v OLED_print_xy@s s `*.26uc  1 p 2 14 ]
+"145
+[v OLED_print_xy@F7967 F7967 `[4]uc  1 s 4 F7967 ]
+[v OLED_print_xy@col col `uc  1 a 1 21 ]
+"152
 } 0
-"129 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
+"122 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\main.c
 [v _initialize initialize `(v  1 e 1 0 ]
 {
-"180
+"173
 } 0
-"95
+"88
 [v _initGlobalData initGlobalData `(v  1 e 1 0 ]
 {
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-"98
-[v initGlobalData@chData chData `*.39S44  1 a 2 30 ]
-"97
-[v initGlobalData@n n `uc  1 a 1 29 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"95
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v initGlobalData@data data `*.39S55  1 p 2 23 ]
-"123
+[s S51 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8316 1 mode 1 29 `E8319 1 status 1 30 ]
+"91
+[v initGlobalData@chData chData `*.39S51  1 a 2 24 ]
+"90
+[v initGlobalData@n n `uc  1 a 1 23 ]
+"116
 } 0
-"412 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
+"24 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\error.c
+[v _getLastError getLastError `(E8249  1 e 1 0 ]
+{
+"27
+} 0
+"315 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
 [v _getAnalogValues getAnalogValues `(v  1 e 1 0 ]
 {
-"415
-[v getAnalogValues@adc adc `us  1 a 2 24 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"412
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v getAnalogValues@data data `*.39S55  1 p 2 18 ]
-"414
+"318
+[v getAnalogValues@adc adc `us  1 a 2 17 ]
+"317
 [v getAnalogValues@avgT avgT `us  1 s 2 avgT ]
 [v getAnalogValues@avgV avgV `us  1 s 2 avgV ]
 [v getAnalogValues@avgI avgI `us  1 s 2 avgI ]
-"427
+"330
 } 0
-"535
+"438
 [v _controller controller `(uc  1 e 1 0 ]
 {
-"538
-[v controller@tick tick `ul  1 a 4 29 ]
-"540
-[v controller@n n `uc  1 a 1 33 ]
-"537
+"441
+[v controller@tick tick `ul  1 a 4 22 ]
+"443
+[v controller@n n `uc  1 a 1 26 ]
+"440
 [v controller@dutyCycleTimer dutyCycleTimer `ul  1 s 4 dutyCycleTimer ]
-"539
+"442
 [v controller@idle idle `uc  1 s 1 idle ]
-"561
+"464
 } 0
-"302
+"205
 [v _checkSensor checkSensor `(uc  1 e 1 0 ]
 {
-[s S810 . 15 `uc 1 header 1 0 `uc 1 version 1 1 `uc 1 status 1 2 `f 1 tempC 4 3 `f 1 relHum 4 7 `f 1 dewPointC 4 11 ]
-"304
-[v checkSensor@dp dp `*.6S810  1 a 1 71 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"302
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v checkSensor@data data `*.39S55  1 p 2 30 ]
-"305
+"208
 [v checkSensor@sensorUpdateInterval sensorUpdateInterval `ul  1 s 4 sensorUpdateInterval ]
-"306
+"209
 [v checkSensor@sensorTimeout sensorTimeout `ul  1 s 4 sensorTimeout ]
-"307
+"210
 [v checkSensor@state state `uc  1 s 1 state ]
-"361
+"264
 } 0
-"29 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\uart.c
+"11 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\uart.c
 [v _uartSendByte uartSendByte `(v  1 e 1 0 ]
 {
 [v uartSendByte@s s `uc  1 a 1 wreg ]
 [v uartSendByte@s s `uc  1 a 1 wreg ]
-"31
-[v uartSendByte@s s `uc  1 a 1 4 ]
-"34
-} 0
-"78
-[v _uartReset uartReset `(v  1 e 1 0 ]
-{
-"87
-} 0
 "13
-[v _uartIsDataReady uartIsDataReady `(uc  1 e 1 0 ]
-{
-"15
-[v uartIsDataReady@ret ret `uc  1 a 1 5 ]
-"18
-} 0
-"21 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\interrupt.c
-[v _timeSince timeSince `(ul  1 e 4 0 ]
-{
-"23
-[v timeSince@now now `ul  1 a 4 20 ]
-"21
-[v timeSince@since since `ul  1 p 4 8 ]
-"28
-} 0
-"13
-[v _timeNow timeNow `(ul  1 e 4 0 ]
-{
+[v uartSendByte@s s `uc  1 a 1 0 ]
 "16
 } 0
-"14 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X/uart.h
-[s S810 . 15 `uc 1 header 1 0 `uc 1 version 1 1 `uc 1 status 1 2 `f 1 tempC 4 3 `f 1 relHum 4 7 `f 1 dewPointC 4 11 ]
-"22 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\uart.c
-[v _getDataPacket getDataPacket `(*.6S810  1 e 1 0 ]
-{
-"25
-} 0
-"56 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
-[v _checkChannelStatus checkChannelStatus `(uc  1 e 1 0 ]
-{
 "60
-[v checkChannelStatus@current current `f  1 a 4 50 ]
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-"61
-[v checkChannelStatus@chData chData `*.39S44  1 a 2 55 ]
+[v _uartReset uartReset `(v  1 e 1 0 ]
+{
+"69
+} 0
+"10 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\interrupt.c
+[v _timeSince timeSince `(ul  1 e 4 0 ]
+{
+"12
+[v timeSince@now now `ul  1 a 4 12 ]
+"10
+[v timeSince@since since `ul  1 p 4 0 ]
+"17
+} 0
+"54 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
+[v _checkChannelStatus checkChannelStatus `(v  1 e 1 0 ]
+{
 "58
-[v checkChannelStatus@avg avg `us  1 a 2 48 ]
-[v checkChannelStatus@adc adc `us  1 a 2 37 ]
+[v checkChannelStatus@current current `f  1 a 4 42 ]
+[s S51 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8316 1 mode 1 29 `E8319 1 status 1 30 ]
 "59
-[v checkChannelStatus@channel channel `uc  1 a 1 54 ]
-[v checkChannelStatus@samples samples `uc  1 a 1 47 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
+[v checkChannelStatus@chData chData `*.39S51  1 a 2 47 ]
 "56
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v checkChannelStatus@data data `*.39S55  1 p 2 31 ]
-"134
+[v checkChannelStatus@avg avg `us  1 a 2 40 ]
+[v checkChannelStatus@adc adc `us  1 a 2 29 ]
+"57
+[v checkChannelStatus@channel channel `uc  1 a 1 46 ]
+[v checkChannelStatus@samples samples `uc  1 a 1 39 ]
+"130
 } 0
 "6 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\io.c
-[v _setLoadSwitch setLoadSwitch `(v  1 e 1 0 ]
-{
-[v setLoadSwitch@state state `uc  1 a 1 wreg ]
-[v setLoadSwitch@state state `uc  1 a 1 wreg ]
-"8
-[v setLoadSwitch@state state `uc  1 a 1 4 ]
-"9
-} 0
-"32
 [v _setChannelSwitch setChannelSwitch `(v  1 e 1 0 ]
 {
 [v setChannelSwitch@channel channel `uc  1 a 1 wreg ]
 [v setChannelSwitch@channel channel `uc  1 a 1 wreg ]
-[v setChannelSwitch@state state `uc  1 p 1 17 ]
-[v setChannelSwitch@channel channel `uc  1 a 1 20 ]
-"54
+[v setChannelSwitch@state state `uc  1 p 1 13 ]
+[v setChannelSwitch@channel channel `uc  1 a 1 16 ]
+"28
 } 0
-"16
-[v _getLoadSwitchFault getLoadSwitchFault `(uc  1 e 1 0 ]
-{
-"19
-} 0
-"59
+"33
 [v _getAnalogValue getAnalogValue `(us  1 e 2 0 ]
 {
 [v getAnalogValue@channel channel `uc  1 a 1 wreg ]
 [v getAnalogValue@channel channel `uc  1 a 1 wreg ]
-"61
-[v getAnalogValue@channel channel `uc  1 a 1 7 ]
-"66
+"35
+[v getAnalogValue@channel channel `uc  1 a 1 3 ]
+"40
 } 0
 "13 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\error.c
 [v _error error `(v  1 e 1 0 ]
 {
-[v error@error error `E7831  1 a 1 wreg ]
-[v error@error error `E7831  1 a 1 wreg ]
+[v error@error error `E7825  1 a 1 wreg ]
+[v error@error error `E7825  1 a 1 wreg ]
 "15
-[v error@error error `E7831  1 a 1 12 ]
+[v error@error error `E7825  1 a 1 8 ]
 "19
 } 0
 "5 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\awmod.c
 [v ___awmod __awmod `(i  1 e 2 0 ]
 {
 "10
-[v ___awmod@sign sign `uc  1 a 1 10 ]
-[v ___awmod@counter counter `uc  1 a 1 9 ]
+[v ___awmod@sign sign `uc  1 a 1 6 ]
+[v ___awmod@counter counter `uc  1 a 1 5 ]
 "5
-[v ___awmod@divisor divisor `i  1 p 2 4 ]
-[v ___awmod@dividend dividend `i  1 p 2 6 ]
+[v ___awmod@divisor divisor `i  1 p 2 0 ]
+[v ___awmod@dividend dividend `i  1 p 2 2 ]
 "34
 } 0
 "64 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\common.c
 [v _ema ema `(us  1 e 2 0 ]
 {
 "66
-[v ema@tmp0 tmp0 `ul  1 a 4 32 ]
+[v ema@tmp0 tmp0 `ul  1 a 4 28 ]
 "64
-[v ema@in in `us  1 p 2 16 ]
-[v ema@average average `us  1 p 2 18 ]
-[v ema@alpha alpha `ul  1 p 4 20 ]
+[v ema@in in `us  1 p 2 12 ]
+[v ema@average average `us  1 p 2 14 ]
+[v ema@alpha alpha `ul  1 p 4 16 ]
 "69
 } 0
 "15 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\Umul32.c
 [v ___lmul __lmul `(ul  1 e 4 0 ]
 {
 "17
-[v ___lmul@product product `ul  1 a 4 12 ]
+[v ___lmul@product product `ul  1 a 4 8 ]
 "15
-[v ___lmul@multiplier multiplier `ul  1 p 4 4 ]
-[v ___lmul@multiplicand multiplicand `ul  1 p 4 8 ]
+[v ___lmul@multiplier multiplier `ul  1 p 4 0 ]
+[v ___lmul@multiplicand multiplicand `ul  1 p 4 4 ]
 "129
 } 0
 "4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\fleq.c
 [v ___fleq __fleq `(b  1 e 0 0 ]
 {
-[v ___fleq@ff1 ff1 `d  1 p 4 4 ]
-[v ___fleq@ff2 ff2 `d  1 p 4 8 ]
+[v ___fleq@ff1 ff1 `d  1 p 4 0 ]
+[v ___fleq@ff2 ff2 `d  1 p 4 4 ]
 "12
 } 0
-"467 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
+"370 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
 [v _channelThing channelThing `(v  1 e 1 0 ]
 {
-"472
+"375
 [v channelThing@grpB grpB `[4]c  1 a 4 18 ]
 [v channelThing@grpA grpA `[4]c  1 a 4 12 ]
-"470
+"373
 [v channelThing@totalGrpB totalGrpB `f  1 a 4 8 ]
 [v channelThing@totalGrpA totalGrpA `f  1 a 4 4 ]
 [v channelThing@total total `f  1 a 4 0 ]
-"469
+"372
 [v channelThing@n n `uc  1 a 1 22 ]
-"471
+"374
 [v channelThing@numGrpB numGrpB `uc  1 a 1 17 ]
 [v channelThing@numGrpA numGrpA `uc  1 a 1 16 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"467
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v channelThing@data data `*.39S55  1 p 2 63 ]
-"529
+"432
 } 0
 "22 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\qsort.c
 [v _qsort qsort `JJ(v  1 e 1 0 ]
 {
 [v qsort@vbase vbase `*.6v  1 a 1 wreg ]
-[s S2371 . 4 `i 1 l 2 0 `i 1 r 2 2 ]
+[s S2303 . 4 `i 1 l 2 0 `i 1 r 2 2 ]
 "38
-[v qsort@stack stack `[16]S2371  1 a 64 0 ]
+[v qsort@stack stack `[16]S2303  1 a 64 0 ]
 "39
 [v qsort@xbuf xbuf `[60]uc  1 a 60 0 ]
 "26
-[v qsort@j j `i  1 a 2 61 ]
-[v qsort@i i `i  1 a 2 59 ]
+[v qsort@j j `i  1 a 2 49 ]
+[v qsort@i i `i  1 a 2 47 ]
 "27
-[v qsort@s s `i  1 a 2 57 ]
+[v qsort@s s `i  1 a 2 45 ]
 "26
-[v qsort@r r `i  1 a 2 55 ]
-[v qsort@l l `i  1 a 2 53 ]
+[v qsort@r r `i  1 a 2 43 ]
+[v qsort@l l `i  1 a 2 41 ]
 "24
-[v qsort@base base `*.6uc  1 a 1 52 ]
+[v qsort@base base `*.6uc  1 a 1 40 ]
 "25
-[v qsort@x x `*.5uc  1 a 1 51 ]
+[v qsort@x x `*.5uc  1 a 1 39 ]
 "22
 [v qsort@vbase vbase `*.6v  1 a 1 wreg ]
-[v qsort@nel nel `ui  1 p 2 39 ]
-[v qsort@width width `ui  1 p 2 41 ]
-[v qsort@compar compar `*.37(i  1 p 2 43 ]
+[v qsort@nel nel `ui  1 p 2 27 ]
+[v qsort@width width `ui  1 p 2 29 ]
+[v qsort@compar compar `*.37(i  1 p 2 31 ]
 "44
-[v qsort@vbase vbase `*.6v  1 a 1 50 ]
+[v qsort@vbase vbase `*.6v  1 a 1 38 ]
 "91
 } 0
 "10
 [v _swap swap `(v  1 s 1 swap ]
 {
 "12
-[v swap@c c `uc  1 a 1 22 ]
+[v swap@c c `uc  1 a 1 18 ]
 "10
-[v swap@len len `ui  1 p 2 17 ]
-[v swap@s1 s1 `*.6uc  1 p 1 19 ]
-[v swap@s2 s2 `*.6uc  1 p 1 20 ]
+[v swap@len len `ui  1 p 2 13 ]
+[v swap@s1 s1 `*.6uc  1 p 1 15 ]
+[v swap@s2 s2 `*.6uc  1 p 1 16 ]
 "19
 } 0
-"454 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
+"357 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
 [v _sortCur sortCur `(i  1 e 2 0 ]
 {
-[s S1634 . 9 `i 1 phyChanNum 2 0 `f 1 current 4 2 `uc 1 DC 1 6 `uc 1 start 1 7 `uc 1 stop 1 8 ]
-"457
-[v sortCur@b b `*.39S1634  1 a 2 37 ]
-"456
-[v sortCur@a a `*.39S1634  1 a 2 35 ]
-"454
-[v sortCur@cmp1 cmp1 `*.39DCv  1 p 2 31 ]
-[v sortCur@cmp2 cmp2 `*.39DCv  1 p 2 33 ]
-"460
+[s S1728 . 9 `i 1 phyChanNum 2 0 `f 1 current 4 2 `uc 1 DC 1 6 `uc 1 start 1 7 `uc 1 stop 1 8 ]
+"360
+[v sortCur@b b `*.39S1728  1 a 2 25 ]
+"359
+[v sortCur@a a `*.39S1728  1 a 2 23 ]
+"357
+[v sortCur@cmp1 cmp1 `*.39DCv  1 p 2 19 ]
+[v sortCur@cmp2 cmp2 `*.39DCv  1 p 2 21 ]
+"363
 } 0
-"432
+"335
 [v _sortDC sortDC `(i  1 e 2 0 ]
 {
-"435
-[v sortDC@b b `uc  1 a 1 38 ]
-"434
-[v sortDC@a a `uc  1 a 1 37 ]
-"432
-[v sortDC@cmp1 cmp1 `*.39DCv  1 p 2 31 ]
-[v sortDC@cmp2 cmp2 `*.39DCv  1 p 2 33 ]
-"438
+"338
+[v sortDC@b b `uc  1 a 1 26 ]
+"337
+[v sortDC@a a `uc  1 a 1 25 ]
+"335
+[v sortDC@cmp1 cmp1 `*.39DCv  1 p 2 19 ]
+[v sortDC@cmp2 cmp2 `*.39DCv  1 p 2 21 ]
+"341
 } 0
-"443
+"346
 [v _sortDCRev sortDCRev `(i  1 e 2 0 ]
 {
-"446
-[v sortDCRev@b b `uc  1 a 1 38 ]
-"445
-[v sortDCRev@a a `uc  1 a 1 37 ]
-"443
-[v sortDCRev@cmp1 cmp1 `*.39DCv  1 p 2 31 ]
-[v sortDCRev@cmp2 cmp2 `*.39DCv  1 p 2 33 ]
-"449
+"349
+[v sortDCRev@b b `uc  1 a 1 26 ]
+"348
+[v sortDCRev@a a `uc  1 a 1 25 ]
+"346
+[v sortDCRev@cmp1 cmp1 `*.39DCv  1 p 2 19 ]
+[v sortDCRev@cmp2 cmp2 `*.39DCv  1 p 2 21 ]
+"352
 } 0
 "4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\Umul8.c
 [v ___bmul __bmul `(uc  1 e 1 0 ]
 {
 [v ___bmul@multiplier multiplier `uc  1 a 1 wreg ]
 "6
-[v ___bmul@product product `uc  1 a 1 15 ]
+[v ___bmul@product product `uc  1 a 1 11 ]
 "4
 [v ___bmul@multiplier multiplier `uc  1 a 1 wreg ]
-[v ___bmul@multiplicand multiplicand `uc  1 p 1 13 ]
+[v ___bmul@multiplicand multiplicand `uc  1 p 1 9 ]
 "6
-[v ___bmul@multiplier multiplier `uc  1 a 1 16 ]
+[v ___bmul@multiplier multiplier `uc  1 a 1 12 ]
 "51
 } 0
 "43 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\fltol.c
 [v ___fltol __fltol `(l  1 e 4 0 ]
 {
 "45
-[v ___fltol@exp1 exp1 `uc  1 a 1 30 ]
-[v ___fltol@sign1 sign1 `uc  1 a 1 29 ]
+[v ___fltol@exp1 exp1 `uc  1 a 1 18 ]
+[v ___fltol@sign1 sign1 `uc  1 a 1 17 ]
 "43
-[v ___fltol@f1 f1 `d  1 p 4 20 ]
+[v ___fltol@f1 f1 `d  1 p 4 8 ]
 "70
 } 0
 "4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\memcpy.c
@@ -1469,30 +1299,30 @@ PB_WAIT 4
 {
 [v memcpy@d1 d1 `*.5v  1 a 1 wreg ]
 "8
-[v memcpy@s s `*.6DCuc  1 a 1 24 ]
+[v memcpy@s s `*.6DCuc  1 a 1 20 ]
 "7
-[v memcpy@d d `*.5uc  1 a 1 23 ]
+[v memcpy@d d `*.5uc  1 a 1 19 ]
 "9
-[v memcpy@tmp tmp `uc  1 a 1 21 ]
+[v memcpy@tmp tmp `uc  1 a 1 17 ]
 "4
 [v memcpy@d1 d1 `*.5v  1 a 1 wreg ]
-[v memcpy@s1 s1 `*.6DCv  1 p 1 17 ]
-[v memcpy@n n `ui  1 p 2 18 ]
+[v memcpy@s1 s1 `*.6DCv  1 p 1 13 ]
+[v memcpy@n n `ui  1 p 2 14 ]
 "11
-[v memcpy@d1 d1 `*.5v  1 a 1 22 ]
+[v memcpy@d1 d1 `*.5v  1 a 1 18 ]
 "18
 } 0
 "5 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\awdiv.c
 [v ___awdiv __awdiv `(i  1 e 2 0 ]
 {
 "10
-[v ___awdiv@quotient quotient `i  1 a 2 11 ]
+[v ___awdiv@quotient quotient `i  1 a 2 7 ]
 "11
-[v ___awdiv@sign sign `uc  1 a 1 10 ]
-[v ___awdiv@counter counter `uc  1 a 1 9 ]
+[v ___awdiv@sign sign `uc  1 a 1 6 ]
+[v ___awdiv@counter counter `uc  1 a 1 5 ]
 "5
-[v ___awdiv@divisor divisor `i  1 p 2 4 ]
-[v ___awdiv@dividend dividend `i  1 p 2 6 ]
+[v ___awdiv@divisor divisor `i  1 p 2 0 ]
+[v ___awdiv@dividend dividend `i  1 p 2 2 ]
 "41
 } 0
 "10 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\xxtofl.c
@@ -1500,105 +1330,95 @@ PB_WAIT 4
 {
 [v ___xxtofl@sign sign `uc  1 a 1 wreg ]
 "13
-[v ___xxtofl@arg arg `ul  1 a 4 33 ]
+[v ___xxtofl@arg arg `ul  1 a 4 29 ]
 "12
-[v ___xxtofl@exp exp `uc  1 a 1 32 ]
+[v ___xxtofl@exp exp `uc  1 a 1 28 ]
 "10
 [v ___xxtofl@sign sign `uc  1 a 1 wreg ]
-[v ___xxtofl@val val `l  1 p 4 23 ]
+[v ___xxtofl@val val `l  1 p 4 19 ]
 "15
-[v ___xxtofl@sign sign `uc  1 a 1 31 ]
+[v ___xxtofl@sign sign `uc  1 a 1 27 ]
 "44
 } 0
 "4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\flge.c
 [v ___flge __flge `(b  1 e 0 0 ]
 {
-[v ___flge@ff1 ff1 `d  1 p 4 18 ]
-[v ___flge@ff2 ff2 `d  1 p 4 22 ]
+[v ___flge@ff1 ff1 `d  1 p 4 13 ]
+[v ___flge@ff2 ff2 `d  1 p 4 17 ]
 "19
 } 0
-"372 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
+"275 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\system.c
 [v _calcRequiredPower calcRequiredPower `(v  1 e 1 0 ]
 {
-"375
-[v calcRequiredPower@T2 T2 `f  1 a 4 52 ]
-[v calcRequiredPower@T1 T1 `f  1 a 4 48 ]
-[v calcRequiredPower@A A `f  1 a 4 40 ]
-[v calcRequiredPower@phi phi `f  1 a 4 36 ]
-[v calcRequiredPower@d d `f  1 a 4 32 ]
-"376
-[v calcRequiredPower@Rth Rth `f  1 a 4 4 ]
-[v calcRequiredPower@p p `f  1 a 4 0 ]
-"374
-[v calcRequiredPower@n n `uc  1 a 1 56 ]
-[s S28 . 1 `uc 1 BAT_LOW 1 0 :1:0 
-`uc 1 BAT_HIGH 1 0 :1:1 
-`uc 1 OVERCURRENT 1 0 :1:2 
-`uc 1 SENSOR_OK 1 0 :1:3 
-`uc 1 AUX_SENSOR_OK 1 0 :1:4 
-]
-"372
-[s S44 . 31 `f 1 current 4 0 `f 1 Pmax 4 4 `f 1 Preq 4 8 `f 1 Patt 4 12 `f 1 Pset 4 16 `uc 1 DCreq 1 20 `f 1 lensDia 4 21 `f 1 dt 4 25 `E8327 1 mode 1 29 `E8330 1 status 1 30 ]
-[s S55 . 166 `f 1 tempC 4 0 `f 1 relHum 4 4 `f 1 dewPointC 4 8 `uc 1 sensorVersion 1 12 `f 1 tempAux 4 13 `f 1 voltage 4 17 `f 1 current 4 21 `f 1 power 4 25 `f 1 dpOffset 4 29 `f 1 skyTemp 4 33 `f 1 fudgeFactor 4 37 `S28 1 status 1 41 `[4]S44 1 chData 124 42 ]
-[v calcRequiredPower@data data `*.39S55  1 p 2 20 ]
-"406
+"278
+[v calcRequiredPower@T2 T2 `f  1 a 4 69 ]
+[v calcRequiredPower@T1 T1 `f  1 a 4 65 ]
+[v calcRequiredPower@A A `f  1 a 4 57 ]
+[v calcRequiredPower@phi phi `f  1 a 4 53 ]
+[v calcRequiredPower@d d `f  1 a 4 49 ]
+"279
+[v calcRequiredPower@Rth Rth `f  1 a 4 21 ]
+[v calcRequiredPower@p p `f  1 a 4 17 ]
+"277
+[v calcRequiredPower@n n `uc  1 a 1 73 ]
+"309
 } 0
 "15 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
 {
 "17
-[v ___wmul@product product `ui  1 a 2 21 ]
+[v ___wmul@product product `ui  1 a 2 17 ]
 "15
-[v ___wmul@multiplier multiplier `ui  1 p 2 17 ]
-[v ___wmul@multiplicand multiplicand `ui  1 p 2 19 ]
+[v ___wmul@multiplier multiplier `ui  1 p 2 13 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 15 ]
 "53
 } 0
 "242 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\sprcadd.c
 [v ___flsub __flsub `(d  1 e 4 0 ]
 {
-[v ___flsub@a a `d  1 p 4 12 ]
-[v ___flsub@b b `d  1 p 4 16 ]
+[v ___flsub@a a `d  1 p 4 0 ]
+[v ___flsub@b b `d  1 p 4 4 ]
 "250
 } 0
 "10
 [v ___fladd __fladd `(d  1 e 4 0 ]
 {
 "17
-[v ___fladd@grs grs `uc  1 a 1 11 ]
+[v ___fladd@grs grs `uc  1 a 1 78 ]
 "15
-[v ___fladd@bexp bexp `uc  1 a 1 10 ]
+[v ___fladd@bexp bexp `uc  1 a 1 77 ]
 "16
-[v ___fladd@aexp aexp `uc  1 a 1 9 ]
+[v ___fladd@aexp aexp `uc  1 a 1 76 ]
 "13
-[v ___fladd@signs signs `uc  1 a 1 8 ]
+[v ___fladd@signs signs `uc  1 a 1 75 ]
 "10
-[v ___fladd@b b `d  1 p 4 63 ]
-[v ___fladd@a a `d  1 p 4 67 ]
+[v ___fladd@b b `d  1 p 4 59 ]
+[v ___fladd@a a `d  1 p 4 63 ]
 "237
 } 0
 "8 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
 {
-[s S2227 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
+[s S2159 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
 "13
-[s S2232 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
-[u S2235 . 4 `l 1 i 4 0 `d 1 f 4 0 `S2227 1 fAsBytes 4 0 `S2232 1 fAsWords 4 0 ]
-[v ___flmul@prod prod `S2235  1 a 4 57 ]
+[s S2164 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
+[u S2167 . 4 `l 1 i 4 0 `d 1 f 4 0 `S2159 1 fAsBytes 4 0 `S2164 1 fAsWords 4 0 ]
+[v ___flmul@prod prod `S2167  1 a 4 53 ]
 "12
-[v ___flmul@grs grs `ul  1 a 4 52 ]
-[s S2304 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
+[v ___flmul@grs grs `ul  1 a 4 48 ]
+[s S2236 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
 "14
-[u S2307 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S2304 1 nAsBytes 2 0 ]
-[v ___flmul@temp temp `S2307  1 a 2 61 ]
+[u S2239 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S2236 1 nAsBytes 2 0 ]
+[v ___flmul@temp temp `S2239  1 a 2 57 ]
 "10
-[v ___flmul@bexp bexp `uc  1 a 1 56 ]
+[v ___flmul@bexp bexp `uc  1 a 1 52 ]
 "11
-[v ___flmul@aexp aexp `uc  1 a 1 51 ]
+[v ___flmul@aexp aexp `uc  1 a 1 47 ]
 "9
-[v ___flmul@sign sign `uc  1 a 1 50 ]
+[v ___flmul@sign sign `uc  1 a 1 46 ]
 "8
-[v ___flmul@b b `d  1 p 4 37 ]
-[v ___flmul@a a `d  1 p 4 41 ]
+[v ___flmul@b b `d  1 p 4 33 ]
+[v ___flmul@a a `d  1 p 4 37 ]
 "205
 } 0
 "4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\Umul8_16.c
@@ -1606,113 +1426,108 @@ PB_WAIT 4
 {
 [v __Umul8_16@multiplier multiplier `uc  1 a 1 wreg ]
 "6
-[v __Umul8_16@word_mpld word_mpld `ui  1 a 2 10 ]
+[v __Umul8_16@word_mpld word_mpld `ui  1 a 2 6 ]
 "5
-[v __Umul8_16@product product `ui  1 a 2 8 ]
+[v __Umul8_16@product product `ui  1 a 2 4 ]
 "4
 [v __Umul8_16@multiplier multiplier `uc  1 a 1 wreg ]
-[v __Umul8_16@multiplicand multiplicand `uc  1 p 1 4 ]
-[v __Umul8_16@multiplier multiplier `uc  1 a 1 12 ]
+[v __Umul8_16@multiplicand multiplicand `uc  1 p 1 0 ]
+[v __Umul8_16@multiplier multiplier `uc  1 a 1 8 ]
 "60
 } 0
 "8 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\sprcdiv.c
 [v ___fldiv __fldiv `(d  1 e 4 0 ]
 {
 "21
-[v ___fldiv@grs grs `ul  1 a 4 12 ]
+[v ___fldiv@grs grs `ul  1 a 4 7 ]
 "22
-[v ___fldiv@rem rem `ul  1 a 4 5 ]
+[v ___fldiv@rem rem `ul  1 a 4 0 ]
 "20
-[v ___fldiv@new_exp new_exp `i  1 a 2 10 ]
+[v ___fldiv@new_exp new_exp `i  1 a 2 5 ]
 "19
-[v ___fldiv@aexp aexp `uc  1 a 1 17 ]
+[v ___fldiv@aexp aexp `uc  1 a 1 12 ]
 "18
-[v ___fldiv@bexp bexp `uc  1 a 1 16 ]
+[v ___fldiv@bexp bexp `uc  1 a 1 11 ]
 "16
-[v ___fldiv@sign sign `uc  1 a 1 9 ]
+[v ___fldiv@sign sign `uc  1 a 1 4 ]
 "8
-[v ___fldiv@a a `d  1 p 4 63 ]
-[v ___fldiv@b b `d  1 p 4 67 ]
+[v ___fldiv@a a `d  1 p 4 59 ]
+[v ___fldiv@b b `d  1 p 4 63 ]
 "185
 } 0
-"176 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
+"155 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\oled.c
 [v _OLED_loadSpecialChars OLED_loadSpecialChars `(v  1 e 1 0 ]
 {
-"178
-[v OLED_loadSpecialChars@special special `[32]uc  1 a 32 12 ]
-"183
-[v OLED_loadSpecialChars@n n `uc  1 a 1 44 ]
-"177
-[v OLED_loadSpecialChars@F7985 F7985 `[32]uc  1 s 32 F7985 ]
-"189
+"157
+[v OLED_loadSpecialChars@special special `[32]uc  1 a 32 8 ]
+"162
+[v OLED_loadSpecialChars@n n `uc  1 a 1 40 ]
+"156
+[v OLED_loadSpecialChars@F7970 F7970 `[32]uc  1 s 32 F7970 ]
+"168
 } 0
-"78
+"76
 [v _OLED_write OLED_write `(v  1 e 1 0 ]
 {
 [v OLED_write@value value `uc  1 a 1 wreg ]
 [v OLED_write@value value `uc  1 a 1 wreg ]
+"78
+[v OLED_write@value value `uc  1 a 1 6 ]
 "80
-[v OLED_write@value value `uc  1 a 1 10 ]
-"82
 } 0
-"84
+"82
 [v _OLED_init OLED_init `(v  1 e 1 0 ]
 {
-"130
+"128
 } 0
-"72
+"70
 [v _OLED_command OLED_command `(v  1 e 1 0 ]
 {
 [v OLED_command@value value `uc  1 a 1 wreg ]
 [v OLED_command@value value `uc  1 a 1 wreg ]
+"72
+[v OLED_command@value value `uc  1 a 1 6 ]
 "74
-[v OLED_command@value value `uc  1 a 1 10 ]
-"76
 } 0
-"47
+"42
 [v _OLED_waitForReady OLED_waitForReady `(v  1 e 1 0 ]
 {
-"49
-[v OLED_waitForReady@busy busy `uc  1 a 1 4 ]
-"70
+"44
+[v OLED_waitForReady@busy busy `uc  1 a 1 0 ]
+"68
 } 0
-"36
+"31
 [v _OLED_send OLED_send `(v  1 e 1 0 ]
 {
 [v OLED_send@value value `uc  1 a 1 wreg ]
 [v OLED_send@value value `uc  1 a 1 wreg ]
-[v OLED_send@mode mode `uc  1 p 1 7 ]
+[v OLED_send@mode mode `uc  1 p 1 3 ]
+"33
+[v OLED_send@value value `uc  1 a 1 5 ]
 "38
-[v OLED_send@value value `uc  1 a 1 9 ]
-"43
 } 0
-"25
+"18
 [v _OLED_write4bits OLED_write4bits `(v  1 e 1 0 ]
 {
 [v OLED_write4bits@value value `uc  1 a 1 wreg ]
 [v OLED_write4bits@value value `uc  1 a 1 wreg ]
-"27
-[v OLED_write4bits@value value `uc  1 a 1 6 ]
-"34
+"20
+[v OLED_write4bits@value value `uc  1 a 1 2 ]
+"29
 } 0
-"18
-[v _OLED_pulseEnable OLED_pulseEnable `(v  1 e 1 0 ]
-{
-"23
-} 0
-"48 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\interrupt.c
+"22 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\interrupt.c
 [v _ISR ISR `II(v  1 e 1 0 ]
 {
-"86
+"60
 } 0
-"39 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\uart.c
+"21 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\uart.c
 [v _uartReceiveISR uartReceiveISR `(v  1 e 1 0 ]
 {
-"41
+"23
 [v uartReceiveISR@buffer buffer `[20]uc  1 s 20 buffer ]
-"43
+"25
 [v uartReceiveISR@checksum checksum `uc  1 s 1 checksum ]
-"73
+"55
 } 0
 "3 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\strncpy.c
 [v _strncpy strncpy `(*.6uc  1 e 1 0 ]
@@ -1732,28 +1547,13 @@ PB_WAIT 4
 [v _rotISR rotISR `(v  1 e 1 0 ]
 {
 "36
-[v rotISR@input input `uc  1 a 1 11 ]
+[v rotISR@input input `uc  1 a 1 7 ]
 "48
 } 0
 "54
 [v _pushButtonISR pushButtonISR `(v  1 e 1 0 ]
 {
 "56
-[v pushButtonISR@time time `uc  1 a 1 5 ]
+[v pushButtonISR@time time `uc  1 a 1 1 ]
 "74
-} 0
-"13 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew Controller.X\interrupt.c
-[v i1_timeNow timeNow `(ul  1 e 4 0 ]
-{
-"16
-} 0
-"41
-[v _reset10msTick reset10msTick `(v  1 e 1 0 ]
-{
-"43
-} 0
-"33
-[v _get10msTick get10msTick `(uc  1 e 1 0 ]
-{
-"36
 } 0

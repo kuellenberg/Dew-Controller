@@ -14,12 +14,7 @@
 // Function Prototypes
 //-----------------------------------------------------------------------------
 void initialize(void);
-void initGlobalData(t_globalData *data);
-
-//-----------------------------------------------------------------------------
-// Global data structure 
-//-----------------------------------------------------------------------------
-t_globalData data;
+void initGlobalData(void);
 
 //-----------------------------------------------------------------------------
 // Main program loop
@@ -32,13 +27,13 @@ void main(void)
 	uint8_t initDone = 0;
 
 	initialize();
-	setOLEDPower(1);
+	OLED_PWR = 1;
 	OLED_init();
 	OLED_loadSpecialChars();
-	OLED_returnHome();
-	OLED_clearDisplay();
-	initGlobalData(&data);
-	setLoadSwitch(1);
+	OLED_command(OLED_RETURNHOME);
+	OLED_command(OLED_CLEARDISPLAY);
+	initGlobalData();
+	PEN = 1;
 	
 	// TODO: read settings from NVM
 	
@@ -47,17 +42,17 @@ void main(void)
 		CLRWDT();
 
 		// get battery voltage, current and aux. temperature
-		getAnalogValues(&data);
+		getAnalogValues();
 		// system check every 0.5s
 		if (timeSince(sysCheckInterval) > 5) {
 			sysCheckInterval = timeNow();
-			systemCheck(&data);
+			systemCheck();
 		}
 
 		// query sensor box
-		if (checkSensor(&data)) {
+		if (checkSensor()) {
 			// once new sensor data is ready, calculate required heater power
-			calcRequiredPower(&data);		
+			calcRequiredPower();
 			initDone = 1;
 		}
 
@@ -66,8 +61,8 @@ void main(void)
 			if (initDone) {
 				// Wait until initial sensor check is finished		
 				// TODO: interval ?				
-				checkChannelStatus(&data);
-				channelThing(&data);
+				checkChannelStatus();
+				channelThing();
 				idle = 0;
 			}
 		} else {
@@ -78,7 +73,7 @@ void main(void)
 		if (getLastError() != NO_ERROR)
 			viewErrorMessage(); // Display last error message
 		else
-			menu(&data); // Status display and config menu
+			menu(); // Status display and config menu
 		
 		// Time to relax :-)
 		__delay_ms(20);
@@ -90,25 +85,25 @@ void main(void)
 // Initialize global data structure
 //-----------------------------------------------------------------------------
 
-void initGlobalData(t_globalData *data)
+void initGlobalData(void)
 {
 	uint8_t n;
-	t_channelData *chData;
+	t_heater *chData;
 
-	data->tempC = 0;
-	data->relHum = 0;
-	data->dewPointC = 0;
-	data->sensorVersion = 0;
-	data->tempAux = 0;
-	data->voltage = 0;
-	data->current = 0;
-	data->power = 0;
-	data->dpOffset = 3.0;
-	data->skyTemp = -40;
-	data->fudgeFactor = 1.0;
+	data.tempC = 0;
+	data.relHum = 0;
+	data.dewPointC = 0;
+	data.sensorVersion = 0;
+	data.tempAux = 0;
+	data.voltage = 0;
+	data.current = 0;
+	data.power = 0;
+	data.dpOffset = 3.0;
+	data.skyTemp = -40;
+	data.fudgeFactor = 1.0;
 
 	for (n = 0; n < NUM_CHANNELS; n++) {
-		chData = &data->chData[n];
+		chData = &data.heater[n];
 		chData->lensDia = 4;
 		chData->status = CH_UNCHECKED;
 		chData->mode = MODE_AUTO;

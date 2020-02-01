@@ -23,18 +23,7 @@ void error(enum e_errorcode error)
 //-----------------------------------------------------------------------------
 enum e_errorcode getLastError(void)
 {	
-	if (head == tail)
-		return NO_ERROR;
-	return errorMessageQueue[tail];		
-}
-
-//-----------------------------------------------------------------------------
-// remove last error from queue
-//-----------------------------------------------------------------------------
-void removeLastError(void)
-{	
-	if (head != tail)
-		tail = (tail + 1) % NUM_ERROR_MESSAGES;
+	return (head == tail) ? NO_ERROR : errorMessageQueue[tail];
 }
 
 //-----------------------------------------------------------------------------
@@ -42,8 +31,11 @@ void removeLastError(void)
 //-----------------------------------------------------------------------------
 void viewErrorMessage(void)
 {
-	enum e_errorcode errorCode = getLastError();
-	OLED_returnHome();
+	enum e_errorcode errorCode;
+	
+	errorCode = (head == tail) ? NO_ERROR : errorMessageQueue[tail];	
+	
+	OLED_command(OLED_RETURNHOME);
 	switch(errorCode) {
 	case WARN_REMOVED:
 		OLED_print_xy(0, 0, "Heater      ");
@@ -85,7 +77,7 @@ void viewErrorMessage(void)
 		OLED_print_xy(0, 0, "Overcurrent ");
 		OLED_print_xy(0, 1, "Please check");
 		if (getPB() == PB_SHORT)
-			setLoadSwitch(1);
+			PEN = 1;
 		break;
 	case ERR_MENU:
 		OLED_print_xy(0, 0, "Menu broken ");
@@ -96,8 +88,10 @@ void viewErrorMessage(void)
 		OLED_print_xy(0, 1, "error code  ");
 	}
 	
-	if (getPB() == PB_SHORT)
-		removeLastError();
+	if (getPB() == PB_SHORT) {
+		if (head != tail)
+			tail = (tail + 1) % NUM_ERROR_MESSAGES;
+	}
 	
 	g_screenRefresh = 1;
 }

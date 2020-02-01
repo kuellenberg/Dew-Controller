@@ -13,16 +13,16 @@ static char str[10];
 //-----------------------------------------------------------------------------
 // Status screen: Temperature, humidity, dew point and battery voltage
 //-----------------------------------------------------------------------------
-uint8_t statusView(t_globalData *data)
+uint8_t statusView(void)
 {
 	static uint8_t page = 0;
 	static uint8_t prevSensorStat = 1;
 
 	// Has sensor status changed since last call?
-	if (prevSensorStat != data->status.SENSOR_OK) {
-		prevSensorStat = data->status.SENSOR_OK;
+	if (prevSensorStat != data.status.SENSOR_OK) {
+		prevSensorStat = data.status.SENSOR_OK;
 		// with no sensor connected, only battery status is displayed
-		if (data->status.SENSOR_OK)
+		if (data.status.SENSOR_OK)
 			page = 0;
 		else
 			page = 3;
@@ -34,35 +34,35 @@ uint8_t statusView(t_globalData *data)
 		OLED_print_xy(0, 0, "Temperature Rel.humidityDewpoint    Bat.   PowerVersion:");
 		OLED_print_xy(4 * COLUMNS, 1, "Sensor:");
 	}
-	if (data->status.AUX_SENSOR_OK) {
-		ftoa(str, data->tempC, 5, 1);
+	if (data.status.AUX_SENSOR_OK) {
+		ftoa(str, data.tempC, 5, 1);
 		OLED_print_xy(0, 1, str);
 		OLED_print_xy(5, 1, "\001 \002");
-		ftoa(str, data->tempAux, 3, 0);
+		ftoa(str, data.tempAux, 3, 0);
 		OLED_print_xy(8, 1, str);
 		OLED_print_xy(11, 1, "\001");
 	} else {
-		ftoa(str, data->tempC, 5, 1);
+		ftoa(str, data.tempC, 5, 1);
 		OLED_print_xy(0, 1, str);
 		OLED_print_xy(5, 1, "\001      ");
 	}
-	ftoa(str, data->relHum, 5, 1);
+	ftoa(str, data.relHum, 5, 1);
 	OLED_print_xy(COLUMNS, 1, str);
 	OLED_print_xy(COLUMNS + 5, 1, "%     ");
-	ftoa(str, data->dewPointC, 5, 1);
+	ftoa(str, data.dewPointC, 5, 1);
 	OLED_print_xy(2 * COLUMNS, 1, str);
 	OLED_print_xy(2 * COLUMNS + 5, 1, "\001      ");
-	ftoa(str, data->voltage, 4, 1);
+	ftoa(str, data.voltage, 4, 1);
 	OLED_print_xy(3 * COLUMNS, 1, str);
 	OLED_print_xy(3 * COLUMNS + 4, 1, "V  ");
-	ftoa(str, data->power, 4, 1);
+	ftoa(str, data.power, 4, 1);
 	OLED_print_xy(3 * COLUMNS + 7, 1, str);
 	OLED_print_xy(3 * COLUMNS + 11, 1, "W");
 	itoa(str, VERSION, 3);
 	OLED_print_xy(4 * COLUMNS + 8, 0, str);
 	
-	if (data->status.SENSOR_OK) {
-		itoa(str, data->sensorVersion, 3);
+	if (data.status.SENSOR_OK) {
+		itoa(str, data.sensorVersion, 3);
 		OLED_print_xy(4 * COLUMNS + 8, 1, str);
 		page = paging(page, 5);
 	}
@@ -72,7 +72,7 @@ uint8_t statusView(t_globalData *data)
 //-----------------------------------------------------------------------------
 // Channel view: Lens diameter and output power / channel status
 //-----------------------------------------------------------------------------
-uint8_t channelView(t_globalData *data)
+uint8_t channelView(void)
 {
 	static uint8_t page = 0;
 	uint8_t n;
@@ -84,14 +84,14 @@ uint8_t channelView(t_globalData *data)
 			itoa(str, n + 1, 1);
 			OLED_print_xy(n * COLUMNS + 3, 0, str);
 			OLED_print_xy(n * COLUMNS + 4, 0, ": ");
-			itoa(str, data->chData[n].lensDia, 2);
+			itoa(str, data.heater[n].lensDia, 2);
 			OLED_print_xy(n * COLUMNS + 6, 0, str);
 			OLED_print_xy(n * COLUMNS + 8, 0, "\" ");
 		}
 	}
 
 	for (n = 0; n < NUM_CHANNELS; n++) {
-		switch (data->chData[n].status) {
+		switch (data.heater[n].status) {
 		case CH_UNCHECKED:
 			OLED_print_xy(n * COLUMNS + 0, 1, "Please wait!");
 			break;
@@ -99,15 +99,15 @@ uint8_t channelView(t_globalData *data)
 			OLED_print_xy(n * COLUMNS + 0, 1, "Disabled    ");
 			break;
 		case CH_ENABLED:
-			ftoa(str, data->chData[n].Patt, 4, 1);
-			//ftoa(str, data->chData[n].current, 6, 4);
+			ftoa(str, data.heater[n].Patt, 4, 1);
+			//ftoa(str, data.chData[n].current, 6, 4);
 			OLED_print_xy(n * COLUMNS + 0, 1, str);
 			//OLED_print_xy(n * COLUMNS + 6, 1, "      ");
 			//OLED_print_xy(n * COLUMNS + 4, 1, "W ");
-			//OLED_print_xy(n * COLUMNS + 6, 1, (data->chData[n].mode == MODE_AUTO ? "auto  " : "manual"));
-			if (data->chData[n].mode == MODE_AUTO) {
+			//OLED_print_xy(n * COLUMNS + 6, 1, (data.chData[n].mode == MODE_AUTO ? "auto  " : "manual"));
+			if (data.heater[n].mode == MODE_AUTO) {
 				OLED_print_xy(n * COLUMNS + 4, 1, " (");
-				ftoa(str, data->chData[n].Preq, 4,1);
+				ftoa(str, data.heater[n].Preq, 4,1);
 				OLED_print_xy(n * COLUMNS + 6, 1, str);
 				OLED_print_xy(n * COLUMNS + 10, 1, "W)");
 			} else {
@@ -137,10 +137,10 @@ uint8_t channelView(t_globalData *data)
 //-----------------------------------------------------------------------------
 // Channel setup menu: Output power (manual/auto) and lens diameter
 //-----------------------------------------------------------------------------
-uint8_t channelSetup(t_globalData *data)
+uint8_t channelSetup(void)
 {
 	static uint8_t page = 0;
-	t_channelData *chData = &data->chData[selectedChannel];
+	t_heater *chData = &data.heater[selectedChannel];
 	
 	returnToPage(page);
 	
@@ -192,9 +192,9 @@ uint8_t channelSetup(t_globalData *data)
 //-----------------------------------------------------------------------------
 // Set output power level
 //-----------------------------------------------------------------------------
-uint8_t setOutputPower(t_globalData *data)
+uint8_t setOutputPower(void)
 {
-	t_channelData *chData = &data->chData[selectedChannel];
+	t_heater *chData = &data.heater[selectedChannel];
 
 	returnToPage(0);
 	
@@ -240,13 +240,13 @@ uint8_t setOutputPower(t_globalData *data)
 //-----------------------------------------------------------------------------
 // Set lens diameter
 //-----------------------------------------------------------------------------
-uint8_t setLensDia(t_globalData *data)
+uint8_t setLensDia(void)
 {
 	returnToPage(0);
 	if (g_screenRefresh)
 		OLED_print_xy(0, 0, "Lens diam.  ");
-	spinInput(&data->chData[selectedChannel].lensDia, 1, 16, 0.5);
-	ftoa(str, data->chData[selectedChannel].lensDia, 4, 1);
+	spinInput(&data.heater[selectedChannel].lensDia, 1, 16, 0.5);
+	ftoa(str, data.heater[selectedChannel].lensDia, 4, 1);
 	OLED_print_xy(0, 1, "\004");
 	OLED_print_xy(1, 1, str);
 	OLED_print_xy(5, 1, " inch \003");
@@ -256,7 +256,7 @@ uint8_t setLensDia(t_globalData *data)
 //-----------------------------------------------------------------------------
 // Setup menu
 //-----------------------------------------------------------------------------
-uint8_t setup(t_globalData *data)
+uint8_t setup(void)
 {
 	static uint8_t page = 0;
 
@@ -264,13 +264,13 @@ uint8_t setup(t_globalData *data)
 	if (g_screenRefresh) {
 		OLED_print_xy(0, 0, "DP offset   Sky temp.   Fudge factor");
 		OLED_print_xy(0, 1, "temp. ");
-		ftoa(str, data->dpOffset, 4, 1);
+		ftoa(str, data.dpOffset, 4, 1);
 		OLED_print_xy(6, 1, str);
 		OLED_print_xy(10, 1, "\001 ");
-		ftoa(str, data->skyTemp, 3, 0);
+		ftoa(str, data.skyTemp, 3, 0);
 		OLED_print_xy(COLUMNS + 0, 1, str);
 		OLED_print_xy(COLUMNS + 3, 1, "\001        ");
-		ftoa(str, data->fudgeFactor, 3, 1);
+		ftoa(str, data.fudgeFactor, 3, 1);
 		OLED_print_xy(2 * COLUMNS + 0, 1, str);
 		OLED_print_xy(2 * COLUMNS + 4, 1, "         ");
 	}
@@ -280,13 +280,13 @@ uint8_t setup(t_globalData *data)
 //-----------------------------------------------------------------------------
 // Set dewpoint offset temperature
 //-----------------------------------------------------------------------------
-uint8_t setDPOffset(t_globalData *data)
+uint8_t setDPOffset(void)
 {
 	returnToPage(0);
 	if (g_screenRefresh)
 		OLED_print_xy(0, 0, "DP offset   ");
-	spinInput(&data->dpOffset, 0, 10, 0.5);
-	ftoa(str, data->dpOffset, 4, 1);
+	spinInput(&data.dpOffset, 0, 10, 0.5);
+	ftoa(str, data.dpOffset, 4, 1);
 	OLED_print_xy(0, 1, "temp.\004");
 	OLED_print_xy(6, 1, str);
 	OLED_print_xy(10, 1, "\001\003");
@@ -297,13 +297,13 @@ uint8_t setDPOffset(t_globalData *data)
 // Set sky temperature
 //-----------------------------------------------------------------------------
 
-uint8_t setSkyTemp(t_globalData *data)
+uint8_t setSkyTemp(void)
 {
 	returnToPage(0);
 	if (g_screenRefresh)
 		OLED_print_xy(0, 0, "Sky temp.   ");
-	spinInput(&data->skyTemp, -50, -20, 1);
-	ftoa(str, data->skyTemp, 3, 0);
+	spinInput(&data.skyTemp, -50, -20, 1);
+	ftoa(str, data.skyTemp, 3, 0);
 	OLED_print_xy(0, 1, "\004");
 	OLED_print_xy(1, 1, str);
 	OLED_print_xy(4, 1, "\001 \003     ");
@@ -314,13 +314,13 @@ uint8_t setSkyTemp(t_globalData *data)
 // Set fudge factor
 //-----------------------------------------------------------------------------
 
-uint8_t setFudgeFactor(t_globalData *data)
+uint8_t setFudgeFactor(void)
 {
 	returnToPage(0);
 	if (g_screenRefresh)
 		OLED_print_xy(0, 0, "Fudge factor");
-	spinInput(&data->fudgeFactor, 0.1, 5.0, 0.1);
-	ftoa(str, data->fudgeFactor, 3, 1);
+	spinInput(&data.fudgeFactor, 0.1, 5.0, 0.1);
+	ftoa(str, data.fudgeFactor, 3, 1);
 	OLED_print_xy(0, 1, "\004");
 	OLED_print_xy(1, 1, str);
 	OLED_print_xy(4, 1, " \003      ");

@@ -12688,18 +12688,15 @@ char *tempnam(const char *, const char *);
 
 # 1 "./io.h" 1
 # 41 "./io.h"
-void setOLEDPower(uint8_t state);
-void setLoadSwitch(uint8_t state);
-uint8_t getLoadSwitchFault(void);
 void setChannelSwitch(uint8_t channel, uint8_t state);
 uint16_t getAnalogValue(uint8_t channel);
 # 18 "./common.h" 2
 
 # 1 "./interrupt.h" 1
-# 11 "./interrupt.h"
-void reset10msTick(void);
-uint8_t get10msTick(void);
-uint32_t timeNow(void);
+# 13 "./interrupt.h"
+volatile uint8_t tick10ms = 0;
+volatile uint32_t tick100ms = 0;
+
 uint32_t timeSince(uint32_t since);
 void __attribute__((picinterrupt(("")))) ISR(void);
 # 19 "./common.h" 2
@@ -12715,8 +12712,9 @@ typedef struct {
  float dewPointC;
 } t_dataPacket;
 
-t_dataPacket *getDataPacket(void);
-uint8_t uartIsDataReady(void);
+volatile uint8_t uartDataReadyFlag = 0;
+volatile t_dataPacket dataPacket;
+
 void uartReceiveISR(void);
 void uartSendByte(char s);
 void uartReset(void);
@@ -12754,20 +12752,15 @@ enum e_errorcode getLastError(void);
 # 6 "./oled.h" 2
 # 46 "./oled.h"
 void OLED_off(void);
-void OLED_pulseEnable(void);
 void OLED_write4bits(uint8_t value);
 void OLED_send(uint8_t value, uint8_t mode);
 void OLED_waitForReady(void);
 void OLED_command(uint8_t value);
 void OLED_write(uint8_t value);
 void OLED_init(void);
-void OLED_scrollDisplayLeft(void);
-void OLED_scrollDisplayRight(void);
 void OLED_print(char *s);
 void OLED_print_xy(uint8_t col, uint8_t row, char *s);
 void OLED_setCursor(uint8_t col, uint8_t row);
-void OLED_returnHome(void);
-void OLED_clearDisplay(void);
 void OLED_loadSpecialChars(void);
 # 22 "./common.h" 2
 
@@ -12817,7 +12810,7 @@ typedef struct {
  float dt;
  enum e_channelMode mode;
  enum e_channelStatus status;
-} t_channelData;
+} t_heater;
 
 
 typedef struct {
@@ -12833,8 +12826,14 @@ typedef struct {
  float skyTemp;
  float fudgeFactor;
  t_status status;
- t_channelData chData[4];
+ t_heater heater[4];
 } t_globalData;
+
+
+
+
+
+t_globalData data;
 
 
 
@@ -12852,13 +12851,6 @@ void OLED_off(void)
  OLED_command(0x13);
 }
 
-void OLED_pulseEnable(void)
-{
- LATBbits.LATB2 = 1;
- _delay((unsigned long)((50)*(4000000UL/4000000.0)));
- LATBbits.LATB2 = 0;
-}
-
 void OLED_write4bits(uint8_t value)
 {
  LATBbits.LATB1 = (value >> 0) & 0x01;
@@ -12867,7 +12859,9 @@ void OLED_write4bits(uint8_t value)
  LATCbits.LATC4 = (value >> 3) & 0x01;
 
  _delay((unsigned long)((50)*(4000000UL/4000000.0)));
- OLED_pulseEnable();
+ LATBbits.LATB2 = 1;
+ _delay((unsigned long)((50)*(4000000UL/4000000.0)));
+ LATBbits.LATB2 = 0;
 }
 
 void OLED_send(uint8_t value, uint8_t mode)
@@ -12898,8 +12892,11 @@ void OLED_waitForReady(void)
   busy = PORTCbits.RC4;
 
   LATBbits.LATB2 = 0;
+  _delay((unsigned long)((10)*(4000000UL/4000000.0)));
 
-  OLED_pulseEnable();
+  LATBbits.LATB2 = 1;
+  _delay((unsigned long)((50)*(4000000UL/4000000.0)));
+  LATBbits.LATB2 = 0;
  } while (busy);
 
  TRISCbits.TRISC4 = 0;
@@ -12932,7 +12929,7 @@ void OLED_init(void)
  LATBbits.LATB0 = 0;
  LATCbits.LATC5 = 0;
  LATCbits.LATC4 = 0;
-# 108 "oled.c"
+# 106 "oled.c"
  OLED_write4bits(0x03);
  _delay((unsigned long)((5)*(4000000UL/4000.0)));
  OLED_write4bits(0x08);
@@ -12955,16 +12952,6 @@ void OLED_init(void)
  _delay((unsigned long)((5)*(4000000UL/4000.0)));
  OLED_command(0x0C);
  _delay((unsigned long)((5)*(4000000UL/4000.0)));
-}
-
-void OLED_scrollDisplayLeft(void)
-{
- OLED_command(0x10 | 0x08 | 0x00);
-}
-
-void OLED_scrollDisplayRight(void)
-{
- OLED_command(0x10 | 0x08 | 0x04);
 }
 
 void OLED_setCursor(uint8_t col, uint8_t row)
@@ -12991,15 +12978,6 @@ void OLED_print_xy(uint8_t col, uint8_t row, char *s)
  }
 }
 
-void OLED_returnHome(void)
-{
- OLED_command(0x02);
-}
-
-void OLED_clearDisplay(void)
-{
- OLED_command(0x01);
-}
 
 void OLED_loadSpecialChars(void)
 {

@@ -21,7 +21,7 @@ enum e_menuStates {
 	ST_SET_FUDGE_FACTOR
 };
 
-typedef uint8_t (*t_stateFuncPtr)(t_globalData*);
+typedef uint8_t (*t_stateFuncPtr)(void);
 
 typedef struct {
 	uint8_t state;
@@ -33,15 +33,9 @@ typedef struct {
 } t_nextState;
 
 
-typedef struct {
-	enum e_menuStates state;
-	t_stateFuncPtr func;
-} t_stateFunc;
-
 //-----------------------------------------------------------------------------
 // Function Prototypes
 //-----------------------------------------------------------------------------
-t_stateFuncPtr getStateFunc(enum e_menuStates state);
 int8_t getNextState(enum e_menuStates state, uint8_t intState, 
 			enum e_buttonPress pb, uint8_t timeout);
 void menuError(void);
@@ -49,17 +43,16 @@ void menuError(void);
 //-----------------------------------------------------------------------------
 // Global variables 
 //-----------------------------------------------------------------------------
-static const t_stateFunc stateFuncTbl[] = {
-	// menu state		function
-	{ST_STATUS_VIEW,	statusView},
-	{ST_CHANNEL_VIEW,	channelView},
-	{ST_CHANNEL_SETUP,	channelSetup},
-	{ST_SET_OUTPUT_POWER,	setOutputPower},
-	{ST_SET_LENS_DIA,	setLensDia},
-	{ST_SETUP,		setup},
-	{ST_SET_DP_OFFSET,	setDPOffset},
-	{ST_SET_SKY_TEMP,	setSkyTemp},
-	{ST_SET_FUDGE_FACTOR,	setFudgeFactor}
+static const t_stateFuncPtr stateFuncTbl[] = {
+	statusView,
+	channelView,
+	channelSetup,
+	setOutputPower,
+	setLensDia,
+	setup,
+	setDPOffset,
+	setSkyTemp,
+	setFudgeFactor
 };
 
 static const t_nextState nextStateTbl[] = {
@@ -84,7 +77,7 @@ static const t_nextState nextStateTbl[] = {
 //-----------------------------------------------------------------------------
 // Menu function dispatcher
 //-----------------------------------------------------------------------------
-void menu(t_globalData *data)
+void menu(void)
 {
 	static uint8_t sleep;
 	static uint8_t state = ST_STATUS_VIEW;
@@ -111,9 +104,9 @@ void menu(t_globalData *data)
 	}
 	
 	// call menu function according to current state
-	func = getStateFunc(state);
+	func = stateFuncTbl[state];
 	if (func)
-		page = (*func)(data);
+		page = (*func)();
 	else 
 		error(ERR_MENU);
 	
@@ -134,20 +127,6 @@ void menu(t_globalData *data)
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Returns menu function according to current menu state
-//-----------------------------------------------------------------------------
-t_stateFuncPtr getStateFunc(enum e_menuStates state)
-{
-	uint8_t n;
-	
-	// search for state inside stateFuncTbl
-	for(n = 0; n < len(stateFuncTbl); n++) {
-		if ((stateFuncTbl[n].state == state))
-			return stateFuncTbl[n].func;
-	}
-	return (t_stateFuncPtr)NULL;
-}
 
 //-----------------------------------------------------------------------------
 // Returns next state depending on current state, exit page and key press event
@@ -199,7 +178,7 @@ uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
 		if ((dir == ROT_CW) && (currentPage < lastPage - 1)) {
 			currentPage++;
 			for(n = 0; n < COLUMNS; n++) {
-				OLED_scrollDisplayLeft();
+				OLED_command(OLED_CURSORSHIFT | OLED_DISPLAYMOVE | OLED_MOVELEFT);
 				__delay_ms(20);
 			}
 		}
@@ -207,7 +186,7 @@ uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
 		else if ((dir == ROT_CCW) && (currentPage > 0)) {
 			currentPage--;
 			for(n = 0; n < COLUMNS; n++) {
-				OLED_scrollDisplayRight();
+				OLED_command(OLED_CURSORSHIFT | OLED_DISPLAYMOVE | OLED_MOVERIGHT);;
 				__delay_ms(20);
 			}
 		}

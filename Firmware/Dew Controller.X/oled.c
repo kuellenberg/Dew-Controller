@@ -15,13 +15,6 @@ void OLED_off(void)
 	OLED_command(0x13);
 }
 
-void OLED_pulseEnable(void)
-{
-	OLED_EN = 1;
-	__delay_us(50);
-	OLED_EN = 0;
-}
-
 void OLED_write4bits(uint8_t value)
 {
 	OLED_DB0 = (value >> 0) & 0x01;
@@ -30,7 +23,9 @@ void OLED_write4bits(uint8_t value)
 	OLED_DB3 = (value >> 3) & 0x01;
 
 	__delay_us(50); // Timing spec?
-	OLED_pulseEnable();
+	OLED_EN = 1;
+	__delay_us(50);
+	OLED_EN = 0;
 }
 
 void OLED_send(uint8_t value, uint8_t mode)
@@ -61,8 +56,11 @@ void OLED_waitForReady(void)
 		busy = OLED_DB3_IN;
 
 		OLED_EN = 0;
+		__delay_us(10);
 
-		OLED_pulseEnable(); // get remaining 4 bits, which are not used.
+		OLED_EN = 1;
+		__delay_us(50);
+		OLED_EN = 0; // get remaining 4 bits, which are not used.
 	} while (busy);
 
 	OLED_DB3_T = 0;
@@ -129,16 +127,6 @@ void OLED_init(void)
 	__delay_ms(5);
 }
 
-void OLED_scrollDisplayLeft(void)
-{
-	OLED_command(OLED_CURSORSHIFT | OLED_DISPLAYMOVE | OLED_MOVELEFT);
-}
-
-void OLED_scrollDisplayRight(void)
-{
-	OLED_command(OLED_CURSORSHIFT | OLED_DISPLAYMOVE | OLED_MOVERIGHT);
-}
-
 void OLED_setCursor(uint8_t col, uint8_t row)
 {
 	uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
@@ -163,15 +151,6 @@ void OLED_print_xy(uint8_t col, uint8_t row, char *s)
 	}
 }
 
-void OLED_returnHome(void)
-{
-	OLED_command(OLED_RETURNHOME);
-}
-
-void OLED_clearDisplay(void)
-{
-	OLED_command(OLED_CLEARDISPLAY);
-}
 
 void OLED_loadSpecialChars(void)
 {
