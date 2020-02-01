@@ -9,4 +9,5 @@ oled.h  \
 inputs.h  \
 config.h  \
 menuhelper.h  \
-system.h 
+system.h  \
+memory.h 

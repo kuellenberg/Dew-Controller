@@ -1,5 +1,6 @@
 #include "common.h"
 #include "system.h"
+#include "memory.h"
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -56,13 +57,13 @@ void checkChannelStatus(void)
 	uint16_t adc, avg;
 	uint8_t channel, samples;
 	float current;
-	t_heater *chData;
+	t_heater *heater;
 
 	for (channel = 0; channel < NUM_CHANNELS; channel++)  {
 		
-		chData = &data.heater[channel];
+		heater = &data.heater[channel];
 		
-		if (chData->status == CH_OVERCURRENT) 
+		if (heater->status == CH_OVERCURRENT) 
 			continue;
 		
 		avg = data.heater[channel].current;
@@ -82,49 +83,49 @@ void checkChannelStatus(void)
 		// no heater is connected to this channel
 		if (current < MIN_CHANNEL_CURRENT) {
 			// Warning, if channel as previously enabled
-			if (chData->status == CH_ENABLED)
+			if (heater->status == CH_ENABLED)
 				error(WARN_REMOVED);
-			chData->status = CH_OPEN;
+			heater->status = CH_OPEN;
 		} else if ((current > MAX_CHANNEL_CURRENT) || !nFAULT) {
 			// Disable channel when current is too high
 			// or load switch is turned off 
 			error(WARN_HEATER_OVERCURRENT);
-			chData->status = CH_OVERCURRENT;
+			heater->status = CH_OVERCURRENT;
 			// Reset loadswitch, if neccesary
 			if (!nFAULT) {
-				chData->status = CH_SHORTED;
+				heater->status = CH_SHORTED;
 				PEN = 0;
 				__delay_ms(5);
 				PEN = 1;
 			}
 		} else {
-			chData->current = current;
-			chData->Pmax = data.voltage * current;
+			heater->current = current;
+			heater->Pmax = data.voltage * current;
 
 			// Set status and mode
-			if (chData->Pset > chData->Pmax)
-				chData->Pset = chData->Pmax;
+			if (heater->Pset > heater->Pmax)
+				heater->Pset = heater->Pmax;
 
 			if (data.status.SENSOR_OK) {
-				if (chData->Pset < 0)
-					chData->mode = MODE_AUTO;
-				else if (chData->Pset > 0)
-					chData->mode = MODE_MANUAL;
+				if (heater->Pset < 0)
+					heater->mode = MODE_AUTO;
+				else if (heater->Pset > 0)
+					heater->mode = MODE_MANUAL;
 			} else {
-				chData->Pset = chData->Pmax;
-				chData->mode = MODE_MANUAL;
+				heater->Pset = heater->Pmax;
+				heater->mode = MODE_MANUAL;
 			}
 
-			if (chData->Pset == 0)
-				chData->status = CH_DISABLED;
+			if (heater->Pset == 0)
+				heater->status = CH_DISABLED;
 			else
-				chData->status = CH_ENABLED;
+				heater->status = CH_ENABLED;
 
 			// Calculate required duty cycle
-			if (chData->mode == MODE_AUTO)
-				chData->DCreq = MIN((chData->Preq / chData->Pmax) * 100, 100);
+			if (heater->mode == MODE_AUTO)
+				heater->DCreq = MIN((heater->Preq / heater->Pmax) * 100, 100);
 			else 
-				chData->DCreq = MIN((chData->Pset / chData->Pmax) * 100, 100);
+				heater->DCreq = MIN((heater->Pset / heater->Pmax) * 100, 100);
 		}
 	}
 }
@@ -283,7 +284,7 @@ void calcRequiredPower(void)
 		// If ambient temperure is above dew point + offset, no heating is required
 		/*
 		if (data.tempC > data.dewPointC + data.dpOffset) {
-			data.chData[n].Preq = 0;
+			data.heater[n].Preq = 0;
 			continue;
 		}
 		*/
@@ -463,3 +464,48 @@ uint8_t controller(void)
 	return idle;
 }
 
+
+uint8_t storeNVM(void)
+{
+	uint8_t n;
+	t_nvmData nvm;
+	uint16_t buf[32];
+	
+	nvm.lensDia[0] = data.heater[0].lensDia;
+	nvm.lensDia[1] = data.heater[1].lensDia;
+	nvm.lensDia[2] = data.heater[2].lensDia;
+	nvm.lensDia[3] = data.heater[3].lensDia;
+	nvm.dpOffset = data.dpOffset;
+	nvm.skyTemp = data.skyTemp;
+	nvm.fudgeFactor = data.fudgeFactor;
+	
+	for(n = 0; n < 32; n++) {
+		buf[n] = (uint16_t)nvm.raw[n];
+	}
+	
+	FLASH_EraseBlock(0x3f80);
+	FLASH_WriteBlock(0x3f80, buf);
+	
+	return 0;
+}
+
+
+void readNVM(void)
+{
+	uint8_t n;
+	t_nvmData nvm;
+	uint16_t buf[32];
+	
+	for(n = 0; n < 32; n++) {
+		buf[n] = FLASH_ReadWord(0x3F80 + n);
+		nvm.raw[n] = (uint8_t)(buf[n] & 0x00ff);
+	}
+	
+	data.heater[0].lensDia = nvm.lensDia[0];
+	data.heater[1].lensDia = nvm.lensDia[1];
+	data.heater[2].lensDia = nvm.lensDia[2];
+	data.heater[3].lensDia = nvm.lensDia[3];
+	data.dpOffset = nvm.dpOffset;
+	data.skyTemp = nvm.skyTemp;
+	data.fudgeFactor = nvm.fudgeFactor;
+}

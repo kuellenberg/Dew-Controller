@@ -13285,6 +13285,17 @@ int8_t g_screenRefresh = 1;
 
 # 1 "./system.h" 1
 # 11 "./system.h"
+typedef union {
+    struct {
+        float lensDia[4];
+        float dpOffset;
+        float skyTemp;
+        float fudgeFactor;
+        float _dummy;
+    };
+    uint8_t raw[32];
+} t_nvmData;
+
 uint8_t checkSensor(void);
 void checkChannelStatus(void);
 void calcRequiredPower(void);
@@ -13292,7 +13303,26 @@ void channelThing(void);
 uint8_t controller(void);
 void systemCheck(void);
 void getAnalogValues(void);
+uint8_t storeNVM(void);
+void readNVM(void);
 # 11 "main.c" 2
+
+# 1 "./memory.h" 1
+# 26 "./memory.h"
+uint16_t FLASH_ReadWord(uint16_t flashAddr);
+# 38 "./memory.h"
+void FLASH_WriteWord(uint16_t flashAddr, uint16_t *ramBuf, uint16_t word);
+# 57 "./memory.h"
+int8_t FLASH_WriteBlock(uint16_t writeAddr, uint16_t *flashWordArray);
+# 68 "./memory.h"
+void FLASH_EraseBlock(uint16_t startAddr);
+
+
+
+void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData);
+# 85 "./memory.h"
+uint8_t DATAEE_ReadByte(uint16_t bAdd);
+# 12 "main.c" 2
 
 
 
@@ -13321,6 +13351,8 @@ void main(void)
  LATCbits.LATC3 = 1;
 
 
+ if (PORTAbits.RA7)
+  readNVM();
 
  while (1) {
 
@@ -13373,7 +13405,7 @@ void main(void)
 void initGlobalData(void)
 {
  uint8_t n;
- t_heater *chData;
+ t_heater *heater;
 
  data.tempC = 0;
  data.relHum = 0;
@@ -13388,15 +13420,15 @@ void initGlobalData(void)
  data.fudgeFactor = 1.0;
 
  for (n = 0; n < 4; n++) {
-  chData = &data.heater[n];
-  chData->lensDia = 4;
-  chData->status = CH_UNCHECKED;
-  chData->mode = MODE_AUTO;
-  chData->Pmax = 0;
-  chData->Pset = -1;
-  chData->Preq = 0;
-  chData->Patt = 0;
-  chData->current = 0;
+  heater = &data.heater[n];
+  heater->lensDia = 4;
+  heater->status = CH_UNCHECKED;
+  heater->mode = MODE_AUTO;
+  heater->Pmax = 0;
+  heater->Pset = -1;
+  heater->Preq = 0;
+  heater->Patt = 0;
+  heater->current = 0;
  }
 }
 

@@ -9,6 +9,7 @@
 #include "config.h"
 #include "menuhelper.h"
 #include "system.h"
+#include "memory.h"
 
 //-----------------------------------------------------------------------------
 // Function Prototypes
@@ -35,7 +36,9 @@ void main(void)
 	initGlobalData();
 	PEN = 1;
 	
-	// TODO: read settings from NVM
+	// Skip reading configuration from flash by pressing button during power up
+	if (ROT_PB)
+		readNVM();
 	
 	while (1) {
 		// clear watchdog timer TODO: setup watchdog timer properly
@@ -72,7 +75,7 @@ void main(void)
 		
 		if (getLastError() != NO_ERROR)
 			viewErrorMessage(); // Display last error message
-		else
+		else 
 			menu(); // Status display and config menu
 		
 		// Time to relax :-)
@@ -88,7 +91,7 @@ void main(void)
 void initGlobalData(void)
 {
 	uint8_t n;
-	t_heater *chData;
+	t_heater *heater;
 
 	data.tempC = 0;
 	data.relHum = 0;
@@ -103,15 +106,15 @@ void initGlobalData(void)
 	data.fudgeFactor = 1.0;
 
 	for (n = 0; n < NUM_CHANNELS; n++) {
-		chData = &data.heater[n];
-		chData->lensDia = 4;
-		chData->status = CH_UNCHECKED;
-		chData->mode = MODE_AUTO;
-		chData->Pmax = 0;
-		chData->Pset = -1;
-		chData->Preq = 0;
-		chData->Patt = 0;
-		chData->current = 0;
+		heater = &data.heater[n];
+		heater->lensDia = 4;
+		heater->status = CH_UNCHECKED;
+		heater->mode = MODE_AUTO;
+		heater->Pmax = 0;
+		heater->Pset = -1;
+		heater->Preq = 0;
+		heater->Patt = 0;
+		heater->current = 0;
 	}
 }
 

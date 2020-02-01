@@ -1,6 +1,7 @@
 #include "common.h"
 #include "menuhelper.h"
 #include "menu.h"
+#include "system.h"
 
 //-----------------------------------------------------------------------------
 // Global variables 
@@ -84,9 +85,9 @@ uint8_t channelView(void)
 			itoa(str, n + 1, 1);
 			OLED_print_xy(n * COLUMNS + 3, 0, str);
 			OLED_print_xy(n * COLUMNS + 4, 0, ": ");
-			itoa(str, data.heater[n].lensDia, 2);
+			ftoa(str, data.heater[n].lensDia, 4, 1);
 			OLED_print_xy(n * COLUMNS + 6, 0, str);
-			OLED_print_xy(n * COLUMNS + 8, 0, "\" ");
+			OLED_print_xy(n * COLUMNS + 10, 0, "\" ");
 		}
 	}
 
@@ -250,7 +251,12 @@ uint8_t setLensDia(void)
 	OLED_print_xy(0, 1, "\004");
 	OLED_print_xy(1, 1, str);
 	OLED_print_xy(5, 1, " inch \003");
-	return 0;
+	if (getPB() == PB_SHORT) {
+		storeNVM();
+		return 0;
+	}
+		
+	return 1;
 }
 
 //-----------------------------------------------------------------------------
@@ -290,7 +296,11 @@ uint8_t setDPOffset(void)
 	OLED_print_xy(0, 1, "temp.\004");
 	OLED_print_xy(6, 1, str);
 	OLED_print_xy(10, 1, "\001\003");
-	return 0;
+	if (getPB() == PB_SHORT) {
+		storeNVM();
+		return 0;
+	}
+	return 1;
 }
 
 //-----------------------------------------------------------------------------
@@ -307,7 +317,11 @@ uint8_t setSkyTemp(void)
 	OLED_print_xy(0, 1, "\004");
 	OLED_print_xy(1, 1, str);
 	OLED_print_xy(4, 1, "\001 \003     ");
-	return 0;
+	if (getPB() == PB_SHORT) {
+		storeNVM();
+		return 0;
+	}
+	return 1;
 }
 
 //-----------------------------------------------------------------------------
@@ -324,5 +338,9 @@ uint8_t setFudgeFactor(void)
 	OLED_print_xy(0, 1, "\004");
 	OLED_print_xy(1, 1, str);
 	OLED_print_xy(4, 1, " \003      ");
-	return 0;
+	if (getPB() == PB_SHORT) {
+		storeNVM();
+		return 0;
+	}
+	return 1;
 }
