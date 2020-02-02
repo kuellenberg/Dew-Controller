@@ -31,6 +31,7 @@
 
 #define NUM_CHANNELS 4	// number of heater channels
 #define COLUMNS 12		// columns on display
+#define DISPLAY_TIMEOUT 1200
 
 // EMA function needs scaled alpha value
 #define ALPHA(x) ( (uint32_t)(x * 65535) ) 

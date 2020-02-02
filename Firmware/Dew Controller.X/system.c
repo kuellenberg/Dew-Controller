@@ -68,7 +68,8 @@ void checkChannelStatus(void)
 		
 		setChannelSwitch(channel, 1);		
 		samples = 0;
-		avg = heater->current;
+		//avg = heater->current;
+		avg = 0;
 		do {
 			adc = getAnalogValue(AIN_ISENS);
 			// Calculate exp. moving average on raw value
@@ -84,13 +85,13 @@ void checkChannelStatus(void)
 			// Warning, if channel as previously enabled
 			if (heater->status == CH_ENABLED)
 				error(WARN_REMOVED);
-			heater->status = CH_OPEN;
+			heater->status = CH_OPEN;				
 		} else if ((current > MAX_CHANNEL_CURRENT) || !nFAULT) {
 			// Disable channel when current is too high
 			// or load switch is turned off 
 			error(WARN_HEATER_OVERCURRENT);
 			heater->status = CH_OVERCURRENT;
-			// Reset loadswitch, if neccesary
+			// Reset loadswitch, if necessary
 			if (!nFAULT) {
 				heater->status = CH_SHORTED;
 				PEN = 0;
@@ -440,7 +441,7 @@ void channelThing(void)
 uint8_t controller(void)
 {
 	static uint32_t dutyCycleTimer;
-	uint32_t tick;
+	uint32_t timer;
 	static uint8_t idle;
 	uint8_t n;
 	
@@ -449,17 +450,16 @@ uint8_t controller(void)
 		idle = 0;
 	}
 		
-	tick = timeSince(dutyCycleTimer);
-	if (tick <= 100) {
-		for(n = 0; n < NUM_CHANNELS; n++) {
-			if (tick >= virtChannels[n].stop)
-				setChannelSwitch(virtChannels[n].phyChanNum, 0);
-			else if ((tick >= virtChannels[n].start) && (tick < virtChannels[n].stop))
-				setChannelSwitch(virtChannels[n].phyChanNum, 1);
-		}
-	} else {
-		idle = 1;
+	timer = timeSince(dutyCycleTimer);
+
+	for(n = 0; n < NUM_CHANNELS; n++) {
+		if (timer >= virtChannels[n].stop)
+			setChannelSwitch(virtChannels[n].phyChanNum, 0);
+		else if ((timer >= virtChannels[n].start) && (timer < virtChannels[n].stop))
+			setChannelSwitch(virtChannels[n].phyChanNum, 1);
 	}
+	if (timer >= 100)
+		idle = 1;
 	
 	return idle;
 }

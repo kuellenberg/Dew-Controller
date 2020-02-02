@@ -13126,7 +13126,7 @@ enum e_errorcode {
  ERR_MENU
 };
 
-void error(enum e_errorcode error);
+void error(enum e_errorcode code);
 void viewErrorMessage(void);
 enum e_errorcode getLastError(void);
 # 21 "./common.h" 2
@@ -13167,7 +13167,7 @@ enum e_buttonPress getPB(void);
 enum e_direction getRotDir(void);
 void spinInput(float *input, float min, float max, float step);
 # 23 "./common.h" 2
-# 43 "./common.h"
+# 44 "./common.h"
 typedef struct {
  unsigned BAT_LOW:1;
     unsigned BAT_HIGH:1;
@@ -13256,10 +13256,10 @@ uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 #pragma config STVREN = ON
 
 
-#pragma config WDTCPS = WDTCPS_31
-#pragma config WDTE = OFF
-#pragma config WDTCWS = WDTCWS_7
-#pragma config WDTCCS = SC
+#pragma config WDTCPS = WDTCPS_10
+#pragma config WDTE = ON
+#pragma config WDTCWS = WDTCWS_6
+#pragma config WDTCCS = LFINTOSC
 
 
 #pragma config BBSIZE = BB512
@@ -13339,8 +13339,9 @@ void initGlobalData(void);
 void main(void)
 {
  uint32_t sysCheckInterval = 0;
- uint8_t idle = 1;
+ uint8_t controllerIdle = 1;
  uint8_t initDone = 0;
+ uint8_t displayOff = 0;
 
  initialize();
  LATBbits.LATB5 = 1;
@@ -13375,26 +13376,40 @@ void main(void)
   }
 
 
-  if (idle) {
+  if (controllerIdle) {
    if (initDone) {
 
 
     checkChannelStatus();
     channelThing();
-    idle = 0;
+    controllerIdle = 0;
    }
   } else {
 
-   idle = controller();
+   controllerIdle = controller();
   }
 
-  if (getLastError() != NO_ERROR)
+  if (getLastError() != NO_ERROR) {
+   userActivity = tick100ms;
    viewErrorMessage();
-  else
+  } else if (! displayOff) {
    menu();
+  }
 
 
-  _delay((unsigned long)((20)*(4000000UL/4000.0)));
+  if (displayOff && ((timeSince(userActivity) < 1200))) {
+
+   displayOff = 0;
+   OLED_command(0x08 | 0x04);
+  } else if (timeSince(userActivity) > 1200) {
+   displayOff = 1;
+   OLED_command(0x08 | 0x00);
+  }
+
+
+
+
+  _delay((unsigned long)((40)*(4000000UL/4000.0)));
   __nop();
  }
 }

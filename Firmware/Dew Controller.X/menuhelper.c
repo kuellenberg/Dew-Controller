@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------------
 #define ST_ANY 255
 #define MENU_TIMEOUT 300
-#define DISPLAY_TIMEOUT 1200
 
 enum e_menuStates {
 	ST_STATUS_VIEW,
@@ -93,30 +92,12 @@ static const t_nextState nextStateTbl[] = {
 //-----------------------------------------------------------------------------
 void menu(void)
 {
-	static uint8_t sleep;
 	static uint8_t state = ST_STATUS_VIEW;
 	int8_t page, nextState;
 	uint8_t timeout = 0;
 	enum e_buttonPress pb;
 	t_stateFuncPtr func;
-	
-	// turn off display after DISPLAY_TIMEOUT
-	if (sleep) {
-		if (timeSince(userActivity) < DISPLAY_TIMEOUT) {
-			// wake up
-			sleep = 0;
-			OLED_command(OLED_DISPLAYCONTROL | OLED_DISPLAYON);
-		} else {
-			return;
-		}
-	} else {
-		if (timeSince(userActivity) > DISPLAY_TIMEOUT) {
-			sleep = 1;
-			OLED_command(OLED_DISPLAYCONTROL | OLED_DISPLAYOFF);
-			return;
-		}
-	}
-	
+
 	// call menu function according to current state
 	func = stateFuncTbl[state];
 	if (func)

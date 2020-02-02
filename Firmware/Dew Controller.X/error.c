@@ -3,16 +3,17 @@
 
 #define NUM_ERROR_MESSAGES 10
 
-static enum e_errorcode errorMessageQueue[NUM_ERROR_MESSAGES];
+static enum e_errorcode errorMessageQueue[NUM_ERROR_MESSAGES] = {0};
 static uint8_t head = 0;
 static uint8_t tail = 0;
 
 //-----------------------------------------------------------------------------
 // add error to queue
 //-----------------------------------------------------------------------------
-void error(enum e_errorcode error)
+void error(enum e_errorcode code)
 {
-	errorMessageQueue[head] = error;
+	char str[10];
+	errorMessageQueue[head] = code;
 	head = (head + 1) % NUM_ERROR_MESSAGES;
 	if (head == tail)
 		tail = (tail + 1) % NUM_ERROR_MESSAGES;
@@ -71,6 +72,10 @@ void viewErrorMessage(void)
 		break;
 	case ERR_NUKED:
 		OLED_print_xy(0, 0, "OVERCURRENT ");
+		OLED_print_xy(0, 1, "TURN OFF NOW");
+		break;
+	case ERR_VOLT_CRIT:
+		OLED_print_xy(0, 0, "VOLTAGE HIGH");
 		OLED_print_xy(0, 1, "TURN OFF NOW");
 		break;
 	case ERR_OVERCURRENT:

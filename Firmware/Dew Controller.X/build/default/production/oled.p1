@@ -7,22 +7,22 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
 [c E7869 0 1 2 3 4 .. ]
 [n E7869 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
-"43 ./common.h
-[; ;./common.h: 43: typedef struct {
+"44 ./common.h
+[; ;./common.h: 44: typedef struct {
 [s S984 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S984 . BAT_LOW BAT_HIGH OVERCURRENT SENSOR_OK AUX_SENSOR_OK ]
-"97
-[; ;./common.h: 97: t_globalData data;
+"98
+[; ;./common.h: 98: t_globalData data;
 [c E7893 0 1 .. ]
 [n E7893 e_channelMode MODE_MANUAL MODE_AUTO  ]
 [c E7896 0 1 2 3 4 5 .. ]
 [n E7896 e_channelStatus CH_DISABLED CH_ENABLED CH_OPEN CH_SHORTED CH_OVERCURRENT CH_UNCHECKED  ]
-"63
-[; ;./common.h: 63: typedef struct {
+"64
+[; ;./common.h: 64: typedef struct {
 [s S985 `f 1 `f 1 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `E7893 1 `E7896 1 ]
 [n S985 . current Pmax Preq Patt Pset DCreq lensDia dt mode status ]
-"77
-[; ;./common.h: 77: typedef struct {
+"78
+[; ;./common.h: 78: typedef struct {
 [s S986 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `S984 1 `S985 -> 4 `i ]
 [n S986 . tempC relHum dewPointC sensorVersion tempAux voltage current power dpOffset skyTemp fudgeFactor status heater ]
 "50 ./oled.h
@@ -1147,8 +1147,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [i _userActivity
 -> -> -> 0 `i `l `ul
 ]
-"97 ./common.h
-[; ;./common.h: 97: t_globalData data;
+"98 ./common.h
+[; ;./common.h: 98: t_globalData data;
 [v _data `S986 ~T0 @X0 1 e ]
 "12 oled.c
 [; ;oled.c: 12: void OLED_off(void)

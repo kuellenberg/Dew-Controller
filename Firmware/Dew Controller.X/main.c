@@ -24,8 +24,9 @@ void initGlobalData(void);
 void main(void)
 {
 	uint32_t sysCheckInterval = 0;
-	uint8_t idle = 1;
+	uint8_t controllerIdle = 1;
 	uint8_t initDone = 0;
+	uint8_t displayOff = 0;
 
 	initialize();
 	OLED_PWR = 1;
@@ -60,26 +61,40 @@ void main(void)
 		}
 
 		// is control loop running?
-		if (idle) {
+		if (controllerIdle) {
 			if (initDone) {
 				// Wait until initial sensor check is finished		
 				// TODO: interval ?				
 				checkChannelStatus();
 				channelThing();
-				idle = 0;
+				controllerIdle = 0;
 			}
 		} else {
 			// controller returns true after each cycle
-			idle = controller();
+			controllerIdle = controller();
 		}
 		
-		if (getLastError() != NO_ERROR)
-			viewErrorMessage(); // Display last error message
-		else 
-			menu(); // Status display and config menu
+		if (getLastError() != NO_ERROR) {
+			userActivity = timeNow();
+			viewErrorMessage(); // Display last error message	
+		} else if (! displayOff) {
+			menu();
+		}	
+			
+		// turn off display after DISPLAY_TIMEOUT
+		if (displayOff && ((timeSince(userActivity) < DISPLAY_TIMEOUT))) {
+			// wake up
+			displayOff = 0;
+			OLED_command(OLED_DISPLAYCONTROL | OLED_DISPLAYON);
+		} else if (timeSince(userActivity) > DISPLAY_TIMEOUT) {
+			displayOff = 1;
+			OLED_command(OLED_DISPLAYCONTROL | OLED_DISPLAYOFF);
+		} 		
+		
+		
 		
 		// Time to relax :-)
-		__delay_ms(20);
+		__delay_ms(40);
 		NOP();
 	}
 }

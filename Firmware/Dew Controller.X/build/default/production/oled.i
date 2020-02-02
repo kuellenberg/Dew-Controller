@@ -12738,7 +12738,7 @@ enum e_errorcode {
  ERR_MENU
 };
 
-void error(enum e_errorcode error);
+void error(enum e_errorcode code);
 void viewErrorMessage(void);
 enum e_errorcode getLastError(void);
 # 21 "./common.h" 2
@@ -12779,7 +12779,7 @@ enum e_buttonPress getPB(void);
 enum e_direction getRotDir(void);
 void spinInput(float *input, float min, float max, float step);
 # 23 "./common.h" 2
-# 43 "./common.h"
+# 44 "./common.h"
 typedef struct {
  unsigned BAT_LOW:1;
     unsigned BAT_HIGH:1;

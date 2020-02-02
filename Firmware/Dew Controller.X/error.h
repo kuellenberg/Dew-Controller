@@ -24,7 +24,7 @@ enum e_errorcode {
 	ERR_MENU
 };
 
-void error(enum e_errorcode error);
+void error(enum e_errorcode code);
 void viewErrorMessage(void);
 enum e_errorcode getLastError(void);
 
