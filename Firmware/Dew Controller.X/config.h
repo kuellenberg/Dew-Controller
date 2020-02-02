@@ -22,7 +22,7 @@
 
 // CONFIG3
 #pragma config WDTCPS = WDTCPS_10
-#pragma config WDTE = ON   
+#pragma config WDTE = ON  
 #pragma config WDTCWS = WDTCWS_6
 #pragma config WDTCCS = LFINTOSC    
 

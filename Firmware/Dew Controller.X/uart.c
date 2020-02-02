@@ -44,11 +44,13 @@ void uartReceiveISR(void)
 		rxCount++;
 	} else {
 		// Last byte is checksum
-		if (RC1REG == checksum) {
-			// set data ready flag and copy buffer to data structure
-			uartDataReadyFlag = 1;
-			strncpy((char *) &dataPacket, buffer, sizeof(dataPacket));
-		}
+		if (RC1REG != checksum)
+			dataPacket.status = 0;
+		// set data ready flag and copy buffer to data structure
+		uartDataReadyFlag = 1;
+		strncpy((char *) &dataPacket, buffer, sizeof(dataPacket));
+		if (dataPacket.tempC < 1.0)
+			NOP();
 		checksum = 0;
 		rxCount = 0;
 	}
@@ -60,6 +62,7 @@ void uartReceiveISR(void)
 void uartReset(void)
 {
 	uint8_t dump;
+	dump = RC1REG;
 	dump = RC1REG;
 	RC1STAbits.CREN = 0;
 	RC1STAbits.CREN = 1;

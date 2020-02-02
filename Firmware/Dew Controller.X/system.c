@@ -207,10 +207,8 @@ void systemCheck(void)
 
 uint8_t checkSensor(void)
 {
-	t_dataPacket *dp;
 	static uint32_t sensorUpdateInterval = SENSOR_UPDATE_INTERVALL;
 	static uint32_t sensorTimeout = 0;
-	static uint8_t state = 0;
 
 	// Check aux. temperature sensor and set status bit
 	if ((data.tempAux < TEMP_AUX_MIN) || (data.tempAux > TEMP_AUX_MAX)) {
@@ -218,35 +216,28 @@ uint8_t checkSensor(void)
 	} else
 		data.status.AUX_SENSOR_OK = 1;
 
-	switch (state) {
-	case 0:
-		// Request data from sensor after SENSOR_UPDATE_INTERVALL
-		if (timeSince(sensorUpdateInterval) >= SENSOR_UPDATE_INTERVALL) {
-			sensorUpdateInterval = sensorTimeout = timeNow();
-			uartSendByte('?');
-			state = 1;
-		}
-		break;
-	case 1:
-		// Wait for response
+	// Request data from sensor after SENSOR_UPDATE_INTERVALL
+	if ((uartDataReadyFlag == 0) && (timeSince(sensorUpdateInterval) >= SENSOR_UPDATE_INTERVALL)) {
+		sensorUpdateInterval = sensorTimeout = timeNow();
+		uartSendByte('?');
+	} else if (uartDataReadyFlag == 1) {
 		if (timeSince(sensorTimeout) > SENSOR_TIMEOUT) {
+			// Timeout
+			uartDataReadyFlag = 0;
+			uartReset();
 			if (data.status.SENSOR_OK) {
 				data.status.SENSOR_OK = 0;
 				error(WARN_SENSOR_TIMEOUT);
 			}
-			state = 0;
-			uartReset();
-		} else if (uartDataReadyFlag) {
+		} else {
 			uartDataReadyFlag = 0;
-			// Is the header ok?
+			// Are header and status ok?
 			if ((dataPacket.header == 0xAA) && (dataPacket.status == 1)) {
 				data.tempC = dataPacket.tempC;
 				data.relHum = dataPacket.relHum;
 				data.dewPointC = dataPacket.dewPointC;
 				data.sensorVersion = dataPacket.version;
 				data.status.SENSOR_OK = 1;
-				state = 0;
-				
 				return 1;
 			} else {
 				// Sensor not ok, set status bit and reset UART
@@ -254,15 +245,9 @@ uint8_t checkSensor(void)
 					data.status.SENSOR_OK = 0;
 					error(WARN_SENSOR_CHECKSUM);
 				}
-				uartReset();
 			}
-			state = 0;
 		}
-		break;
-	default:
-		state = 0;
 	}
-	
 	return 0;
 }
 

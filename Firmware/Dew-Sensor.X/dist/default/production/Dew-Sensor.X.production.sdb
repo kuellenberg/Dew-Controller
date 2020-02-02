@@ -1,51 +1,53 @@
-[p LITE_MODE AUTOSTATIC IEEE_DBL IEEE_FLT PIC14 PIC14E ]
+[p GLOBOPT AUTOSTATIC IEEE_DBL IEEE_FLT PIC14 PIC14E ]
 [d version 1.1 ]
 [d edition pro ]
 [d chip 16F15325 ]
 [d frameptr 6 ]
-"46 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew-Sensor.X\main.c
-[e E7166 . `uc
+"44 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew-Sensor.X\main.c
+[e E7179 . `uc
 NO_COMMAND 0
 GET_DATA 1
 UNKNOWN_COMMAND 2
 ]
-"15 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\flneg.c
-[v ___flneg __flneg `(d  1 e 4 0 ]
-"28 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\logf.c
+"4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\flge.c
+[v ___flge __flge `(b  1 e 0 0 ]
+"28 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\logf.c
 [v _logf logf `(f  1 e 4 0 ]
-"10 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\sprcadd.c
+"10 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\sprcadd.c
 [v ___fladd __fladd `(d  1 e 4 0 ]
-"8 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\sprcdiv.c
+"242
+[v ___flsub __flsub `(d  1 e 4 0 ]
+"8 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\sprcdiv.c
 [v ___fldiv __fldiv `(d  1 e 4 0 ]
-"8 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\sprcmul.c
+"8 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
-"4 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\Umul8_16.c
+"4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\Umul8_16.c
 [v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
-"10 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\xxtofl.c
+"10 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\xxtofl.c
 [v ___xxtofl __xxtofl `(d  1 e 4 0 ]
-"66 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew-Sensor.X\main.c
+"64 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew-Sensor.X\main.c
 [v _main main `(v  1 e 1 0 ]
-"116
+"112
 [v _readSI7006 readSI7006 `(uc  1 e 1 0 ]
-"153
+"149
 [v _i2cStart i2cStart `(v  1 e 1 0 ]
-"165
+"161
 [v _i2cStop i2cStop `(v  1 e 1 0 ]
-"176
+"172
 [v _i2cRepeat i2cRepeat `(v  1 e 1 0 ]
-"187
+"183
 [v _i2cWrite i2cWrite `(uc  1 e 1 0 ]
-"211
+"206
 [v _i2cRead i2cRead `(uc  1 e 1 0 ]
-"237
+"231
 [v _uartSendByte uartSendByte `(v  1 e 1 0 ]
-"248
+"242
 [v _initialize initialize `(v  1 e 1 0 ]
-"289
+"283
 [v _ISR ISR `II(v  1 e 1 0 ]
-"302
+"295
 [v _uartReceiveISR uartReceiveISR `(v  1 e 1 0 ]
-"413 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f15325.h
+"413 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15325.h
 [v _INTCON INTCON `VEuc  1 e 1 @11 ]
 [s S217 . 1 `uc 1 INTEDG 1 0 :1:0 
 `uc 1 . 1 0 :5:1 
@@ -177,73 +179,61 @@ UNKNOWN_COMMAND 2
 [v _ANSELA ANSELA `VEuc  1 e 1 @7992 ]
 "17920
 [v _ANSELC ANSELC `VEuc  1 e 1 @8014 ]
-"20 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\logf.c
-[v _ln2_hi ln2_hi `DCf  1 s 4 ln2_hi ]
-"21
-[v _ln2_lo ln2_lo `DCf  1 s 4 ln2_lo ]
-"23
-[v _Lg1 Lg1 `DCf  1 s 4 Lg1 ]
-"24
-[v _Lg2 Lg2 `DCf  1 s 4 Lg2 ]
-"25
-[v _Lg3 Lg3 `DCf  1 s 4 Lg3 ]
-"26
-[v _Lg4 Lg4 `DCf  1 s 4 Lg4 ]
-"44 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew-Sensor.X\main.c
+"42 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew-Sensor.X\main.c
 [v _g_rxFErrCount g_rxFErrCount `VEuc  1 e 1 0 ]
-"45
+"43
 [v _g_rxOErrCount g_rxOErrCount `VEuc  1 e 1 0 ]
-"46
-[v _g_command g_command `VEE7166  1 e 1 0 ]
-"66
+"44
+[v _g_command g_command `VEE7179  1 e 1 0 ]
+"64
 [v _main main `(v  1 e 1 0 ]
 {
 [s S26 . 15 `uc 1 header 1 0 `uc 1 version 1 1 `uc 1 status 1 2 `f 1 tempC 4 3 `f 1 relHum 4 7 `f 1 dewPointC 4 11 ]
-"70
-[v main@dataPacket dataPacket `S26  1 a 15 45 ]
-"71
-[v main@n n `uc  1 a 1 44 ]
 "68
-[v main@s s `*.4uc  1 a 1 43 ]
+[v main@dataPacket dataPacket `S26  1 a 15 49 ]
 "69
-[v main@checksum checksum `uc  1 a 1 42 ]
-"110
+[v main@n n `uc  1 a 1 48 ]
+"66
+[v main@s s `*.4uc  1 a 1 47 ]
+"67
+[v main@checksum checksum `uc  1 a 1 46 ]
+"106
 } 0
-"237
+"231
 [v _uartSendByte uartSendByte `(v  1 e 1 0 ]
 {
 [v uartSendByte@s s `uc  1 a 1 wreg ]
 [v uartSendByte@s s `uc  1 a 1 wreg ]
-"239
+"233
 [v uartSendByte@s s `uc  1 a 1 2 ]
-"242
+"236
 } 0
-"116
+"112
 [v _readSI7006 readSI7006 `(uc  1 e 1 0 ]
 {
 [v readSI7006@RH RH `*.4f  1 a 1 wreg ]
-"119
-[v readSI7006@gamma gamma `f  1 a 4 33 ]
-"118
-[v readSI7006@buffer buffer `[2]uc  1 a 2 38 ]
-"116
+"115
+[v readSI7006@gamma gamma `f  1 a 4 37 ]
+"114
+[v readSI7006@buffer buffer `[2]uc  1 a 2 42 ]
+"112
 [v readSI7006@RH RH `*.4f  1 a 1 wreg ]
 [v readSI7006@tempC tempC `*.4f  1 p 1 78 ]
 [v readSI7006@DP DP `*.4f  1 p 1 79 ]
-"121
-[v readSI7006@RH RH `*.4f  1 a 1 37 ]
-"147
+"117
+[v readSI7006@RH RH `*.4f  1 a 1 41 ]
+"143
 } 0
-"28 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\logf.c
+"28 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\logf.c
 [v _logf logf `(f  1 e 4 0 ]
 {
 "32
 [v logf@ix ix `ul  1 a 4 62 ]
 "31
 [v logf@f f `f  1 a 4 58 ]
-[u S637 . 4 `f 1 f 4 0 `ul 1 i 4 0 ]
+[u S674 . 4 `f 1 f 4 0 `ul 1 i 4 0 ]
 "30
-[v logf@u u `S637  1 a 4 54 ]
+[v logf@u u `S674  1 a 4 54 ]
 "31
 [v logf@w w `f  1 a 4 46 ]
 [v logf@z z `f  1 a 4 42 ]
@@ -256,12 +246,12 @@ UNKNOWN_COMMAND 2
 "33
 [v logf@k k `i  1 a 2 28 ]
 "28
-[v logf@x x `f  1 p 4 4 ]
+[v logf@x x `f  1 p 4 8 ]
 "29
-[v logf@F459 F459 `S637  1 s 4 F459 ]
+[v logf@F469 F469 `S674  1 s 4 F469 ]
 "69
 } 0
-"10 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\xxtofl.c
+"10 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\xxtofl.c
 [v ___xxtofl __xxtofl `(d  1 e 4 0 ]
 {
 [v ___xxtofl@sign sign `uc  1 a 1 wreg ]
@@ -276,26 +266,43 @@ UNKNOWN_COMMAND 2
 [v ___xxtofl@sign sign `uc  1 a 1 0 ]
 "44
 } 0
-"15 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\flneg.c
-[v ___flneg __flneg `(d  1 e 4 0 ]
+"242 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\sprcadd.c
+[v ___flsub __flsub `(d  1 e 4 0 ]
 {
-[v ___flneg@f1 f1 `d  1 p 4 2 ]
-"20
+[v ___flsub@a a `d  1 p 4 0 ]
+[v ___flsub@b b `d  1 p 4 4 ]
+"250
 } 0
-"8 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\sprcmul.c
+"10
+[v ___fladd __fladd `(d  1 e 4 0 ]
+{
+"17
+[v ___fladd@grs grs `uc  1 a 1 77 ]
+"15
+[v ___fladd@bexp bexp `uc  1 a 1 76 ]
+"16
+[v ___fladd@aexp aexp `uc  1 a 1 75 ]
+"13
+[v ___fladd@signs signs `uc  1 a 1 74 ]
+"10
+[v ___fladd@b b `d  1 p 4 58 ]
+[v ___fladd@a a `d  1 p 4 62 ]
+"237
+} 0
+"8 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
 {
-[s S500 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
+[s S532 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
 "13
-[s S505 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
-[u S508 . 4 `l 1 i 4 0 `d 1 f 4 0 `S500 1 fAsBytes 4 0 `S505 1 fAsWords 4 0 ]
-[v ___flmul@prod prod `S508  1 a 4 26 ]
+[s S537 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
+[u S540 . 4 `l 1 i 4 0 `d 1 f 4 0 `S532 1 fAsBytes 4 0 `S537 1 fAsWords 4 0 ]
+[v ___flmul@prod prod `S540  1 a 4 26 ]
 "12
 [v ___flmul@grs grs `ul  1 a 4 21 ]
-[s S577 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
+[s S609 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
 "14
-[u S580 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S577 1 nAsBytes 2 0 ]
-[v ___flmul@temp temp `S580  1 a 2 30 ]
+[u S612 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S609 1 nAsBytes 2 0 ]
+[v ___flmul@temp temp `S612  1 a 2 30 ]
 "10
 [v ___flmul@bexp bexp `uc  1 a 1 25 ]
 "11
@@ -307,7 +314,7 @@ UNKNOWN_COMMAND 2
 [v ___flmul@a a `d  1 p 4 10 ]
 "205
 } 0
-"4 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\Umul8_16.c
+"4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\Umul8_16.c
 [v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
 {
 [v __Umul8_16@multiplier multiplier `uc  1 a 1 wreg ]
@@ -321,7 +328,7 @@ UNKNOWN_COMMAND 2
 [v __Umul8_16@multiplier multiplier `uc  1 a 1 4 ]
 "60
 } 0
-"8 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\sprcdiv.c
+"8 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\sprcdiv.c
 [v ___fldiv __fldiv `(d  1 e 4 0 ]
 {
 "21
@@ -341,76 +348,67 @@ UNKNOWN_COMMAND 2
 [v ___fldiv@b b `d  1 p 4 36 ]
 "185
 } 0
-"10 C:\Program Files (x86)\Microchip\xc8\v2.00\pic\sources\c99\common\sprcadd.c
-[v ___fladd __fladd `(d  1 e 4 0 ]
-{
-"17
-[v ___fladd@grs grs `uc  1 a 1 3 ]
-"15
-[v ___fladd@bexp bexp `uc  1 a 1 2 ]
-"16
-[v ___fladd@aexp aexp `uc  1 a 1 1 ]
-"13
-[v ___fladd@signs signs `uc  1 a 1 0 ]
-"10
-[v ___fladd@b b `d  1 p 4 58 ]
-[v ___fladd@a a `d  1 p 4 62 ]
-"237
-} 0
-"187 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew-Sensor.X\main.c
+"183 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew-Sensor.X\main.c
 [v _i2cWrite i2cWrite `(uc  1 e 1 0 ]
 {
 [v i2cWrite@writeBuffer writeBuffer `*.4uc  1 a 1 wreg ]
-"189
+"185
 [v i2cWrite@n n `uc  1 a 1 6 ]
-"187
+"183
 [v i2cWrite@writeBuffer writeBuffer `*.4uc  1 a 1 wreg ]
 [v i2cWrite@numBytes numBytes `uc  1 p 1 2 ]
 [v i2cWrite@address address `uc  1 p 1 3 ]
-"191
+"187
 [v i2cWrite@writeBuffer writeBuffer `*.4uc  1 a 1 5 ]
-"205
+"200
 } 0
-"165
+"161
 [v _i2cStop i2cStop `(v  1 e 1 0 ]
 {
-"170
+"166
 } 0
-"153
+"149
 [v _i2cStart i2cStart `(v  1 e 1 0 ]
 {
-"159
+"155
 } 0
-"176
+"172
 [v _i2cRepeat i2cRepeat `(v  1 e 1 0 ]
 {
-"181
+"177
 } 0
-"211
+"206
 [v _i2cRead i2cRead `(uc  1 e 1 0 ]
 {
 [v i2cRead@readBuffer readBuffer `*.4uc  1 a 1 wreg ]
 [v i2cRead@readBuffer readBuffer `*.4uc  1 a 1 wreg ]
 [v i2cRead@numBytes numBytes `uc  1 p 1 2 ]
 [v i2cRead@address address `uc  1 p 1 3 ]
-"213
+"208
 [v i2cRead@readBuffer readBuffer `*.4uc  1 a 1 5 ]
-"231
+"225
 } 0
-"248
+"242
 [v _initialize initialize `(v  1 e 1 0 ]
 {
-"283
+"277
 } 0
-"289
+"4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c99\common\flge.c
+[v ___flge __flge `(b  1 e 0 0 ]
+{
+[v ___flge@ff1 ff1 `d  1 p 4 2 ]
+[v ___flge@ff2 ff2 `d  1 p 4 6 ]
+"19
+} 0
+"283 C:\Users\Ondre\Dropbox\Kicad-Projects\Dew-Controller\Firmware\Dew-Sensor.X\main.c
 [v _ISR ISR `II(v  1 e 1 0 ]
 {
-"296
+"289
 } 0
-"302
+"295
 [v _uartReceiveISR uartReceiveISR `(v  1 e 1 0 ]
 {
-"304
+"297
 [v uartReceiveISR@rxByte rxByte `uc  1 a 1 1 ]
-"324
+"315
 } 0

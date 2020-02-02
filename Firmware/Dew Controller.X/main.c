@@ -58,7 +58,10 @@ void main(void)
 			// once new sensor data is ready, calculate required heater power
 			calcRequiredPower();
 			initDone = 1;
+			if ((data.status.SENSOR_OK) && (data.tempC < 1))
+				NOP();
 		}
+
 
 		// is control loop running?
 		if (controllerIdle) {

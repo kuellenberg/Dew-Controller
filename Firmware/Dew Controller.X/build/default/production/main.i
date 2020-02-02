@@ -13373,7 +13373,10 @@ void main(void)
 
    calcRequiredPower();
    initDone = 1;
+   if ((data.status.SENSOR_OK) && (data.tempC < 1))
+    __nop();
   }
+
 
 
   if (controllerIdle) {

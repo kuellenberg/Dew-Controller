@@ -12,7 +12,6 @@ static uint8_t tail = 0;
 //-----------------------------------------------------------------------------
 void error(enum e_errorcode code)
 {
-	char str[10];
 	errorMessageQueue[head] = code;
 	head = (head + 1) % NUM_ERROR_MESSAGES;
 	if (head == tail)

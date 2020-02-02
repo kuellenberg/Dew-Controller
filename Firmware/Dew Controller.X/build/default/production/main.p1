@@ -92,7 +92,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "24
 [; ;./system.h: 24: void calcRequiredPower(void);
 [v _calcRequiredPower `(v ~T0 @X0 0 ef ]
-"23
+"31 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic.h
+[v ___nop `(v ~T0 @X0 0 ef ]
+[p i ___nop ]
+"23 ./system.h
 [; ;./system.h: 23: void checkChannelStatus(void);
 [v _checkChannelStatus `(v ~T0 @X0 0 ef ]
 "25
@@ -101,8 +104,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "26
 [; ;./system.h: 26: uint8_t controller(void);
 [v _controller `(uc ~T0 @X0 0 ef ]
-"77 main.c
-[; ;main.c: 77:   if (getLastError() != NO_ERROR) {
+"80 main.c
+[; ;main.c: 80:   if (getLastError() != NO_ERROR) {
 [c E8249 0 1 2 3 4 5 6 7 8 9 10 11 12 .. ]
 [n E8249 e_errorcode NO_ERROR WARN_REMOVED WARN_SHORTED WARN_OVERCURRENT WARN_HEATER_OVERCURRENT WARN_VOLT_HIGH WARN_VOLT_LOW WARN_SENSOR_TIMEOUT WARN_SENSOR_CHECKSUM ERR_NUKED ERR_OVERCURRENT ERR_VOLT_CRIT ERR_MENU  ]
 "29 ./error.h
@@ -118,9 +121,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "92 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic.h
 [v __delay `JF7729 ~T0 @X0 0 e ]
 [p i __delay ]
-"31
-[v ___nop `(v ~T0 @X0 0 ef ]
-[p i ___nop ]
 "11297 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h: 11297: extern volatile unsigned char OSCFRQ __attribute__((address(0x893)));
 [v _OSCFRQ `Vuc ~T0 @X0 0 e@2195 ]
@@ -1469,311 +1469,318 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 60:    initDone = 1;
 [e = _initDone -> -> 1 `i `uc ]
 "61
-[; ;main.c: 61:   }
+[; ;main.c: 61:    if ((data.status.SENSOR_OK) && (data.tempC < 1))
+[e $ ! && != -> . . _data 11 3 `i -> 0 `i < . _data 0 -> -> 1 `i `f 996  ]
+"62
+[; ;main.c: 62:     __nop();
+[e ( ___nop ..  ]
+[e :U 996 ]
+"63
+[; ;main.c: 63:   }
 }
 [e :U 995 ]
-"64
-[; ;main.c: 64:   if (controllerIdle) {
-[e $ ! != -> _controllerIdle `i -> 0 `i 996  ]
-{
-"65
-[; ;main.c: 65:    if (initDone) {
-[e $ ! != -> _initDone `i -> 0 `i 997  ]
+"67
+[; ;main.c: 67:   if (controllerIdle) {
+[e $ ! != -> _controllerIdle `i -> 0 `i 997  ]
 {
 "68
-[; ;main.c: 68:     checkChannelStatus();
-[e ( _checkChannelStatus ..  ]
-"69
-[; ;main.c: 69:     channelThing();
-[e ( _channelThing ..  ]
-"70
-[; ;main.c: 70:     controllerIdle = 0;
-[e = _controllerIdle -> -> 0 `i `uc ]
-"71
-[; ;main.c: 71:    }
-}
-[e :U 997 ]
-"72
-[; ;main.c: 72:   } else {
-}
-[e $U 998  ]
-[e :U 996 ]
+[; ;main.c: 68:    if (initDone) {
+[e $ ! != -> _initDone `i -> 0 `i 998  ]
 {
+"71
+[; ;main.c: 71:     checkChannelStatus();
+[e ( _checkChannelStatus ..  ]
+"72
+[; ;main.c: 72:     channelThing();
+[e ( _channelThing ..  ]
+"73
+[; ;main.c: 73:     controllerIdle = 0;
+[e = _controllerIdle -> -> 0 `i `uc ]
 "74
-[; ;main.c: 74:    controllerIdle = controller();
-[e = _controllerIdle ( _controller ..  ]
-"75
-[; ;main.c: 75:   }
+[; ;main.c: 74:    }
 }
 [e :U 998 ]
-"77
-[; ;main.c: 77:   if (getLastError() != NO_ERROR) {
-[e $ ! != -> ( _getLastError ..  `ui -> . `E8249 0 `ui 999  ]
-{
-"78
-[; ;main.c: 78:    userActivity = tick100ms;
-[e = _userActivity _tick100ms ]
-"79
-[; ;main.c: 79:    viewErrorMessage();
-[e ( _viewErrorMessage ..  ]
-"80
-[; ;main.c: 80:   } else if (! displayOff) {
+"75
+[; ;main.c: 75:   } else {
 }
-[e $U 1000  ]
+[e $U 999  ]
+[e :U 997 ]
+{
+"77
+[; ;main.c: 77:    controllerIdle = controller();
+[e = _controllerIdle ( _controller ..  ]
+"78
+[; ;main.c: 78:   }
+}
 [e :U 999 ]
-[e $ ! ! != -> _displayOff `i -> 0 `i 1001  ]
+"80
+[; ;main.c: 80:   if (getLastError() != NO_ERROR) {
+[e $ ! != -> ( _getLastError ..  `ui -> . `E8249 0 `ui 1000  ]
 {
 "81
-[; ;main.c: 81:    menu();
-[e ( _menu ..  ]
+[; ;main.c: 81:    userActivity = tick100ms;
+[e = _userActivity _tick100ms ]
 "82
-[; ;main.c: 82:   }
+[; ;main.c: 82:    viewErrorMessage();
+[e ( _viewErrorMessage ..  ]
+"83
+[; ;main.c: 83:   } else if (! displayOff) {
 }
-[e :U 1001 ]
+[e $U 1001  ]
 [e :U 1000 ]
-"85
-[; ;main.c: 85:   if (displayOff && ((timeSince(userActivity) < 1200))) {
-[e $ ! && != -> _displayOff `i -> 0 `i < ( _timeSince (1 _userActivity -> -> -> 1200 `i `l `ul 1002  ]
+[e $ ! ! != -> _displayOff `i -> 0 `i 1002  ]
 {
-"87
-[; ;main.c: 87:    displayOff = 0;
-[e = _displayOff -> -> 0 `i `uc ]
-"88
-[; ;main.c: 88:    OLED_command(0x08 | 0x04);
-[e ( _OLED_command (1 -> | -> 8 `i -> 4 `i `uc ]
-"89
-[; ;main.c: 89:   } else if (timeSince(userActivity) > 1200) {
+"84
+[; ;main.c: 84:    menu();
+[e ( _menu ..  ]
+"85
+[; ;main.c: 85:   }
 }
-[e $U 1003  ]
 [e :U 1002 ]
-[e $ ! > ( _timeSince (1 _userActivity -> -> -> 1200 `i `l `ul 1004  ]
+[e :U 1001 ]
+"88
+[; ;main.c: 88:   if (displayOff && ((timeSince(userActivity) < 1200))) {
+[e $ ! && != -> _displayOff `i -> 0 `i < ( _timeSince (1 _userActivity -> -> -> 1200 `i `l `ul 1003  ]
 {
 "90
-[; ;main.c: 90:    displayOff = 1;
-[e = _displayOff -> -> 1 `i `uc ]
+[; ;main.c: 90:    displayOff = 0;
+[e = _displayOff -> -> 0 `i `uc ]
 "91
-[; ;main.c: 91:    OLED_command(0x08 | 0x00);
-[e ( _OLED_command (1 -> | -> 8 `i -> 0 `i `uc ]
+[; ;main.c: 91:    OLED_command(0x08 | 0x04);
+[e ( _OLED_command (1 -> | -> 8 `i -> 4 `i `uc ]
 "92
-[; ;main.c: 92:   }
+[; ;main.c: 92:   } else if (timeSince(userActivity) > 1200) {
 }
-[e :U 1004 ]
+[e $U 1004  ]
 [e :U 1003 ]
-"97
-[; ;main.c: 97:   _delay((unsigned long)((40)*(4000000UL/4000.0)));
+[e $ ! > ( _timeSince (1 _userActivity -> -> -> 1200 `i `l `ul 1005  ]
+{
+"93
+[; ;main.c: 93:    displayOff = 1;
+[e = _displayOff -> -> 1 `i `uc ]
+"94
+[; ;main.c: 94:    OLED_command(0x08 | 0x00);
+[e ( _OLED_command (1 -> | -> 8 `i -> 0 `i `uc ]
+"95
+[; ;main.c: 95:   }
+}
+[e :U 1005 ]
+[e :U 1004 ]
+"100
+[; ;main.c: 100:   _delay((unsigned long)((40)*(4000000UL/4000.0)));
 [e ( __delay (1 -> * -> -> 40 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
-"98
-[; ;main.c: 98:   __nop();
+"101
+[; ;main.c: 101:   __nop();
 [e ( ___nop ..  ]
-"99
-[; ;main.c: 99:  }
+"102
+[; ;main.c: 102:  }
 }
 [e :U 991 ]
 [e $U 992  ]
 [e :U 993 ]
-"100
-[; ;main.c: 100: }
+"103
+[; ;main.c: 103: }
 [e :UE 989 ]
 }
-"106
-[; ;main.c: 106: void initGlobalData(void)
+"109
+[; ;main.c: 109: void initGlobalData(void)
 [v _initGlobalData `(v ~T0 @X0 1 ef ]
-"107
-[; ;main.c: 107: {
+"110
+[; ;main.c: 110: {
 {
 [e :U _initGlobalData ]
 [f ]
-"108
-[; ;main.c: 108:  uint8_t n;
-[v _n `uc ~T0 @X0 1 a ]
-"109
-[; ;main.c: 109:  t_heater *heater;
-[v _heater `*S985 ~T0 @X0 1 a ]
 "111
-[; ;main.c: 111:  data.tempC = 0;
-[e = . _data 0 -> -> 0 `i `f ]
+[; ;main.c: 111:  uint8_t n;
+[v _n `uc ~T0 @X0 1 a ]
 "112
-[; ;main.c: 112:  data.relHum = 0;
-[e = . _data 1 -> -> 0 `i `f ]
-"113
-[; ;main.c: 113:  data.dewPointC = 0;
-[e = . _data 2 -> -> 0 `i `f ]
+[; ;main.c: 112:  t_heater *heater;
+[v _heater `*S985 ~T0 @X0 1 a ]
 "114
-[; ;main.c: 114:  data.sensorVersion = 0;
-[e = . _data 3 -> -> 0 `i `uc ]
+[; ;main.c: 114:  data.tempC = 0;
+[e = . _data 0 -> -> 0 `i `f ]
 "115
-[; ;main.c: 115:  data.tempAux = 0;
-[e = . _data 4 -> -> 0 `i `f ]
+[; ;main.c: 115:  data.relHum = 0;
+[e = . _data 1 -> -> 0 `i `f ]
 "116
-[; ;main.c: 116:  data.voltage = 0;
-[e = . _data 5 -> -> 0 `i `f ]
+[; ;main.c: 116:  data.dewPointC = 0;
+[e = . _data 2 -> -> 0 `i `f ]
 "117
-[; ;main.c: 117:  data.current = 0;
-[e = . _data 6 -> -> 0 `i `f ]
+[; ;main.c: 117:  data.sensorVersion = 0;
+[e = . _data 3 -> -> 0 `i `uc ]
 "118
-[; ;main.c: 118:  data.power = 0;
-[e = . _data 7 -> -> 0 `i `f ]
+[; ;main.c: 118:  data.tempAux = 0;
+[e = . _data 4 -> -> 0 `i `f ]
 "119
-[; ;main.c: 119:  data.dpOffset = 3.0;
-[e = . _data 8 -> .3.0 `f ]
+[; ;main.c: 119:  data.voltage = 0;
+[e = . _data 5 -> -> 0 `i `f ]
 "120
-[; ;main.c: 120:  data.skyTemp = -40;
-[e = . _data 9 -> -U -> 40 `i `f ]
+[; ;main.c: 120:  data.current = 0;
+[e = . _data 6 -> -> 0 `i `f ]
 "121
-[; ;main.c: 121:  data.fudgeFactor = 1.0;
-[e = . _data 10 -> .1.0 `f ]
+[; ;main.c: 121:  data.power = 0;
+[e = . _data 7 -> -> 0 `i `f ]
+"122
+[; ;main.c: 122:  data.dpOffset = 3.0;
+[e = . _data 8 -> .3.0 `f ]
 "123
-[; ;main.c: 123:  for (n = 0; n < 4; n++) {
+[; ;main.c: 123:  data.skyTemp = -40;
+[e = . _data 9 -> -U -> 40 `i `f ]
+"124
+[; ;main.c: 124:  data.fudgeFactor = 1.0;
+[e = . _data 10 -> .1.0 `f ]
+"126
+[; ;main.c: 126:  for (n = 0; n < 4; n++) {
 {
 [e = _n -> -> 0 `i `uc ]
-[e $ < -> _n `i -> 4 `i 1006  ]
-[e $U 1007  ]
-[e :U 1006 ]
+[e $ < -> _n `i -> 4 `i 1007  ]
+[e $U 1008  ]
+[e :U 1007 ]
 {
-"124
-[; ;main.c: 124:   heater = &(data.heater)[n];
-[e = _heater &U *U + &U . _data 12 * -> _n `ux -> -> # *U &U . _data 12 `ui `ux ]
-"125
-[; ;main.c: 125:   heater->lensDia = 4;
-[e = . *U _heater 6 -> -> 4 `i `f ]
-"126
-[; ;main.c: 126:   heater->status = CH_UNCHECKED;
-[e = . *U _heater 9 . `E8320 5 ]
 "127
-[; ;main.c: 127:   heater->mode = MODE_AUTO;
-[e = . *U _heater 8 . `E8317 1 ]
+[; ;main.c: 127:   heater = &(data.heater)[n];
+[e = _heater &U *U + &U . _data 12 * -> _n `ux -> -> # *U &U . _data 12 `ui `ux ]
 "128
-[; ;main.c: 128:   heater->Pmax = 0;
-[e = . *U _heater 1 -> -> 0 `i `f ]
+[; ;main.c: 128:   heater->lensDia = 4;
+[e = . *U _heater 6 -> -> 4 `i `f ]
 "129
-[; ;main.c: 129:   heater->Pset = -1;
-[e = . *U _heater 4 -> -U -> 1 `i `f ]
+[; ;main.c: 129:   heater->status = CH_UNCHECKED;
+[e = . *U _heater 9 . `E8320 5 ]
 "130
-[; ;main.c: 130:   heater->Preq = 0;
-[e = . *U _heater 2 -> -> 0 `i `f ]
+[; ;main.c: 130:   heater->mode = MODE_AUTO;
+[e = . *U _heater 8 . `E8317 1 ]
 "131
-[; ;main.c: 131:   heater->Patt = 0;
-[e = . *U _heater 3 -> -> 0 `i `f ]
+[; ;main.c: 131:   heater->Pmax = 0;
+[e = . *U _heater 1 -> -> 0 `i `f ]
 "132
-[; ;main.c: 132:   heater->current = 0;
-[e = . *U _heater 0 -> -> 0 `i `f ]
+[; ;main.c: 132:   heater->Pset = -1;
+[e = . *U _heater 4 -> -U -> 1 `i `f ]
 "133
-[; ;main.c: 133:  }
+[; ;main.c: 133:   heater->Preq = 0;
+[e = . *U _heater 2 -> -> 0 `i `f ]
+"134
+[; ;main.c: 134:   heater->Patt = 0;
+[e = . *U _heater 3 -> -> 0 `i `f ]
+"135
+[; ;main.c: 135:   heater->current = 0;
+[e = . *U _heater 0 -> -> 0 `i `f ]
+"136
+[; ;main.c: 136:  }
 }
 [e ++ _n -> -> 1 `i `uc ]
-[e $ < -> _n `i -> 4 `i 1006  ]
-[e :U 1007 ]
+[e $ < -> _n `i -> 4 `i 1007  ]
+[e :U 1008 ]
 }
-"134
-[; ;main.c: 134: }
-[e :UE 1005 ]
+"137
+[; ;main.c: 137: }
+[e :UE 1006 ]
 }
-"140
-[; ;main.c: 140: void initialize(void)
+"143
+[; ;main.c: 143: void initialize(void)
 [v _initialize `(v ~T0 @X0 1 ef ]
-"141
-[; ;main.c: 141: {
+"144
+[; ;main.c: 144: {
 {
 [e :U _initialize ]
 [f ]
-"142
-[; ;main.c: 142:  OSCFRQ = 0b00000010;
+"145
+[; ;main.c: 145:  OSCFRQ = 0b00000010;
 [e = _OSCFRQ -> -> 2 `i `uc ]
-"143
-[; ;main.c: 143:  OSCCON1 = 0b01100000;
+"146
+[; ;main.c: 146:  OSCCON1 = 0b01100000;
 [e = _OSCCON1 -> -> 96 `i `uc ]
-"144
-[; ;main.c: 144:  while (!OSCCON3bits.ORDY);
-[e $U 1010  ]
-[e :U 1011 ]
-[e :U 1010 ]
-[e $ ! != -> . . _OSCCON3bits 0 2 `i -> 0 `i 1011  ]
-[e :U 1012 ]
 "147
-[; ;main.c: 147:  RX1DTPPSbits.RX1DTPPS = 0x17;
+[; ;main.c: 147:  while (!OSCCON3bits.ORDY);
+[e $U 1011  ]
+[e :U 1012 ]
+[e :U 1011 ]
+[e $ ! != -> . . _OSCCON3bits 0 2 `i -> 0 `i 1012  ]
+[e :U 1013 ]
+"150
+[; ;main.c: 150:  RX1DTPPSbits.RX1DTPPS = 0x17;
 [e = . . _RX1DTPPSbits 0 0 -> -> 23 `i `uc ]
-"148
-[; ;main.c: 148:  RC6PPS = 0x0F;
-[e = _RC6PPS -> -> 15 `i `uc ]
 "151
-[; ;main.c: 151:  ANSELA = 0b01000000;
+[; ;main.c: 151:  RC6PPS = 0x0F;
+[e = _RC6PPS -> -> 15 `i `uc ]
+"154
+[; ;main.c: 154:  ANSELA = 0b01000000;
 [e = _ANSELA -> -> 64 `i `uc ]
-"152
-[; ;main.c: 152:  ANSELB = 0b00000000;
+"155
+[; ;main.c: 155:  ANSELB = 0b00000000;
 [e = _ANSELB -> -> 0 `i `uc ]
-"153
-[; ;main.c: 153:  ANSELC = 0b00000011;
-[e = _ANSELC -> -> 3 `i `uc ]
 "156
-[; ;main.c: 156:  TRISA = 0b11110000;
-[e = _TRISA -> -> 240 `i `uc ]
-"157
-[; ;main.c: 157:  TRISB = 0b00000000;
-[e = _TRISB -> -> 0 `i `uc ]
-"158
-[; ;main.c: 158:  TRISC = 0b10000111;
-[e = _TRISC -> -> 135 `i `uc ]
+[; ;main.c: 156:  ANSELC = 0b00000011;
+[e = _ANSELC -> -> 3 `i `uc ]
 "159
-[; ;main.c: 159:  LATA = 0;
-[e = _LATA -> -> 0 `i `uc ]
+[; ;main.c: 159:  TRISA = 0b11110000;
+[e = _TRISA -> -> 240 `i `uc ]
+"160
+[; ;main.c: 160:  TRISB = 0b00000000;
+[e = _TRISB -> -> 0 `i `uc ]
+"161
+[; ;main.c: 161:  TRISC = 0b10000111;
+[e = _TRISC -> -> 135 `i `uc ]
 "162
-[; ;main.c: 162:  ADCON0bits.ADON = 1;
+[; ;main.c: 162:  LATA = 0;
+[e = _LATA -> -> 0 `i `uc ]
+"165
+[; ;main.c: 165:  ADCON0bits.ADON = 1;
 [e = . . _ADCON0bits 0 0 -> -> 1 `i `uc ]
-"163
-[; ;main.c: 163:  ADCON1 = 0b11100000;
-[e = _ADCON1 -> -> 224 `i `uc ]
 "166
-[; ;main.c: 166:  T0CON0 = 0b10000000;
+[; ;main.c: 166:  ADCON1 = 0b11100000;
+[e = _ADCON1 -> -> 224 `i `uc ]
+"169
+[; ;main.c: 169:  T0CON0 = 0b10000000;
 [e = _T0CON0 -> -> 128 `i `uc ]
-"167
-[; ;main.c: 167:  T0CON1 = 0b01000111;
+"170
+[; ;main.c: 170:  T0CON1 = 0b01000111;
 [e = _T0CON1 -> -> 71 `i `uc ]
-"168
-[; ;main.c: 168:  TMR0 = 178;
-[e = _TMR0 -> -> 178 `i `uc ]
 "171
-[; ;main.c: 171:  T1CON = 0b00110011;
+[; ;main.c: 171:  TMR0 = 178;
+[e = _TMR0 -> -> 178 `i `uc ]
+"174
+[; ;main.c: 174:  T1CON = 0b00110011;
 [e = _T1CON -> -> 51 `i `uc ]
-"172
-[; ;main.c: 172:  T1CLK = 0b00000001;
+"175
+[; ;main.c: 175:  T1CLK = 0b00000001;
 [e = _T1CLK -> -> 1 `i `uc ]
-"173
-[; ;main.c: 173:  TMR1 = 53035;
-[e = _TMR1 -> -> 53035 `l `us ]
 "176
-[; ;main.c: 176:  PIE0 = 0b00110000;
-[e = _PIE0 -> -> 48 `i `uc ]
-"177
-[; ;main.c: 177:  PIE3 = 0b00100000;
-[e = _PIE3 -> -> 32 `i `uc ]
-"178
-[; ;main.c: 178:  PIE4 = 0b00000001;
-[e = _PIE4 -> -> 1 `i `uc ]
+[; ;main.c: 176:  TMR1 = 53035;
+[e = _TMR1 -> -> 53035 `l `us ]
 "179
-[; ;main.c: 179:  INTCON = 0b11000000;
-[e = _INTCON -> -> 192 `i `uc ]
+[; ;main.c: 179:  PIE0 = 0b00110000;
+[e = _PIE0 -> -> 48 `i `uc ]
+"180
+[; ;main.c: 180:  PIE3 = 0b00100000;
+[e = _PIE3 -> -> 32 `i `uc ]
+"181
+[; ;main.c: 181:  PIE4 = 0b00000001;
+[e = _PIE4 -> -> 1 `i `uc ]
 "182
-[; ;main.c: 182:  IOCAP = 0b10110000;
+[; ;main.c: 182:  INTCON = 0b11000000;
+[e = _INTCON -> -> 192 `i `uc ]
+"185
+[; ;main.c: 185:  IOCAP = 0b10110000;
 [e = _IOCAP -> -> 176 `i `uc ]
-"183
-[; ;main.c: 183:  IOCAN = 0b10110000;
+"186
+[; ;main.c: 186:  IOCAN = 0b10110000;
 [e = _IOCAN -> -> 176 `i `uc ]
-"184
-[; ;main.c: 184:  IOCCN = 0b00000100;
+"187
+[; ;main.c: 187:  IOCCN = 0b00000100;
 [e = _IOCCN -> -> 4 `i `uc ]
-"188
-[; ;main.c: 188:  BAUD1CON = 0b00001000;
-[e = _BAUD1CON -> -> 8 `i `uc ]
-"189
-[; ;main.c: 189:  SPBRGL = 25;
-[e = _SPBRGL -> -> 25 `i `uc ]
-"190
-[; ;main.c: 190:  RC1STA = 0b10010000;
-[e = _RC1STA -> -> 144 `i `uc ]
 "191
-[; ;main.c: 191:  TX1STA = 0b00100000;
-[e = _TX1STA -> -> 32 `i `uc ]
+[; ;main.c: 191:  BAUD1CON = 0b00001000;
+[e = _BAUD1CON -> -> 8 `i `uc ]
 "192
-[; ;main.c: 192: }
-[e :UE 1009 ]
+[; ;main.c: 192:  SPBRGL = 25;
+[e = _SPBRGL -> -> 25 `i `uc ]
+"193
+[; ;main.c: 193:  RC1STA = 0b10010000;
+[e = _RC1STA -> -> 144 `i `uc ]
+"194
+[; ;main.c: 194:  TX1STA = 0b00100000;
+[e = _TX1STA -> -> 32 `i `uc ]
+"195
+[; ;main.c: 195: }
+[e :UE 1010 ]
 }

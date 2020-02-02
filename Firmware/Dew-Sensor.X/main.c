@@ -75,14 +75,15 @@ void main(void)
 		switch (g_command) {
 		case GET_DATA:
 			dataPacket.header = 0xAA;
-			dataPacket.version = 0x01;
+			dataPacket.version = 10;
 
-			if (readSI7006(&dataPacket.relHum,
-				&dataPacket.tempC,
-				&dataPacket.dewPointC))
-				dataPacket.status = 1;
-			else
-				dataPacket.status = 0;
+			dataPacket.status = 0;
+			if (readSI7006(&dataPacket.relHum, &dataPacket.tempC, &dataPacket.dewPointC)) {
+				if ((dataPacket.tempC >= -50) && (dataPacket.tempC <= 100) &&
+					(dataPacket.dewPointC >= -50) && (dataPacket.dewPointC <= 100) &&
+					(dataPacket.relHum >= 0) && (dataPacket.relHum <= 100))
+					dataPacket.status = 1;
+			}
 
 			s = (char *) &dataPacket;
 			checksum = 0;
