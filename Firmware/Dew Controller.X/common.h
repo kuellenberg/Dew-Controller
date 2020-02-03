@@ -15,6 +15,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+/*
 #include "io.h"
 #include "interrupt.h"
 #include "uart.h"
@@ -22,13 +23,13 @@
 #include "oled.h"
 #include "inputs.h"
 #include "error.h"
+*/
 
 //-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------
 
 #define VERSION 1
-
 #define NUM_CHANNELS 4	// number of heater channels
 #define COLUMNS 12		// columns on display
 #define DISPLAY_TIMEOUT 1200

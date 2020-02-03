@@ -1,4 +1,5 @@
 #include "common.h"
+#include "io.h"
 
 //-----------------------------------------------------------------------------
 // Enable/disable heater output

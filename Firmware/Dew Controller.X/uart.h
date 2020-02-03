@@ -8,9 +8,6 @@
 #ifndef UART_H
 #define	UART_H
 
-#define RX_BUF_LEN 20
-
-
 typedef struct {
 	uint8_t header;
 	uint8_t version;

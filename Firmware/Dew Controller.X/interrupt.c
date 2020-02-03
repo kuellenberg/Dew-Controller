@@ -1,6 +1,7 @@
 #include "common.h"
 #include "interrupt.h"
 #include "inputs.h"
+#include "uart.h"
 
 #define TIME_MAX 1000000000UL
 

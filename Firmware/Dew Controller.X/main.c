@@ -4,12 +4,17 @@
  *
  * Created on 12. Januar 2020, 13:20
  */
-#include <math.h>
 #include "common.h"
+#include "io.h"
 #include "config.h"
 #include "menuhelper.h"
 #include "system.h"
 #include "memory.h"
+#include "oled.h"
+#include "interrupt.h"
+#include "error.h"
+#include "interrupt.h"
+#include "inputs.h"
 
 //-----------------------------------------------------------------------------
 // Function Prototypes

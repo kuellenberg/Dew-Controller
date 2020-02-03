@@ -1,7 +1,9 @@
 #include "common.h"
+#include "inputs.h"
 #include "menuhelper.h"
 #include "menu.h"
 #include "system.h"
+#include "oled.h"
 
 //-----------------------------------------------------------------------------
 // Global variables 

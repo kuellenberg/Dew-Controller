@@ -1,9 +1,14 @@
 #include "common.h"
+#include "uart.h"
+#include "interrupt.h"
+
+#define RX_BUF_LEN 20
 
 volatile uint8_t rxFErrCount = 0;
 volatile uint8_t rxOErrCount = 0;
 volatile uint8_t rxCount = 0;
-
+static char buffer[RX_BUF_LEN];
+static uint8_t checksum = 0;
 
 //-----------------------------------------------------------------------------
 // Transmit character string over UART
@@ -19,11 +24,7 @@ void uartSendByte(char s)
 // EUSART Receive Interrupt
 //-----------------------------------------------------------------------------
 void uartReceiveISR(void)
-{
-	static char buffer[RX_BUF_LEN];
-	
-	static uint8_t checksum = 0;
-
+{	
 	if (RC1STAbits.OERR) // Receiver buffer overrun error
 	{
 		RC1STAbits.CREN = 0;
@@ -61,9 +62,9 @@ void uartReceiveISR(void)
 //-----------------------------------------------------------------------------
 void uartReset(void)
 {
-	uint8_t dump;
-	dump = RC1REG;
-	dump = RC1REG;
+//	uint8_t dump;
+//	dump = RC1REG;
+//	dump = RC1REG;
 	RC1STAbits.CREN = 0;
 	RC1STAbits.CREN = 1;
 	RC1STAbits.SPEN = 0;

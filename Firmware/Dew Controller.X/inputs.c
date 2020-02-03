@@ -1,5 +1,7 @@
 #include "common.h"
+#include "io.h"
 #include "inputs.h"
+#include "interrupt.h"
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -33,12 +35,12 @@ volatile enum e_direction rotDir = ROT_STOP;
 //-----------------------------------------------------------------------------
 void rotISR()
 {
-	uint8_t input;
+	//uint8_t input;
 
-	input = (ROT_B << 1) | ROT_A; // input code for rot_a and rot_b combined
+	//input = (ROT_B << 1) | ROT_A; // input code for rot_a and rot_b combined
 
 	// set current state according to transition table (cw/ccw flags masked out)
-	curRotState = transition_table[curRotState & 0b00000111][input];
+	curRotState = transition_table[curRotState & 0b00000111][(ROT_B << 1) | ROT_A];
 
 	// set global direction flag
 	if (curRotState & CW_FLAG) rotDir = ROT_CW;
@@ -53,18 +55,16 @@ void rotISR()
 //-----------------------------------------------------------------------------
 void pushButtonISR()
 {
-	uint8_t time;
 	// reset millisecond tick counter upon first rising edge of push button 
 	if ((!ROT_PB) && (pbState != PB_WAIT)) {
 		tick10ms = 0;
 		pbState = PB_WAIT;
 		userActivity = timeNow();
 	} else if (pbState == PB_WAIT) {
-		time = tick10ms;
-		if ((time > 10) && (time <= 70) && (ROT_PB)) 
+		if ((tick10ms > 10) && (tick10ms <= 70) && (ROT_PB)) 
 			// short button press
 			pbState = PB_SHORT;		
-		else if ((time > 70) && (!ROT_PB))
+		else if ((tick10ms > 70) && (!ROT_PB))
 			// long button press
 			pbState = PB_LONG; 
 		else if (ROT_PB)

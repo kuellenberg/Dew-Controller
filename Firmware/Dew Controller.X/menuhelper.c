@@ -1,6 +1,10 @@
 #include "common.h"
 #include "menu.h"
 #include "menuhelper.h"
+#include "inputs.h"
+#include "interrupt.h"
+#include "error.h"
+#include "oled.h"
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -94,22 +98,26 @@ void menu(void)
 {
 	static uint8_t state = ST_STATUS_VIEW;
 	int8_t page, nextState;
-	uint8_t timeout = 0;
-	enum e_buttonPress pb;
-	t_stateFuncPtr func;
+	//uint8_t timeout = 0;
+	//enum e_buttonPress pb;
+	//t_stateFuncPtr func;
 
 	// call menu function according to current state
+	/*
 	func = stateFuncTbl[state];
 	if (func)
 		page = (*func)();
 	else 
 		error(ERR_MENU);
+	*/
+	page = (*stateFuncTbl[state])();
 	
 	g_screenRefresh = 0;
-	pb = getPB();
-	timeout = (timeSince(userActivity) > MENU_TIMEOUT);
+	//pb = getPB();
+	//timeout = (timeSince(userActivity) > MENU_TIMEOUT);
 	// next state depends on current state, exit page and key press
-	nextState = getNextState(state, page, pb, timeout);
+	nextState = getNextState(state, page, getPB(), 
+			(timeSince(userActivity) > MENU_TIMEOUT));
 	
 	if (nextState > -1) {
 		// if state has changed, screen update is required
@@ -160,7 +168,7 @@ uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
 {
 	uint8_t n;
 	enum e_direction dir;
-	static enum e_direction lastDir = ROT_STOP;
+	//static enum e_direction lastDir = ROT_STOP;
 	
 	// disable interrupts during scrolling to prevent overshoot
 	PIE0bits.IOCIE = 0;	
@@ -168,7 +176,7 @@ uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
 	dir = getRotDir();
 	
 	// two encoder steps required for screen paging
-	if (dir == lastDir) {
+	//if (dir == lastDir) {
 		// clockwise rotation of encoder
 		if ((dir == ROT_CW) && (currentPage < lastPage - 1)) {
 			currentPage++;
@@ -185,9 +193,9 @@ uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
 				__delay_ms(20);
 			}
 		}
-	}
+	//}
 	
-	lastDir = dir;
+	//lastDir = dir;
 	PIE0bits.IOCIE = 1; // enable interrupts
 	
 	return currentPage;	

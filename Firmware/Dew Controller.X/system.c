@@ -1,6 +1,10 @@
 #include "common.h"
 #include "system.h"
+#include "io.h"
 #include "memory.h"
+#include "error.h"
+#include "uart.h"
+#include "interrupt.h"
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -165,25 +169,7 @@ void systemCheck(void)
 	// If the voltage is too low, we might damage the battery.
 	// So, in both cases, we just turn everything off.
 	if ((data.voltage > VOLT_CRIT_HIGH) || (data.voltage <= VOLT_TURN_OFF)) {
-		error(ERR_VOLT_CRIT);
-		return;
-		INTCON = 0;
-		OLED_command(OLED_CLEARDISPLAY);
-		OLED_command(OLED_RETURNHOME);
-		OLED_print_xy(0, 0, "TURNING OFF");
-		setChannelSwitch(255, 0);
-		PEN = 0;
-		for(n = 5; n > 0; n--) {
-			itoa(str, n, 1);
-			OLED_print_xy(0, 1, "IN ");
-			OLED_print_xy(3, 1, str);
-			__delay_ms(1000);
-		}
-		OLED_off();
-		OLED_PWR = 0;
-		// TODO: Turn peripherals off, lower clock speed?
-		while(1);
-		
+		error(ERR_VOLT_CRIT);		
 	} else if ((data.voltage > VOLT_WARN_HIGH) && (data.voltage <= VOLT_CRIT_HIGH)) {
 		if (! data.status.BAT_HIGH) {
 			data.status.BAT_HIGH = 1;
