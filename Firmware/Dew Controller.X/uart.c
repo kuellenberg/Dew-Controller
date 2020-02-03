@@ -24,7 +24,8 @@ void uartSendByte(char s)
 // EUSART Receive Interrupt
 //-----------------------------------------------------------------------------
 void uartReceiveISR(void)
-{	
+{
+	
 	if (RC1STAbits.OERR) // Receiver buffer overrun error
 	{
 		RC1STAbits.CREN = 0;
@@ -49,7 +50,7 @@ void uartReceiveISR(void)
 			dataPacket.status = 0;
 		// set data ready flag and copy buffer to data structure
 		uartDataReadyFlag = 1;
-		strncpy((char *) &dataPacket, buffer, sizeof(dataPacket));
+		memcpy((void *) &dataPacket,(void *) buffer, sizeof(dataPacket));
 		if (dataPacket.tempC < 1.0)
 			NOP();
 		checksum = 0;

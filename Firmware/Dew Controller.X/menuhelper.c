@@ -10,7 +10,8 @@
 // Definitions
 //-----------------------------------------------------------------------------
 #define ST_ANY 255
-#define MENU_TIMEOUT 300
+#define MENU_TIMEOUT 1200
+#define PAGING_DELAY_MS 30
 
 enum e_menuStates {
 	ST_STATUS_VIEW,
@@ -182,7 +183,7 @@ uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
 			currentPage++;
 			for(n = 0; n < COLUMNS; n++) {
 				OLED_command(OLED_CURSORSHIFT | OLED_DISPLAYMOVE | OLED_MOVELEFT);
-				__delay_ms(20);
+				__delay_ms(PAGING_DELAY_MS);
 			}
 		}
 		// counter-clockwise rotation of encoder
@@ -190,7 +191,7 @@ uint8_t paging(uint8_t currentPage, const uint8_t lastPage)
 			currentPage--;
 			for(n = 0; n < COLUMNS; n++) {
 				OLED_command(OLED_CURSORSHIFT | OLED_DISPLAYMOVE | OLED_MOVERIGHT);;
-				__delay_ms(20);
+				__delay_ms(PAGING_DELAY_MS);
 			}
 		}
 	//}

@@ -41,10 +41,22 @@ void viewErrorMessage(void)
 	
 	OLED_command(OLED_RETURNHOME);
 	switch(errorCode) {
-	case WARN_REMOVED:
-		OLED_print_xy(0, 0, "Heater      ");
+	case WARN_REMOVED1:
+		OLED_print_xy(0, 0, "Heater 1    ");
 		OLED_print_xy(0, 1, "removed     ");
 		break;
+	case WARN_REMOVED2:
+		OLED_print_xy(0, 0, "Heater 2    ");
+		OLED_print_xy(0, 1, "removed     ");
+		break;
+	case WARN_REMOVED3:
+		OLED_print_xy(0, 0, "Heater 3    ");
+		OLED_print_xy(0, 1, "removed     ");
+		break;
+	case WARN_REMOVED4:
+		OLED_print_xy(0, 0, "Heater 4    ");
+		OLED_print_xy(0, 1, "removed     ");
+		break;	
 	case WARN_SHORTED:
 		OLED_print_xy(0, 0, "Output      ");
 		OLED_print_xy(0, 1, "shorted!    ");

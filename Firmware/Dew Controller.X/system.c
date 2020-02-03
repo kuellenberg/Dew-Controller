@@ -87,8 +87,16 @@ void checkChannelStatus(void)
 		// no heater is connected to this channel
 		if (current < MIN_CHANNEL_CURRENT) {
 			// Warning, if channel as previously enabled
-			if (heater->status == CH_ENABLED)
-				error(WARN_REMOVED);
+			if (heater->status == CH_ENABLED) {
+				if (channel == 0)
+					error(WARN_REMOVED1);
+				else if (channel == 1)
+					error(WARN_REMOVED2);
+				else if (channel == 2)
+					error(WARN_REMOVED3);
+				else
+					error(WARN_REMOVED4);
+			}
 			heater->status = CH_OPEN;				
 		} else if ((current > MAX_CHANNEL_CURRENT) || !nFAULT) {
 			// Disable channel when current is too high
@@ -122,8 +130,12 @@ void checkChannelStatus(void)
 
 			if (heater->Pset == 0)
 				heater->status = CH_DISABLED;
-			else
+			else {
+				if ((channel == 0) || (channel == 1)) {
+					NOP();
+				}
 				heater->status = CH_ENABLED;
+			}
 
 			// Calculate required duty cycle
 			if (heater->mode == MODE_AUTO)
@@ -429,8 +441,12 @@ uint8_t controller(void)
 		else if ((timer >= virtChannels[n].start) && (timer < virtChannels[n].stop))
 			setChannelSwitch(virtChannels[n].phyChanNum, 1);
 	}
-	if (timer >= 100)
+	if (timer >= 100) {
 		idle = 1;
+		
+		if (SW_CH0 || SW_CH1 || SW_CH2 || SW_CH3)
+			NOP();
+	}
 	
 	return idle;
 }
