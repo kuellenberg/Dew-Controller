@@ -20,6 +20,7 @@ uint8_t setup(void);
 uint8_t setDPOffset(void);
 uint8_t setSkyTemp(void);
 uint8_t setFudgeFactor(void);
+uint8_t setDebugMode(void);
 
 #endif	/* MENU_H */
 

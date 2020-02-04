@@ -12730,6 +12730,7 @@ typedef struct {
  float dpOffset;
  float skyTemp;
  float fudgeFactor;
+    uint8_t debugMode;
  t_status status;
  t_heater heater[4];
 } t_globalData;
@@ -12814,7 +12815,7 @@ typedef union {
         float dpOffset;
         float skyTemp;
         float fudgeFactor;
-        float _dummy;
+        float debugMode;
     };
     uint8_t raw[32];
 } t_nvmData;
@@ -12911,6 +12912,7 @@ void pushButtonISR(void);
 enum e_buttonPress getPB(void);
 enum e_direction getRotDir(void);
 void spinInput(float *input, float min, float max, float step);
+void spinInputI(int8_t *input, int8_t min, int8_t max, int8_t step);
 # 17 "main.c" 2
 
 

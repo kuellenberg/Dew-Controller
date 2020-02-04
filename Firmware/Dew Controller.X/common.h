@@ -79,6 +79,7 @@ typedef struct {
 	float dpOffset;
 	float skyTemp;
 	float fudgeFactor;
+    uint8_t debugMode;
 	t_status status;
 	t_heater heater[NUM_CHANNELS];
 } t_globalData;

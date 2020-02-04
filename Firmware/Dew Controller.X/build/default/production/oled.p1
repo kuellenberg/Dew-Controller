@@ -3,8 +3,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./common.h: 36: typedef struct {
 [s S983 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S983 . BAT_LOW BAT_HIGH OVERCURRENT SENSOR_OK AUX_SENSOR_OK ]
-"90
-[; ;./common.h: 90: t_globalData data;
+"91
+[; ;./common.h: 91: t_globalData data;
 [c E7808 0 1 .. ]
 [n E7808 e_channelMode MODE_MANUAL MODE_AUTO  ]
 [c E7811 0 1 2 3 4 5 .. ]
@@ -15,8 +15,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S984 . current Pmax Preq Patt Pset DCreq lensDia dt mode status ]
 "70
 [; ;./common.h: 70: typedef struct {
-[s S985 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `S983 1 `S984 -> 4 `i ]
-[n S985 . tempC relHum dewPointC sensorVersion tempAux voltage current power dpOffset skyTemp fudgeFactor status heater ]
+[s S985 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `uc 1 `S983 1 `S984 -> 4 `i ]
+[n S985 . tempC relHum dewPointC sensorVersion tempAux voltage current power dpOffset skyTemp fudgeFactor debugMode status heater ]
 "50 ./oled.h
 [; ;./oled.h: 50: void OLED_command(uint8_t value);
 [v _OLED_command `(v ~T0 @X0 0 ef1`uc ]
@@ -1106,8 +1106,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "21398
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h: 21398: __asm("TOSH equ 01FEFh");
 [; <" TOSH equ 01FEFh ;# ">
-"90 ./common.h
-[; ;./common.h: 90: t_globalData data;
+"91 ./common.h
+[; ;./common.h: 91: t_globalData data;
 [v _data `S985 ~T0 @X0 1 e ]
 "13 oled.c
 [; ;oled.c: 13: const uint8_t specialChars[] = {
@@ -1463,8 +1463,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "139
 [; ;oled.c: 139: {
 [f ]
-[v F7903 `uc ~T0 @X0 -> 4 `i s ]
-[i F7903
+[v F7904 `uc ~T0 @X0 -> 4 `i s ]
+[i F7904
 :U ..
 "140
 [; ;oled.c: 140:  uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
@@ -1475,7 +1475,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _row_offsets `uc ~T0 @X0 -> 4 `i a ]
-[e = _row_offsets F7903 ]
+[e = _row_offsets F7904 ]
 "142
 [; ;oled.c: 142:  OLED_command(0x80 | (col + row_offsets[row]));
 [e ( _OLED_command (1 -> | -> 128 `i + -> _col `i -> *U + &U _row_offsets * -> _row `ux -> -> # *U &U _row_offsets `ui `ux `i `uc ]
@@ -1531,8 +1531,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "153
 [; ;oled.c: 153: {
 [f ]
-[v F7911 `uc ~T0 @X0 -> 4 `i s ]
-[i F7911
+[v F7912 `uc ~T0 @X0 -> 4 `i s ]
+[i F7912
 :U ..
 "154
 [; ;oled.c: 154:  uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
@@ -1543,7 +1543,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 [v _row_offsets `uc ~T0 @X0 -> 4 `i a ]
-[e = _row_offsets F7911 ]
+[e = _row_offsets F7912 ]
 "156
 [; ;oled.c: 156:  OLED_command(0x80 | (col + row_offsets[row]));
 [e ( _OLED_command (1 -> | -> 128 `i + -> _col `i -> *U + &U _row_offsets * -> _row `ux -> -> # *U &U _row_offsets `ui `ux `i `uc ]

@@ -19,6 +19,7 @@ void pushButtonISR(void);
 enum e_buttonPress getPB(void);
 enum e_direction getRotDir(void);
 void spinInput(float *input, float min, float max, float step);
+void spinInputI(int8_t *input, int8_t min, int8_t max, int8_t step);
 
 #endif	/* INPUTS_H */
 

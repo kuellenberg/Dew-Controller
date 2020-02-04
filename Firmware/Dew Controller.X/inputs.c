@@ -106,3 +106,13 @@ void spinInput(float *input, float min, float max, float step)
 	else if ((dir == ROT_CW) && (*input < max))
 		*input += step;
 }
+
+void spinInputI(int8_t *input, int8_t min, int8_t max, int8_t step)
+{
+	enum e_direction dir = getRotDir();
+	
+	if ((dir == ROT_CCW) && (*input > min))
+		*input -= step;
+	else if ((dir == ROT_CW) && (*input < max))
+		*input += step;
+}

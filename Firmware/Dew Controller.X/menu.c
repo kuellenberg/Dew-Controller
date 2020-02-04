@@ -105,14 +105,11 @@ uint8_t channelView(void)
 			ftoa(str, data.heater[n].Patt, 4, 1);
 			//ftoa(str, data.chData[n].current, 6, 4);
 			OLED_print_xy(n * COLUMNS + 0, 1, str);
-			//OLED_print_xy(n * COLUMNS + 6, 1, "      ");
-			//OLED_print_xy(n * COLUMNS + 4, 1, "W ");
-			//OLED_print_xy(n * COLUMNS + 6, 1, (data.chData[n].mode == MODE_AUTO ? "auto  " : "manual"));
 			if (data.heater[n].mode == MODE_AUTO) {
-				OLED_print_xy(n * COLUMNS + 4, 1, " (");
-				ftoa(str, data.heater[n].Preq, 4,1);
-				OLED_print_xy(n * COLUMNS + 6, 1, str);
-				OLED_print_xy(n * COLUMNS + 10, 1, "W)");
+				OLED_print_xy(n * COLUMNS + 4, 1, "W \002");
+				ftoa(str, data.heater[n].Pmax, 4,1);
+				OLED_print_xy(n * COLUMNS + 7, 1, str);
+				OLED_print_xy(n * COLUMNS + 11, 1, "W");
 			} else {
 				OLED_print_xy(n * COLUMNS + 4, 1, "W manual");
 			}
@@ -270,7 +267,7 @@ uint8_t setup(void)
 
 	returnToPage(page);
 	if (g_screenRefresh) {
-		OLED_print_xy(0, 0, "DP offset   Sky temp.   Fudge factor");
+		OLED_print_xy(0, 0, "DP offset   Sky temp.   Fudge factorDebug mode");
 		OLED_print_xy(0, 1, "temp. ");
 		ftoa(str, data.dpOffset, 4, 1);
 		OLED_print_xy(6, 1, str);
@@ -281,8 +278,12 @@ uint8_t setup(void)
 		ftoa(str, data.fudgeFactor, 3, 1);
 		OLED_print_xy(2 * COLUMNS + 0, 1, str);
 		OLED_print_xy(2 * COLUMNS + 4, 1, "         ");
+		if (data.debugMode)
+			OLED_print_xy(3 * COLUMNS, 1, "on ");
+		else
+			OLED_print_xy(3 * COLUMNS, 1, "off");
 	}
-	page = paging(page, 3);
+	page = paging(page, 4);
 	return page;
 }
 //-----------------------------------------------------------------------------
@@ -340,6 +341,27 @@ uint8_t setFudgeFactor(void)
 	OLED_print_xy(0, 1, "\004");
 	OLED_print_xy(1, 1, str);
 	OLED_print_xy(4, 1, " \003      ");
+	if (getPB() == PB_SHORT) {
+		storeNVM();
+		return 0;
+	}
+	return 1;
+}
+
+//-----------------------------------------------------------------------------
+// Set debug mode
+//-----------------------------------------------------------------------------
+
+uint8_t setDebugMode(void)
+{	
+	returnToPage(0);
+	if (g_screenRefresh)
+		OLED_print_xy(0, 0, "Debug mode");
+	spinInputI((int8_t*)&data.debugMode, 0, 1, 1);
+	if (data.debugMode)
+		OLED_print_xy(0, 1, "on ");
+	else
+		OLED_print_xy(0, 1, "off");
 	if (getPB() == PB_SHORT) {
 		storeNVM();
 		return 0;

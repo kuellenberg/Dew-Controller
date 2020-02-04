@@ -3,8 +3,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./common.h: 36: typedef struct {
 [s S983 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S983 . BAT_LOW BAT_HIGH OVERCURRENT SENSOR_OK AUX_SENSOR_OK ]
-"90
-[; ;./common.h: 90: t_globalData data;
+"91
+[; ;./common.h: 91: t_globalData data;
 [c E7808 0 1 .. ]
 [n E7808 e_channelMode MODE_MANUAL MODE_AUTO  ]
 [c E7811 0 1 2 3 4 5 .. ]
@@ -15,12 +15,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S984 . current Pmax Preq Patt Pset DCreq lensDia dt mode status ]
 "70
 [; ;./common.h: 70: typedef struct {
-[s S985 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `S983 1 `S984 -> 4 `i ]
-[n S985 . tempC relHum dewPointC sensorVersion tempAux voltage current power dpOffset skyTemp fudgeFactor status heater ]
+[s S985 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `uc 1 `S983 1 `S984 -> 4 `i ]
+[n S985 . tempC relHum dewPointC sensorVersion tempAux voltage current power dpOffset skyTemp fudgeFactor debugMode status heater ]
 "14 ./inputs.h
 [; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
-[c E7958 0 1 2 3 4 .. ]
-[n E7958 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
+[c E7959 0 1 2 3 4 .. ]
+[n E7959 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
 [p mainexit ]
 "22 main.c
 [; ;main.c: 22: void initialize(void);
@@ -99,11 +99,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _controller `(uc ~T0 @X0 0 ef ]
 "85 main.c
 [; ;main.c: 85:   if (getLastError() != NO_ERROR) {
-[c E7933 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 .. ]
-[n E7933 e_errorcode NO_ERROR WARN_REMOVED1 WARN_REMOVED2 WARN_REMOVED3 WARN_REMOVED4 WARN_SHORTED WARN_OVERCURRENT WARN_HEATER_OVERCURRENT WARN_VOLT_HIGH WARN_VOLT_LOW WARN_SENSOR_TIMEOUT WARN_SENSOR_CHECKSUM ERR_NUKED ERR_OVERCURRENT ERR_VOLT_CRIT ERR_MENU  ]
+[c E7934 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 .. ]
+[n E7934 e_errorcode NO_ERROR WARN_REMOVED1 WARN_REMOVED2 WARN_REMOVED3 WARN_REMOVED4 WARN_SHORTED WARN_OVERCURRENT WARN_HEATER_OVERCURRENT WARN_VOLT_HIGH WARN_VOLT_LOW WARN_SENSOR_TIMEOUT WARN_SENSOR_CHECKSUM ERR_NUKED ERR_OVERCURRENT ERR_VOLT_CRIT ERR_MENU  ]
 "32 ./error.h
 [; ;./error.h: 32: enum e_errorcode getLastError(void);
-[v _getLastError `(E7933 ~T0 @X0 0 ef ]
+[v _getLastError `(E7934 ~T0 @X0 0 ef ]
 "31
 [; ;./error.h: 31: void viewErrorMessage(void);
 [v _viewErrorMessage `(v ~T0 @X0 0 ef ]
@@ -1280,8 +1280,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "21398
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h: 21398: __asm("TOSH equ 01FEFh");
 [; <" TOSH equ 01FEFh ;# ">
-"90 ./common.h
-[; ;./common.h: 90: t_globalData data;
+"91 ./common.h
+[; ;./common.h: 91: t_globalData data;
 [v _data `S985 ~T0 @X0 1 e ]
 "7 ./config.h
 [p x FEXTOSC = OFF ]
@@ -1355,9 +1355,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 ]
 "14 ./inputs.h
 [; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
-[v _pbState `VE7958 ~T0 @X0 1 e ]
+[v _pbState `VE7959 ~T0 @X0 1 e ]
 [i _pbState
-. `E7958 0
+. `E7959 0
 ]
 "15
 [; ;./inputs.h: 15: volatile uint32_t userActivity = 0;
@@ -1495,7 +1495,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 997 ]
 "85
 [; ;main.c: 85:   if (getLastError() != NO_ERROR) {
-[e $ ! != -> ( _getLastError ..  `ui -> . `E7933 0 `ui 998  ]
+[e $ ! != -> ( _getLastError ..  `ui -> . `E7934 0 `ui 998  ]
 {
 "86
 [; ;main.c: 86:    userActivity = tick100ms;
@@ -1619,7 +1619,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 "132
 [; ;main.c: 132:   heater = &(data.heater)[n];
-[e = _heater &U *U + &U . _data 12 * -> _n `ux -> -> # *U &U . _data 12 `ui `ux ]
+[e = _heater &U *U + &U . _data 13 * -> _n `ux -> -> # *U &U . _data 13 `ui `ux ]
 "133
 [; ;main.c: 133:   heater->lensDia = 4;
 [e = . *U _heater 6 -> -> 4 `i `f ]

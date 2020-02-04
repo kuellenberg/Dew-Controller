@@ -12732,6 +12732,7 @@ typedef struct {
  float dpOffset;
  float skyTemp;
  float fudgeFactor;
+    uint8_t debugMode;
  t_status status;
  t_heater heater[4];
 } t_globalData;

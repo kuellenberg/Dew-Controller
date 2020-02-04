@@ -72,8 +72,8 @@ void checkChannelStatus(void)
 		
 		setChannelSwitch(channel, 1);		
 		samples = 0;
-		//avg = heater->current;
-		avg = 0;
+		avg = heater->current;
+		//avg = 0;
 		do {
 			adc = getAnalogValue(AIN_ISENS);
 			// Calculate exp. moving average on raw value
@@ -266,12 +266,12 @@ void calcRequiredPower(void)
 	for (n = 0; n < NUM_CHANNELS; n++) {
 		
 		// If ambient temperure is above dew point + offset, no heating is required
-		/*
-		if (data.tempC > data.dewPointC + data.dpOffset) {
-			data.heater[n].Preq = 0;
-			continue;
+		if (data.debugMode == 0) {
+			if (data.tempC > data.dewPointC + data.dpOffset) {
+				data.heater[n].Preq = 0;
+				continue;
+			}
 		}
-		*/
 		// Calculate thermal radiation
 		d = INCH_TO_MM * data.heater[n].lensDia; // Lens diameter in mm
 		A = (PI * d * d) / 4; // Exposed area of the lens 
@@ -459,6 +459,7 @@ uint8_t storeNVM(void)
 	nvm.dpOffset = data.dpOffset;
 	nvm.skyTemp = data.skyTemp;
 	nvm.fudgeFactor = data.fudgeFactor;
+	nvm.debugMode = data.debugMode;
 	
 	for(n = 0; n < 32; n++) {
 		buf[n] = (uint16_t)nvm.raw[n];
@@ -489,4 +490,5 @@ void readNVM(void)
 	data.dpOffset = nvm.dpOffset;
 	data.skyTemp = nvm.skyTemp;
 	data.fudgeFactor = nvm.fudgeFactor;
+	data.debugMode = nvm.debugMode;
 }

@@ -14,7 +14,7 @@ typedef union {
         float dpOffset;
         float skyTemp;
         float fudgeFactor;
-        float _dummy;
+        float debugMode;
     };
     uint8_t raw[32];
 } t_nvmData;
