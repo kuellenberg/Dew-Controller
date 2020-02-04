@@ -11,7 +11,7 @@
 #pragma config FCMEN = ON       // Fail-Safe Clock Monitor Enable bit (FSCM timer enabled)
 
 // CONFIG2
-#pragma config MCLRE = ON      // Master Clear Enable bit (MCLR pin is Master Clear function)
+#pragma config MCLRE = OFF      // Master Clear Enable bit (MCLR pin is Master Clear function)
 #pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
 #pragma config LPBOREN = OFF    // Low-Power BOR enable bit (ULPBOR disabled)
 #pragma config BOREN = ON       // Brown-out reset enable bits (Brown-out Reset Enabled, SBOREN bit is ignored)
@@ -22,7 +22,7 @@
 
 // CONFIG3
 #pragma config WDTCPS = WDTCPS_10
-#pragma config WDTE = OFF  
+#pragma config WDTE = ON 
 #pragma config WDTCWS = WDTCWS_6
 #pragma config WDTCCS = LFINTOSC    
 

@@ -16,15 +16,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "io.h"
-#include "interrupt.h"
-#include "uart.h"
-#include "error.h"
-#include "oled.h"
-#include "inputs.h"
-#include "error.h"
-
-
 //-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------

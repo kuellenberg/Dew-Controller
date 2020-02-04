@@ -12685,105 +12685,7 @@ char *ctermid(char *);
 
 char *tempnam(const char *, const char *);
 # 17 "./common.h" 2
-
-
-# 1 "./io.h" 1
-# 41 "./io.h"
-void setChannelSwitch(uint8_t channel, uint8_t state);
-uint16_t getAnalogValue(uint8_t channel);
-# 19 "./common.h" 2
-
-# 1 "./interrupt.h" 1
-# 13 "./interrupt.h"
-volatile uint8_t tick10ms = 0;
-volatile uint32_t tick100ms = 0;
-
-uint32_t timeSince(uint32_t since);
-void __attribute__((picinterrupt(("")))) ISR(void);
-# 20 "./common.h" 2
-
-# 1 "./uart.h" 1
-# 11 "./uart.h"
-typedef struct {
- uint8_t header;
- uint8_t version;
- uint8_t status;
- float tempC;
- float relHum;
- float dewPointC;
-} t_dataPacket;
-
-volatile uint8_t uartDataReadyFlag = 0;
-volatile t_dataPacket dataPacket;
-
-void uartReceiveISR(void);
-void uartSendByte(char s);
-void uartReset(void);
-# 21 "./common.h" 2
-
-# 1 "./error.h" 1
-# 11 "./error.h"
-enum e_errorcode {
- NO_ERROR,
- WARN_REMOVED1,
-    WARN_REMOVED2,
-    WARN_REMOVED3,
-    WARN_REMOVED4,
-    WARN_SHORTED,
- WARN_OVERCURRENT,
-    WARN_HEATER_OVERCURRENT,
- WARN_VOLT_HIGH,
-    WARN_VOLT_LOW,
-    WARN_SENSOR_TIMEOUT,
-    WARN_SENSOR_CHECKSUM,
-    ERR_NUKED,
-    ERR_OVERCURRENT,
-    ERR_VOLT_CRIT,
- ERR_MENU
-};
-
-void error(enum e_errorcode code);
-void viewErrorMessage(void);
-enum e_errorcode getLastError(void);
-# 22 "./common.h" 2
-
-# 1 "./oled.h" 1
-
-
-
-
-
-# 1 "./common.h" 1
-# 6 "./oled.h" 2
-# 46 "./oled.h"
-void OLED_off(void);
-void OLED_write4bits(uint8_t value);
-void OLED_send(uint8_t value, uint8_t mode);
-void OLED_waitForReady(void);
-void OLED_command(uint8_t value);
-void OLED_write(uint8_t value);
-void OLED_init(void);
-void OLED_print(char *s);
-void OLED_print_xy(uint8_t col, uint8_t row, char *s);
-void OLED_setCursor(uint8_t col, uint8_t row);
-void OLED_loadSpecialChars(void);
-# 23 "./common.h" 2
-
-# 1 "./inputs.h" 1
-# 11 "./inputs.h"
-enum e_direction {ROT_STOP, ROT_CW, ROT_CCW};
-enum e_buttonPress {PB_NONE, PB_SHORT, PB_LONG, PB_ABORT, PB_WAIT};
-
-volatile enum e_buttonPress pbState = PB_NONE;
-volatile uint32_t userActivity = 0;
-
-void rotISR(void);
-void pushButtonISR(void);
-enum e_buttonPress getPB(void);
-enum e_direction getRotDir(void);
-void spinInput(float *input, float min, float max, float step);
-# 24 "./common.h" 2
-# 45 "./common.h"
+# 36 "./common.h"
 typedef struct {
  unsigned BAT_LOW:1;
     unsigned BAT_HIGH:1;
@@ -12848,7 +12750,26 @@ void itoa(char *str, uint8_t value, uint8_t width);
 uint16_t ema(uint16_t in, uint16_t average, uint32_t alpha);
 # 9 "oled.c" 2
 
+# 1 "./oled.h" 1
+# 46 "./oled.h"
+void OLED_off(void);
+void OLED_write4bits(uint8_t value);
+void OLED_send(uint8_t value, uint8_t mode);
+void OLED_waitForReady(void);
+void OLED_command(uint8_t value);
+void OLED_write(uint8_t value);
+void OLED_init(void);
+void OLED_print(char *s);
+void OLED_print_xy(uint8_t col, uint8_t row, char *s);
+void OLED_setCursor(uint8_t col, uint8_t row);
+void OLED_loadSpecialChars(void);
+# 10 "oled.c" 2
 
+# 1 "./io.h" 1
+# 41 "./io.h"
+void setChannelSwitch(uint8_t channel, uint8_t state);
+uint16_t getAnalogValue(uint8_t channel);
+# 11 "oled.c" 2
 
 
 const uint8_t specialChars[] = {

@@ -43,7 +43,6 @@ typedef struct {
 //-----------------------------------------------------------------------------
 int8_t getNextState(enum e_menuStates state, uint8_t intState, 
 			enum e_buttonPress pb, uint8_t timeout);
-void menuError(void);
 
 //-----------------------------------------------------------------------------
 // Global variables 
@@ -104,18 +103,9 @@ void menu(void)
 	//t_stateFuncPtr func;
 
 	// call menu function according to current state
-	/*
-	func = stateFuncTbl[state];
-	if (func)
-		page = (*func)();
-	else 
-		error(ERR_MENU);
-	*/
 	page = (*stateFuncTbl[state])();
 	
 	g_screenRefresh = 0;
-	//pb = getPB();
-	//timeout = (timeSince(userActivity) > MENU_TIMEOUT);
 	// next state depends on current state, exit page and key press
 	nextState = getNextState(state, page, getPB(), 
 			(timeSince(userActivity) > MENU_TIMEOUT));

@@ -4,8 +4,8 @@
 
 #define RX_BUF_LEN 20
 
-volatile uint8_t rxFErrCount = 0;
-volatile uint8_t rxOErrCount = 0;
+//volatile uint8_t rxFErrCount = 0;
+//volatile uint8_t rxOErrCount = 0;
 volatile uint8_t rxCount = 0;
 static char buffer[RX_BUF_LEN];
 static uint8_t checksum = 0;
@@ -30,13 +30,13 @@ void uartReceiveISR(void)
 	{
 		RC1STAbits.CREN = 0;
 		RC1STAbits.CREN = 1;
-		rxOErrCount++;
+		//rxOErrCount++;
 	}
 	if (RC1STAbits.FERR) // Framing error
 	{
 		RC1STAbits.SPEN = 0;
 		RC1STAbits.SPEN = 1;
-		rxFErrCount++;
+		//rxFErrCount++;
 	}
 
 	// Store incoming bytes in temporary buffer
@@ -51,8 +51,6 @@ void uartReceiveISR(void)
 		// set data ready flag and copy buffer to data structure
 		uartDataReadyFlag = 1;
 		memcpy((void *) &dataPacket,(void *) buffer, sizeof(dataPacket));
-		if (dataPacket.tempC < 1.0)
-			NOP();
 		checksum = 0;
 		rxCount = 0;
 	}
@@ -63,9 +61,6 @@ void uartReceiveISR(void)
 //-----------------------------------------------------------------------------
 void uartReset(void)
 {
-//	uint8_t dump;
-//	dump = RC1REG;
-//	dump = RC1REG;
 	RC1STAbits.CREN = 0;
 	RC1STAbits.CREN = 1;
 	RC1STAbits.SPEN = 0;

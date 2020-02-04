@@ -1,30 +1,26 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"11 ./uart.h
-[; ;./uart.h: 11: typedef struct {
-[s S983 `uc 1 `uc 1 `uc 1 `f 1 `f 1 `f 1 ]
-[n S983 . header version status tempC relHum dewPointC ]
+"36 ./common.h
+[; ;./common.h: 36: typedef struct {
+[s S983 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S983 . BAT_LOW BAT_HIGH OVERCURRENT SENSOR_OK AUX_SENSOR_OK ]
+"90
+[; ;./common.h: 90: t_globalData data;
+[c E7808 0 1 .. ]
+[n E7808 e_channelMode MODE_MANUAL MODE_AUTO  ]
+[c E7811 0 1 2 3 4 5 .. ]
+[n E7811 e_channelStatus CH_DISABLED CH_ENABLED CH_OPEN CH_SHORTED CH_OVERCURRENT CH_UNCHECKED  ]
+"56
+[; ;./common.h: 56: typedef struct {
+[s S984 `f 1 `f 1 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `E7808 1 `E7811 1 ]
+[n S984 . current Pmax Preq Patt Pset DCreq lensDia dt mode status ]
+"70
+[; ;./common.h: 70: typedef struct {
+[s S985 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `S983 1 `S984 -> 4 `i ]
+[n S985 . tempC relHum dewPointC sensorVersion tempAux voltage current power dpOffset skyTemp fudgeFactor status heater ]
 "14 ./inputs.h
 [; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
-[c E7872 0 1 2 3 4 .. ]
-[n E7872 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
-"45 ./common.h
-[; ;./common.h: 45: typedef struct {
-[s S984 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S984 . BAT_LOW BAT_HIGH OVERCURRENT SENSOR_OK AUX_SENSOR_OK ]
-"99
-[; ;./common.h: 99: t_globalData data;
-[c E7896 0 1 .. ]
-[n E7896 e_channelMode MODE_MANUAL MODE_AUTO  ]
-[c E7899 0 1 2 3 4 5 .. ]
-[n E7899 e_channelStatus CH_DISABLED CH_ENABLED CH_OPEN CH_SHORTED CH_OVERCURRENT CH_UNCHECKED  ]
-"65
-[; ;./common.h: 65: typedef struct {
-[s S985 `f 1 `f 1 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `E7896 1 `E7899 1 ]
-[n S985 . current Pmax Preq Patt Pset DCreq lensDia dt mode status ]
-"79
-[; ;./common.h: 79: typedef struct {
-[s S986 `f 1 `f 1 `f 1 `uc 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `f 1 `S984 1 `S985 -> 4 `i ]
-[n S986 . tempC relHum dewPointC sensorVersion tempAux voltage current power dpOffset skyTemp fudgeFactor status heater ]
+[c E7958 0 1 2 3 4 .. ]
+[n E7958 e_buttonPress PB_NONE PB_SHORT PB_LONG PB_ABORT PB_WAIT  ]
 [p mainexit ]
 "22 main.c
 [; ;main.c: 22: void initialize(void);
@@ -103,11 +99,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _controller `(uc ~T0 @X0 0 ef ]
 "85 main.c
 [; ;main.c: 85:   if (getLastError() != NO_ERROR) {
-[c E7825 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 .. ]
-[n E7825 e_errorcode NO_ERROR WARN_REMOVED1 WARN_REMOVED2 WARN_REMOVED3 WARN_REMOVED4 WARN_SHORTED WARN_OVERCURRENT WARN_HEATER_OVERCURRENT WARN_VOLT_HIGH WARN_VOLT_LOW WARN_SENSOR_TIMEOUT WARN_SENSOR_CHECKSUM ERR_NUKED ERR_OVERCURRENT ERR_VOLT_CRIT ERR_MENU  ]
+[c E7933 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 .. ]
+[n E7933 e_errorcode NO_ERROR WARN_REMOVED1 WARN_REMOVED2 WARN_REMOVED3 WARN_REMOVED4 WARN_SHORTED WARN_OVERCURRENT WARN_HEATER_OVERCURRENT WARN_VOLT_HIGH WARN_VOLT_LOW WARN_SENSOR_TIMEOUT WARN_SENSOR_CHECKSUM ERR_NUKED ERR_OVERCURRENT ERR_VOLT_CRIT ERR_MENU  ]
 "32 ./error.h
 [; ;./error.h: 32: enum e_errorcode getLastError(void);
-[v _getLastError `(E7825 ~T0 @X0 0 ef ]
+[v _getLastError `(E7933 ~T0 @X0 0 ef ]
 "31
 [; ;./error.h: 31: void viewErrorMessage(void);
 [v _viewErrorMessage `(v ~T0 @X0 0 ef ]
@@ -1284,42 +1280,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "21398
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f15356.h: 21398: __asm("TOSH equ 01FEFh");
 [; <" TOSH equ 01FEFh ;# ">
-"13 ./interrupt.h
-[; ;./interrupt.h: 13: volatile uint8_t tick10ms = 0;
-[v _tick10ms `Vuc ~T0 @X0 1 e ]
-[i _tick10ms
--> -> 0 `i `uc
-]
-"14
-[; ;./interrupt.h: 14: volatile uint32_t tick100ms = 0;
-[v _tick100ms `Vul ~T0 @X0 1 e ]
-[i _tick100ms
--> -> -> 0 `i `l `ul
-]
-"20 ./uart.h
-[; ;./uart.h: 20: volatile uint8_t uartDataReadyFlag = 0;
-[v _uartDataReadyFlag `Vuc ~T0 @X0 1 e ]
-[i _uartDataReadyFlag
--> -> 0 `i `uc
-]
-"21
-[; ;./uart.h: 21: volatile t_dataPacket dataPacket;
-[v _dataPacket `VS983 ~T0 @X0 1 e ]
-"14 ./inputs.h
-[; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
-[v _pbState `VE7872 ~T0 @X0 1 e ]
-[i _pbState
-. `E7872 0
-]
-"15
-[; ;./inputs.h: 15: volatile uint32_t userActivity = 0;
-[v _userActivity `Vul ~T0 @X0 1 e ]
-[i _userActivity
--> -> -> 0 `i `l `ul
-]
-"99 ./common.h
-[; ;./common.h: 99: t_globalData data;
-[v _data `S986 ~T0 @X0 1 e ]
+"90 ./common.h
+[; ;./common.h: 90: t_globalData data;
+[v _data `S985 ~T0 @X0 1 e ]
 "7 ./config.h
 [p x FEXTOSC = OFF ]
 "8
@@ -1331,7 +1294,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "11
 [p x FCMEN = ON ]
 "14
-[p x MCLRE = ON ]
+[p x MCLRE = OFF ]
 "15
 [p x PWRTE = OFF ]
 "16
@@ -1349,7 +1312,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "24
 [p x WDTCPS = WDTCPS_10 ]
 "25
-[p x WDTE = OFF ]
+[p x WDTE = ON ]
 "26
 [p x WDTCWS = WDTCWS_6 ]
 "27
@@ -1377,6 +1340,30 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _g_screenRefresh `c ~T0 @X0 1 e ]
 [i _g_screenRefresh
 -> -> 1 `i `c
+]
+"13 ./interrupt.h
+[; ;./interrupt.h: 13: volatile uint8_t tick10ms = 0;
+[v _tick10ms `Vuc ~T0 @X0 1 e ]
+[i _tick10ms
+-> -> 0 `i `uc
+]
+"14
+[; ;./interrupt.h: 14: volatile uint32_t tick100ms = 0;
+[v _tick100ms `Vul ~T0 @X0 1 e ]
+[i _tick100ms
+-> -> -> 0 `i `l `ul
+]
+"14 ./inputs.h
+[; ;./inputs.h: 14: volatile enum e_buttonPress pbState = PB_NONE;
+[v _pbState `VE7958 ~T0 @X0 1 e ]
+[i _pbState
+. `E7958 0
+]
+"15
+[; ;./inputs.h: 15: volatile uint32_t userActivity = 0;
+[v _userActivity `Vul ~T0 @X0 1 e ]
+[i _userActivity
+-> -> -> 0 `i `l `ul
 ]
 [v $root$_main `(v ~T0 @X0 0 e ]
 "29 main.c
@@ -1429,14 +1416,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = . . _LATCbits 0 3 -> -> 1 `i `uc ]
 "46
 [; ;main.c: 46:  if (PORTAbits.RA7)
-[e $ ! != -> . . _PORTAbits 0 7 `i -> 0 `i 990  ]
+[e $ ! != -> . . _PORTAbits 0 7 `i -> 0 `i 989  ]
 "47
 [; ;main.c: 47:   readNVM();
 [e ( _readNVM ..  ]
-[e :U 990 ]
+[e :U 989 ]
 "49
 [; ;main.c: 49:  while (1) {
-[e :U 992 ]
+[e :U 991 ]
 {
 "51
 [; ;main.c: 51:   __asm("clrwdt");
@@ -1446,7 +1433,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _getAnalogValues ..  ]
 "56
 [; ;main.c: 56:   if (timeSince(sysCheckInterval) > 5) {
-[e $ ! > ( _timeSince (1 _sysCheckInterval -> -> -> 5 `i `l `ul 994  ]
+[e $ ! > ( _timeSince (1 _sysCheckInterval -> -> -> 5 `i `l `ul 993  ]
 {
 "57
 [; ;main.c: 57:    sysCheckInterval = tick100ms;
@@ -1457,10 +1444,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "59
 [; ;main.c: 59:   }
 }
-[e :U 994 ]
+[e :U 993 ]
 "62
 [; ;main.c: 62:   if (checkSensor()) {
-[e $ ! != -> ( _checkSensor ..  `i -> 0 `i 995  ]
+[e $ ! != -> ( _checkSensor ..  `i -> 0 `i 994  ]
 {
 "64
 [; ;main.c: 64:    calcRequiredPower();
@@ -1471,14 +1458,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 "68
 [; ;main.c: 68:   }
 }
-[e :U 995 ]
+[e :U 994 ]
 "72
 [; ;main.c: 72:   if (controllerIdle) {
-[e $ ! != -> _controllerIdle `i -> 0 `i 996  ]
+[e $ ! != -> _controllerIdle `i -> 0 `i 995  ]
 {
 "73
 [; ;main.c: 73:    if (initDone) {
-[e $ ! != -> _initDone `i -> 0 `i 997  ]
+[e $ ! != -> _initDone `i -> 0 `i 996  ]
 {
 "76
 [; ;main.c: 76:     checkChannelStatus();
@@ -1492,12 +1479,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "79
 [; ;main.c: 79:    }
 }
-[e :U 997 ]
+[e :U 996 ]
 "80
 [; ;main.c: 80:   } else {
 }
-[e $U 998  ]
-[e :U 996 ]
+[e $U 997  ]
+[e :U 995 ]
 {
 "82
 [; ;main.c: 82:    controllerIdle = controller();
@@ -1505,10 +1492,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "83
 [; ;main.c: 83:   }
 }
-[e :U 998 ]
+[e :U 997 ]
 "85
 [; ;main.c: 85:   if (getLastError() != NO_ERROR) {
-[e $ ! != -> ( _getLastError ..  `ui -> . `E7825 0 `ui 999  ]
+[e $ ! != -> ( _getLastError ..  `ui -> . `E7933 0 `ui 998  ]
 {
 "86
 [; ;main.c: 86:    userActivity = tick100ms;
@@ -1519,9 +1506,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "88
 [; ;main.c: 88:   } else if (! displayOff) {
 }
-[e $U 1000  ]
-[e :U 999 ]
-[e $ ! ! != -> _displayOff `i -> 0 `i 1001  ]
+[e $U 999  ]
+[e :U 998 ]
+[e $ ! ! != -> _displayOff `i -> 0 `i 1000  ]
 {
 "89
 [; ;main.c: 89:    menu();
@@ -1529,11 +1516,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 "90
 [; ;main.c: 90:   }
 }
-[e :U 1001 ]
 [e :U 1000 ]
+[e :U 999 ]
 "93
 [; ;main.c: 93:   if (displayOff && ((timeSince(userActivity) < 1200))) {
-[e $ ! && != -> _displayOff `i -> 0 `i < ( _timeSince (1 _userActivity -> -> -> 1200 `i `l `ul 1002  ]
+[e $ ! && != -> _displayOff `i -> 0 `i < ( _timeSince (1 _userActivity -> -> -> 1200 `i `l `ul 1001  ]
 {
 "95
 [; ;main.c: 95:    displayOff = 0;
@@ -1544,9 +1531,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "97
 [; ;main.c: 97:   } else if (timeSince(userActivity) > 1200) {
 }
-[e $U 1003  ]
-[e :U 1002 ]
-[e $ ! > ( _timeSince (1 _userActivity -> -> -> 1200 `i `l `ul 1004  ]
+[e $U 1002  ]
+[e :U 1001 ]
+[e $ ! > ( _timeSince (1 _userActivity -> -> -> 1200 `i `l `ul 1003  ]
 {
 "98
 [; ;main.c: 98:    displayOff = 1;
@@ -1557,8 +1544,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "100
 [; ;main.c: 100:   }
 }
-[e :U 1004 ]
 [e :U 1003 ]
+[e :U 1002 ]
 "105
 [; ;main.c: 105:   _delay((unsigned long)((40)*(4000000UL/4000.0)));
 [e ( __delay (1 -> * -> -> 40 `i `d / -> -> 4000000 `ul `d .4000.0 `ul ]
@@ -1568,12 +1555,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "107
 [; ;main.c: 107:  }
 }
-[e :U 991 ]
-[e $U 992  ]
-[e :U 993 ]
+[e :U 990 ]
+[e $U 991  ]
+[e :U 992 ]
 "108
 [; ;main.c: 108: }
-[e :UE 989 ]
+[e :UE 988 ]
 }
 "114
 [; ;main.c: 114: void initGlobalData(void)
@@ -1588,7 +1575,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _n `uc ~T0 @X0 1 a ]
 "117
 [; ;main.c: 117:  t_heater *heater;
-[v _heater `*S985 ~T0 @X0 1 a ]
+[v _heater `*S984 ~T0 @X0 1 a ]
 "119
 [; ;main.c: 119:  data.tempC = 0;
 [e = . _data 0 -> -> 0 `i `f ]
@@ -1626,9 +1613,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 131:  for (n = 0; n < 4; n++) {
 {
 [e = _n -> -> 0 `i `uc ]
-[e $ < -> _n `i -> 4 `i 1006  ]
-[e $U 1007  ]
-[e :U 1006 ]
+[e $ < -> _n `i -> 4 `i 1005  ]
+[e $U 1006  ]
+[e :U 1005 ]
 {
 "132
 [; ;main.c: 132:   heater = &(data.heater)[n];
@@ -1638,10 +1625,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = . *U _heater 6 -> -> 4 `i `f ]
 "134
 [; ;main.c: 134:   heater->status = CH_UNCHECKED;
-[e = . *U _heater 9 . `E7899 5 ]
+[e = . *U _heater 9 . `E7811 5 ]
 "135
 [; ;main.c: 135:   heater->mode = MODE_AUTO;
-[e = . *U _heater 8 . `E7896 1 ]
+[e = . *U _heater 8 . `E7808 1 ]
 "136
 [; ;main.c: 136:   heater->Pmax = 0;
 [e = . *U _heater 1 -> -> 0 `i `f ]
@@ -1661,12 +1648,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 141:  }
 }
 [e ++ _n -> -> 1 `i `uc ]
-[e $ < -> _n `i -> 4 `i 1006  ]
-[e :U 1007 ]
+[e $ < -> _n `i -> 4 `i 1005  ]
+[e :U 1006 ]
 }
 "142
 [; ;main.c: 142: }
-[e :UE 1005 ]
+[e :UE 1004 ]
 }
 "148
 [; ;main.c: 148: void initialize(void)
@@ -1684,11 +1671,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _OSCCON1 -> -> 96 `i `uc ]
 "152
 [; ;main.c: 152:  while (!OSCCON3bits.ORDY);
-[e $U 1010  ]
-[e :U 1011 ]
+[e $U 1009  ]
 [e :U 1010 ]
-[e $ ! != -> . . _OSCCON3bits 0 2 `i -> 0 `i 1011  ]
-[e :U 1012 ]
+[e :U 1009 ]
+[e $ ! != -> . . _OSCCON3bits 0 2 `i -> 0 `i 1010  ]
+[e :U 1011 ]
 "155
 [; ;main.c: 155:  RX1DTPPSbits.RX1DTPPS = 0x17;
 [e = . . _RX1DTPPSbits 0 0 -> -> 23 `i `uc ]
@@ -1775,5 +1762,5 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _TX1STA -> -> 32 `i `uc ]
 "200
 [; ;main.c: 200: }
-[e :UE 1009 ]
+[e :UE 1008 ]
 }

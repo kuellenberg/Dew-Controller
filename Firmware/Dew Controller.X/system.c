@@ -15,7 +15,7 @@
 #define SENSOR_TIMEOUT 20
 #define NUM_SAMPLES 50
 
-#define MIN_CHANNEL_CURRENT 0.05
+#define MIN_CHANNEL_CURRENT 0.06
 #define MAX_CHANNEL_CURRENT 2.0
 #define MAX_CURRENT 3.5
 #define VOLT_CRIT_HIGH 13.8
@@ -47,7 +47,7 @@ typedef struct {
 // Static variables
 //-----------------------------------------------------------------------------
 static t_virtChannel virtChannels[NUM_CHANNELS];
-
+static uint16_t avgT, avgV, avgI;
 
 //-----------------------------------------------------------------------------
 // Tests each channel: 
@@ -87,7 +87,9 @@ void checkChannelStatus(void)
 		// no heater is connected to this channel
 		if (current < MIN_CHANNEL_CURRENT) {
 			// Warning, if channel as previously enabled
-			if (heater->status == CH_ENABLED) {
+			if (heater->status == CH_ENABLED)
+				error(WARN_REMOVED1);
+				/*
 				if (channel == 0)
 					error(WARN_REMOVED1);
 				else if (channel == 1)
@@ -97,6 +99,7 @@ void checkChannelStatus(void)
 				else
 					error(WARN_REMOVED4);
 			}
+				 */
 			heater->status = CH_OPEN;				
 		} else if ((current > MAX_CHANNEL_CURRENT) || !nFAULT) {
 			// Disable channel when current is too high
@@ -130,12 +133,8 @@ void checkChannelStatus(void)
 
 			if (heater->Pset == 0)
 				heater->status = CH_DISABLED;
-			else {
-				if ((channel == 0) || (channel == 1)) {
-					NOP();
-				}
+			else
 				heater->status = CH_ENABLED;
-			}
 
 			// Calculate required duty cycle
 			if (heater->mode == MODE_AUTO)
@@ -300,7 +299,6 @@ void calcRequiredPower(void)
 
 void getAnalogValues(void)
 {
-	static uint16_t avgT, avgV, avgI;
 	uint16_t adc;
 
 	adc = getAnalogValue(AIN_TEMP);
@@ -436,17 +434,13 @@ uint8_t controller(void)
 	timer = timeSince(dutyCycleTimer);
 
 	for(n = 0; n < NUM_CHANNELS; n++) {
-		if (timer >= virtChannels[n].stop)
+		if (timer >= virtChannels[n].stop) {
 			setChannelSwitch(virtChannels[n].phyChanNum, 0);
-		else if ((timer >= virtChannels[n].start) && (timer < virtChannels[n].stop))
+		} else if ((timer >= virtChannels[n].start) && (timer < virtChannels[n].stop))
 			setChannelSwitch(virtChannels[n].phyChanNum, 1);
 	}
-	if (timer >= 100) {
+	if (timer >= 100)
 		idle = 1;
-		
-		if (SW_CH0 || SW_CH1 || SW_CH2 || SW_CH3)
-			NOP();
-	}
 	
 	return idle;
 }
